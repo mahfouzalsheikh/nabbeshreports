@@ -1,0 +1,864 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#     * Rearrange models' order
+#     * Make sure each model has one field with primary_key=True
+# Feel free to rename the models, but don't rename db_table values or field names.
+#
+# Also note: You'll have to insert the output of 'django-admin.py sqlcustom [appname]'
+# into your database.
+from django.db import models
+from django.contrib.auth.models import User
+
+
+class AuthGroup(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=80, unique=True)
+    class Meta:
+        db_table = 'auth_group'
+
+class AuthGroupPermissions(models.Model):
+    id = models.IntegerField(primary_key=True)
+    group = models.ForeignKey(AuthGroup)
+    permission = models.ForeignKey('AuthPermission')
+    class Meta:
+        db_table = 'auth_group_permissions'
+
+class AuthPermission(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
+    content_type = models.ForeignKey('DjangoContentType')
+    codename = models.CharField(max_length=100)
+    class Meta:
+        db_table = 'auth_permission'
+
+class AuthUser(models.Model):
+    id = models.IntegerField(primary_key=True)
+    username = models.CharField(max_length=71, unique=True)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.CharField(max_length=75)
+    password = models.CharField(max_length=128)
+    is_staff = models.BooleanField()
+    is_active = models.BooleanField()
+    is_superuser = models.BooleanField()
+    last_login = models.DateTimeField()
+    date_joined = models.DateTimeField()
+    class Meta:
+        db_table = 'auth_user'
+
+class AuthUserGroups(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey(AuthUser)
+    group = models.ForeignKey(AuthGroup)
+    class Meta:
+        db_table = 'auth_user_groups'
+
+class AuthUserUserPermissions(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey(AuthUser)
+    permission = models.ForeignKey(AuthPermission)
+    class Meta:
+        db_table = 'auth_user_user_permissions'
+
+class CanvasAward(models.Model):
+    id = models.IntegerField(primary_key=True)
+    box = models.ForeignKey('CanvasAwardsbox')
+    name = models.CharField(max_length=255, blank=True)
+    description = models.CharField(max_length=600, blank=True)
+    date = models.DateField(null=True, blank=True)
+    website = models.CharField(max_length=255, blank=True)
+    logo_url = models.CharField(max_length=255, blank=True)
+    class Meta:
+        db_table = 'canvas_award'
+
+class CanvasAwardRelatedSkills(models.Model):
+    id = models.IntegerField(primary_key=True)
+    award = models.ForeignKey(CanvasAward)
+    skill = models.ForeignKey('SkillsSkill')
+    class Meta:
+        db_table = 'canvas_award_related_skills'
+
+class CanvasAwardsbox(models.Model):
+    box_ptr = models.ForeignKey('CanvasBox', primary_key=True)
+    class Meta:
+        db_table = 'canvas_awardsbox'
+
+class CanvasBox(models.Model):
+    id = models.IntegerField(primary_key=True)
+    profile = models.ForeignKey('Users')
+    size = models.SmallIntegerField()
+    position = models.SmallIntegerField()
+    slug = models.CharField(max_length=255, blank=True)
+    class Meta:
+        db_table = 'canvas_box'
+
+class CanvasBoxRelatedSkills(models.Model):
+    id = models.IntegerField(primary_key=True)
+    box = models.ForeignKey(CanvasBox)
+    skill = models.ForeignKey('SkillsSkill')
+    class Meta:
+        db_table = 'canvas_box_related_skills'
+
+class CanvasCertificate(models.Model):
+    id = models.IntegerField(primary_key=True)
+    box = models.ForeignKey('CanvasCertificatesbox')
+    name = models.CharField(max_length=255, blank=True)
+    description = models.CharField(max_length=600, blank=True)
+    date = models.DateField(null=True, blank=True)
+    website = models.CharField(max_length=255, blank=True)
+    class Meta:
+        db_table = 'canvas_certificate'
+
+class CanvasCertificateRelatedSkills(models.Model):
+    id = models.IntegerField(primary_key=True)
+    certificate = models.ForeignKey(CanvasCertificate)
+    skill = models.ForeignKey('SkillsSkill')
+    class Meta:
+        db_table = 'canvas_certificate_related_skills'
+
+class CanvasCertificatesbox(models.Model):
+    box_ptr = models.ForeignKey(CanvasBox, primary_key=True)
+    class Meta:
+        db_table = 'canvas_certificatesbox'
+
+class CanvasCompany(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=255, blank=True)
+    website = models.CharField(max_length=255, blank=True)
+    logo_url = models.CharField(max_length=255, blank=True)
+    industry = models.ForeignKey('CanvasIndustry')
+    published = models.BooleanField()
+    class Meta:
+        db_table = 'canvas_company'
+
+class CanvasEducationbox(models.Model):
+    box_ptr = models.ForeignKey(CanvasBox, primary_key=True)
+    class Meta:
+        db_table = 'canvas_educationbox'
+
+class CanvasEmbedlybox(models.Model):
+    box_ptr = models.ForeignKey(CanvasBox, primary_key=True)
+    original_url = models.CharField(max_length=255)
+    html = models.TextField(blank=True)
+    height = models.IntegerField(null=True, blank=True)
+    width = models.IntegerField(null=True, blank=True)
+    description = models.TextField(blank=True)
+    title = models.CharField(max_length=255, blank=True)
+    type = models.CharField(max_length=100, blank=True)
+    author_name = models.CharField(max_length=255, blank=True)
+    provider_name = models.CharField(max_length=255, blank=True)
+    provider_url = models.CharField(max_length=255, blank=True)
+    url = models.CharField(max_length=255, blank=True)
+    class Meta:
+        db_table = 'canvas_embedlybox'
+
+class CanvasEmployment(models.Model):
+    id = models.IntegerField(primary_key=True)
+    box = models.ForeignKey('CanvasEmploymentbox')
+    company = models.ForeignKey(CanvasCompany)
+    description = models.CharField(max_length=600, blank=True)
+    start_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
+    class Meta:
+        db_table = 'canvas_employment'
+
+class CanvasEmploymentRelatedSkills(models.Model):
+    id = models.IntegerField(primary_key=True)
+    employment = models.ForeignKey(CanvasEmployment)
+    skill = models.ForeignKey('SkillsSkill')
+    class Meta:
+        db_table = 'canvas_employment_related_skills'
+
+class CanvasEmploymentbox(models.Model):
+    box_ptr = models.ForeignKey(CanvasBox, primary_key=True)
+    class Meta:
+        db_table = 'canvas_employmentbox'
+
+class CanvasEmptybox(models.Model):
+    box_ptr = models.ForeignKey(CanvasBox, primary_key=True)
+    class Meta:
+        db_table = 'canvas_emptybox'
+
+class CanvasHobbiesbox(models.Model):
+    box_ptr = models.ForeignKey(CanvasBox, primary_key=True)
+    class Meta:
+        db_table = 'canvas_hobbiesbox'
+
+class CanvasIndustry(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=255)
+    class Meta:
+        db_table = 'canvas_industry'
+
+class CanvasJobsbox(models.Model):
+    box_ptr = models.ForeignKey(CanvasBox, primary_key=True)
+    class Meta:
+        db_table = 'canvas_jobsbox'
+
+class CanvasLanguage(models.Model):
+    id = models.IntegerField(primary_key=True)
+    box = models.ForeignKey('CanvasLanguagesbox')
+    language = models.ForeignKey('Languages')
+    proficiency_id = models.IntegerField()
+    class Meta:
+        db_table = 'canvas_language'
+
+class CanvasLanguageRelatedSkills(models.Model):
+    id = models.IntegerField(primary_key=True)
+    language = models.ForeignKey(CanvasLanguage)
+    skill = models.ForeignKey('SkillsSkill')
+    class Meta:
+        db_table = 'canvas_language_related_skills'
+
+class CanvasLanguagesbox(models.Model):
+    box_ptr = models.ForeignKey(CanvasBox, primary_key=True)
+    class Meta:
+        db_table = 'canvas_languagesbox'
+
+class CanvasSkillsbox(models.Model):
+    box_ptr = models.ForeignKey(CanvasBox, primary_key=True)
+    class Meta:
+        db_table = 'canvas_skillsbox'
+
+class CanvasThumbnail(models.Model):
+    id = models.IntegerField(primary_key=True)
+    box = models.ForeignKey(CanvasEmbedlybox)
+    image = models.CharField(max_length=255)
+    class Meta:
+        db_table = 'canvas_thumbnail'
+
+class CategoriesHobbies(models.Model):
+    id = models.IntegerField(primary_key=True)
+    category = models.CharField(max_length=600)
+    addedornot = models.CharField(max_length=300)
+    quand = models.DateTimeField(null=True, blank=True)
+    class Meta:
+        db_table = 'categories_hobbies'
+
+class DjangoAdminLog(models.Model):
+    id = models.IntegerField(primary_key=True)
+    action_time = models.DateTimeField()
+    user = models.ForeignKey(AuthUser)
+    content_type = models.ForeignKey('DjangoContentType', null=True, blank=True)
+    object_id = models.TextField(blank=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.SmallIntegerField()
+    change_message = models.TextField()
+    class Meta:
+        db_table = 'django_admin_log'
+
+class DjangoContentType(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+    class Meta:
+        db_table = 'django_content_type'
+
+class DjangoSession(models.Model):
+    session_key = models.CharField(max_length=40, primary_key=True)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+    class Meta:
+        db_table = 'django_session'
+
+class DjangoSite(models.Model):
+    id = models.IntegerField(primary_key=True)
+    domain = models.CharField(max_length=100)
+    name = models.CharField(max_length=50)
+    class Meta:
+        db_table = 'django_site'
+
+class DjangologdbLogaggregate(models.Model):
+    id = models.IntegerField(primary_key=True)
+    filename = models.CharField(max_length=50, blank=True)
+    function_name = models.CharField(max_length=50, blank=True)
+    level = models.IntegerField()
+    line_number = models.IntegerField()
+    module = models.CharField(max_length=50, blank=True)
+    msg = models.TextField(blank=True)
+    name = models.CharField(max_length=200)
+    path = models.CharField(max_length=200, blank=True)
+    times_seen = models.IntegerField()
+    last_seen = models.DateTimeField()
+    first_seen = models.DateTimeField()
+    checksum = models.CharField(max_length=32, unique=True)
+    class Meta:
+        db_table = 'djangologdb_logaggregate'
+
+class DjangologdbLogentry(models.Model):
+    id = models.IntegerField(primary_key=True)
+    filename = models.CharField(max_length=50, blank=True)
+    function_name = models.CharField(max_length=50, blank=True)
+    level = models.IntegerField()
+    line_number = models.IntegerField()
+    module = models.CharField(max_length=50, blank=True)
+    msg = models.TextField(blank=True)
+    name = models.CharField(max_length=200)
+    path = models.CharField(max_length=200, blank=True)
+    args = models.TextField(blank=True)
+    created = models.DateTimeField()
+    exc_text = models.TextField(blank=True)
+    process = models.IntegerField()
+    process_name = models.CharField(max_length=200, blank=True)
+    thread = models.DecimalField(max_digits=21, decimal_places=0)
+    thread_name = models.CharField(max_length=200, blank=True)
+    extra = models.TextField()
+    log_aggregate = models.ForeignKey(DjangologdbLogaggregate, null=True, blank=True)
+    class Meta:
+        db_table = 'djangologdb_logentry'
+
+class Education(models.Model):
+    id = models.IntegerField(primary_key=True)
+    id_user = models.ForeignKey('Users', null=True, db_column='id_user', blank=True)
+    degree = models.IntegerField()
+    place = models.CharField(max_length=1200)
+    yearofcompletion = models.CharField(max_length=900, blank=True)
+    quand = models.DateTimeField()
+    subject = models.CharField(max_length=300, blank=True)
+    class Meta:
+        db_table = 'education'
+
+class GeographyColumns(models.Model):
+    f_table_catalog = models.TextField(blank=True) # This field type is a guess.
+    f_table_schema = models.TextField(blank=True) # This field type is a guess.
+    f_table_name = models.TextField(blank=True) # This field type is a guess.
+    f_geography_column = models.TextField(blank=True) # This field type is a guess.
+    coord_dimension = models.IntegerField(null=True, blank=True)
+    srid = models.IntegerField(null=True, blank=True)
+    type = models.TextField(blank=True)
+    class Meta:
+        db_table = 'geography_columns'
+
+class GeometryColumns(models.Model):
+    f_table_catalog = models.CharField(max_length=256)
+    f_table_schema = models.CharField(max_length=256)
+    f_table_name = models.CharField(max_length=256)
+    f_geometry_column = models.CharField(max_length=256)
+    coord_dimension = models.IntegerField()
+    srid = models.IntegerField()
+    type = models.CharField(max_length=30)
+    class Meta:
+        db_table = 'geometry_columns'
+
+class Hobbies(models.Model):
+    id = models.IntegerField(primary_key=True)
+    id_user = models.ForeignKey('Users', null=True, db_column='id_user', blank=True)
+    category = models.ForeignKey(CategoriesHobbies, db_column='category')
+    title = models.ForeignKey('TitlesHobbies', db_column='title')
+    description = models.TextField(blank=True)
+    yearfoexperience = models.IntegerField()
+    quand = models.DateTimeField()
+    class Meta:
+        db_table = 'hobbies'
+
+class Languages(models.Model):
+    id = models.IntegerField(primary_key=True)
+    abr = models.CharField(max_length=15)
+    language = models.CharField(max_length=600)
+    class Meta:
+        db_table = 'languages'
+
+class LegacyFlag(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=255)
+    profile = models.ForeignKey('Users')
+    class Meta:
+        db_table = 'legacy_flag'
+
+class MapsMarker(models.Model):
+    id = models.IntegerField(primary_key=True)
+    author = models.CharField(max_length=30)
+    title = models.CharField(max_length=100)
+    bodytext = models.TextField()
+    timestamp = models.DateTimeField()
+    class Meta:
+        db_table = 'maps_marker'
+
+class MapsMarkers(models.Model):
+    id = models.IntegerField(primary_key=True)
+    author = models.CharField(max_length=30)
+    title = models.CharField(max_length=100)
+    bodytext = models.TextField()
+    timestamp = models.DateTimeField()
+    class Meta:
+        db_table = 'maps_markers'
+
+class MapsUsers(models.Model):
+    id = models.IntegerField(primary_key=True)
+    django_user = models.ForeignKey(AuthUser, unique=True)
+    homepage = models.CharField(max_length=255)
+    photo = models.CharField(max_length=100, blank=True)
+    class Meta:
+        db_table = 'maps_users'
+
+class MarketingDemographic(models.Model):
+    id = models.IntegerField(primary_key=True)
+    age_under_15 = models.IntegerField()
+    age_15_30 = models.IntegerField()
+    age_31_40 = models.IntegerField()
+    age_41 = models.IntegerField()
+    males = models.IntegerField()
+    females = models.IntegerField()
+    counries = models.TextField()
+    date_created = models.DateTimeField()
+    class Meta:
+        db_table = 'marketing_demographic'
+
+class MarketingEmailshot(models.Model):
+    id = models.IntegerField(primary_key=True)
+    template = models.ForeignKey('MarketingEmailshottemplate')
+    subject = models.CharField(max_length=255)
+    class Meta:
+        db_table = 'marketing_emailshot'
+
+class MarketingEmailshottemplate(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=255)
+    source_html = models.TextField()
+    source_plain = models.TextField(blank=True)
+    class Meta:
+        db_table = 'marketing_emailshottemplate'
+
+class MarketingEmailshottemplatevariable(models.Model):
+    id = models.IntegerField(primary_key=True)
+    shot = models.ForeignKey(MarketingEmailshot)
+    key = models.CharField(max_length=100)
+    value = models.TextField()
+    class Meta:
+        db_table = 'marketing_emailshottemplatevariable'
+
+class MarketingTestimonial(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey('Users', null=True, blank=True)
+    text = models.TextField()
+    date_created = models.DateTimeField(null=True, blank=True)
+    class Meta:
+        db_table = 'marketing_testimonial'
+
+class MarketingUserreceiveemails(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey(AuthUser)
+    nabbesh_updates = models.BooleanField()
+    third_party_offers = models.BooleanField()
+    class Meta:
+        db_table = 'marketing_userreceiveemails'
+
+class MarketingUsers(models.Model):
+    id = models.IntegerField(primary_key=True)
+    first_name = models.CharField(max_length=765)
+    last_name = models.CharField(max_length=765)
+    email = models.CharField(max_length=765)
+    gender = models.CharField(max_length=30)
+    date_of_birth = models.CharField(max_length=135)
+    country = models.CharField(max_length=765)
+    city = models.CharField(max_length=135)
+    mobile = models.CharField(max_length=765)
+    website = models.CharField(max_length=135)
+    nationality = models.CharField(max_length=135)
+    income = models.CharField(max_length=765)
+    company_name = models.CharField(max_length=135)
+    job_title = models.CharField(max_length=765)
+    occupation = models.CharField(max_length=765)
+    industry = models.CharField(max_length=135)
+    industry_main = models.CharField(max_length=135)
+    is_agent = models.IntegerField(null=True, blank=True)
+    source = models.CharField(max_length=300)
+    is_unsubscribed = models.BooleanField()
+    unsubscribed_email_shot = models.ForeignKey(MarketingEmailshot, null=True, blank=True)
+    class Meta:
+        db_table = 'marketing_users'
+
+class MessagesMessage(models.Model):
+    id = models.IntegerField(primary_key=True)
+    subject = models.CharField(max_length=120)
+    body = models.TextField()
+    sender = models.ForeignKey('Users')
+    recipient = models.ForeignKey('Users', null=True, blank=True)
+    parent_msg = models.ForeignKey('self', null=True, blank=True)
+    sent_at = models.DateTimeField(null=True, blank=True)
+    read_at = models.DateTimeField(null=True, blank=True)
+    replied_at = models.DateTimeField(null=True, blank=True)
+    sender_deleted_at = models.DateTimeField(null=True, blank=True)
+    recipient_deleted_at = models.DateTimeField(null=True, blank=True)
+    opportunity = models.ForeignKey('Skills', null=True, blank=True)
+    thread_parent = models.ForeignKey('self', null=True, blank=True)
+    is_leaf = models.BooleanField(null=True, blank=True)
+    class Meta:
+        db_table = 'messages_message'
+
+class MessagesUserblock(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey(AuthUser)
+    blocked_user = models.ForeignKey(AuthUser)
+    timestamp = models.DateTimeField()
+    class Meta:
+        db_table = 'messages_userblock'
+
+class NbreportsReportaction(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey(AuthUser, null=True, blank=True)
+    verb = models.IntegerField()
+    object_content_type = models.ForeignKey(DjangoContentType)
+    object_id = models.IntegerField()
+    timestamp = models.DateTimeField()
+    country = models.CharField(max_length=4, blank=True)
+    visible_in_feeds = models.BooleanField(null=True, blank=True)
+    class Meta:
+        db_table = 'nbreports_reportaction'
+
+class NbreportsReportfield(models.Model):
+    id = models.IntegerField(primary_key=True)
+    count = models.IntegerField()
+    field_type = models.IntegerField()
+    aggregator_content_type = models.ForeignKey(DjangoContentType, null=True, blank=True)
+    aggregator_id = models.IntegerField(null=True, blank=True)
+    user = models.ForeignKey(AuthUser, null=True, blank=True)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    timestamp = models.DateTimeField()
+    class Meta:
+        db_table = 'nbreports_reportfield'
+
+class NbreportsSearchkeyword(models.Model):
+    id = models.IntegerField(primary_key=True)
+    keyword = models.CharField(max_length=128, unique=True)
+    class Meta:
+        db_table = 'nbreports_searchkeyword'
+
+class NbreportsSearchquery(models.Model):
+    id = models.IntegerField(primary_key=True)
+    search_type = models.IntegerField()
+    timestamp = models.DateTimeField()
+    class Meta:
+        db_table = 'nbreports_searchquery'
+
+class NbreportsSearchqueryKeywords(models.Model):
+    id = models.IntegerField(primary_key=True)
+    searchquery = models.ForeignKey(NbreportsSearchquery)
+    searchkeyword = models.ForeignKey(NbreportsSearchkeyword)
+    class Meta:
+        db_table = 'nbreports_searchquery_keywords'
+
+class NbuserAddresscomponent(models.Model):
+    id = models.IntegerField(primary_key=True)
+    long_name = models.CharField(max_length=255)
+    short_name = models.CharField(max_length=255)
+    street_address = models.BooleanField(null=True, blank=True)
+    route = models.BooleanField(null=True, blank=True)
+    intersection = models.BooleanField(null=True, blank=True)
+    political = models.BooleanField(null=True, blank=True)
+    country = models.BooleanField(null=True, blank=True)
+    administrative_area_level_1 = models.BooleanField(null=True, blank=True)
+    administrative_area_level_2 = models.BooleanField(null=True, blank=True)
+    administrative_area_level_3 = models.BooleanField(null=True, blank=True)
+    colloquial_area = models.BooleanField(null=True, blank=True)
+    locality = models.BooleanField(null=True, blank=True)
+    sublocality = models.BooleanField(null=True, blank=True)
+    neighborhood = models.BooleanField(null=True, blank=True)
+    premise = models.BooleanField(null=True, blank=True)
+    subpremise = models.BooleanField(null=True, blank=True)
+    postal_code = models.BooleanField(null=True, blank=True)
+    natural_feature = models.BooleanField(null=True, blank=True)
+    airport = models.BooleanField(null=True, blank=True)
+    park = models.BooleanField(null=True, blank=True)
+    user = models.ForeignKey('Users')
+    #coordinates = models.GeometryField(geography=True)
+    formatted_address = models.CharField(max_length=255)
+    created_at = models.DateTimeField()
+    class Meta:
+        db_table = 'nbuser_addresscomponent'
+
+class NbuserBookmark(models.Model):
+    id = models.IntegerField(primary_key=True)
+    from_user = models.ForeignKey('Users')
+    to_user = models.ForeignKey('Users')
+    created_at = models.DateTimeField(null=True, blank=True)
+    class Meta:
+        db_table = 'nbuser_bookmark'
+
+class NbuserCanvasbox(models.Model):
+    id = models.IntegerField(primary_key=True)
+    profile = models.ForeignKey('Users')
+    span = models.SmallIntegerField()
+    original_url = models.CharField(max_length=255)
+    order = models.SmallIntegerField()
+    size = models.SmallIntegerField()
+    html = models.TextField()
+    height = models.IntegerField()
+    width = models.IntegerField()
+    thumbnail_url = models.TextField(blank=True)
+    thumbnail_width = models.IntegerField()
+    thumbnail_height = models.IntegerField()
+    description = models.TextField(blank=True)
+    title = models.CharField(max_length=255, blank=True)
+    type = models.CharField(max_length=100, blank=True)
+    author_name = models.CharField(max_length=255, blank=True)
+    provider_name = models.CharField(max_length=255, blank=True)
+    provider_url = models.CharField(max_length=255, blank=True)
+    url = models.CharField(max_length=255, blank=True)
+    class Meta:
+        db_table = 'nbuser_canvasbox'
+
+class NbuserCanvasboxHobbies(models.Model):
+    id = models.IntegerField(primary_key=True)
+    canvasbox = models.ForeignKey(NbuserCanvasbox)
+    titleshobbies = models.ForeignKey('TitlesHobbies')
+    class Meta:
+        db_table = 'nbuser_canvasbox_hobbies'
+
+class NbuserCanvasboxSkills(models.Model):
+    id = models.IntegerField(primary_key=True)
+    canvasbox = models.ForeignKey(NbuserCanvasbox)
+    skill = models.ForeignKey('SkillsSkill')
+    class Meta:
+        db_table = 'nbuser_canvasbox_skills'
+
+class NbuserFacebooksession(models.Model):
+    id = models.IntegerField(primary_key=True)
+    access_token = models.CharField(max_length=255, unique=True)
+    expires = models.IntegerField(null=True, blank=True)
+    user = models.ForeignKey(AuthUser, null=True, blank=True)
+    uid = models.BigIntegerField(unique=True, null=True, blank=True)
+    class Meta:
+        db_table = 'nbuser_facebooksession'
+
+class NbuserInvitation(models.Model):
+    id = models.IntegerField(primary_key=True)
+    email = models.CharField(max_length=255)
+    invited_by = models.ForeignKey('Users')
+    class Meta:
+        db_table = 'nbuser_invitation'
+
+class NbuserLocationhistory(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey(AuthUser)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    address = models.CharField(max_length=255)
+    created_at = models.DateTimeField()
+    class Meta:
+        db_table = 'nbuser_locationhistory'
+
+class NbuserProfileview(models.Model):
+    id = models.IntegerField(primary_key=True)
+    profile = models.ForeignKey('Users')
+    seen_by = models.ForeignKey('Users')
+    viewed_on = models.DateTimeField()
+    class Meta:
+        db_table = 'nbuser_profileview'
+
+class NbuserSocialprofile(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey('Users', unique=True)
+    twitter_username = models.CharField(max_length=512)
+    linkedin_token = models.CharField(max_length=36)
+    linkedin_secret = models.CharField(max_length=36)
+    linkedin_request_token = models.CharField(max_length=36)
+    linkedin_request_secret = models.CharField(max_length=36)
+    class Meta:
+        db_table = 'nbuser_socialprofile'
+
+class NbuserUseremailnotificationssettings(models.Model):
+    id = models.IntegerField(primary_key=True)
+    class Meta:
+        db_table = 'nbuser_useremailnotificationssettings'
+
+class NbuserUserreferral(models.Model):
+    id = models.IntegerField(primary_key=True)
+    referrer = models.ForeignKey(AuthUser)
+    referred = models.ForeignKey(AuthUser)
+    class Meta:
+        db_table = 'nbuser_userreferral'
+
+class NbuserUserreport(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey('Users')
+    reported_user = models.ForeignKey('Users')
+    is_valid = models.BooleanField()
+    reason = models.IntegerField()
+    custom_reason = models.TextField(blank=True)
+    timestamp = models.DateTimeField()
+    box = models.ForeignKey(CanvasBox, null=True, blank=True)
+    class Meta:
+        db_table = 'nbuser_userreport'
+
+class NbutilsEmailqueue(models.Model):
+    id = models.IntegerField(primary_key=True)
+    email_type = models.SmallIntegerField()
+    subject = models.CharField(max_length=255)
+    body_html = models.TextField()
+    body_plain = models.TextField()
+    from_email = models.CharField(max_length=255)
+    to_email = models.CharField(max_length=255)
+    send_at = models.DateTimeField(null=True, blank=True)
+    registered_at = models.DateTimeField()
+    class Meta:
+        db_table = 'nbutils_emailqueue'
+
+class NbutilsFailedemails(models.Model):
+    id = models.IntegerField(primary_key=True)
+    sender = models.CharField(max_length=75)
+    recipient = models.TextField()
+    content = models.TextField()
+    timestamp = models.DateTimeField()
+    excepion_type_and_value = models.TextField()
+    exception_traceback = models.TextField()
+    class Meta:
+        db_table = 'nbutils_failedemails'
+
+class NbutilsTemporaryimagespace(models.Model):
+    id = models.IntegerField(primary_key=True)
+    photo = models.CharField(max_length=100, blank=True)
+    profile = models.ForeignKey('Users')
+    timestamp = models.DateTimeField()
+    class Meta:
+        db_table = 'nbutils_temporaryimagespace'
+
+class NotificationsNotification(models.Model):
+    id = models.IntegerField(primary_key=True)
+    level = models.CharField(max_length=20)
+    recipient = models.ForeignKey(AuthUser)
+    unread = models.BooleanField()
+    actor_content_type = models.ForeignKey(DjangoContentType)
+    actor_object_id = models.CharField(max_length=255)
+    actor_city_slug = models.CharField(max_length=255, blank=True)
+    verb = models.IntegerField()
+    description = models.TextField(blank=True)
+    target_content_type = models.ForeignKey(DjangoContentType, null=True, blank=True)
+    target_object_id = models.CharField(max_length=255, blank=True)
+    action_object_content_type = models.ForeignKey(DjangoContentType, null=True, blank=True)
+    action_object_object_id = models.CharField(max_length=255, blank=True)
+    timestamp = models.DateTimeField()
+    public = models.BooleanField()
+    class Meta:
+        db_table = 'notifications_notification'
+
+class NotificationsUseremailnotificationsettings(models.Model):
+    id = models.IntegerField(primary_key=True)
+    notification_verb = models.IntegerField(null=True, blank=True)
+    digest_verb = models.IntegerField(null=True, blank=True)
+    user = models.ForeignKey(AuthUser)
+    enable = models.BooleanField(null=True, blank=True)
+    class Meta:
+        db_table = 'notifications_useremailnotificationsettings'
+
+class Skills(models.Model):
+    id = models.IntegerField(primary_key=True)
+    id_user = models.ForeignKey('Users', null=True, db_column='id_user', blank=True)
+    skill = models.ForeignKey('SkillsSkill')
+    city_slug = models.CharField(max_length=50, blank=True)
+    workload = models.IntegerField()
+    duration = models.IntegerField()
+    description = models.TextField()
+    url = models.CharField(max_length=1500, blank=True)
+    rate = models.CharField(max_length=200, blank=True)
+    employer = models.CharField(max_length=1500, blank=True)
+    location = models.CharField(max_length=1500, blank=True)
+    location_type = models.IntegerField()
+    task = models.IntegerField()
+    quand = models.DateTimeField(null=True, blank=True)
+    unpublish_date = models.DateTimeField(null=True, blank=True)
+    is_live = models.BooleanField(null=True, blank=True)
+    class Meta:
+        db_table = 'skills'
+
+class SkillsSkill(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=255)
+    slug = models.CharField(max_length=251, blank=True)
+    description = models.TextField(blank=True)
+    created = models.DateTimeField()
+    created_by = models.ForeignKey(AuthUser)
+    published = models.BooleanField()
+    merge_to = models.ForeignKey('self', null=True, blank=True)
+    deleted = models.BooleanField()
+    class Meta:
+        db_table = 'skills_skill'
+
+class SkillsSkillLabels(models.Model):
+    id = models.IntegerField(primary_key=True)
+    skill = models.ForeignKey(SkillsSkill)
+    skilllabel = models.ForeignKey('SkillsSkilllabel')
+    class Meta:
+        db_table = 'skills_skill_labels'
+
+class SkillsSkilllabel(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    count = models.IntegerField()
+    class Meta:
+        db_table = 'skills_skilllabel'
+
+class SkillsUsers(models.Model):
+    id = models.IntegerField(primary_key=True)
+    id_user = models.ForeignKey('Users', null=True, db_column='id_user', blank=True)
+    skill = models.ForeignKey(SkillsSkill)
+    description = models.TextField(blank=True)
+    yearfoexperience = models.IntegerField(null=True, blank=True)
+    quand = models.DateTimeField(null=True, blank=True)
+    class Meta:
+        db_table = 'skills_users'
+
+class SouthMigrationhistory(models.Model):
+    id = models.IntegerField(primary_key=True)
+    app_name = models.CharField(max_length=255)
+    migration = models.CharField(max_length=255)
+    applied = models.DateTimeField()
+    class Meta:
+        db_table = 'south_migrationhistory'
+
+class SpatialRefSys(models.Model):
+    srid = models.IntegerField(primary_key=True)
+    auth_name = models.CharField(max_length=256, blank=True)
+    auth_srid = models.IntegerField(null=True, blank=True)
+    srtext = models.CharField(max_length=2048, blank=True)
+    proj4text = models.CharField(max_length=2048, blank=True)
+    class Meta:
+        db_table = 'spatial_ref_sys'
+
+class TitlesHobbies(models.Model):
+    id = models.IntegerField(primary_key=True)
+    id_cat = models.ForeignKey(CategoriesHobbies, db_column='id_cat')
+    title = models.CharField(max_length=900)
+    quand = models.DateTimeField(null=True, blank=True)
+    class Meta:
+        db_table = 'titles_hobbies'
+
+class Users(models.Model):
+    id = models.IntegerField(primary_key=True)
+    django_user = models.ForeignKey(AuthUser, unique=True)
+    homepage = models.CharField(max_length=255, unique=True)
+    photo = models.CharField(max_length=251, blank=True)
+    dob = models.CharField(max_length=600)
+    gender = models.IntegerField()
+    countrycode = models.CharField(max_length=12, blank=True)
+    areacode = models.CharField(max_length=12, blank=True)
+    mobile = models.CharField(max_length=360, blank=True)
+    bio = models.TextField()
+    lat = models.FloatField(null=True, blank=True)
+    longi = models.FloatField(null=True, blank=True)
+    #coordinates = models.GeometryField(blank=True, null=True, geography=True)
+    formatted_address = models.CharField(max_length=600)
+    quand = models.DateTimeField(null=True, blank=True)
+    lastupdated = models.DateTimeField(null=True, blank=True)
+    email_change_request = models.CharField(max_length=75, blank=True)
+    is_employer = models.BooleanField(null=True, blank=True)
+    is_hobbies_explorer = models.BooleanField(null=True, blank=True)
+    is_freelancer = models.BooleanField(null=True, blank=True)
+    hide_in_search = models.BooleanField(null=True, blank=True)
+    deactivated = models.BooleanField(null=True, blank=True)
+    view_count = models.IntegerField(null=True, blank=True)
+    city_slug = models.CharField(max_length=50, blank=True)
+    referral_source = models.CharField(max_length=60, blank=True)
+    class Meta:
+        db_table = 'users'
+
+class UsersLanguages(models.Model):
+    id = models.IntegerField(primary_key=True)
+    users = models.ForeignKey(Users)
+    languages = models.ForeignKey(Languages)
+    class Meta:
+        db_table = 'users_languages'
+

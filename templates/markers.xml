@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+{% if user_list %}
+<markers size="{{user_list|length}}">
+    {% for user in user_list %}
+       <marker name="{{user.0}} {{user.1}}" email="{{user.2}}" lat="{{user.3}}" lng="{{user.4}}" photo="{{user.5|default:"/thumb.png"}}" homepage="{{user.6}}" employer="{{user.7}}"> </marker>
+    {% endfor %}
+{% endif %}
+</markers>
+
