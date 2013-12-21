@@ -31,17 +31,17 @@
         			<div id="mainSplitter">
          	          <div class="splitter-panel">
 		  <div id='jqxNavigationBar'>
-            <div>Freelancers Reports</div>
+            <div>First Group of Reports</div>
             <div>
-		some reports about the freelancers
+
             </div>
-            <div>Employer Reports</div>
+            <div>Second Group of Reports</div>
             <div>
-	        reports about the employers
+
             </div>
-            <div>Demography Reports</div>
+            <div>Third Group of Reports</div>
             <div>
-		Demography and maps reports goes here.
+
             </div>
         </div>
 			</div>
