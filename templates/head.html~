@@ -1,7 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title id='Description'>Nabbesh Visualization Application </title>
+    <title id='Description'>Nabbesh Reporting</title>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
     <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=visualization"></script>
@@ -25,6 +26,14 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxtooltip.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/globalization/globalize.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdata.js"></script>
+    
+
+	<script type="text/javascript">
+	
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+      </script>
+
 
     <script type="text/javascript">
 
@@ -39,24 +48,65 @@
         $('#jqxTabs').jqxTabs({ selectionTracker: true });
 
 
+	var source = [
+                    "Report 1",
+                    "Report 2",
+                    "Report 3",
+                    "Report 4",
+                    "Report 5"
+		        ];
+
+		$("#reportlist").jqxListBox({ selectedIndex: 0, source: source, width: 246, height: '100%', theme: theme });
+		$('#reportlist').on('select', function (event) {
+                    var args = event.args;
+                    var item = $('#reportlist').jqxListBox('getItem', args.index);
+                    if (item != null) {
+                        sendrequest(item.label);
+                    }
+                });
+		
+	       $('#mainSplitter').jqxSplitter({ width: '100%', height: '831', theme: theme, panels : [{ size: 250 }, { size: 500}] });
+	      $('#mainSplitter').jqxSplitter({ resizable: false });
+	      
+	      $("#jqxNavigationBar").jqxNavigationBar({ width: '100%', height: '100%', theme: theme });
+	      
+
         });
 
     </script>
 	
-<script type="text/javascript">
-        $(document).ready(function () {
-            var theme = getDemoTheme();
-            $('#mainSplitter').jqxSplitter({ width: '100%', height: '831', theme: theme, panels : [{ size: 250 }, { size: 500}] });
-	    $('#mainSplitter').jqxSplitter({ resizable: false });
-        });
-    </script>
+
 
 <script type="text/javascript">
-        $(document).ready(function () {
-            var theme = getDemoTheme();
-            // Create jqxNavigationBar
-            $("#jqxNavigationBar").jqxNavigationBar({ width: '100%', height: '100%', theme: theme });
-        });
-    </script>
+
+
+    $(document).ajaxStart(function(){ 
+        //$("#wait").css("display","block"); 
+        //$("#loadmapButton").jqxButton({ disabled: true }); 
+        }); 
+    $(document).ajaxComplete(function(){ 
+        //$("#wait").css("display","none"); 
+        //$("#loadmapButton").jqxButton({ disabled: false }); 
+        }); 
+
+	function sendrequest(reportname)
+	{
+		container = document.getElementById('reportcontent');
+	    $.ajax( {
+ 	 url: 'http://localhost/report1',
+  	type: 'get',
+  	success: function( r ) {
+  	 $('#reportcontent').html(r);
+
+ 	 }
+	} );
+
+	}
+
+	
+
+
+</script>
+
 
 </head>

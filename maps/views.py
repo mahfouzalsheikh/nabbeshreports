@@ -165,3 +165,16 @@ def skillsstatistics(request):
         c = Context({'skills_list': results})
         #print t.render(c)
         return HttpResponse(t.render(c), mimetype='application/xml')
+        
+        
+        
+        
+def report1(request):
+    
+    t = loader.get_template('./reports/report1.html')
+    c = Context({
+        'report1': report1,
+    })
+#    return render_to_response('index.html', content)
+    return HttpResponse(t.render(c))
+

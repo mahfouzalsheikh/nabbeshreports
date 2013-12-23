@@ -23,6 +23,8 @@ urlpatterns = patterns('',
     url(r'^applicationlist$', 'nabbeshreports.maps.views.applicationlist', name='applicationlist'),
     url(r'^skillsstatistics$', 'nabbeshreports.maps.views.skillsstatistics', name='skillsstatistics'),
 
+    url(r'^report1$', 'nabbeshreports.maps.views.report1', name='report1'),
+
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
     url(r'^static/admin/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.ADMIN_STATIC}),
 
