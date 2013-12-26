@@ -169,12 +169,50 @@ def skillsstatistics(request):
         
         
         
-def report1(request):
+def freelancerdemography_report(request):
     
-    t = loader.get_template('./reports/report1.html')
+    t = loader.get_template('./reports/freelancerdemography_report.html')
     c = Context({
-        'report1': report1,
+        'freelancerdemography_report': freelancerdemography_report,
     })
-#    return render_to_response('index.html', content)
     return HttpResponse(t.render(c))
+
+    
+    
+@csrf_exempt
+def freelancerdemography_getdata(request):
+    if request.method == 'POST':
+        #objs = simplejson.loads(request.raw_post_data)
+
+        sql = "select * from (select count(*) as usercount,\
+        replace(reverse(substring(reverse(replace(formatted_address,'-',',')),1,position(',' in reverse(replace(formatted_address,'-',','))))),', ','') as country from\
+         users group by country order by usercount desc) total limit 20;"
+        results = customQuery(sql)
+        print results
+        c = Context({'countries': results})
+   
+        return HttpResponse(render_to_string('freelancersdemography.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        
+
+def freelancersgender_report(request):
+    
+    t = loader.get_template('./reports/freelancersgender_report.html')
+    c = Context({
+        'freelancersgender_report': freelancersgender_report,
+    })
+    return HttpResponse(t.render(c))
+            
+@csrf_exempt
+def freelancersgender_getdata(request):
+    if request.method == 'POST':
+        #objs = simplejson.loads(request.raw_post_data)
+
+        sql = "select usercount, case gender when 0 then 'Male' when 1 then 'Female' end from \
+         (select count(*) as usercount, gender from users where gender < 2 group by gender) total;"
+        results = customQuery(sql)
+        print results
+ 
+        c = Context({'genders': results})
+   
+        return HttpResponse(render_to_string('freelancersgender.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 

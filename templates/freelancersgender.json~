@@ -1,0 +1,12 @@
+{
+"cols": [
+        {"id":"","label":"Gender","pattern":"","type":"string"},
+        {"id":"","label":"User Count","pattern":"","type":"number"}
+      ],
+
+"rows": [
+{% for gender in genders %}{"c":[{"v":"{{ gender.1 }}","f":null},{"v":{{ gender.0 }},"f":null}]}
+{% if not forloop.last %} , {% endif %}{% endfor %}
+
+]
+}

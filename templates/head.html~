@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <title id='Description'>Nabbesh Reporting</title>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -26,87 +27,148 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxtooltip.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/globalization/globalize.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdata.js"></script>
-    
-
-	<script type="text/javascript">
-	
-      // Load the Visualization API and the piechart package.
-      google.load('visualization', '1.0', {'packages':['corechart']});
-      </script>
 
 
     <script type="text/javascript">
 
+    function PrintElem(elem)
+    {
+        Popup($(elem).html());
+    }
+
+    function Popup(data) 
+    {
+        var mywindow = window.open('', 'my div', 'height=800,width=1024');
+        mywindow.document.write('<html><head><title>my div</title>');
+        /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+
+</script>
+  
+    <script type="text/javascript">
+        // Load the Visualization API and the piechart package.
+        google.load('visualization', '1.0', {
+            'packages': ['corechart']
+        });
+        google.load('visualization', '1', {packages: ['table']});
+    </script>
+
+
+    <script type="text/javascript">
     </script>
 
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
+            var theme = 'bootstrap';
             //Creating jqxTabs
-        $('#jqxTabs').jqxTabs({ width: '100%', height: 900, position: 'top', theme: theme });
-        $('#jqxTabs').jqxTabs({ animationType: 'fade' });
-        $('#jqxTabs').jqxTabs({ selectionTracker: true });
+            $('#jqxTabs').jqxTabs({
+                width: '100%',
+                height: 900,
+                position: 'top',
+                theme: theme
+            });
+            $('#jqxTabs').jqxTabs({
+                animationType: 'fade'
+            });
+            $('#jqxTabs').jqxTabs({
+                selectionTracker: true
+            });
 
 
-	var source = [
-                    "Report 1",
-                    "Report 2",
-                    "Report 3",
-                    "Report 4",
-                    "Report 5"
-		        ];
+            var source = [
+                "Demography",
+                "Gender Distribution",
+                "Age Distribution",
+                "Top Available Skills"
+            ];
 
-		$("#reportlist").jqxListBox({ selectedIndex: 0, source: source, width: 246, height: '100%', theme: theme });
-		$('#reportlist').on('select', function (event) {
-                    var args = event.args;
-                    var item = $('#reportlist').jqxListBox('getItem', args.index);
-                    if (item != null) {
-                        sendrequest(item.label);
-                    }
-                });
-		
-	       $('#mainSplitter').jqxSplitter({ width: '100%', height: '831', theme: theme, panels : [{ size: 250 }, { size: 500}] });
-	      $('#mainSplitter').jqxSplitter({ resizable: false });
-	      
-	      $("#jqxNavigationBar").jqxNavigationBar({ width: '100%', height: '100%', theme: theme });
-	      
+            $("#reportlist").jqxListBox({
+                selectedIndex: 0,
+                source: source,
+                width: 246,
+                height: 200,
+                theme: theme
+            });
+            $('#reportlist').on('select', function (event) {
+                var args = event.args;
+                var item = $('#reportlist').jqxListBox('getItem', args.index);
+                if (item != null) {
+                    
+                    sendrequest(item.label);
+                }
+            });
+
+            $('#mainSplitter').jqxSplitter({
+                width: '100%',
+                height: 831,
+                theme: theme,
+                resizable: false,
+                panels: [{
+                    size: 250
+                }, {
+                    size: 600
+                }]
+            });
+
+
+	    
+
+            $("#jqxNavigationBar").jqxNavigationBar({
+                width: 248,
+                height: '100%',
+                expandMode: 'toggle',
+                theme: theme
+            });
+
 
         });
-
     </script>
-	
 
 
-<script type="text/javascript">
 
+    <script type="text/javascript">
+        $(document).ajaxStart(function () {
+            //$("#wait").css("display","block"); 
+            //$("#loadmapButton").jqxButton({ disabled: true }); 
+        });
+        $(document).ajaxComplete(function () {
+            //$("#wait").css("display","none"); 
+            //$("#loadmapButton").jqxButton({ disabled: false }); 
+        });
 
-    $(document).ajaxStart(function(){ 
-        //$("#wait").css("display","block"); 
-        //$("#loadmapButton").jqxButton({ disabled: true }); 
-        }); 
-    $(document).ajaxComplete(function(){ 
-        //$("#wait").css("display","none"); 
-        //$("#loadmapButton").jqxButton({ disabled: false }); 
-        }); 
+        function sendrequest(reportname) {        
+            container = document.getElementById('reportcontent');
+            var URLString = new String("");
+            switch(reportname)
+		{
+			case "Demography": 
+  				URLString ="freelancerdemography_report";
+ 				break;
+			case "Gender Distribution":
+  				URLString = "freelancersgender_report";
+  				break;
+			default:
+  			      URLString = "freelancerdemography_report";
+		}
+            $.ajax({
+                url: URLString,
+                type: 'get',
+                success: function (r) {
+                    $('#reportcontent').html(r);
 
-	function sendrequest(reportname)
-	{
-		container = document.getElementById('reportcontent');
-	    $.ajax( {
- 	 url: 'http://localhost/report1',
-  	type: 'get',
-  	success: function( r ) {
-  	 $('#reportcontent').html(r);
+                }
+            });
 
- 	 }
-	} );
-
-	}
-
-	
-
-
-</script>
+        }
+    </script>
 
 
 </head>

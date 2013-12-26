@@ -12,7 +12,7 @@
                     <li>
                         <div style="height: 40px;">
                     
-                            <div style="float: left; margin-left: 6px; text-align: center; margin-top: 5px; font-size: 13px;">
+                            <div style="float: left; margin-left: 6px; text-align: center; margin-top: 5px; font-size: 14px;">
                                 Main Reports
 			    </div>
                         </div>
@@ -20,7 +20,7 @@
                     <li>
                         <div style="height: 40px;">
 
-                            <div style="float: left; margin-left: 6px; text-align: center; margin-top: 5px; font-size: 13px;">
+                            <div style="float: left; margin-left: 6px; text-align: center; margin-top: 5px; font-size: 14px;">
                                 Customization</div>
                         </div>
                     </li>
@@ -38,7 +38,7 @@
 		
 		    <div id='reportlist'>
         </div>
-        <div><input type="button" value="Report 1" id='reportButton1' style="float:left;"/></div>
+      
             </div>
             
             <div>Employers</div>
@@ -60,7 +60,10 @@
         </div>
 	</div>
         <div class="splitter-panel">
-		<div class="container" id="reportcontent">
+        
+        
+        
+		<div class="container" id="reportcontent" style="padding: 20px 20px 20px 20px">
 
 		  
 		</div>

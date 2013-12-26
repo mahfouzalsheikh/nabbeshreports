@@ -23,7 +23,11 @@ urlpatterns = patterns('',
     url(r'^applicationlist$', 'nabbeshreports.maps.views.applicationlist', name='applicationlist'),
     url(r'^skillsstatistics$', 'nabbeshreports.maps.views.skillsstatistics', name='skillsstatistics'),
 
-    url(r'^report1$', 'nabbeshreports.maps.views.report1', name='report1'),
+    url(r'^freelancerdemography_report$', 'nabbeshreports.maps.views.freelancerdemography_report', name='freelancerdemography_report'),
+    url(r'^freelancerdemography_getdata$', 'nabbeshreports.maps.views.freelancerdemography_getdata', name='freelancerdemography_getdata'),
+
+    url(r'^freelancersgender_report$', 'nabbeshreports.maps.views.freelancersgender_report', name='freelancersgender_report'),
+    url(r'^freelancersgender_getdata$', 'nabbeshreports.maps.views.freelancersgender_getdata', name='freelancersgender_getdata'),
 
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
     url(r'^static/admin/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.ADMIN_STATIC}),

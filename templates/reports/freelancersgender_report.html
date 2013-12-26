@@ -1,0 +1,35 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript">
+
+	
+     function drawChart() {
+      var jsonData = $.ajax({
+          url: "freelancersgender_getdata",
+          dataType:"json",
+          type: "POST",
+          async: false
+          }).responseText;
+
+      // Create our data table out of JSON data loaded from server.
+      var data = new google.visualization.DataTable(jsonData);
+
+      // Instantiate and draw our chart, passing in some options.
+      var chart = new google.visualization.PieChart(document.getElementById('visualization'));
+      
+      chart.draw(data, {width: 600, height: 400});
+      
+      var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
+      tablearea.draw(data,null);
+    }
+	
+		
+    drawChart();
+</script>
+
+<div id="print_button_container"><button type="button" onclick="PrintElem('#reportcontent')">Print</button></div>
+<div id="visualization" style="width: 600px; height:400px; float: left;"></div>
+<div id="tablearea" style="width: 500px; height:500px; float: left;"></div>
+              
+    
+

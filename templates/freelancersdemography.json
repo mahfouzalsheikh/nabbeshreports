@@ -1,0 +1,13 @@
+{
+"cols": [
+        {"id":"","label":"Country","pattern":"","type":"string"},
+        {"id":"","label":"User Count","pattern":"","type":"number"}
+      ],
+
+"rows": [
+{% for country in countries %}{"c":[{"v":"{{ country.1 }}","f":null},{"v":{{ country.0 }},"f":null}]}
+{% if not forloop.last %} , {% endif %}{% endfor %}
+
+]
+}
+
