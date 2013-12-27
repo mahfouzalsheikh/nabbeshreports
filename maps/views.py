@@ -182,11 +182,14 @@ def freelancerdemography_report(request):
 @csrf_exempt
 def freelancerdemography_getdata(request):
     if request.method == 'POST':
-        #objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.raw_post_data)
 
         sql = "select * from (select count(*) as usercount,\
-        replace(reverse(substring(reverse(replace(formatted_address,'-',',')),1,position(',' in reverse(replace(formatted_address,'-',','))))),', ','') as country from\
-         users group by country order by usercount desc) total limit 20;"
+        replace(reverse(substring(reverse(replace(formatted_address,'-',',')),1,position(',' in reverse(replace(formatted_address,'-',','))))),', ','') \
+        as country from users group by country order by usercount desc) total where usercount>="+objs['limit']+" union \
+	select sum(usercount) as usercount, 'All The Rest' from (select count(*) as usercount,replace(reverse(substring(reverse(replace(formatted_address,'-',',')),\
+	1,position(',' in reverse(replace(formatted_address,'-',','))))),', ','') as country from users group by country order by usercount desc)\
+	 total where usercount<"+objs['limit']+" order by usercount desc;"
         results = customQuery(sql)
         print results
         c = Context({'countries': results})

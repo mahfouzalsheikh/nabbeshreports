@@ -27,6 +27,8 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxtooltip.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/globalization/globalize.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxslider.js"></script>
+
 
 
     <script type="text/javascript">
@@ -138,10 +140,14 @@
         $(document).ajaxStart(function () {
             //$("#wait").css("display","block"); 
             //$("#loadmapButton").jqxButton({ disabled: true }); 
+           
+            
         });
         $(document).ajaxComplete(function () {
             //$("#wait").css("display","none"); 
             //$("#loadmapButton").jqxButton({ disabled: false }); 
+          
+         
         });
 
         function sendrequest(reportname) {        

@@ -1,13 +1,23 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
-<script type="text/javascript">
 
+
+
+
+<script type="text/javascript">
+     $('#limitslider').jqxSlider({ min: 0, max: 1000, ticksFrequency: 250, value: 250, step: 250,mode: 'fixed'});
+     $('#limitslider').on('change', function (event) {
+                drawChart();
+      });
+      
 	
      function drawChart() {
+      var params = {"limit": ($('#limitslider').jqxSlider('value')).toString()};
       var jsonData = $.ajax({
           url: "freelancerdemography_getdata",
           dataType:"json",
           type: "POST",
+          data: JSON.stringify(params),
           async: false
           }).responseText;
 
@@ -31,6 +41,7 @@
 
 
 <div id="print_button_container"><button type="button" onclick="PrintElem('#reportcontent')">Print</button></div>
+<div id="limitslider"></div>
 <div id="visualization" style="width: 800px; height:600px; float: left;"></div>
 <div id="tablearea" style="width: 400px; height:100%; float: left;"></div>
 

@@ -1,9 +1,16 @@
 {% include 'head.html' %}
 
 
+
+
 <body>
 
 
+<script>
+$("#dim_wrapper").animate({
+    'opacity':0.2
+});
+</script>
 
  <div id='jqxWidget'>
         <div style="float: center; padding: 10px 10px 10px 10px;">
@@ -81,7 +88,7 @@
         </div>
     </div>
 
-      
+      <div id='dim_wrapper' style="width:100%; height:100%; background:#000;">&nbsp;</div>
 
 </body>
 </html>
