@@ -28,7 +28,7 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/globalization/globalize.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxslider.js"></script>
-
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcombobox.js"></script>
 
 
     <script type="text/javascript">
@@ -61,9 +61,11 @@
             'packages': ['corechart']
         });
         google.load('visualization', '1', {packages: ['table']});
+        google.load('visualization', '1', {packages: ['geochart']});
     </script>
-
-
+ 
+ 
+    
     <script type="text/javascript">
     </script>
 
@@ -140,13 +142,14 @@
         $(document).ajaxStart(function () {
             //$("#wait").css("display","block"); 
             //$("#loadmapButton").jqxButton({ disabled: true }); 
+            $('#mainSplitter').jqxSplitter({ disabled: true });
            
             
         });
         $(document).ajaxComplete(function () {
             //$("#wait").css("display","none"); 
             //$("#loadmapButton").jqxButton({ disabled: false }); 
-          
+          $('#mainSplitter').jqxSplitter({ disabled: false });
          
         });
 
@@ -160,6 +163,9 @@
  				break;
 			case "Gender Distribution":
   				URLString = "freelancersgender_report";
+  				break;
+  			case "Age Distribution":
+  				URLString = "freelancersages_report";
   				break;
 			default:
   			      URLString = "freelancerdemography_report";

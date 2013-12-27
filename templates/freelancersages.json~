@@ -1,0 +1,13 @@
+{
+"cols": [
+        {"id":"","label":"Country","pattern":"","type":"string"},
+        {"id":"","label":"User Count","pattern":"","type":"number"}
+      ],
+
+"rows": [
+{% for age in ages %}{"c":[{"v":"{{ age.1 }}","f":null},{"v":{{ age.0 }},"f":null}]}
+{% if not forloop.last %} , {% endif %}{% endfor %}
+
+]
+}
+

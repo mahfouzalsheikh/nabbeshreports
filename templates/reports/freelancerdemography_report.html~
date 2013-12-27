@@ -37,7 +37,7 @@
       // Instantiate and draw our chart, passing in some options.
       var chart = new google.visualization.PieChart(document.getElementById('visualization'));
       
-      chart.draw(data, {width: 800, height: 600});
+      chart.draw(data, {title:"Freelancers Demography",width: 800, height: 600});
       
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       tablearea.draw(data,null);
@@ -56,6 +56,7 @@
 <div id="limitmenu">Limit:</div>
 <div id="visualization" style="width: 800px; height:600px; float: left;"></div>
 <div id="tablearea" style="width: 400px; height:100%; float: left;"></div>
+
 
               
     

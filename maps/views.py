@@ -219,3 +219,28 @@ def freelancersgender_getdata(request):
    
         return HttpResponse(render_to_string('freelancersgender.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
+
+def freelancersages_report(request):
+    
+    t = loader.get_template('./reports/freelancersages_report.html')
+    c = Context({
+        'freelancersages_report': freelancersgender_report,
+    })
+    return HttpResponse(t.render(c))
+
+@csrf_exempt            
+def freelancersages_getdata(request):
+    if request.method == 'POST':
+        #objs = simplejson.loads(request.raw_post_data)
+
+        sql = "select count(total.id) as ucount, 2013 - total.yobn as ageu from\
+        (select t1.id, t1.yob :: integer  yobn from  (select id,  substring(dob,length(dob)-3, length(dob)) as yob\
+         from users where dob<>'' ) t1 where t1.yob ~E'^\\\d+$') total group by ageu order by ageu;"
+        results = customQuery(sql)
+        print sql
+        print results
+ 
+        c = Context({'ages': results})
+   
+        return HttpResponse(render_to_string('freelancersages.json', c, context_instance=RequestContext(request)), mimetype='application/json')        
+
