@@ -5,14 +5,33 @@
 
 
 <script type="text/javascript">
-     $('#limitslider').jqxSlider({ min: 0, max: 1000, ticksFrequency: 250, value: 250, step: 250,mode: 'fixed'});
-     $('#limitslider').on('change', function (event) {
-                drawChart();
-      });
+
+    
+      $('#limitmenu').on('select', function (event) {
+                    var args = event.args;
+                    if (args != undefined) {
+                        var item = event.args.item;
+                        if (item != null) {
+                            drawChart(item.label);
+                        }
+                    }
+                });
       
+      var source = [
+                    "1000",
+                    "500",
+                    "250",
+                    "200",
+                    "100",
+                    "50",
+                    "10",
+                    "1"
+                    
+		        ]; 
+     $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0}); 
 	
-     function drawChart() {
-      var params = {"limit": ($('#limitslider').jqxSlider('value')).toString()};
+     function drawChart(limit) {
+      var params = {"limit": limit};
       var jsonData = $.ajax({
           url: "freelancerdemography_getdata",
           dataType:"json",
@@ -34,14 +53,16 @@
     }
 	
 		
-    drawChart();
+    drawChart("1000");
 </script>
 
 
 
 
+
+
 <div id="print_button_container"><button type="button" onclick="PrintElem('#reportcontent')">Print</button></div>
-<div id="limitslider"></div>
+<div id="limitmenu">Limit:</div>
 <div id="visualization" style="width: 800px; height:600px; float: left;"></div>
 <div id="tablearea" style="width: 400px; height:100%; float: left;"></div>
 
