@@ -1,7 +1,7 @@
 {
 "cols": [
-        {"id":"","label":"Country","pattern":"","type":"string"},
-        {"id":"","label":"User Count","pattern":"","type":"number"}
+        {"id":"","label":"User Count","pattern":"","type":"string"},
+        {"id":"","label":"Age","pattern":"","type":"number"}
       ],
 
 "rows": [

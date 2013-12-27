@@ -1,7 +1,7 @@
 {
 "cols": [
-        {"id":"","label":"User Count","pattern":"","type":"string"},
-        {"id":"","label":"Age","pattern":"","type":"number"}
+        {"id":"","label":"Age","pattern":"","type":"string"},
+        {"id":"","label":"User Count","pattern":"","type":"number"}
       ],
 
 "rows": [
