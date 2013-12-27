@@ -17,17 +17,8 @@
                     }
                 });
       
-      var source = [
-                    "1000",
-                    "500",
-                    "250",
-                    "200",
-                    "100",
-                    "50",
-                    "10",
-                    "1"
-                    
-		        ]; 
+      var source = ["1000","500","250","200","100","50","10","2"]; 
+      
      $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0}); 
 	
      function drawChart(limit) {
