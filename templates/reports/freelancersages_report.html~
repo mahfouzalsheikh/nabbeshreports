@@ -16,7 +16,7 @@
 
       var chart = new google.visualization.ColumnChart(document.getElementById('visualization'));
       
-      chart.draw(data, {title:"Freelancers Demography",width: 1000, height: 500});
+      chart.draw(data, {title:"Freelancers Demography",width: 1000, height: 500);
       
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       tablearea.draw(data,null);

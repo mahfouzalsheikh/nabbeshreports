@@ -33,7 +33,7 @@
 
       var chart = new google.visualization.PieChart(document.getElementById('visualization'));
       
-      chart.draw(data, {title:"Freelancers Demography",width: 800, height: 600});
+      chart.draw(data, {title:"Freelancers Demography",width: 800, height: 600, is3D: true});
       
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       tablearea.draw(data,null);

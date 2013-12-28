@@ -15,7 +15,7 @@
       
       var source = ["1000","500","250","200","100","50","10","2"]; 
       
-     $("#limitmenu").jqxComboBox({ source: source, width: '50px', height: '25px', selectedIndex:0}); 
+     $("#limitmenu").jqxComboBox({ source: source, width: '60px', height: '25px', selectedIndex:0}); 
 	
      function drawChart(limit) {
       var params = {"limit": limit};
@@ -33,7 +33,7 @@
 
       var chart = new google.visualization.PieChart(document.getElementById('visualization'));
       
-      chart.draw(data, {title:"Freelancers Demography",width: 800, height: 600});
+      chart.draw(data, {title:"Freelancers Demography",width: 800, height: 600, is3D: true});
       
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       tablearea.draw(data,null);
