@@ -27,10 +27,10 @@
           async: false
           }).responseText;
 
-      // Create our data table out of JSON data loaded from server.
+
       var data = new google.visualization.DataTable(jsonData);
 
-      // Instantiate and draw our chart, passing in some options.
+
       var chart = new google.visualization.PieChart(document.getElementById('visualization'));
       
       chart.draw(data, {title:"Freelancers Demography",width: 800, height: 600});
@@ -50,12 +50,14 @@
 
 <div id="print_button_container"><button type="button" onclick="PrintElem('#reportcontent')">Print</button></div>
 
-
+<div style = "background-color:#b0c4de; height: 30px; padding: 10px 10px 10px 10px">
 <div id="limitmenu">Limit:</div>
-<hr size=1></br>
+
+</div>
+
 <div><img src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></div>
 <div id="visualization" style="width: 800px; height:600px; float: left;"></div>
-<div id="tablearea" style="width: 400px; height:100%; float: left;"></div>
+<div id="tablearea" style="width: 300px; height:100%; float: left;"></div>
 
 
               

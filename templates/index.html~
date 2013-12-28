@@ -6,12 +6,6 @@
 <body>
 
 
-<script>
-$("#dim_wrapper").animate({
-    'opacity':0.2
-});
-</script>
-
  <div id='jqxWidget'>
         <div style="float: center; padding: 10px 10px 10px 10px;">
             <div id='jqxTabs' class='jqx-rc-all'>
@@ -70,7 +64,7 @@ $("#dim_wrapper").animate({
         
         
         
-		<div class="container" id="reportcontent" style="padding: 20px 20px 20px 20px">
+		<div class="container" id="reportcontent">
 
 		  
 		</div>
@@ -88,7 +82,7 @@ $("#dim_wrapper").animate({
         </div>
     </div>
 
-      <div id='dim_wrapper' style="width:100%; height:100%; background:#000;">&nbsp;</div>
+
 
 </body>
 </html>

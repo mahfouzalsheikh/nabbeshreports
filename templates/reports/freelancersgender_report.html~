@@ -17,7 +17,7 @@
       // Instantiate and draw our chart, passing in some options.
       var chart = new google.visualization.PieChart(document.getElementById('visualization'));
       
-      chart.draw(data, {width: 600, height: 400});
+      chart.draw(data, {width: 800, height: 600});
       
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       tablearea.draw(data,null);
@@ -30,8 +30,8 @@
 <div id="print_button_container"><button type="button" onclick="PrintElem('#reportcontent')">Print</button></div>
 <hr size=1></br>
 <div><img src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></div>
-<div id="visualization" style="width: 600px; height:400px; float: left;"></div>
-<div id="tablearea" style="width: 500px; height:500px; float: left;"></div>
+<div id="visualization" style="width: 800px; height:600px; float: left;"></div>
+<div id="tablearea" style="width: 300px; height:100%; float: left;"></div>
               
     
 
