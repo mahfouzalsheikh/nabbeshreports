@@ -31,6 +31,7 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxslider.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcombobox.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxexpander.js"></script>
     <script type="text/javascript" src="/site_media/js/jquery.blockUI.js"></script>
 
     <script type="text/javascript">
@@ -100,6 +101,7 @@
                 source: source,
                 width: 246,
                 height: 200,
+                selectedIndex: -1,
                 theme: theme
             });
             $('#reportlist').on('select', function (event) {
