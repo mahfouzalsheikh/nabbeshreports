@@ -55,7 +55,9 @@
 
 </div>
 
+<div style="background-color: #eee; height:70px">
 <div><img src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></div>
+</div>
 <div id="visualization" style="width: 800px; height:600px; float: left;"></div>
 <div id="tablearea" style="width: 300px; height:100%; float: left;"></div>
 
