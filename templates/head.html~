@@ -110,6 +110,7 @@
                 if (item != null) {
                     
                     sendrequest(item.label);
+                    $("#reportlist").jqxListBox({selectedIndex: -1 }); 
                 }
             });
 
