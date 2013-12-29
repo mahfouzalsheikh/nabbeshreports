@@ -130,10 +130,15 @@
                 width: 248,
                 height: '100%',
                 expandMode: 'toggle',
+                expandedIndexes: [0],
                 theme: theme
             });
-
-
+		
+            $("#dashboardButton").jqxButton({ width: '100%'});
+	    $("#dashboardButton").on('click', function () {
+	    	sendrequest('dashboard');
+	    });
+	    sendrequest('dashboard');
         });
     </script>
 
@@ -177,8 +182,11 @@
   			case "Age Distribution":
   				URLString = "freelancersages_report";
   				break;
+  			case "Dashboard":
+  				URLString = "dashboard";
+  				break;
 			default:
-  			      URLString = "freelancerdemography_report";
+  			      URLString = "dashboard";
 		}
             $.ajax({
                 url: URLString,

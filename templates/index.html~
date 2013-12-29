@@ -34,22 +34,19 @@
         			<div id="mainSplitter">
          	          <div class="splitter-panel">
 		  <div id='jqxNavigationBar'>
-            <div>Freelancers</div>
+            <div>Dashboard</div>
             <div>
-		
-		    <div id='reportlist'>
-        </div>
-      
+            <div>
+                <input type="button" value="Reload Dashboard" id='dashboardButton' />
             </div>
+            </div>
+            <div>Freelancers</div>
+            <div><div id='reportlist'> </div></div>
             
             <div>Employers</div>
-            <div>
-	        reports about the employers
-            </div>
+            <div>reports about the employers</div>
             <div>Activity</div>
-            <div>
-		Demography and maps reports goes here.
-            </div>
+            <div>Demography and maps reports goes here.</div>
             <div>Finance</div>
             <div>
 		

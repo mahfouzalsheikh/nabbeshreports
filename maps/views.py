@@ -191,7 +191,8 @@ def freelancerdemography_getdata(request):
 	1,position(',' in reverse(replace(formatted_address,'-',','))))),', ','') as country from users group by country order by usercount desc)\
 	 total where usercount<"+objs['limit']+" order by usercount desc;"
         results = customQuery(sql)
-        print results
+        
+        print sql
         c = Context({'countries': results})
    
         return HttpResponse(render_to_string('freelancersdemography.json', c, context_instance=RequestContext(request)), mimetype='application/json')
@@ -241,4 +242,15 @@ def freelancersages_getdata(request):
         c = Context({'ages': results})
    
         return HttpResponse(render_to_string('freelancersages.json', c, context_instance=RequestContext(request)), mimetype='application/json')        
+        
+        
+
+
+def dashboard(request):
+    
+    t = loader.get_template('./reports/dashboard.html')
+    c = Context({
+        'freelancersages_report': freelancersgender_report,
+    })
+    return HttpResponse(t.render(c))
 
