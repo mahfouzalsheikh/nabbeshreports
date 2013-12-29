@@ -1,5 +1,11 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
+
+<script type="text/javascript">
+ var theme = 'bootstrap';
+ $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ 
+</script>
 <script type="text/javascript">
 
     
@@ -49,10 +55,15 @@
 
 
 
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <ul>
+                    <div id="limitmenu">Limit:</div>          
+                </ul>
+            </div>
+        </div>
 
-<div style = "background-color:#b0c4de; height: 30px; padding: 10px 10px 10px 10px">
-<div id="limitmenu">Limit:</div>
-</div>
 
 <div style="background-color: #eee; height:70px">
 <div><img src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></div>

@@ -1,5 +1,12 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
+
+<script type="text/javascript">
+ var theme = 'bootstrap';
+ $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ 
+</script>
+
 <script type="text/javascript">
 
 	
@@ -25,9 +32,20 @@
 </script>
 
 
+
 <div style="background-color: #eee; height:70px">
-<div><img src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></div>
-</div>
+
+
+<div><img src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></div></div>
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <ul>
+                    DashBoard Options...!         
+                </ul>
+            </div>
+        </div>
 <div id="visualization" style="width: 800px; height:600px; float: left;"></div>
 <div id="tablearea" style="width: 300px; height:100%; float: left;"></div>
               
