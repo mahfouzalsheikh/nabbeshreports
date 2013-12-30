@@ -16,7 +16,7 @@
 
       var chart = new google.visualization.ColumnChart(document.getElementById('visualization'));
       
-      chart.draw(data, {title:"Freelancers Demography",width: 1000, height: 500});
+      chart.draw(data, {title:"Freelancers Demography",width: '100%', height: 500});
       
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       tablearea.draw(data,null);
@@ -31,8 +31,9 @@
 <div style="background-color: #eee; height:70px">
 <div><img src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></div>
 </div>
-<div id="visualization" style="width: 1000px; height:500px; float: left;"></div>
-<div id="tablearea" style="width: 200px; height:100%; float: left;"></div>
-              
+<div style="padding: 20px 20px 20px 20px">
+<div id="visualization" style="width: 100%; height:500px; float: left;"></div>
+<div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
+</div>              
     
 
