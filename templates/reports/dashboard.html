@@ -3,52 +3,69 @@
 
 <script type="text/javascript">
  var theme = 'bootstrap';
- $("#optionsExpander").jqxExpander({ width: '100%',height: '270', theme: theme,  expanded: false});
- $("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
+ $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
  
 </script>
 
 <script type="text/javascript">
 
-	
-     function drawChart() {
+      $('#limitmenu').on('select', function (event) {
+                    var args = event.args;
+                    if (args != undefined) {
+                        var item = event.args.item;
+                        if (item != null) {
+                            drawChart(item.label);
+                        }
+                    }
+                });
+      
+      var source = ["Month","Day"];
+       
+     $("#limitmenu").jqxComboBox({ source: source, width: '100px', height: '25', selectedIndex:0});     
+     
+     function drawChart(limit) {
+      var params = {"limit": limit};
       var jsonData = $.ajax({
-          url: "freelancersgender_getdata",
+          url: "dashboard_getdata",
           dataType:"json",
           type: "POST",
+          data: JSON.stringify(params),
           async: false
           }).responseText;
+	
+      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
 
-      var data = new google.visualization.DataTable(jsonData);
-
-      var chart = new google.visualization.PieChart(document.getElementById('visualization'));
+      var chart = new google.visualization.LineChart(document.getElementById('visualization'));
       
-      chart.draw(data, {width: 600, height: 450, is3D: true});
+      chart.draw(data, {width: '100%', height: 600, is3D: true});
+      
+
       
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
-      tablearea.draw(data,null);
+      
+      tablearea.draw(data,{allowHtml: true, showRowNumber: true});
+      // Apply formatter to second column
     }
     
-    //drawChart();
+    drawChart("Month");
 </script>
 
 
 
 <div style="background-color: #eee; height:70px">
-
-
 <div><img src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></div></div>
-
  <div id='optionsExpander'>
             <div>Options</div>
-            <div style="padding: 5px 5px 5px 5px;">
-		<div id='dateRange'>
-        	</div>
+            <div>
+                <ul>
+                    <div id="limitmenu">Limit:</div>          
+                </ul>
             </div>
         </div>
 <div style="padding: 20px 20px 20px 20px">
-<div id="visualization" style="width: 100%; height:450px; float: left;"></div>
+<div id="visualization" style="width: 100%; height:600px; float: left;"></div>
 <div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
-</div>              
-    
+</div>
+
 

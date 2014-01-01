@@ -31,9 +31,11 @@ urlpatterns = patterns('',
     
     url(r'^freelancersages_report$', 'nabbeshreports.maps.views.freelancersages_report', name='freelancersages_report'),
     url(r'^freelancersages_getdata$', 'nabbeshreports.maps.views.freelancersages_getdata', name='freelancersages_getdata'),
+    
 
     url(r'^dashboard$', 'nabbeshreports.maps.views.dashboard', name='dashboard'),
-
+    url(r'^dashboard_getdata$', 'nabbeshreports.maps.views.dashboard_getdata', name='dashboard_getdata'),
+    
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
     url(r'^static/admin/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.ADMIN_STATIC}),
 

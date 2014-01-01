@@ -152,12 +152,12 @@ def skillsstatistics(request):
         #print objs['radius']
         #R = objs['radius']
 	#print objs['lat']
-#        sql = "select ss.name,count(u.id) as cnt from skills_skill ss inner join skills_users su on ss.id=su.skill_id inner join users u on su.id_user=u.id where sqrt(pow(u.lat-"+ str(objs['lat'])+",2)*6371+pow(u.longi-"+ str(objs['lng'])+",2)*6371) <= " + str(objs['radius']/1000) + " group by ss.name order by cnt desc limit 10"
+#        sql = "select ss.name,count(u.id) as cnt from skills_skill ss inner join skills_users su on ss.id=su.skill_id inner join users u on su.id_user=u.id where sqrt(pow(u.lat-"+ str(objs['lat'])+",2)*63101+pow(u.longi-"+ str(objs['lng'])+",2)*63101) <= " + str(objs['radius']/1000) + " group by ss.name order by cnt desc limit 10"
         sql = "select Jobs.name As Skill,Skills.cnt as SkillCount, Jobs.cnt as JobCount, Skills.cnt/Jobs.cnt as Availability\
  from (select  ss.name,count(u.id) as cnt, 'Job' as Type from skills_skill ss inner join skills s on s.skill_id = ss.id inner join users u on u.id= s.id_user\
- where sqrt(pow(u.lat-"+ str(objs['lat'])+",2)*6371+pow(u.longi-"+ str(objs['lng'])+",2)*6371)<= " + str(objs['radius']/1000) + "  group by ss.name order\
+ where sqrt(pow(u.lat-"+ str(objs['lat'])+",2)*63101+pow(u.longi-"+ str(objs['lng'])+",2)*63101)<= " + str(objs['radius']/1000) + "  group by ss.name order\
  by cnt desc) Jobs inner join (select ss.name,count(u.id) as cnt,'Skill' as Type from skills_skill ss inner join skills_users\
- su on ss.id=su.skill_id inner join users u on su.id_user=u.id where sqrt(pow(u.lat-"+ str(objs['lat'])+",2)*6371+pow(u.longi-"+ str(objs['lng'])+",2)*6371)\
+ su on ss.id=su.skill_id inner join users u on su.id_user=u.id where sqrt(pow(u.lat-"+ str(objs['lat'])+",2)*63101+pow(u.longi-"+ str(objs['lng'])+",2)*63101)\
  <= " + str(objs['radius']/1000) + " group by ss.name order by cnt desc) Skills on Jobs.name= Skills.Name order by JobCount desc limit 20"
         print sql
         t = loader.get_template('skillsstatistics.xml')
@@ -250,7 +250,35 @@ def dashboard(request):
     
     t = loader.get_template('./reports/dashboard.html')
     c = Context({
-        'freelancersages_report': freelancersgender_report,
+        'dashboard': dashboard,
     })
     return HttpResponse(t.render(c))
-
+    
+    
+@csrf_exempt 
+def dashboard_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        grouppertext= objs['limit']
+        if grouppertext=="Month":
+            grouper="7"
+        else:
+            grouper="10"
+            
+        freelancersql = "select msgdate,COALESCE(message_count,0) as message_count,COALESCE(freelancer_count,0) as freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count,COALESCE(job_count,0) as job_count from\
+        (select count(*) as message_count,substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as msgdate from contracts_message group by msgdate order by msgdate) contractsmessages left outer join\
+        (select count(distinct u.id) as freelancer_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join auth_user au on au.id=u.django_user_id where u.is_freelancer=true group by datejoined order by datejoined) freelancers\
+        on contractsmessages.msgdate=freelancers.datejoined left outer join\
+        (select count(distinct u.id) as employers_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join auth_user au on au.id=u.django_user_id where u.is_employer=true group by datejoined order by datejoined) employers\
+        on freelancers.datejoined=employers.datejoined left outer join\
+        (select count(distinct u.id) as realemployers_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join auth_user au on au.id=u.django_user_id inner join contracts_job cj on cj.employer_id=u.id where u.is_freelancer=true group by datejoined order by datejoined) realemployers\
+        on freelancers.datejoined=realemployers.datejoined left outer join\
+        (select count(*) as job_count, substring(to_char(created_at,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as createdat from contracts_job group by createdat) jobs\
+        on jobs.createdat=contractsmessages.msgdate;"
+        results = customQuery(freelancersql)
+        print freelancersql
+        print results
+ 
+        c = Context({'statistics': results})
+   
+        return HttpResponse(render_to_string('dashboard.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
