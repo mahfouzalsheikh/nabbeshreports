@@ -265,16 +265,24 @@ def dashboard_getdata(request):
         else:
             grouper="10"
             
-        freelancersql = "select msgdate,COALESCE(message_count,0) as message_count,COALESCE(freelancer_count,0) as freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count,COALESCE(job_count,0) as job_count from\
-        (select count(*) as message_count,substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as msgdate from contracts_message group by msgdate order by msgdate) contractsmessages left outer join\
-        (select count(distinct u.id) as freelancer_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join auth_user au on au.id=u.django_user_id where u.is_freelancer=true group by datejoined order by datejoined) freelancers\
-        on contractsmessages.msgdate=freelancers.datejoined left outer join\
-        (select count(distinct u.id) as employers_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join auth_user au on au.id=u.django_user_id where u.is_employer=true group by datejoined order by datejoined) employers\
-        on freelancers.datejoined=employers.datejoined left outer join\
-        (select count(distinct u.id) as realemployers_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join auth_user au on au.id=u.django_user_id inner join contracts_job cj on cj.employer_id=u.id where u.is_freelancer=true group by datejoined order by datejoined) realemployers\
+        freelancersql = "select msgdate,COALESCE(message_count,0) as message_count,COALESCE(nmessage_count,0) as nmessage_count,COALESCE(freelancer_count,0) as\
+        freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count\
+        ,COALESCE(job_count,0) as job_count from\
+        (select count(*) as message_count,substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as msgdate from contracts_message group by msgdate)\
+        contractsmessages left outer join\
+         (select count(distinct u.id) as freelancer_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join\
+           auth_user au on au.id=u.django_user_id where u.is_freelancer=true group by datejoined) freelancers\
+           on contractsmessages.msgdate=freelancers.datejoined left outer join\
+        (select count(distinct u.id) as employers_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join\
+           auth_user au on au.id=u.django_user_id where u.is_employer=true group by datejoined) employers\
+         on freelancers.datejoined=employers.datejoined left outer join\
+        (select count(distinct u.id) as realemployers_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join\
+         auth_user au on au.id=u.django_user_id inner join contracts_job cj on cj.employer_id=u.id where u.is_freelancer=true group by datejoined) realemployers\
         on freelancers.datejoined=realemployers.datejoined left outer join\
-        (select count(*) as job_count, substring(to_char(created_at,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as createdat from contracts_job group by createdat) jobs\
-        on jobs.createdat=contractsmessages.msgdate;"
+         (select count(*) as job_count, substring(to_char(created_at,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as createdat from contracts_job group by createdat) jobs\
+        on jobs.createdat=contractsmessages.msgdate left outer join\
+         (select count(*) as nmessage_count, substring(to_char(sent_at,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as sentat from messages_message group by sentat) messages on \
+         messages.sentat=contractsmessages.msgdate order by msgdate desc;"
         results = customQuery(freelancersql)
         print freelancersql
         print results
