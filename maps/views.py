@@ -259,33 +259,45 @@ def dashboard(request):
 def dashboard_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
+        #print objs
+        
+        t1 = objs['fromdate']  + ' 00:00:00+00'
+        t2 = objs['todate'] + ' 23:59:59+00'
+        
+        print t1
+        print t2
+
         grouppertext= objs['limit']
+        #grouppertext = "7"
         if grouppertext=="Month":
             grouper="7"
         else:
             grouper="10"
-            
-        freelancersql = "select msgdate,COALESCE(message_count,0) as message_count,COALESCE(nmessage_count,0) as nmessage_count,COALESCE(freelancer_count,0) as\
-        freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count\
-        ,COALESCE(job_count,0) as job_count from\
-        (select count(*) as message_count,substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as msgdate from contracts_message group by msgdate)\
-        contractsmessages left outer join\
-         (select count(distinct u.id) as freelancer_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join\
-           auth_user au on au.id=u.django_user_id where u.is_freelancer=true group by datejoined) freelancers\
-           on contractsmessages.msgdate=freelancers.datejoined left outer join\
-        (select count(distinct u.id) as employers_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join\
-           auth_user au on au.id=u.django_user_id where u.is_employer=true group by datejoined) employers\
-         on freelancers.datejoined=employers.datejoined left outer join\
-        (select count(distinct u.id) as realemployers_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join\
-         auth_user au on au.id=u.django_user_id inner join contracts_job cj on cj.employer_id=u.id where u.is_freelancer=true group by datejoined) realemployers\
-        on freelancers.datejoined=realemployers.datejoined left outer join\
-         (select count(*) as job_count, substring(to_char(created_at,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as createdat from contracts_job group by createdat) jobs\
-        on jobs.createdat=contractsmessages.msgdate left outer join\
-         (select count(*) as nmessage_count, substring(to_char(sent_at,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as sentat from messages_message group by sentat) messages on \
-         messages.sentat=contractsmessages.msgdate order by msgdate desc;"
+        
+        header_sql = ("select msgdate,COALESCE(message_count,0) as message_count,COALESCE(nmessage_count,0) as nmessage_count,COALESCE(freelancer_count,0) as freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count ,COALESCE(job_count,0) as job_count, COALESCE(proposal_count,0) as proposal_count, COALESCE(application_count,0) as application_count from ")
+        
+        workflow_messages_sql = ("(select count(*) as message_count,substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as msgdate from contracts_message where timestamp>='"+t1+"' and timestamp<='"+t2+"' group by msgdate) contractsmessages left outer join ")
+        
+        freelancers_sql = ("(select count(distinct u.id) as freelancer_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join auth_user au on au.id=u.django_user_id where u.is_freelancer=true and date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) freelancers on contractsmessages.msgdate=freelancers.datejoined left outer join")
+        
+        employers_sql = ("(select count(distinct u.id) as employers_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join auth_user au on au.id=u.django_user_id where u.is_employer=true and date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) employers on freelancers.datejoined=employers.datejoined left outer join")
+        
+        realemployers_sql = ("(select count(distinct u.id) as realemployers_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join auth_user au on au.id=u.django_user_id inner join contracts_job cj on cj.employer_id=u.id where u.is_freelancer=true and date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) realemployers on freelancers.datejoined=realemployers.datejoined left outer join")
+        
+        jobs_sql =("(select count(*) as job_count, substring(to_char(created_at,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as createdat from contracts_job  where created_at>='"+t1+"' and created_at<='"+t2+"' group by createdat) jobs on jobs.createdat=contractsmessages.msgdate  left outer join")
+        
+        contractsmessages_sql = ("(select count(*) as nmessage_count, substring(to_char(sent_at,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as sentat from messages_message where sent_at>='"+t1+"' and sent_at<='"+t2+"' group by sentat) messages on messages.sentat=contractsmessages.msgdate   left outer join")
+        
+        porposals_sql  = ("(select substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as proposalsent,count(*) as proposal_count from contracts_proposal cp inner join contracts_message cm on cp.message_ptr_id=cm.id where timestamp>='"+t1+"' and timestamp<='"+t2+"'  group by proposalsent) proposals on proposals.proposalsent=contractsmessages.msgdate left outer join ")
+        
+        application_sql = ("(select count(*) as application_count,substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as appliedat from contracts_application   where timestamp>='"+t1+"' and timestamp<='"+t2+"' group by appliedat) applications on applications.appliedat=contractsmessages.msgdate")
+        
+        freelancersql = (header_sql + workflow_messages_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + application_sql + "  order by msgdate")
+        
+        #print freelancersql
         results = customQuery(freelancersql)
-        print freelancersql
-        print results
+
+        #print results
  
         c = Context({'statistics': results})
    

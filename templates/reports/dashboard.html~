@@ -1,6 +1,5 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
-
 <script type="text/javascript">
  var theme = 'bootstrap';
  $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
@@ -15,17 +14,37 @@
                     if (args != undefined) {
                         var item = event.args.item;
                         if (item != null) {
-                            drawChart(item.label);
+                            //drawChart(item.label);
+                            limit=item.label
                         }
                     }
                 });
       
-      var source = ["Month","Day"];
+     var source = ["Month","Day"];
        
-     $("#limitmenu").jqxComboBox({ source: source, width: '100px', height: '25', selectedIndex:0});     
+     $("#limitmenu").jqxComboBox({ source: source, width: '100px', height: '25px', selectedIndex:0});     
      
-     function drawChart(limit) {
-      var params = {"limit": limit};
+     $("#fromdate").jqxDateTimeInput({width: '200', height: '25px', theme: theme, formatString: "yyyy-MM-dd"});
+     $("#todate").jqxDateTimeInput({width: '200', height: '25px', theme: theme, formatString: "yyyy-MM-dd"});
+
+     
+     $("#fromdate").on('change', function (event) {
+                    fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
+                });
+     $("#todate").on('change', function (event) {
+                    todate= $('#todate').jqxDateTimeInput('getText'); 
+                });        
+        
+                
+                
+      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").on('click', function () {                    
+                  drawChart(limit,fromdate,todate)
+                });
+     var fromdate,todate; 
+     var limit="Month";
+     function drawChart(limit,from,to) {
+      var params = {"limit": limit, "fromdate": from, "todate": to};
       var jsonData = $.ajax({
           url: "dashboard_getdata",
           dataType:"json",
@@ -38,17 +57,20 @@
 
       var chart = new google.visualization.LineChart(document.getElementById('visualization'));
       
-      chart.draw(data, {width: '100%', height: 600, is3D: true});
+      var dataView = new google.visualization.DataView(data);
       
-
+      
+      chart.draw(dataView, {width: '100%', height: 600, is3D: true});
+      
+	
       
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       
-      tablearea.draw(data,{allowHtml: true, showRowNumber: true});
+      tablearea.draw(data,{allowHtml: true});
       // Apply formatter to second column
     }
     
-    drawChart("Month");
+    drawChart("Month","","");
 </script>
 
 
@@ -59,7 +81,10 @@
             <div>Options</div>
             <div>
                 <ul>
-                    <div id="limitmenu">Limit:</div>          
+                    <div id="limitmenu">Limit:</div>     
+                    <div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div>
+                    <div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div>
+                    <div><input type="button" value="Filter Results" id='filterButton' /></div>   
                 </ul>
             </div>
         </div>

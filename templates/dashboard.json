@@ -1,6 +1,6 @@
 [
-["Date","Workflow Messages","Noremal Messages", "Registered as Freelancer","Registered as Employer","Users who Posted a Job","Jobs Posted"],
-{% for metric in statistics %}["{{ metric.0 }}",{{ metric.1 }},{{ metric.2 }},{{ metric.3 }},{{ metric.4 }},{{ metric.5 }},{{ metric.6 }}]
+["Date","Workflow Messages","Noremal Messages", "Registered as Freelancer","Registered as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Job Applications"],
+{% for metric in statistics %}["{{ metric.0 }}",{{ metric.1 }},{{ metric.2 }},{{ metric.3 }},{{ metric.4 }},{{ metric.5 }},{{ metric.6 }},{{ metric.7 }},{{ metric.8 }}]
 {% if not forloop.last %},{% endif %}{% endfor %}
 ]
 
