@@ -22,10 +22,11 @@
       
      var source = ["Month","Day"];
        
-     $("#limitmenu").jqxComboBox({ source: source, width: '100px', height: '25px', selectedIndex:0});     
+     $("#limitmenu").jqxComboBox({ source: source, width: '100px', height: '25px', selectedIndex:1});     
      
-     $("#fromdate").jqxDateTimeInput({width: '200', height: '25px', theme: theme, formatString: "yyyy-MM-dd"});
-     $("#todate").jqxDateTimeInput({width: '200', height: '25px', theme: theme, formatString: "yyyy-MM-dd"});
+     var today = new Date(Date.now());
+     $("#fromdate").jqxDateTimeInput({width: '200', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({width: '200', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
 
      
      $("#fromdate").on('change', function (event) {
@@ -41,8 +42,12 @@
       $("#filterButton").on('click', function () {                    
                   drawChart(limit,fromdate,todate)
                 });
-     var fromdate,todate; 
-     var limit="Month";
+     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
+     var todate = $('#todate').jqxDateTimeInput('getText');
+     var limit="Day";
+     
+     
+     
      function drawChart(limit,from,to) {
       var params = {"limit": limit, "fromdate": from, "todate": to};
       var jsonData = $.ajax({
@@ -54,7 +59,7 @@
           }).responseText;
 	
       var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
-
+	
       var chart = new google.visualization.LineChart(document.getElementById('visualization'));
       
       var dataView = new google.visualization.DataView(data);
@@ -70,7 +75,7 @@
       // Apply formatter to second column
     }
     
-    drawChart("Month","","");
+    drawChart(limit,fromdate,todate);
 </script>
 
 
