@@ -39,7 +39,16 @@
                 
                 
       $("#filterButton").jqxButton({ width: '200'});
-      $("#filterButton").on('click', function () {                    
+      $("#filterButton").on('click', function () { 
+      $.blockUI({ css: { 
+            border: 'none', 
+            padding: '15px', 
+            backgroundColor: '#000', 
+            '-webkit-border-radius': '10px', 
+            '-moz-border-radius': '10px', 
+            opacity: 0.5, 
+            color: '#fff' 
+        } });                    
                   drawChart(limit,fromdate,todate)
                 });
      var fromdate = $('#fromdate').jqxDateTimeInput('getText');
