@@ -92,27 +92,50 @@
             });
 
 
-            var source = [
+            var freelancerssource = [
                 "Demography",
                 "Gender Distribution",
                 "Age Distribution"
             ];
 
-            $("#reportlist").jqxListBox({
+            $("#freelancerslist").jqxListBox({
                 
-                source: source,
+                source: freelancerssource,
                 width: 176,
                 height: 200,
                 selectedIndex: -1,
                 theme: theme
             });
-            $('#reportlist').on('select', function (event) {
+            $('#freelancerslist').on('select', function (event) {
                 var args = event.args;
-                var item = $('#reportlist').jqxListBox('getItem', args.index);
+                var item = $('#freelancerslist').jqxListBox('getItem', args.index);
                 if (item != null) {
                     
                     sendrequest(item.label);
-                    $("#reportlist").jqxListBox({selectedIndex: -1 }); 
+                    $("#freelancerslist").jqxListBox({selectedIndex: -1 }); 
+                }
+            });
+
+
+            var dashboardssource = [
+                "Main Dashboard"
+            ];
+
+            $("#dashboardslist").jqxListBox({
+                
+                source: dashboardssource,
+                width: 176,
+                height: 30,
+                selectedIndex: -1,
+                theme: theme
+            });
+            $('#dashboardslist').on('select', function (event) {
+                var args = event.args;
+                var item = $('#dashboardslist').jqxListBox('getItem', args.index);
+                if (item != null) {
+                    
+                    sendrequest(item.label);
+                    $("#dashboardslist").jqxListBox({selectedIndex: -1 }); 
                 }
             });
 
@@ -141,9 +164,9 @@
 		
             $("#dashboardButton").jqxButton({ width: '100%'});
 	    $("#dashboardButton").on('click', function () {
-	    	sendrequest('dashboard');
+	    	sendrequest('Main Dashboard');
 	    });
-	    sendrequest('dashboard');
+	    sendrequest('Main Dashboard');
         });
     </script>
 
@@ -187,7 +210,7 @@
   			case "Age Distribution":
   				URLString = "freelancersages_report";
   				break;
-  			case "Dashboard":
+  			case "Main Dashboard":
   				URLString = "dashboard";
   				break;
 			default:
