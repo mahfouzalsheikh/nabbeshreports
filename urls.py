@@ -38,5 +38,7 @@ urlpatterns = patterns('',
     
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
     url(r'^static/admin/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.ADMIN_STATIC}),
+    
+    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
 
 )

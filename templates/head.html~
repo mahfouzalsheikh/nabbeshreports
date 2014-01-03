@@ -67,6 +67,7 @@
         google.load('visualization', '1', {packages: ['table']});
         google.load('visualization', '1', {packages: ['geochart']});
         google.load('visualization', '1', {packages: ['annotatedtimeline']});
+        google.load('visualization', '1.1', {packages: ['controls']});
     </script>
  
  
@@ -162,10 +163,7 @@
                 theme: theme
             });
 		
-            $("#dashboardButton").jqxButton({ width: '100%'});
-	    $("#dashboardButton").on('click', function () {
-	    	sendrequest('Main Dashboard');
-	    });
+            
 	    sendrequest('Main Dashboard');
         });
     </script>

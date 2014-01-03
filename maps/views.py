@@ -16,9 +16,10 @@ import dateutil.parser
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 from django.db import connection
+from django.contrib.auth.decorators import login_required
 
 
-
+@login_required(login_url='/admin/')
 def home(request):
     
     user_list = Users.objects.filter(id__gt=5000)
