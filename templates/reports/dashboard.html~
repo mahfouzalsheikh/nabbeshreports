@@ -65,22 +65,9 @@
       
       var dataView = new google.visualization.DataView(data);
       
-      var categoryPicker = new google.visualization.ControlWrapper({
-          'controlType': 'CategoryFilter',
-          'containerId': 'dashboardcontrols',
-          'options': {
-            'filterColumnLabel': 'Metric',
-            'ui': {
-              'allowTyping': false,
-              'allowMultiple': true,
-              'selectedValuesLayout': 'belowStacked'
-            }
-          },
-          // Define an initial state, i.e. a set of metrics to be initially selected.
-          'state': {'selectedValues': ['Workflow Messages', 'Normal Messages']}
-        });
       
-      chart.draw(dataView, {curveType: "function",width: '100%', height: 600, is3D: true});
+      
+      chart.draw(dataView, {curveType: "function",width: '100%', height: 600, is3D: true,title:"Main Dashboard"});
       
       //var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard')).bind(categoryPicker, chart).draw(dataView);	
       
