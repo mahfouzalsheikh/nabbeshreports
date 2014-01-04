@@ -1,5 +1,5 @@
 [
-["Date","Workflow Messages","Normal Messages", "Registered as Freelancer","Registered as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Job Applications"],
+["Employer Date Joined","Max","Min", "Averaage","Median"],
 {% for metric in statistics %}["{{ metric.0 }}",{{ metric.1 }},{{ metric.2 }},{{ metric.3 }},{{ metric.4 }},{{ metric.5 }},{{ metric.6 }},{{ metric.7 }},{{ metric.8 }}]
 {% if not forloop.last %},{% endif %}{% endfor %}
 ]

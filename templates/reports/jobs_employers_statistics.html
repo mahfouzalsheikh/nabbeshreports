@@ -52,13 +52,14 @@
      function drawChart(limit,from,to) {
       var params = {"limit": limit, "fromdate": from, "todate": to};
       var jsonData = $.ajax({
-          url: "dashboard_getdata",
+          url: "jobs_employers_statistics_getdata",
           dataType:"json",
           type: "POST",
           data: JSON.stringify(params),
           async: false
           }).responseText;
 	
+	//alert(jsonData);
       var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
 	
       var chart = new google.visualization.LineChart(document.getElementById('visualization'));
@@ -66,6 +67,7 @@
       var dataView = new google.visualization.DataView(data);
       
       
+       
       
       chart.draw(dataView, {curveType: "function",width: '100%', height: 600, is3D: true});
       
@@ -80,7 +82,7 @@
       // Apply formatter to second column
     }
     
-      
+     
        
     drawChart(limit,fromdate,todate);
 </script>

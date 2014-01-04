@@ -303,3 +303,48 @@ def dashboard_getdata(request):
         c = Context({'statistics': results})
    
         return HttpResponse(render_to_string('dashboard.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+        
+        
+
+def jobs_employers_statistics(request):
+    
+    t = loader.get_template('./reports/jobs_employers_statistics.html')
+    c = Context({
+        'jobs_employers_statistics': dashboard,
+    })
+    return HttpResponse(t.render(c))
+        
+@csrf_exempt 
+def jobs_employers_statistics_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        #print objs
+        
+        t1 = objs['fromdate']  + ' 00:00:00+00'
+        t2 = objs['todate'] + ' 23:59:59+00'
+        
+        #t1 = '2012-01-01 00:00:00+00'
+        #t2 = '2013-12-31 23:59:59+00'
+        print t1
+        print t2
+
+        grouppertext= objs['limit']
+        #grouppertext = "Month"
+        if grouppertext=="Month":
+            grouper="7"
+        else:
+            grouper="10"
+        
+        header_sql = ("select datejoined,max(jobs_per_employer),min(jobs_per_employer), avg(jobs_per_employer), median(jobs_per_employer)")
+        
+        from_sql = ("from (select count(cj.id) as jobs_per_employer, u.id,substring(to_char(au.date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from contracts_job cj inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id where au.date_joined>='"+t1+"' and au.date_joined<='"+t2+"' group by u.id,au.date_joined order by jobs_per_employer desc) total group by datejoined order by datejoined desc;")
+        sql = (header_sql + from_sql)
+        
+        #print freelancersql
+        results = customQuery(sql)
+
+        #print results
+ 
+        c = Context({'statistics': results})
+   
+        return HttpResponse(render_to_string('jobs_employers_statistics.json', c, context_instance=RequestContext(request)), mimetype='application/json')         

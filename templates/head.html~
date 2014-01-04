@@ -67,7 +67,7 @@
         google.load('visualization', '1', {packages: ['table']});
         google.load('visualization', '1', {packages: ['geochart']});
         google.load('visualization', '1', {packages: ['annotatedtimeline']});
-        google.load('visualization', '1.1', {packages: ['controls']});
+        google.load('visualization', '1', {packages: ['controls']});
     </script>
  
  
@@ -137,6 +137,29 @@
                     
                     sendrequest(item.label);
                     $("#dashboardslist").jqxListBox({selectedIndex: -1 }); 
+                }
+            });
+            
+            
+            var activitysource = [
+                "Employers & Jobs"
+            ];
+
+            $("#activitylist").jqxListBox({
+                
+                source: activitysource,
+                width: 176,
+                height: 30,
+                selectedIndex: -1,
+                theme: theme
+            });
+            $('#activitylist').on('select', function (event) {
+                var args = event.args;
+                var item = $('#activitylist').jqxListBox('getItem', args.index);
+                if (item != null) {
+                    
+                    sendrequest(item.label);
+                    $("#activitylist").jqxListBox({selectedIndex: -1 }); 
                 }
             });
 
@@ -211,6 +234,9 @@
   			case "Main Dashboard":
   				URLString = "dashboard";
   				break;
+			case "Employers & Jobs":
+  				URLString = "jobs_employers_statistics";
+  				break;  				
 			default:
   			      URLString = "dashboard";
 		}

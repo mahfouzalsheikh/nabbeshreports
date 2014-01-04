@@ -1,0 +1,7 @@
+[
+["Employer Date Joined","Max","Min", "Averaage","Median"],
+{% for metric in statistics %}["{{ metric.0 }}",{{ metric.1 }},{{ metric.2 }},{{ metric.3 }},{{ metric.4 }}]
+{% if not forloop.last %},{% endif %}{% endfor %}
+]
+
+

@@ -36,6 +36,9 @@ urlpatterns = patterns('',
     url(r'^dashboard$', 'nabbeshreports.maps.views.dashboard', name='dashboard'),
     url(r'^dashboard_getdata$', 'nabbeshreports.maps.views.dashboard_getdata', name='dashboard_getdata'),
     
+    url(r'^jobs_employers_statistics$', 'nabbeshreports.maps.views.jobs_employers_statistics', name='jobs_employers_statistics'),
+    url(r'^jobs_employers_statistics_getdata$', 'nabbeshreports.maps.views.jobs_employers_statistics_getdata', name='jobs_employers_statistics_getdata'),
+    
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
     url(r'^static/admin/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.ADMIN_STATIC}),
     
