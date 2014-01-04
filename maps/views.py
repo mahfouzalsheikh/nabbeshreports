@@ -337,7 +337,7 @@ def jobs_employers_statistics_getdata(request):
         
         header_sql = ("select datejoined,max(jobs_per_employer),min(jobs_per_employer), avg(jobs_per_employer), median(jobs_per_employer)")
         
-        from_sql = ("from (select count(cj.id) as jobs_per_employer, u.id,substring(to_char(au.date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from contracts_job cj inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id where au.date_joined>='"+t1+"' and au.date_joined<='"+t2+"' group by u.id,au.date_joined order by jobs_per_employer desc) total group by datejoined order by datejoined desc;")
+        from_sql = ("from (select count(cj.id) as jobs_per_employer, u.id,substring(to_char(au.date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from contracts_job cj inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id where au.date_joined>='"+t1+"' and au.date_joined<='"+t2+"' group by u.id,au.date_joined order by jobs_per_employer desc) total group by datejoined order by datejoined;")
         sql = (header_sql + from_sql)
         
         #print freelancersql
