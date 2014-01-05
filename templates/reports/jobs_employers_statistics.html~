@@ -13,20 +13,34 @@
                     var args = event.args;
                     if (args != undefined) {
                         var item = event.args.item;
-                        if (item != null) {
-                            //drawChart(item.label);
+                        if (item != null) {                           
                             limit=item.label
                         }
                     }
                 });
       
-     var source = ["Month","Day"];
+     var limitsource = ["Month","Day"];
        
-     $("#limitmenu").jqxComboBox({ source: source, width: '100px', height: '25px', selectedIndex:1});     
+     $("#limitmenu").jqxComboBox({ source: limitsource, width: '200px', height: '25px', selectedIndex:1});     
+     
+     
+           $('#periodmenu').on('select', function (event) {
+                    var args = event.args;
+                    if (args != undefined) {
+                        var item = event.args.item;
+                        if (item != null) {                           
+                            period=item.label
+                        }
+                    }
+                });
+     var periodsource = ["365","180","90","30","7","1"];
+       
+     $("#periodmenu").jqxComboBox({ source: periodsource, width: '200px', height: '25px', selectedIndex:3});     
+     
      
      var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({width: '200', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
-     $("#todate").jqxDateTimeInput({width: '200', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
 
      
      $("#fromdate").on('change', function (event) {
@@ -40,17 +54,17 @@
                 
       $("#filterButton").jqxButton({ width: '200'});
       $("#filterButton").on('click', function () {                          
-                  drawChart(limit,fromdate,todate);
+                  drawChart(limit,period,fromdate,todate);
 
                 });
      var fromdate = $('#fromdate').jqxDateTimeInput('getText');
      var todate = $('#todate').jqxDateTimeInput('getText');
      var limit="Day";
+     var period="30";
      
      
-     
-     function drawChart(limit,from,to) {
-      var params = {"limit": limit, "fromdate": from, "todate": to};
+     function drawChart(limit,period,from,to) {
+      var params = {"limit": limit,"period" : period, "fromdate": from, "todate": to};
       var jsonData = $.ajax({
           url: "jobs_employers_statistics_getdata",
           dataType:"json",
@@ -83,8 +97,8 @@
     }
     
      
-       
-    drawChart(limit,fromdate,todate);
+  
+    drawChart(limit,period,fromdate,todate);
 </script>
 
 
@@ -94,28 +108,17 @@
  <div id='optionsExpander'>
             <div>Options</div>
             <div>
-                <ul>
-                    <div id="limitmenu">Limit:</div>     
-                    <div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div>
-                    <div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div>
-                    <div><input type="button" value="Filter Results" id='filterButton' /></div>  
-                    <div id="dashboard">
-      <table>
-        <tr style='vertical-align: top'>
-          <td style='width: 300px; font-size: 0.9em;'>
-            <div id="dashboardcontrols"></div>
-            <div id="control2"></div>
-            <div id="control3"></div>
-          </td>
-          <td style='width: 600px'>
-            <div style="float: left;" id="chart1"></div>
-            <div style="float: left;" id="chart2"></div>
-            <div style="float: left;" id="chart3"></div>
-          </td>
-        </tr>
-      </table>
-    </div>
-                </ul>
+                <table>
+                   <tr>
+                    <td>Group By:</td><td><div id="limitmenu"></div></td>
+                   </tr> 
+                   <tr>
+                    <td>Posted Job Within (Days):</td><td><div id="periodmenu"></div></td>
+                   </tr> 
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td></tr> 
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                   
+                </table>   
             </div>
         </div>
 <div style="padding: 20px 20px 20px 20px">

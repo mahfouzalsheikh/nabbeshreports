@@ -9,33 +9,7 @@
 
 <script type="text/javascript">
 
-      $('#limitmenu').on('select', function (event) {
-                    var args = event.args;
-                    if (args != undefined) {
-                        var item = event.args.item;
-                        if (item != null) {                           
-                            limit=item.label
-                        }
-                    }
-                });
-      
-     var limitsource = ["Month","Day"];
-       
-     $("#limitmenu").jqxComboBox({ source: limitsource, width: '200px', height: '25px', selectedIndex:1});     
-     
-     
-           $('#periodmenu').on('select', function (event) {
-                    var args = event.args;
-                    if (args != undefined) {
-                        var item = event.args.item;
-                        if (item != null) {                           
-                            period=item.label
-                        }
-                    }
-                });
-     var periodsource = ["365","180","90","30","7","1"];
-       
-     $("#periodmenu").jqxComboBox({ source: periodsource, width: '200px', height: '25px', selectedIndex:3});     
+ 
      
      
      var today = new Date(Date.now());
@@ -54,36 +28,37 @@
                 
       $("#filterButton").jqxButton({ width: '200'});
       $("#filterButton").on('click', function () {                          
-                  drawChart(limit,period,fromdate,todate);
+                  drawChart(fromdate,todate);
 
                 });
      var fromdate = $('#fromdate').jqxDateTimeInput('getText');
      var todate = $('#todate').jqxDateTimeInput('getText');
-     var limit="Day";
-     var period="30";
+
      
      
-     function drawChart(limit,period,from,to) {
-      var params = {"limit": limit,"period" : period, "fromdate": from, "todate": to};
+     function drawChart(from,to) {
+      var params = {"fromdate": from, "todate": to};
       var jsonData = $.ajax({
-          url: "jobs_employers_statistics_getdata",
+          url: "jobs_applications_statistics_getdata",
           dataType:"json",
           type: "POST",
           data: JSON.stringify(params),
           async: false
           }).responseText;
 	
-	//alert(jsonData);
+
+	
       var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
 	
-      var chart = new google.visualization.LineChart(document.getElementById('visualization'));
+      
+      //var chart = new google.visualization.LineChart(document.getElementById('visualization'));
       
       var dataView = new google.visualization.DataView(data);
       
       
        
       
-      chart.draw(dataView, {curveType: "function",width: '100%', height: 600, is3D: true,title:"Jobs Posted Per Employer / Employer Life Cycle 180 Days"});
+      //chart.draw(dataView, {curveType: "function",width: '100%', height: 600, is3D: true,title:"Jobs Posted Per Employer / Employer Life Cycle 180 Days"});
       
       //var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard')).bind(categoryPicker, chart).draw(dataView);	
       
@@ -98,7 +73,7 @@
     
      
   
-    drawChart(limit,period,fromdate,todate);
+    drawChart(fromdate,todate);
 </script>
 
 
@@ -109,12 +84,7 @@
             <div>Options</div>
             <div>
                 <table>
-                   <tr>
-                    <td>Group By:</td><td><div id="limitmenu"></div></td>
-                   </tr> 
-                   <tr>
-                    <td>Posted Job Within (Days):</td><td><div id="periodmenu"></div></td>
-                   </tr> 
+
                    <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
                    <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td></tr> 
                    <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                   
@@ -122,7 +92,6 @@
             </div>
         </div>
 <div style="padding: 20px 20px 20px 20px">
-<div id="visualization" style="width: 100%; height:600px; float: left;"></div>
 <div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
 </div>
 

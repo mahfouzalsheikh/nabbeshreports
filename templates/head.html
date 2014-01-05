@@ -142,14 +142,14 @@
             
             
             var activitysource = [
-                "Employers & Jobs"
+                "Employers & Jobs Stats", "Jobs & Applications Stats"
             ];
 
             $("#activitylist").jqxListBox({
                 
                 source: activitysource,
                 width: 176,
-                height: 30,
+                height: 60,
                 selectedIndex: -1,
                 theme: theme
             });
@@ -234,9 +234,12 @@
   			case "Main Dashboard":
   				URLString = "dashboard";
   				break;
-			case "Employers & Jobs":
+			case "Employers & Jobs Stats":
   				URLString = "jobs_employers_statistics";
-  				break;  				
+  				break;  
+			case "Jobs & Applications Stats":
+  				URLString = "jobs_applications_statistics";
+  				break;  								
 			default:
   			      URLString = "dashboard";
 		}
