@@ -325,8 +325,8 @@ def jobs_employers_statistics_getdata(request):
         
         #t1 = '2012-01-01 00:00:00+00'
         #t2 = '2013-12-31 23:59:59+00'
-        print t1
-        print t2
+        #print t1
+        #print t2
 
         grouppertext= objs['limit']
         #grouppertext = "Month"
@@ -337,10 +337,10 @@ def jobs_employers_statistics_getdata(request):
         
         header_sql = ("select datejoined,max(jobs_per_employer),min(jobs_per_employer), round(avg(jobs_per_employer),3), round(median(jobs_per_employer),3)")
         
-        from_sql = ("from (select count(cj.id) as jobs_per_employer, u.id,substring(to_char(au.date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from contracts_job cj inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id where au.date_joined>='"+t1+"' and au.date_joined<='"+t2+"' group by u.id,au.date_joined order by jobs_per_employer desc) total group by datejoined order by datejoined;")
+        from_sql = ("from (select count(cj.id) as jobs_per_employer, u.id,substring(to_char(au.date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from contracts_job cj inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id where au.date_joined>='"+t1+"' and au.date_joined<='"+t2+"'  and cj.created_at<=(date_joined + INTERVAL '180 Day') group by u.id,au.date_joined order by jobs_per_employer desc) total group by datejoined order by datejoined;")
         sql = (header_sql + from_sql)
         
-        #print freelancersql
+        print sql
         results = customQuery(sql)
 
         #print results
