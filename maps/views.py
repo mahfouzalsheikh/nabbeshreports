@@ -24,11 +24,13 @@ def home(request):
     
     user_list = Users.objects.filter(id__gt=5000)
     t = loader.get_template('index.html')
-    c = Context({
-        'user_list': user_list,
-    })
-#    return render_to_response('index.html', content)
-    return HttpResponse(t.render(c))
+    #c = Context({
+    #    'user_list': user_list,
+    #})
+    #return render_to_response('index.html', c)
+    
+    return render_to_response('index.html', context_instance=RequestContext(request))
+    #return HttpResponse(t.render(c))
 
 def userlist(request,day,month,year):
     date1 = dateutil.parser.parse(month + '-' + day +'-' + year + ' 00:00:00 GMT')

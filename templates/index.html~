@@ -1,11 +1,14 @@
 {% include 'head.html' %}
 
 
-
-
 <body bgcolor="#ccc">
 
-
+<div style="padding: 0px 10px 10px 10px;font-size: 12px;float: right">
+ {% if user.is_authenticated %}
+    Welcome {{ user.first_name  }} {{user.last_name}} <a href="/accounts/logout/">Log Out</a>
+ {% endif %}
+ 
+</div>
  <div id='jqxWidget'>
         <div style="float: center; padding: 10px 10px 10px 10px;">
             <div id='jqxTabs' class='jqx-rc-all'>
