@@ -19,7 +19,7 @@ from django.db import connection
 from django.contrib.auth.decorators import login_required
 
 
-@login_required(login_url='/admin/')
+@login_required(login_url='/accounts/login/')
 def home(request):
     
     user_list = Users.objects.filter(id__gt=5000)
