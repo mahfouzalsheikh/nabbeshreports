@@ -1,5 +1,5 @@
 [
-["Employer Name","Employer Email","Job ID","Job Title","Job Posted At","Application Count","Proposal Count"],
-{% for metric in statistics %}["{{ metric.0 }}","{{ metric.1 }}",{{ metric.2 }},"{{ metric.3 }}",{{ metric.4 }},{{ metric.5 }},{{ metric.6 }}]
+["Employer Name","Employer Email","Job ID","Job Title","Job Posted At","Application Count","Proposal Count", "Accepted Proposals"],
+{% for metric in statistics %}["{{ metric.0 }}","{{ metric.1 }}",{{ metric.2 }},"{{ metric.3 }}","{{ metric.4 }}",{{ metric.5 }},{{ metric.6 }},{{ metric.7 }}]
 {% if not forloop.last %},{% endif %}{% endfor %}
 ]
