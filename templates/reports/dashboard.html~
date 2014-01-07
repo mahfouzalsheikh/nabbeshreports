@@ -99,15 +99,6 @@
 </script>
 
 
-
-<div style="background-color: #eee; height:70px">
-<div><img src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></div></div>
-
- {% if user.is_authenticated %}
-    <p>Welcome, {{ user }}. Thanks for logging in.</p>
-{% else %}
-    <p>Welcome, new user. Please log in.</p>
-{% endif %}
  <div id='optionsExpander'>
             <div>Options</div>
             <div>

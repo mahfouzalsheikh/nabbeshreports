@@ -3,14 +3,22 @@
 
 <body bgcolor="#ccc">
 
+
+<div style="padding: 0px 0px 0px 10px; height:70px">
+<div><img src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></div>
 <div style="padding: 0px 10px 10px 10px;font-size: 12px;float: right">
+
+
+
  {% if user.is_authenticated %}
     Welcome {{ user.first_name  }} {{user.last_name}} <a href="/accounts/logout/">Log Out</a>
  {% endif %}
- 
+
 </div>
+</div>
+
  <div id='jqxWidget'>
-        <div style="float: center; padding: 10px 10px 10px 10px;">
+        <div style="float: center; padding: 0px 10px 10px 10px;">
             <div id='jqxTabs' class='jqx-rc-all'>
                 <ul style="margin-left: 40px;" id="unorderedList">
                     <li>
