@@ -1,7 +1,7 @@
 {% include 'head.html' %}
 
 
-<body bgcolor="#ccc">
+<body bgcolor="#D7D7D7">
 
 
 <div style="padding: 0px 0px 0px 10px; height:70px">
@@ -11,7 +11,7 @@
 
 
  {% if user.is_authenticated %}
-    Welcome {{ user.first_name  }} {{user.last_name}} <a href="/accounts/logout/">Log Out</a>
+    Welcome <span style="color: #00B6DE">{{ user.first_name  }} {{user.last_name}} </span><a href="/accounts/logout/">Log Out</a>
  {% endif %}
 
 </div>
