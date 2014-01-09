@@ -24,20 +24,21 @@
                     todate= $('#todate').jqxDateTimeInput('getText'); 
                 });        
         
-                
+      $("#searchkeywordsfield").jqxInput({placeHolder: "Keywords", height: 25, width: 200, minLength: 1});          
                 
       $("#filterButton").jqxButton({ width: '200'});
       $("#filterButton").on('click', function () {                          
-                  drawChart(fromdate,todate);
+                  drawChart(fromdate,todate,searchkeywords);
 
                 });
      var fromdate = $('#fromdate').jqxDateTimeInput('getText');
      var todate = $('#todate').jqxDateTimeInput('getText');
-
+     var searchkeywords= $('#searchkeywordsfield').val();
      
      
-     function drawChart(from,to) {
-      var params = {"fromdate": from, "todate": to};
+     function drawChart(from,to,searchkeywords) {
+      searchkeywords= $('#searchkeywordsfield').val();
+      var params = {"fromdate": from, "todate": to, "searchkeywords": searchkeywords};
       var jsonData = $.ajax({
           url: "jobs_applications_statistics_getdata",
           dataType:"json",
@@ -46,12 +47,15 @@
           async: false
           }).responseText;
 	
-
-	
-      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
-	
       
-      //var chart = new google.visualization.LineChart(document.getElementById('visualization'));
+      if(jsonData.length <138){
+        alert('Hoot! No results for your search');
+      }
+      else
+      {
+      
+      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+	          
       
       var dataView = new google.visualization.DataView(data);
       
@@ -69,23 +73,23 @@
       var formatter2 = new google.visualization.PatternFormat('<a href="http://www.nabbesh.com/admin/contracts/job/{0}"  target="_blank">{0}</a>');
       formatter2.format(data, [2],2);
       
-      
-      //chart.draw(dataView, {curveType: "function",width: '100%', height: 600, is3D: true,title:"Jobs Posted Per Employer / Employer Life Cycle 180 Days"});
-      
-      //var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard')).bind(categoryPicker, chart).draw(dataView);	
+     	
       
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
+      
+       
+      
       
       
       tablearea.draw(data,{allowHtml: true});
       
-   
+     }
       // Apply formatter to second column
     }
     
      
   
-    drawChart(fromdate,todate);
+    drawChart(fromdate,todate, searchkeywords);
 </script>
 
  <div id='optionsExpander'>
@@ -95,12 +99,14 @@
 
                    <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
                    <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td></tr> 
-                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                   
+                   <tr><td>Search:</td><td><input type="text" id="searchkeywordsfield"/></td></tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
                 </table>   
             </div>
         </div>
 <div style="padding: 20px 20px 20px 20px">
 <div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
+
 </div>
 
 

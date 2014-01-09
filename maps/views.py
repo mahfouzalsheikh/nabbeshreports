@@ -369,12 +369,20 @@ def jobs_applications_statistics_getdata(request):
         t1 = objs['fromdate']  + ' 00:00:00+00'
         t2 = objs['todate'] + ' 23:59:59+00'
         
+        keywords = objs['searchkeywords']
         
-        sql = ("select au.first_name || ' ' || au.last_name as employer_name,au.email as Employer_Email, cj.id as job_id,substring(cj.title,1,40) as job_title,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,21) as created_at,count(distinct ca.id) as application_count,count(distinct cp.message_ptr_id) as proposal_count, sum(case when cp.status=4 then 1 else 0 end) as acceptedproposal_count from contracts_job cj left outer join contracts_application ca   on cj.id=ca.job_id inner join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id where created_at>='"+t1+"' and created_at<='"+t2+"'  group by employer_name,cj.id,job_title,cj.created_at,au.email order by cj.created_at desc;")
+        percent="%"
+        print percent
+        searchsql = ""
+        if keywords <> "":
+            searchsql = "and lower(substring(cj.title,1,40)) like '%%" +keywords.lower() + "%%'"
+       
+        print searchsql    
+        sql = ("select au.first_name || ' ' || au.last_name as employer_name,au.email as Employer_Email, cj.id as job_id,substring(cj.title,1,40) as job_title,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,21) as created_at,count(distinct ca.id) as application_count,count(distinct cp.message_ptr_id) as proposal_count, sum(case when cp.status=4 then 1 else 0 end) as acceptedproposal_count from contracts_job cj left outer join contracts_application ca   on cj.id=ca.job_id inner join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id where created_at>='"+t1+"' and created_at<='"+t2+"' "+searchsql+" group by employer_name,cj.id,job_title,cj.created_at,au.email order by cj.created_at desc;")
         
         print sql
         results = customQuery(sql)
-
+        print results
         #print results
  
         c = Context({'statistics': results})

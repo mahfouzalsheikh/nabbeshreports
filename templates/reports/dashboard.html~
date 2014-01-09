@@ -103,7 +103,7 @@
             <div>
                 <table>
                    <tr>
-                    <td>Group By:</td><td><div id="limitmenu"></div><td rowspan=3><div id="metricslist"></div></td></td>
+                    <td>Group By:</td><td><div id="limitmenu"></div><td rowspan=4><div id="metricslist"></div></td></td>
                    </tr> 
                    
                    <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>

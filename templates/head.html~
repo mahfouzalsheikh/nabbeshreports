@@ -25,13 +25,13 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxnavigationbar.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxprogressbar.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdatetimeinput.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxinput.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcalendar.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxtooltip.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/globalization/globalize.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxslider.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcombobox.js"></script>
-
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxexpander.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcalendar.js"></script>
     <script type="text/javascript" src="/site_media/js/jquery.blockUI.js"></script>
