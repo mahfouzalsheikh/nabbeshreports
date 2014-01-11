@@ -78,8 +78,11 @@
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       
        
-      
-      
+      var options = {'showRowNumber': true, allowHtml: true};
+      options['page'] = 'enable';
+      options['pageSize'] = 10;
+      options['pagingSymbols'] = {prev: 'prev', next: 'next'};
+      options['pagingButtonsConfiguration'] = 'auto';
       
       tablearea.draw(data,{allowHtml: true});
       
