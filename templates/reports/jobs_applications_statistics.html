@@ -53,9 +53,10 @@
       }
       else
       {
-      
+      //alert(jsonData);
       var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
 	          
+      
       
       var dataView = new google.visualization.DataView(data);
       
@@ -74,6 +75,7 @@
       formatter2.format(data, [2],2);
             
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
+      
       
       tablearea.draw(data,{allowHtml: true});
       
