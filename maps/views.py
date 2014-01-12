@@ -371,20 +371,73 @@ def jobs_applications_statistics_getdata(request):
         
         keywords = objs['searchkeywords']
         
-        percent="%"
-        print percent
+       
+     
         searchsql = ""
         if keywords <> "":
             searchsql = "and (lower(substring(cj.title,1,40)) like '%%" +keywords.lower() + "%%' or lower(substring(au.email,1,40)) like '%%" +keywords.lower() + "%%' or lower(substring(au.first_name || ' ' || au.last_name,1,40)) like '%%" +keywords.lower() + "%%')"
        
-        print searchsql    
-        sql = ("select au.first_name || ' ' || au.last_name as employer_name,au.email as Employer_Email, cj.id as job_id,substring(cj.title,1,40) as job_title,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16) as created_at,count(distinct ca.id) as application_count,count(distinct cp.message_ptr_id) as proposal_count, sum(case when cp.status=4 then 1 else 0 end) as acceptedproposal_count from contracts_job cj left outer join contracts_application ca   on cj.id=ca.job_id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id where created_at>='"+t1+"' and created_at<='"+t2+"' "+searchsql+" group by employer_name,cj.id,job_title,cj.created_at,au.email order by cj.created_at desc;")
+       
+        sql = ("select au.first_name || ' ' || au.last_name as employer_name,au.email as Employer_Email, cj.id as job_id,substring(cj.title,1,30) as job_title,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16) as created_at,count(distinct ca.id) as application_count,count(distinct cp.message_ptr_id) as proposal_count, sum(case when cp.status=4 then 1 else 0 end) as acceptedproposal_count from contracts_job cj left outer join contracts_application ca   on cj.id=ca.job_id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id where created_at>='"+t1+"' and created_at<='"+t2+"' "+searchsql+" group by employer_name,cj.id,job_title,cj.created_at,au.email order by cj.created_at desc;")
         
-        print sql
+       
         results = customQuery(sql)
-        print results
-        #print results
+      
  
         c = Context({'statistics': results})
    
-        return HttpResponse(render_to_string('jobs_applications_statistics.json', c, context_instance=RequestContext(request)), mimetype='application/json')                         
+        return HttpResponse(render_to_string('jobs_applications_statistics.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+
+
+
+def sign_job_proposal_invoice(request):
+    
+    t = loader.get_template('./reports/sign_job_proposal_invoice.html')
+    c = Context({
+        'sign_job_proposal_invoice': dashboard,
+    })
+    return HttpResponse(t.render(c))        
+        
+@csrf_exempt  
+def sign_job_proposal_invoice_getdata(request):
+    if request.method == 'POST':
+        #objs = simplejson.loads(request.raw_post_data)
+        #print objs
+        
+        #t1 = objs['fromdate']  + ' 00:00:00+00'
+        #t2 = objs['todate'] + ' 23:59:59+00'
+        
+        #keywords = objs['searchkeywords']
+        
+
+           
+        sql = ("select * from (select count(distinct au.email) as signed_up,count(distinct cj.id) as posted_jobs,sum(case when cp.status=4 then 1 else 0 end) as proposals_paid, count(distinct invoices.message_ptr_id) as invoices_paid from users u inner join auth_user au on u.django_user_id=au.id left outer join contracts_job cj  on cj.employer_id=u.id left outer join contracts_application ca on ca.job_id=cj.id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.paid_out_id is not null) invoices on invoices.applicant_id=u.id) total;")
+        
+        print sql
+        results = customQuery(sql)
+ 	print results	
+        c = Context({'statistics': results})
+        return HttpResponse(render_to_string('sign_job_proposal_invoice_simple.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
+        
+        
+        
+@csrf_exempt  
+def sign_job_proposal_invoice_simple_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        #print objs
+        
+        t1 = objs['fromdate']  + ' 00:00:00+00'
+        t2 = objs['todate'] + ' 23:59:59+00'
+        
+        #keywords = objs['searchkeywords']
+        
+
+           
+        sql = ("select * from (select count(distinct au.email) as signed_up,count(distinct cj.id) as posted_jobs,sum(case when cp.status=4 then 1 else 0 end) as proposals_paid, count(distinct invoices.message_ptr_id) as invoices_paid from users u inner join auth_user au on u.django_user_id=au.id left outer join contracts_job cj  on cj.employer_id=u.id left outer join contracts_application ca on ca.job_id=cj.id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.paid_out_id is not null) invoices on invoices.applicant_id=u.id) total;")
+        
+        print sql
+        results = customQuery(sql)
+ 	print results	
+        c = Context({'statistics': results})
+        return HttpResponse(render_to_string('sign_job_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                                         

@@ -1,0 +1,5 @@
+[
+["","Signed Up","Posted Job","Proposal Paid","Invoice Paid"],
+{% for metric in statistics %}["Within the Selected Date",{{ metric.0 }},{{ metric.1 }},{{ metric.2 }},{{ metric.3 }}]
+{% if not forloop.last %},{% endif %}{% endfor %}
+]

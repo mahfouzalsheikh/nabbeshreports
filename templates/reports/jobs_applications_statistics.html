@@ -72,17 +72,8 @@
       
       var formatter2 = new google.visualization.PatternFormat('<a href="http://www.nabbesh.com/admin/contracts/job/{0}"  target="_blank">{0}</a>');
       formatter2.format(data, [2],2);
-      
-     	
-      
+            
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
-      
-       
-      var options = {'showRowNumber': true, allowHtml: true};
-      options['page'] = 'enable';
-      options['pageSize'] = 10;
-      options['pagingSymbols'] = {prev: 'prev', next: 'next'};
-      options['pagingButtonsConfiguration'] = 'auto';
       
       tablearea.draw(data,{allowHtml: true});
       

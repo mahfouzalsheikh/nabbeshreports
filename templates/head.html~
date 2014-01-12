@@ -143,14 +143,14 @@
             
             
             var activitysource = [
-                "Employers & Jobs Stats", "Jobs & Applications Stats"
+                "Employers & Jobs Stats", "Jobs & Applications Stats", "Employers Funnel (1)"
             ];
 
             $("#activitylist").jqxListBox({
                 
                 source: activitysource,
                 width: 176,
-                height: 60,
+                height: 90,
                 selectedIndex: -1,
                 theme: theme
             });
@@ -240,7 +240,10 @@
   				break;  
 			case "Jobs & Applications Stats":
   				URLString = "jobs_applications_statistics";
-  				break;  								
+  				break;  		
+  			case "Employers Funnel (1)":
+  				URLString = "sign_job_proposal_invoice";
+  				break;
 			default:
   			      URLString = "dashboard";
 		}

@@ -1,0 +1,1 @@
+{% for metric in statistics %}[{{ metric.0 }},{{ metric.1 }},{{ metric.2 }},{{ metric.3 }}]{% if not forloop.last %},{% endif %}{% endfor %}
