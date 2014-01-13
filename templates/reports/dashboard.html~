@@ -47,12 +47,13 @@
      var limit="Day";
      
      
-     var metricslistsource = ["Workflow Msgs","Normal Msgs", "Joined as Freelancer","Joined as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Job Apps", "Invoices Sent", "Invoices Paid"];
+     var metricslistsource = ["Workflow Msgs","Normal Msgs", "Joined as Freelancer","Joined as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Proposal Paid", "Job Apps", "Invoices Sent", "Invoices Paid"];
      $("#metricslist").jqxListBox({width: 200,height: 140, source: metricslistsource, checkboxes: true});
      $("#metricslist").jqxListBox('checkIndex', 3);
      $("#metricslist").jqxListBox('checkIndex', 4);
      $("#metricslist").jqxListBox('checkIndex', 5);
      $("#metricslist").jqxListBox('checkIndex', 6);
+     $("#metricslist").jqxListBox('checkIndex', 7);
      
      var JSONData;
      $("#metricslist").on('checkChange', function (event) {

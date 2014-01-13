@@ -36,6 +36,7 @@ def home(request):
 
 
 def customQuery(sql, db):
+    print sql
     if db==0:
         return customQueryOffline(sql)
     else:
@@ -47,7 +48,7 @@ def customQueryOffline(sql):
     cursor = connections['offline'].cursor()    
     cursor.execute(sql,[])
     #transaction.commit_unless_managed(using='offline')
-    print sql
+    
     result_list = [] 
     for row in cursor.fetchall(): 
         result_list.append(row) 
@@ -170,7 +171,7 @@ def dashboard_getdata(request):
         else:
             grouper="10"
         
-        header_sql = ("select msgdate,COALESCE(message_count,0) as message_count,COALESCE(nmessage_count,0) as nmessage_count,COALESCE(freelancer_count,0) as freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count ,COALESCE(job_count,0) as job_count, COALESCE(proposal_count,0) as proposal_count, COALESCE(application_count,0) as application_count, COALESCE(invoice_count,0) as invoice_count,COALESCE(invoicepaid_count,0) as invoicepaid_count from ")
+        header_sql = ("select msgdate,COALESCE(message_count,0) as message_count,COALESCE(nmessage_count,0) as nmessage_count,COALESCE(freelancer_count,0) as freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count ,COALESCE(job_count,0) as job_count, COALESCE(proposal_count,0) as proposal_count, COALESCE(paidproposal_count,0) as paidproposal_count, COALESCE(application_count,0) as application_count, COALESCE(invoice_count,0) as invoice_count,COALESCE(invoicepaid_count,0) as invoicepaid_count from ")
         
         workflow_messages_sql = ("(select count(distinct id) as message_count,substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as msgdate from contracts_message where timestamp>='"+t1+"' and timestamp<='"+t2+"' group by msgdate) contractsmessages left outer join ")
         
@@ -186,12 +187,14 @@ def dashboard_getdata(request):
         
         porposals_sql  = ("(select substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as proposalsent,count(*) as proposal_count from contracts_proposal cp inner join contracts_message cm on cp.message_ptr_id=cm.id where timestamp>='"+t1+"' and timestamp<='"+t2+"'  group by proposalsent) proposals on proposals.proposalsent=contractsmessages.msgdate left outer join ")
                 
+        proposalspaid_sql = ("(select substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as proposalpaid,sum(case when cp.status=4 then 1 else 0 end) as paidproposal_count from contracts_proposal cp inner join contracts_message cm on cp.message_ptr_id=cm.id where timestamp>='"+t1+"' and timestamp<='"+t2+"'  group by proposalpaid) paidproposals on paidproposals.proposalpaid=contractsmessages.msgdate left outer join ")  
+              
         application_sql = ("(select count(distinct id) as application_count,substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as appliedat from contracts_application   where timestamp>='"+t1+"' and timestamp<='"+t2+"' group by appliedat) applications on applications.appliedat=contractsmessages.msgdate left outer join ")
         
         invoicesent_sql = ("(select count(distinct ci.message_ptr_id) as invoice_count,substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as invoicesent from contracts_invoice ci inner join contracts_message cm on ci.message_ptr_id=cm.id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' group by invoicesent) invoicessent on invoicessent.invoicesent=contractsmessages.msgdate left outer join ")
         
         invoicepaid_sql = ("(select count(distinct cp.id) as invoicepaid_count,substring(to_char(cp.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datepaid from contracts_invoice ci inner join contracts_paidout cp on ci.paid_out_id=cp.id  where cp.timestamp>='"+t1+"' and cp.timestamp<='"+t2+"' group by datepaid) invoicespaid on invoicespaid.datepaid=contractsmessages.msgdate")
-        sql = (header_sql + workflow_messages_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + application_sql + invoicesent_sql + invoicepaid_sql + "  order by msgdate")
+        sql = (header_sql + workflow_messages_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + proposalspaid_sql + application_sql + invoicesent_sql + invoicepaid_sql + "  order by msgdate")
         
         results = customQuery(sql,0)
 
