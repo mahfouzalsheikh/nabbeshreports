@@ -13,32 +13,30 @@
      
      
      var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
-     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
-
-     
-     $("#fromdate").on('change', function (event) {
-                    fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
-                });
-     $("#todate").on('change', function (event) {
-                    todate= $('#todate').jqxDateTimeInput('getText'); 
-                });        
-        
-      
+      $("#jqxCheckBox").jqxCheckBox({ width: 200, height: 25});
                 
       $("#filterButton").jqxButton({ width: '200'});
       $("#filterButton").on('click', function () {                          
-                  drawChart(fromdate,todate);
+                  drawChart(signupchecked);
 
                 });
-     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
-     var todate = $('#todate').jqxDateTimeInput('getText');
+
+     var signupchecked='False';
+     $("#jqxCheckBox").on('change', function (event) {
+                var checked = event.args.checked;
+                if (checked) {
+                    signupchecked = 'True';
+                }
+                else {
+                    signupchecked = 'False';
+                }
+            });   
+            
+            
      
-     
-     
-     function drawChart(from,to) {
+     function drawChart(signupchecked) {
       
-      var params = {"fromdate": from, "todate": to};
+      var params = {"signupchecked" : signupchecked};
       var jsonData = $.ajax({
           url: "sign_job_proposal_invoice_getdata",
           dataType:"json",
@@ -62,16 +60,15 @@
       $('#stage1').html(stage1);
       $('#stage2').html(stage2);
       $('#stage3').html(stage3);
-      //var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+      
 	          
       var period = '';
       
       var data1 = google.visualization.arrayToDataTable([[period, 'Signed Up'],[period,  signedup]]);
       var data2 = google.visualization.arrayToDataTable([[period, 'Posted a Job'],[period,  postedjob]]);
       var data3 = google.visualization.arrayToDataTable([[period, 'Paid a Proposal'],[period,  paidproposal]]);
-      var data4 = google.visualization.arrayToDataTable([[period, 'Paid an Invoic'],[period,  paidinvoice]]);
+      var data4 = google.visualization.arrayToDataTable([[period, 'Paid an Invoice'],[period,  paidinvoice]]);
       
-
       
       var chart1 = new google.visualization.ColumnChart(document.getElementById('chart1'));         
       chart1.draw(data1, {title:"Signed Up",width: 230, height: 700, vAxis: {maxValue: 10000}});
@@ -90,17 +87,15 @@
     
      
   
-    drawChart(fromdate,todate);
+    drawChart(signupchecked);
 </script>
 
  <div id='optionsExpander'>
             <div>Options</div>
             <div>
                 <table>
-
-                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
-                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td></tr>                  
-                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
+                   <tr><td><div id='jqxCheckBox' style='margin-left: 10px; float: left;'>Signed up as Employer</div></td></tr>
+                   <tr><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
                 </table>   
             </div>
         </div>

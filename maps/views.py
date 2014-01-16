@@ -38,10 +38,14 @@ def home(request):
 def customQuery(sql, db):
     print sql
     if db==0:
-        return customQueryOffline(sql)
+        result=customQueryOffline(sql)
+        print result
+        return result
     else:
-        return customQueryLive(sql)
-
+        result=customQueryLive(sql)
+        print result
+        return result
+    
 
 
 def customQueryOffline(sql):
@@ -158,8 +162,8 @@ def dashboard_getdata(request):
         objs = simplejson.loads(request.raw_post_data)
         #print objs
         
-        t1 = objs['fromdate']  + ' 00:00:00+00'
-        t2 = objs['todate'] + ' 23:59:59+00'
+        t1 = objs['fromdate'] + ' 00:00:00+00'
+        t2 = objs['todate']  + ' 23:59:59+00'
         
         print t1
         print t2
@@ -188,13 +192,17 @@ def dashboard_getdata(request):
         porposals_sql  = ("(select substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as proposalsent,count(*) as proposal_count from contracts_proposal cp inner join contracts_message cm on cp.message_ptr_id=cm.id where timestamp>='"+t1+"' and timestamp<='"+t2+"'  group by proposalsent) proposals on proposals.proposalsent=contractsmessages.msgdate left outer join ")
                 
         proposalspaid_sql = ("(select substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as proposalpaid,sum(case when cp.status=4 then 1 else 0 end) as paidproposal_count from contracts_proposal cp inner join contracts_message cm on cp.message_ptr_id=cm.id where timestamp>='"+t1+"' and timestamp<='"+t2+"'  group by proposalpaid) paidproposals on paidproposals.proposalpaid=contractsmessages.msgdate left outer join ")  
-              
+                     
+        
         application_sql = ("(select count(distinct id) as application_count,substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as appliedat from contracts_application   where timestamp>='"+t1+"' and timestamp<='"+t2+"' group by appliedat) applications on applications.appliedat=contractsmessages.msgdate left outer join ")
+                
         
         invoicesent_sql = ("(select count(distinct ci.message_ptr_id) as invoice_count,substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as invoicesent from contracts_invoice ci inner join contracts_message cm on ci.message_ptr_id=cm.id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' group by invoicesent) invoicessent on invoicessent.invoicesent=contractsmessages.msgdate left outer join ")
         
         invoicepaid_sql = ("(select count(distinct cp.id) as invoicepaid_count,substring(to_char(cp.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datepaid from contracts_invoice ci inner join contracts_paidout cp on ci.paid_out_id=cp.id  where cp.timestamp>='"+t1+"' and cp.timestamp<='"+t2+"' group by datepaid) invoicespaid on invoicespaid.datepaid=contractsmessages.msgdate")
         sql = (header_sql + workflow_messages_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + proposalspaid_sql + application_sql + invoicesent_sql + invoicepaid_sql + "  order by msgdate")
+        
+        
         
         results = customQuery(sql,0)
 
@@ -297,22 +305,57 @@ def sign_job_proposal_invoice(request):
 @csrf_exempt  
 def sign_job_proposal_invoice_getdata(request):
     if request.method == 'POST':
-        #objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.raw_post_data)
         #print objs
-        
-        #t1 = objs['fromdate']  + ' 00:00:00+00'
-        #t2 = objs['todate'] + ' 23:59:59+00'
-        
-        #keywords = objs['searchkeywords']
-        
+        signupchecked = objs['signupchecked']
 
+        wheresql = ""
+        if signupchecked== "True":
+            wheresql= " Where u.is_employer=True"
+        else:
+            wheresql = ""
            
-        sql = ("select * from (select count(distinct au.email) as signed_up,count(distinct cj.id) as posted_jobs,sum(case when cp.status=4 then 1 else 0 end) as proposals_paid, count(distinct invoices.message_ptr_id) as invoices_paid from users u inner join auth_user au on u.django_user_id=au.id left outer join contracts_job cj  on cj.employer_id=u.id left outer join contracts_application ca on ca.job_id=cj.id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.paid_out_id is not null) invoices on invoices.applicant_id=u.id) total;")
+        sql = ("select * from (select count(distinct au.email) as signed_up,count(distinct cj.id) as posted_jobs,sum(case when cp.status=4 then 1 else 0 end) as proposals_paid, count(distinct invoices.message_ptr_id) as invoices_paid from users u inner join auth_user au on u.django_user_id=au.id left outer join contracts_job cj  on cj.employer_id=u.id left outer join contracts_application ca on ca.job_id=cj.id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.paid_out_id is not null) invoices on invoices.applicant_id=u.id"  + wheresql+") total")
         
         results = customQuery(sql,0)
  	print results	
         c = Context({'statistics': results})
-        return HttpResponse(render_to_string('sign_job_proposal_invoice_simple.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
+        return HttpResponse(render_to_string('sign_job_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
+        
+        
+        
+def sign_application_proposal_invoice(request):
+    
+    t = loader.get_template('./reports/sign_application_proposal_invoice.html')
+    c = Context({
+        'sign_application_proposal_invoice': dashboard,
+    })
+    return HttpResponse(t.render(c))        
+        
+@csrf_exempt  
+def sign_application_proposal_invoice_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        #print objs
+        
+        signupchecked = objs['signupchecked']
+        #t1 = objs['fromdate']  + ' 00:00:00+00'
+        #t2 = objs['todate'] + ' 23:59:59+00'
+        
+        #keywords = objs['searchkeywords']
+        wheresql = ""
+        if signupchecked== "True":
+            wheresql= " Where u.is_freelancer=True"
+        else:
+            wheresql = ""
+
+           
+        sql = ("select count(distinct u.id) as user_count, count(distinct ca.id) as application_count, count(distinct proposals.message_ptr_id) as proposal_count, count(distinct invoices.message_ptr_id) as invoice_count from users u inner join auth_user au on u.django_user_id=au.id left outer join contracts_application ca on ca.applicant_id=u.id left outer join (select ca1.id,cp.message_ptr_id from contracts_application ca1 inner join contracts_message cm on cm.application_id=ca1.id inner join contracts_proposal cp on cp.message_ptr_id=cm.id) proposals on proposals.id=u.id left outer join (select ca2.applicant_id,ci.message_ptr_id from contracts_message cm1 inner join contracts_invoice ci on ci.message_ptr_id=cm1.id inner join contracts_application ca2 on ca2.id=cm1.application_id) invoices on invoices.applicant_id=u.id" + wheresql)
+        
+        results = customQuery(sql,0)
+ 	print results	
+        c = Context({'statistics': results})
+        return HttpResponse(render_to_string('sign_application_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
         
         
         
