@@ -61,6 +61,8 @@
        
        drawChart(JSONData,metricsss);             
      });
+    
+    
      function getData(limit,from,to){
       var params = {"limit": limit, "fromdate": from, "todate": to};
       var jsonData = $.ajax({
@@ -72,20 +74,67 @@
           }).responseText;
        return jsonData;    
      }
+    
+    
+    
+ function add_total_row(data) { 
+    var row_count = data.getNumberOfRows();
+    var column_count = data.getNumberOfColumns();
+    var new_row = new Array();
+
+    for (col_i = 0; col_i < column_count; col_i++) { 
+      var cell_value = 0;
+      if (data.getColumnType(col_i) == 'string') {
+        new_row[col_i] = 'Total Within the Period';
+      }
+      else if (data.getColumnType(col_i) == 'number') {
+        
+         
+          for (row_i = 0; row_i < row_count; row_i++) {
+            cell_value = cell_value + data.getValue(row_i, col_i);
+          }
+         
+         cell_formatted = Math.round(cell_value*100)/100;
+	 new_row[col_i] = {v: cell_value, f: '' + cell_formatted};
+
+        
+      }
+      else { 
+        new_row[col_i] = null;
+      }
+      
+    }  
+      data.addRows([new_row]);
+      return data;
+
+    }
+    
      
      function drawChart(jsonData,metrics)
      {
       var metricsarray=[0];
       $.each(metrics, function (index) {                      
                             metricsarray.push(this.index+1);                                               
-                    });      
-      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+                    });   
+      
+      
+      
+      dataarray =   $.parseJSON(jsonData);               
+     
+      var data1 = new google.visualization.arrayToDataTable(dataarray);
+      var data2 = new google.visualization.arrayToDataTable(dataarray);
+      
+            
       var chart = new google.visualization.LineChart(document.getElementById('visualization'));
-      var dataView = new google.visualization.DataView(data);
-      dataView.setColumns(metricsarray);
-      chart.draw(dataView, {curveType: "function",width: '100%', height: 600, is3D: true,title:"Main Dashboard"});      
+      var dataView1 = new google.visualization.DataView(data1);
+      dataView1.setColumns(metricsarray);
+      
+      var dataView2 = new google.visualization.DataView(add_total_row(data));
+      dataView2.setColumns(metricsarray);
+      
+      chart.draw(dataView1, {curveType: "function",width: '100%', height: 600, is3D: true,title:"Main Dashboard"});      
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));     
-      tablearea.draw(dataView,{allowHtml: true}); 
+      tablearea.draw(dataView2,{allowHtml: true}); 
      }
      
      function draw(limit,from,to) {
