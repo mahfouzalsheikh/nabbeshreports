@@ -129,7 +129,7 @@
       var dataView1 = new google.visualization.DataView(data1);
       dataView1.setColumns(metricsarray);
       
-      var dataView2 = new google.visualization.DataView(add_total_row(data));
+      var dataView2 = new google.visualization.DataView(add_total_row(data2));
       dataView2.setColumns(metricsarray);
       
       chart.draw(dataView1, {curveType: "function",width: '100%', height: 600, is3D: true,title:"Main Dashboard"});      

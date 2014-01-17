@@ -63,10 +63,10 @@
 	          
       var period = '';
       
-      var data1 = google.visualization.arrayToDataTable([[period, 'Signed Up'],[period,  signedup]]);
-      var data2 = google.visualization.arrayToDataTable([[period, 'Applied For a Job'],[period,  appliedforjob]]);
-      var data3 = google.visualization.arrayToDataTable([[period, 'Sent a Proposal'],[period,  sentproposal]]);
-      var data4 = google.visualization.arrayToDataTable([[period, 'Sent an Invoice'],[period,  sentinvoice]]);
+      var data1 = google.visualization.arrayToDataTable([[period, 'Signed Up',{ role: "style" }, { role: 'annotation' }],[period,  signedup, 'color: #3366CC; fill-opacity: 0.5; fill-opacity: 0.2',signedup + ' Users']]);
+      var data2 = google.visualization.arrayToDataTable([[period, 'Applied For a Job',{ role: "style" }, { role: 'annotation' }],[period,  appliedforjob, 'color: #DC3912; fill-opacity: 0.5',appliedforjob+ ' Users']]);
+      var data3 = google.visualization.arrayToDataTable([[period, 'Sent a Proposal',{ role: "style" }, { role: 'annotation' }],[period,  sentproposal, 'color: #FF9900; fill-opacity: 0.5',sentproposal+ ' Users']]);
+      var data4 = google.visualization.arrayToDataTable([[period, 'Sent an Invoice',{ role: "style" }, { role: 'annotation' }],[period,  sentinvoice, 'color: #109618; fill-opacity: 0.5',sentinvoice+ ' Users']]);
       
       
       var chart1 = new google.visualization.ColumnChart(document.getElementById('chart1'));         
