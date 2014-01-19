@@ -165,17 +165,7 @@
                 }
             });
 
-            $('#mainSplitter').jqxSplitter({
-                width: '100%',
-                height: '680',
-                theme: theme,
-                resizable: false,
-                panels: [{
-                    size: 180
-                }, {
-                    size: 600
-                }]
-            });
+            //$('#mainSplitter').jqxSplitter({ width: '100%', height: '680',theme: theme,resizable: false,panels: [{size: 180}, {size: 600}]});
 
 
 	    
@@ -256,6 +246,9 @@
                 type: 'get',
                 success: function (r) {
                     $('#reportcontent').html(r);
+                    //$('#mainSplitter').jqxSplitter({ height: '100%'});
+                    //$('#jqxTabs').jqxTabs({ height : '500'});
+                   
 
                 }
             });

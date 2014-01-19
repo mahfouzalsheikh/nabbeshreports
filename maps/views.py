@@ -88,7 +88,7 @@ def freelancerdemography_getdata(request):
 
         sql = "select * from (select count(*) as usercount,\
         replace(reverse(substring(reverse(replace(formatted_address,'-',',')),1,position(',' in reverse(replace(formatted_address,'-',','))))),', ','') \
-        as country from users group by country order by usercount desc) total where usercount>="+objs['limit']+" union \
+        as country from users group by country order by usercount desc) total where usercount>="+objs['limit']+" and country  is not null and country  <>'' union \
 	select sum(usercount) as usercount, 'All The Rest' from (select count(*) as usercount,replace(reverse(substring(reverse(replace(formatted_address,'-',',')),\
 	1,position(',' in reverse(replace(formatted_address,'-',','))))),', ','') as country from users group by country order by usercount desc)\
 	 total where usercount<"+objs['limit']+" order by usercount desc;"
