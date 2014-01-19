@@ -71,16 +71,16 @@
       
       
       var chart1 = new google.visualization.ColumnChart(document.getElementById('chart1'));         
-      chart1.draw(data1, {title:"Signed Up",width: 230, height: 450, vAxis: {maxValue: 10000}});
+      chart1.draw(data1, {title:"Signed Up",width: 230, height: 450, vAxis: {maxValue: 10000},legend: { position: "none" }});
 
       var chart2 = new google.visualization.ColumnChart(document.getElementById('chart2'));         
-      chart2.draw(data2, {title:"Posted a Job",width: 230, height: 450, vAxis: {maxValue: signedup}});
+      chart2.draw(data2, {title:"Posted a Job",width: 230, height: 450, vAxis: {maxValue: signedup},legend: { position: "none" }});
 
       var chart3 = new google.visualization.ColumnChart(document.getElementById('chart3'));         
-      chart3.draw(data3, {title:"Paid a Proposal",width: 230, height: 450, vAxis: {maxValue: postedjob}});
+      chart3.draw(data3, {title:"Paid a Proposal",width: 230, height: 450, vAxis: {maxValue: postedjob},legend: { position: "none" }});
 
       var chart4 = new google.visualization.ColumnChart(document.getElementById('chart4'));         
-      chart4.draw(data4, {title:"Paid an Invoice",width: 230, height: 450, vAxis: {maxValue: paidinvoice}});
+      chart4.draw(data4, {title:"Paid an Invoice",width: 230, height: 450, vAxis: {maxValue: paidinvoice},legend: { position: "none" }});
     
       // Apply formatter to second column
     }
