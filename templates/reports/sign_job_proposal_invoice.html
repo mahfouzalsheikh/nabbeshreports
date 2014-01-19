@@ -71,16 +71,16 @@
       
       
       var chart1 = new google.visualization.ColumnChart(document.getElementById('chart1'));         
-      chart1.draw(data1, {title:"Signed Up",width: 230, height: 500, vAxis: {maxValue: 10000}});
+      chart1.draw(data1, {title:"Signed Up",width: 230, height: 450, vAxis: {maxValue: 10000}});
 
       var chart2 = new google.visualization.ColumnChart(document.getElementById('chart2'));         
-      chart2.draw(data2, {title:"Posted a Job",width: 230, height: 500, vAxis: {maxValue: signedup}});
+      chart2.draw(data2, {title:"Posted a Job",width: 230, height: 450, vAxis: {maxValue: signedup}});
 
       var chart3 = new google.visualization.ColumnChart(document.getElementById('chart3'));         
-      chart3.draw(data3, {title:"Paid a Proposal",width: 230, height: 500, vAxis: {maxValue: postedjob}});
+      chart3.draw(data3, {title:"Paid a Proposal",width: 230, height: 450, vAxis: {maxValue: postedjob}});
 
       var chart4 = new google.visualization.ColumnChart(document.getElementById('chart4'));         
-      chart4.draw(data4, {title:"Paid an Invoice",width: 230, height: 500, vAxis: {maxValue: paidinvoice}});
+      chart4.draw(data4, {title:"Paid an Invoice",width: 230, height: 450, vAxis: {maxValue: paidinvoice}});
     
       // Apply formatter to second column
     }
@@ -102,16 +102,16 @@
 <div style="padding: 20px 20px 20px 20px">
 <div><center><h2>Employers Acitvity Funnel</h2></center></div>
 <table><tr>
-<td><div id="chart1" style="width: 230; height:600px; float: left;"></div></td>
+<td><div id="chart1" style="width: 230; height:450px; float: left;"></div></td>
 <td style="text-align: center;background:url(https://s3-us-west-2.amazonaws.com/nabbeshscripts/arrow.png) no-repeat;background-position:center;" width="80"><div id="stage1" style="font-size:18px"></div></td>
-<td><div id="chart2" style="width: 230; height:600px; float: left;"></div></td>
+<td><div id="chart2" style="width: 230; height:450px; float: left;"></div></td>
 <td style="text-align: center;background:url(https://s3-us-west-2.amazonaws.com/nabbeshscripts/arrow.png) no-repeat;background-position:center;" width="80"><div id="stage2" style="font-size:18px"></div></td>
-<td><div id="chart3" style="width: 230; height:600px; float: left;"></div></td>
+<td><div id="chart3" style="width: 230; height:450px; float: left;"></div></td>
 <td style="text-align: center;background:url(https://s3-us-west-2.amazonaws.com/nabbeshscripts/arrow.png) no-repeat;background-position:center;" width="80"><div id="stage3" style="font-size:18px"></div></td>
-<td><div id="chart4" style="width: 230; height:600px; float: left;"></div></td><td></td>
+<td><div id="chart4" style="width: 230; height:450px; float: left;"></div></td><td></td>
 </tr></table>
 
-<div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
+
 </div>
 
 
