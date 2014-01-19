@@ -1,13 +1,4 @@
-{
-"cols": [
-        {"id":"","label":"Age","pattern":"","type":"string"},
-        {"id":"","label":"User Count","pattern":"","type":"number"}
-      ],
-
-"rows": [
-{% for age in ages %}{"c":[{"v":"{{ age.1 }}","f":null},{"v":{{ age.0 }},"f":null}]}
-{% if not forloop.last %} , {% endif %}{% endfor %}
-
+[["Age Range","User Count", { "role": "style" }, { "role": "annotation" }],
+{% for age in ages %}["{{ age.1 }}",{{ age.0 }}, "color: #109618; fill-opacity: 0.7; fill-opacity: 0.7; stroke-width: 4"," {{ age.0 }} Users"]{% if not forloop.last %},{% endif %}{% endfor %}
 ]
-}
 

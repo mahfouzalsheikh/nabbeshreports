@@ -11,15 +11,17 @@
           async: false
           }).responseText;
 
-
-      var data = new google.visualization.DataTable(jsonData);
-
+       //$('#reportcontent').html(jsonData);
+      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+     
       var chart = new google.visualization.ColumnChart(document.getElementById('visualization'));
       
-      chart.draw(data, {title:"Freelancers Demography",width: '100%', height: 450});
+      chart.draw(data, {title:"Freelancers Demography",width: '100%', height: 450,legend: { position: "none" }});
       
+      var dataView = new google.visualization.DataView(data);
+      dataView.setColumns([0, 1]);
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
-      tablearea.draw(data,null);
+      tablearea.draw(dataView,null);
     }
 	
 		
