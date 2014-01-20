@@ -358,5 +358,29 @@ def sign_application_proposal_invoice_getdata(request):
         return HttpResponse(render_to_string('sign_application_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
         
         
+def top_users_getdata(request):
+    if request.method == 'GET':
+        #objs = simplejson.loads(request.raw_post_data)
+        #print objs
+        
+        #signupchecked = objs['signupchecked']
+        #t1 = objs['fromdate']  + ' 00:00:00+00'
+        #t2 = objs['todate'] + ' 23:59:59+00'
+        
+        #keywords = objs['searchkeywords']
+        #wheresql = ""
+        #if signupchecked== "True":
+        #    wheresql= " Where u.is_freelancer=True"
+        #else:
+        #    wheresql = ""
+
+           
+        sql = ("select u.id,au.first_name || ' ' || au.last_name as fullname ,au.email, 'http://www.nabbesh.com/' || u.homepage as homepage, 'https://nabbesh-images.s3.amazonaws.com/'  || u.photo as photo, count(distinct ss.id) skills_count, count(distinct cj.id) as job_count, count(distinct ca.id) as application_count from users u inner join auth_user au on u.django_user_id=au.id inner join skills_users su on su.id_user=u.id inner join skills_skill ss on ss.id=su.skill_id left outer join contracts_job cj on cj.employer_id=u.id left outer join contracts_application ca on ca.applicant_id=u.id where u.photo is not null and u.photo <>'' group  by u.id,au.email, fullname,photo,homepage order by application_count desc limit 10")
+        
+        results = customQuery(sql,0)
+ 	print results	
+        c = Context({'users': results})
+        return HttpResponse(render_to_string('top_users.json', c, context_instance=RequestContext(request)), mimetype='application/json')             
+        
         
 

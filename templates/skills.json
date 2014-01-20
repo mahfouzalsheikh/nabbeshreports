@@ -1,1 +1,0 @@
-[ {% for skill in skills %}{"skillid": "{{ skill.id }}","skillname": "{{ skill.name }}"}{% if not forloop.last %} , {% endif %}{% endfor %} ]

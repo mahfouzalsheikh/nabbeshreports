@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-{% if line_list %}
-<lines size="{{line_list|length}}">{% for line in line_list %}<line color="#008800" width="3" jobdesc="{{line.12}}"><point photo="{{line.8|default:"/thumb.png"}}" homepage="{{line.9}}" lat="{{line.3}}" lng="{{line.4}}"/><point photo="{{line.10|default:"/thumb.png"}}" homepage="{{line.11}}" lat="{{line.6}}" lng="{{line.7}}"/></line>{% endfor %}{% endif %}
-</lines>
-

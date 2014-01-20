@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<skills>
-{% if skills_list %}{% for skill in skills_list %}<skill name="{{skill.0}}" skillcount="{{skill.1}}" jobcount="{{skill.2}}" availability="{{skill.3}}"> </skill>{% endfor %}{% endif %}
-</skills>

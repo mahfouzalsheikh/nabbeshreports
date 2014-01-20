@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<markers>
-{% if user_list %}
-    {% for user in user_list %}
-       <marker name="{{user.first_name}} {{user.last_name}}" email="{{user.email}}" {% for c in user.users_set.all %} lat="{{c.lat}}" lng="{{c.longi}}" photo="https://s3-eu-west-1.amazonaws.com/nabbesh-images/{{c.photo}}" {%endfor%}> </marker>
-    {% endfor %}
-{% endif %}
-</markers>

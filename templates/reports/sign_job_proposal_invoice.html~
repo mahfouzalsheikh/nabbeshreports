@@ -53,9 +53,9 @@
       paidproposal=obj[2];
       paidinvoice=obj[3];      
       
-      stage1=(parseFloat(postedjob) / parseFloat(signedup)*100).toFixed(2) + '%';
-      stage2=(parseFloat(paidproposal) / parseFloat(postedjob)*100).toFixed(2) + '%';
-      stage3=(parseFloat(paidinvoice) / parseFloat(paidproposal)*100).toFixed(2) + '%';
+      stage1=(parseFloat(postedjob) / parseFloat(signedup)*100).toFixed(2) + '%  >>>';
+      stage2=(parseFloat(paidproposal) / parseFloat(postedjob)*100).toFixed(2) + '%  >>>';
+      stage3=(parseFloat(paidinvoice) / parseFloat(paidproposal)*100).toFixed(2) + '%  >>>';
       
       $('#stage1').html(stage1);
       $('#stage2').html(stage2);
@@ -71,16 +71,16 @@
       
       
       var chart1 = new google.visualization.ColumnChart(document.getElementById('chart1'));         
-      chart1.draw(data1, {title:"Signed Up",width: 230, height: 450, vAxis: {maxValue: 10000},legend: { position: "none" }});
+      chart1.draw(data1, {title:"Signed Up",width: 180, height: 450, vAxis: {maxValue: 10000},legend: { position: "none" }});
 
       var chart2 = new google.visualization.ColumnChart(document.getElementById('chart2'));         
-      chart2.draw(data2, {title:"Posted a Job",width: 230, height: 450, vAxis: {maxValue: signedup},legend: { position: "none" }});
+      chart2.draw(data2, {title:"Posted a Job",width: 180, height: 450, vAxis: {maxValue: signedup},legend: { position: "none" }});
 
       var chart3 = new google.visualization.ColumnChart(document.getElementById('chart3'));         
-      chart3.draw(data3, {title:"Paid a Proposal",width: 230, height: 450, vAxis: {maxValue: postedjob},legend: { position: "none" }});
+      chart3.draw(data3, {title:"Paid a Proposal",width: 180, height: 450, vAxis: {maxValue: postedjob},legend: { position: "none" }});
 
       var chart4 = new google.visualization.ColumnChart(document.getElementById('chart4'));         
-      chart4.draw(data4, {title:"Paid an Invoice",width: 230, height: 450, vAxis: {maxValue: paidinvoice},legend: { position: "none" }});
+      chart4.draw(data4, {title:"Paid an Invoice",width: 180, height: 450, vAxis: {maxValue: paidinvoice},legend: { position: "none" }});
     
       // Apply formatter to second column
     }
@@ -101,13 +101,13 @@
         </div>
 <div style="padding: 20px 20px 20px 20px">
 <div><center><h2>Employers Acitvity Funnel</h2></center></div>
-<table><tr>
+<table width="99%"><tr>
 <td><div id="chart1" style="width: 230; height:450px; float: left;"></div></td>
-<td style="text-align: center;background:url(https://s3-us-west-2.amazonaws.com/nabbeshscripts/arrow.png) no-repeat;background-position:center;" width="80"><div id="stage1" style="font-size:18px"></div></td>
+<td><div id="stage1" style="font-size:18px"></div></td>
 <td><div id="chart2" style="width: 230; height:450px; float: left;"></div></td>
-<td style="text-align: center;background:url(https://s3-us-west-2.amazonaws.com/nabbeshscripts/arrow.png) no-repeat;background-position:center;" width="80"><div id="stage2" style="font-size:18px"></div></td>
+<td><div id="stage2" style="font-size:18px"></div></td>
 <td><div id="chart3" style="width: 230; height:450px; float: left;"></div></td>
-<td style="text-align: center;background:url(https://s3-us-west-2.amazonaws.com/nabbeshscripts/arrow.png) no-repeat;background-position:center;" width="80"><div id="stage3" style="font-size:18px"></div></td>
+<td><div id="stage3" style="font-size:18px"></div></td>
 <td><div id="chart4" style="width: 230; height:450px; float: left;"></div></td><td></td>
 </tr></table>
 
