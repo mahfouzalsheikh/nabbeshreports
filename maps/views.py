@@ -357,7 +357,7 @@ def sign_application_proposal_invoice_getdata(request):
         c = Context({'statistics': results})
         return HttpResponse(render_to_string('sign_application_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
         
-        
+@csrf_exempt 
 def top_users_getdata(request):
     if request.method == 'GET':
         #objs = simplejson.loads(request.raw_post_data)
