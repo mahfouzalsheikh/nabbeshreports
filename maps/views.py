@@ -375,6 +375,7 @@ def top_freelancers_getdata(request):
         print objs
         
         priority = objs['priority']
+        limit = objs['limit']
         #t1 = objs['fromdate']  + ' 00:00:00+00'
         #t2 = objs['todate'] + ' 23:59:59+00'
         print priority;
@@ -386,7 +387,7 @@ def top_freelancers_getdata(request):
             sortsql= " order by application_count desc"
 
         #print sortsql   
-        sql = ("select u.id,au.first_name || ' ' || au.last_name as fullname ,au.email, 'http://www.nabbesh.com/' || u.homepage as homepage, 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') as photo, count(distinct su.skill_id) skills_count, count(distinct ca.id) as application_count from users u inner join auth_user au on u.django_user_id=au.id inner join skills_users su on su.id_user=u.id  left outer join contracts_application ca on ca.applicant_id=u.id where u.photo is not null and u.photo <>'' group  by u.id,au.email,fullname,photo,homepage "+ sortsql+" limit 100")
+        sql = ("select u.id,au.first_name || ' ' || au.last_name as fullname ,au.email, 'http://www.nabbesh.com/' || u.homepage as homepage, 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') as photo, count(distinct su.skill_id) skills_count, count(distinct ca.id) as application_count from users u inner join auth_user au on u.django_user_id=au.id inner join skills_users su on su.id_user=u.id  left outer join contracts_application ca on ca.applicant_id=u.id where u.photo is not null and u.photo <>'' group  by u.id,au.email,fullname,photo,homepage "+ sortsql+" limit " + limit)
         
         results = customQuery(sql,0)
  	#print results	
@@ -407,9 +408,9 @@ def top_employers_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
         print objs
+        limit = objs['limit']
         
-        
-        sql = ("select u.id,au.first_name || ' ' || au.last_name as fullname ,au.email, 'http://www.nabbesh.com/' || u.homepage as homepage, 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') as photo, count(distinct cj.id) as jobs_count    from users u inner join auth_user au on u.django_user_id=au.id inner join skills_users su on su.id_user=u.id  left outer join contracts_job cj on cj.employer_id=u.id where u.photo is not null and u.photo <>'' group  by u.id,au.email,fullname,photo,homepage order by jobs_count desc limit 100")
+        sql = ("select u.id,au.first_name || ' ' || au.last_name as fullname ,au.email, 'http://www.nabbesh.com/' || u.homepage as homepage, 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') as photo, count(distinct cj.id) as jobs_count    from users u inner join auth_user au on u.django_user_id=au.id inner join skills_users su on su.id_user=u.id  left outer join contracts_job cj on cj.employer_id=u.id where u.photo is not null and u.photo <>'' group  by u.id,au.email,fullname,photo,homepage order by jobs_count desc limit " + limit)
         
         results = customQuery(sql,0)
  	#print results	

@@ -27,16 +27,33 @@
       $("#filterButton").on('click', function () {
                   $.blockUI({ message: '<h2>Just a moment!</h2>',  css: { border: 'none',  padding: '15px',  backgroundColor: '#000', '-webkit-border-radius': '10px',
             '-moz-border-radius': '10px',  opacity: 0.7,  color: '#fff' } });                          
-                  drawChart(priority);
+                  drawChart(priority, limit);
                   $.unblockUI();
 
                 });
      
      var priority="Skills Count";
      
-     function drawChart(priority) {
+     
+     $('#limitmenu').on('select', function (event) {
+                    var args = event.args;
+                    if (args != undefined) {
+                        var item = event.args.item;
+                        if (item != null) {
+                            limit = item.label;
+                        }
+                    }
+                });
+      
+      var source = ["10", "100", "500", "1000"]; 
+      
+     $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0}); 
+     
+     var limit = "10";
+     
+     function drawChart(priority, limit) {
       searchkeywords= $('#searchkeywordsfield').val();
-      var params = {"priority": priority};
+      var params = {"priority": priority, "limit": limit};
       var jsonData = $.ajax({
           url: "top_freelancers_getdata",
           dataType:"json",
@@ -79,7 +96,7 @@
     
      
   
-    drawChart(priority);
+    drawChart(priority, limit);
 </script>
 
  <div id='optionsExpander'>
@@ -89,6 +106,10 @@
                    <tr>
                     <td>Priority: </td><td><div id="prioritymenu"></div><td></td></td>
                    </tr> 
+                   <tr>
+                    <td>Limit: </td><td><div id="limitmenu"></div><td></td></td>
+                   </tr>
+                   
                    <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
                 </table>   
             </div>
