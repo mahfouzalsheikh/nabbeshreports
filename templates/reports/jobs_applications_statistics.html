@@ -64,12 +64,17 @@
       var formatter = new google.visualization.ColorFormat();
       formatter.addRange(0, 1, '#000000', '#ffecff');
       formatter.addRange(1, 1000, '#000000', '#3DAA58');
-      formatter.format(data, 6); 
+      formatter.format(data, 8); 
       
       var formatter1 = new google.visualization.ColorFormat();
       formatter1.addRange(0, 1, '#000000', '#ffecff');
       formatter1.addRange(1, 1000, '#000000', '#3DAA95');
-      formatter1.format(data, 7); 
+      formatter1.format(data, 9); 
+      
+      var formatter3 = new google.visualization.ColorFormat();
+      formatter3.addRange(0, 1, '#000000', '#ffecff');
+      formatter3.addRange(1, 1000, '#000000', '#3DAA95');
+      //formatter3.format(data, 6); 
       
       var formatter2 = new google.visualization.PatternFormat('<a href="http://www.nabbesh.com/admin/contracts/job/{0}"  target="_blank">{0}</a>');
       formatter2.format(data, [2],2);
