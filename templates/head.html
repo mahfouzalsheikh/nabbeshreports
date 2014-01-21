@@ -96,11 +96,7 @@
             });
 
 
-            var freelancerssource = [
-                "Demography",
-                "Gender Distribution",
-                "Age Distribution"
-            ];
+            var freelancerssource = ["Demography","Gender Distribution","Age Distribution", "Top Freelancers"];
 
             $("#freelancerslist").jqxListBox({
                 
@@ -119,6 +115,29 @@
                     $("#freelancerslist").jqxListBox({selectedIndex: -1 }); 
                 }
             });
+
+
+
+	    var employersssource = ["Top Employers"];
+
+            $("#employerslist").jqxListBox({
+                
+                source: employersssource,
+                width: 176,
+                height: 200,
+                selectedIndex: -1,
+                theme: theme
+            });
+            $('#employerslist').on('select', function (event) {
+                var args = event.args;
+                var item = $('#employerslist').jqxListBox('getItem', args.index);
+                if (item != null) {
+                    
+                    sendrequest(item.label);
+                    $("#employerslist").jqxListBox({selectedIndex: -1 }); 
+                }
+            });
+
 
 
             var dashboardssource = [
@@ -144,9 +163,7 @@
             });
             
             
-            var activitysource = [
-                "Employers & Jobs Stats", "Jobs & Applications Stats", "Employers Funnel", "Freelancers Funnel"
-            ];
+            var activitysource = ["Employers & Jobs Stats", "Jobs & Applications Stats", "Employers Funnel", "Freelancers Funnel"];
 
             $("#activitylist").jqxListBox({
                 
@@ -256,6 +273,12 @@
   			case "Freelancers Funnel":
   				URLString = "sign_application_proposal_invoice";
   				break;
+  		        case "Top Freelancers":
+  		                URLString = "top_freelancers";
+  				break;
+		        case "Top Employers":
+  		                URLString = "top_employers";
+  				break;
 			default:
   			      URLString = "dashboard";
 		}
@@ -268,7 +291,6 @@
                     $('#mainSplitter').jqxSplitter({height: $('#jqxTabs').jqxTabs('height')-70});
                    
                    
-
                 }
             });
 

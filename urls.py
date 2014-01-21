@@ -48,8 +48,11 @@ urlpatterns = patterns('',
     url(r'^sign_application_proposal_invoice_getdata$', 'nabbeshreports.maps.views.sign_application_proposal_invoice_getdata', name='sign_application_proposal_invoice_getdata'),
     url(r'^sign_application_proposal_invoice$', 'nabbeshreports.maps.views.sign_application_proposal_invoice', name='sign_application_proposal_invoice'),
     
-    url(r'^top_users_getdata$', 'nabbeshreports.maps.views.top_users_getdata', name='top_users_getdata'),
-    #url(r'^sign_application_proposal_invoice$', 'nabbeshreports.maps.views.sign_application_proposal_invoice', name='sign_application_proposal_invoice'),
+    url(r'^top_freelancers_getdata$', 'nabbeshreports.maps.views.top_freelancers_getdata', name='top_freelancers_getdata'),
+    url(r'^top_freelancers$', 'nabbeshreports.maps.views.top_freelancers', name='top_freelancers'),
+    
+    url(r'^top_employers_getdata$', 'nabbeshreports.maps.views.top_employers_getdata', name='top_employers_getdata'),
+    url(r'^top_employers$', 'nabbeshreports.maps.views.top_employers', name='top_employers'),
     
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
     url(r'^static/admin/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.ADMIN_STATIC}),

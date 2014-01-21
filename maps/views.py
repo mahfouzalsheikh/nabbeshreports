@@ -357,30 +357,66 @@ def sign_application_proposal_invoice_getdata(request):
         c = Context({'statistics': results})
         return HttpResponse(render_to_string('sign_application_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
         
-@csrf_exempt 
-def top_users_getdata(request):
-    if request.method == 'GET':
-        #objs = simplejson.loads(request.raw_post_data)
-        #print objs
         
-        #signupchecked = objs['signupchecked']
+
+
+def top_freelancers(request):
+    
+    t = loader.get_template('./reports/top_freelancers.html')
+    c = Context({
+        'top_freelancers': dashboard,
+    })
+    return HttpResponse(t.render(c))   
+
+@csrf_exempt 
+def top_freelancers_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        print objs
+        
+        priority = objs['priority']
         #t1 = objs['fromdate']  + ' 00:00:00+00'
         #t2 = objs['todate'] + ' 23:59:59+00'
-        
+        print priority;
         #keywords = objs['searchkeywords']
-        #wheresql = ""
-        #if signupchecked== "True":
-        #    wheresql= " Where u.is_freelancer=True"
-        #else:
-        #    wheresql = ""
+        sortsql = ""
+        if priority== "Skills Count":
+            sortsql= " order by skills_count desc"
+        else:
+            sortsql= " order by application_count desc"
 
-           
-        sql = ("select u.id,au.first_name || ' ' || au.last_name as fullname ,au.email, 'http://www.nabbesh.com/' || u.homepage as homepage, 'https://nabbesh-images.s3.amazonaws.com/'  || u.photo as photo, count(distinct ss.id) skills_count, count(distinct cj.id) as job_count, count(distinct ca.id) as application_count from users u inner join auth_user au on u.django_user_id=au.id inner join skills_users su on su.id_user=u.id inner join skills_skill ss on ss.id=su.skill_id left outer join contracts_job cj on cj.employer_id=u.id left outer join contracts_application ca on ca.applicant_id=u.id where u.photo is not null and u.photo <>'' group  by u.id,au.email, fullname,photo,homepage order by application_count desc limit 10")
+        #print sortsql   
+        sql = ("select u.id,au.first_name || ' ' || au.last_name as fullname ,au.email, 'http://www.nabbesh.com/' || u.homepage as homepage, 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') as photo, count(distinct su.skill_id) skills_count, count(distinct ca.id) as application_count from users u inner join auth_user au on u.django_user_id=au.id inner join skills_users su on su.id_user=u.id  left outer join contracts_application ca on ca.applicant_id=u.id where u.photo is not null and u.photo <>'' group  by u.id,au.email,fullname,photo,homepage "+ sortsql+" limit 100")
         
         results = customQuery(sql,0)
- 	print results	
+ 	#print results	
         c = Context({'users': results})
-        return HttpResponse(render_to_string('top_users.json', c, context_instance=RequestContext(request)), mimetype='application/json')             
+        return HttpResponse(render_to_string('top_freelancers.json', c, context_instance=RequestContext(request)), mimetype='application/json')             
+
+
+def top_employers(request):
+    
+    t = loader.get_template('./reports/top_employers.html')
+    c = Context({
+        'top_employers': dashboard,
+    })
+    return HttpResponse(t.render(c))   
+
+@csrf_exempt 
+def top_employers_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        print objs
+        
+        
+        sql = ("select u.id,au.first_name || ' ' || au.last_name as fullname ,au.email, 'http://www.nabbesh.com/' || u.homepage as homepage, 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') as photo, count(distinct cj.id) as jobs_count    from users u inner join auth_user au on u.django_user_id=au.id inner join skills_users su on su.id_user=u.id  left outer join contracts_job cj on cj.employer_id=u.id where u.photo is not null and u.photo <>'' group  by u.id,au.email,fullname,photo,homepage order by jobs_count desc limit 100")
+        
+        results = customQuery(sql,0)
+ 	#print results	
+        c = Context({'users': results})
+        return HttpResponse(render_to_string('top_employers.json', c, context_instance=RequestContext(request)), mimetype='application/json')             
+        
+        
         
         
 

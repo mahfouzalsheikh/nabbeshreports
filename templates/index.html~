@@ -54,7 +54,7 @@
             <div><div id='freelancerslist'> </div></div>
             
             <div>Employers</div>
-            <div>reports about the employers</div>
+            <div><div id='employerslist'> </div></div>
             <div>Activity</div>
             <div><div id='activitylist'> </div></div>
            
