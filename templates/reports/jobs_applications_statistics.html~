@@ -29,6 +29,7 @@
       $("#filterButton").jqxButton({ width: '200'});
       $("#filterButton").on('click', function () {                          
                   drawChart(fromdate,todate,searchkeywords);
+                  $('#detailsarea').html('');
 
                 });
      var fromdate = $('#fromdate').jqxDateTimeInput('getText');
@@ -59,8 +60,8 @@
       
       
       var dataView = new google.visualization.DataView(data);
-      
-      
+       
+
       var formatter = new google.visualization.ColorFormat();
       formatter.addRange(0, 1, '#000000', '#ffecff');
       formatter.addRange(1, 1000, '#000000', '#3DAA58');
@@ -80,21 +81,58 @@
       formatter2.format(data, [2],2);
             
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
-      
-      /*google.visualization.events.addListener(tablearea, 'select', selectHandler);
+     
       function selectHandler() {
         var selection = tablearea.getSelection();
         var item = selection[0];
-        var str = data.getFormattedValue(item.row, 1);
-        alert(str);
-      }*/
+        var str = data.getValue(item.row, 2);
+        drawCommunicationChart(str.toString());
+      }
+      
+      google.visualization.events.addListener(tablearea, 'select', selectHandler);
+      
       
       tablearea.draw(data,{allowHtml: true, showRowNumber: true});
       
      }
       // Apply formatter to second column
     }
-
+    
+    function drawCommunicationChart(job_id)
+    {
+      //alert(job_id);
+      var params = {"job_id": job_id};
+      var jsonData = $.ajax({
+          url: "jobs_communications_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+      //alert(jsonData);    
+       if(jsonData.length <58){
+          $('#detailsarea').html('');
+      }
+      else
+      {
+        var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+        
+        var formatter1 = new google.visualization.ColorFormat();
+        formatter1.addRange(0, 1, '#000000', '#ffecff');
+        formatter1.addRange(1, 1000, '#000000', '#3DAA95');
+        formatter1.format(data, 4); 
+        formatter1.format(data, 3); 
+        
+        var formatter2 = new google.visualization.PatternFormat('<a href="http://www.nabbesh.com/contracts/workstream/{0}"  target="_blank">Go To Workflow:{0}</a>');
+        formatter2.format(data, [2],2);
+        
+        var detailsarea = new google.visualization.Table(document.getElementById('detailsarea'));
+        detailsarea.draw(data,{allowHtml: true});
+ 
+      }
+      
+    }
+    
     drawChart(fromdate,todate, searchkeywords);
 </script>
 
@@ -111,6 +149,8 @@
             </div>
         </div>
 <div style="padding: 20px 20px 20px 20px">
+
+<div id="detailsarea" style="width: 100%; height:100%; float: left; padding: 10px 10px 10px 0px"></div>
 <div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
 
 </div>

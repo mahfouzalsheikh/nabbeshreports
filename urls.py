@@ -41,6 +41,9 @@ urlpatterns = patterns('',
     
     url(r'^jobs_applications_statistics$', 'nabbeshreports.maps.views.jobs_applications_statistics', name='jobs_applications_statistics'),
     url(r'^jobs_applications_statistics_getdata$', 'nabbeshreports.maps.views.jobs_applications_statistics_getdata', name='jobs_applications_statistics_getdata'),
+    
+    url(r'^jobs_communications_getdata$', 'nabbeshreports.maps.views.jobs_communications_getdata', name='jobs_communications_getdata'),
+    
 
     url(r'^sign_job_proposal_invoice_getdata$', 'nabbeshreports.maps.views.sign_job_proposal_invoice_getdata', name='sign_job_proposal_invoice_getdata'),
     url(r'^sign_job_proposal_invoice$', 'nabbeshreports.maps.views.sign_job_proposal_invoice', name='sign_job_proposal_invoice'),
