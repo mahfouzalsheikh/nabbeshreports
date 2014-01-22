@@ -277,7 +277,7 @@
   		                URLString = "top_freelancers";
   				break;
 		        case "Top Employers":
-  		                URLString = "top_freelancers";
+  		                URLString = "top_employers";
   				break;
 			default:
   			      URLString = "dashboard";

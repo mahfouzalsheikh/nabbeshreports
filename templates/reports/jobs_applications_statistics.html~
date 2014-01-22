@@ -64,32 +64,37 @@
       var formatter = new google.visualization.ColorFormat();
       formatter.addRange(0, 1, '#000000', '#ffecff');
       formatter.addRange(1, 1000, '#000000', '#3DAA58');
-      formatter.format(data, 7); 
+      formatter.format(data, 8); 
       
       var formatter1 = new google.visualization.ColorFormat();
       formatter1.addRange(0, 1, '#000000', '#ffecff');
       formatter1.addRange(1, 1000, '#000000', '#3DAA95');
-      formatter1.format(data, 8); 
+      formatter1.format(data, 9); 
       
       var formatter3 = new google.visualization.ColorFormat();
-      formatter3.addRange(0, 1, '#000000', '#ffecff');
-      formatter3.addRange(1, 1000, '#000000', '#3DAA95');
-      //formatter3.format(data, 6); 
+      //formatter3.addRange(null,'Active', '#000000', '#ffecff');
+      formatter3.addRange('Closed',null, '#fff', '#555555');
+      formatter3.format(data, 10); 
       
       var formatter2 = new google.visualization.PatternFormat('<a href="http://www.nabbesh.com/admin/contracts/job/{0}"  target="_blank">{0}</a>');
       formatter2.format(data, [2],2);
             
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       
+      /*google.visualization.events.addListener(tablearea, 'select', selectHandler);
+      function selectHandler() {
+        var selection = tablearea.getSelection();
+        var item = selection[0];
+        var str = data.getFormattedValue(item.row, 1);
+        alert(str);
+      }*/
       
-      tablearea.draw(data,{allowHtml: true});
+      tablearea.draw(data,{allowHtml: true, showRowNumber: true});
       
      }
       // Apply formatter to second column
     }
-    
-     
-  
+
     drawChart(fromdate,todate, searchkeywords);
 </script>
 

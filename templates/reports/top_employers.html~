@@ -42,7 +42,7 @@
                     }
                 });
       
-      var source = ["10", "100", "500", "1000"]; 
+      var source = ["10", "100"]; 
       
      $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0}); 
      
@@ -85,7 +85,7 @@
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       
       dataView.setColumns([0,1,2,5]);
-      tablearea.draw(dataView,{allowHtml: true});
+      tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});
       
      
       // Apply formatter to second column
