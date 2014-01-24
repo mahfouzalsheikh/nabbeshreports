@@ -70,6 +70,7 @@
         google.load('visualization', '1', {packages: ['annotatedtimeline']});
         google.load('visualization', '1', {packages: ['controls']});
         google.load('visualization', '1', {packages: ['geochart']});
+                google.load('visualization', '1', {packages: ['geomap']});
 
     </script>
  
@@ -103,7 +104,7 @@
                 
                 source: freelancerssource,
                 width: 176,
-                height: 200,
+                height: 100,
                 selectedIndex: -1,
                 theme: theme
             });
@@ -125,7 +126,7 @@
                 
                 source: employersssource,
                 width: 176,
-                height: 200,
+                height: 100,
                 selectedIndex: -1,
                 theme: theme
             });
@@ -170,7 +171,7 @@
                 
                 source: activitysource,
                 width: 176,
-                height: 120,
+                height: 100,
                 selectedIndex: -1,
                 theme: theme
             });
