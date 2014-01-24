@@ -9,7 +9,9 @@
 
 <script type="text/javascript">
 
-    $("#loadingarea").hide();
+     $("#loadingarea").hide();
+     
+     param = '{{ param }}'
      
      
      var today = new Date(Date.now());
@@ -36,6 +38,16 @@
      var todate = $('#todate').jqxDateTimeInput('getText');
      var searchkeywords= $('#searchkeywordsfield').val();
      
+     if (param!=''){
+        //alert(param);
+        $('#searchkeywordsfield').val(param);
+        $('#fromdate').jqxDateTimeInput({ value: new Date(2000, 0, 1) });
+        $('#todate').jqxDateTimeInput({ value: new Date(2015, 0, 1) });
+        searchkeywords=param;
+     }
+     
+     
+     
      
      function drawChart(from,to,searchkeywords) {
       searchkeywords= $('#searchkeywordsfield').val();
@@ -48,7 +60,7 @@
           async: false
           }).responseText;
 	
-
+	
       if(jsonData.length <=184){
         alert('Hoot! No results for your search');
       }
@@ -86,9 +98,9 @@
         var selection = tablearea.getSelection();
         var item = selection[0];
         var str = data.getValue(item.row, 2);
-        $("#loadingarea").show();
+    
         drawCommunicationChart(str.toString());
-        $("#loadingarea").hide();
+       
       }
       
       google.visualization.events.addListener(tablearea, 'select', selectHandler);
@@ -137,6 +149,8 @@
     }
     
     drawChart(fromdate,todate, searchkeywords);
+    
+
 </script>
 
 

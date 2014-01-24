@@ -111,7 +111,7 @@
                 var item = $('#freelancerslist').jqxListBox('getItem', args.index);
                 if (item != null) {
                     
-                    sendrequest(item.label);
+                    sendrequest(item.label,'');
                     $("#freelancerslist").jqxListBox({selectedIndex: -1 }); 
                 }
             });
@@ -133,7 +133,7 @@
                 var item = $('#employerslist').jqxListBox('getItem', args.index);
                 if (item != null) {
                     
-                    sendrequest(item.label);
+                    sendrequest(item.label,'');
                     $("#employerslist").jqxListBox({selectedIndex: -1 }); 
                 }
             });
@@ -157,7 +157,7 @@
                 var item = $('#dashboardslist').jqxListBox('getItem', args.index);
                 if (item != null) {
                     
-                    sendrequest(item.label);
+                    sendrequest(item.label,'');
                     $("#dashboardslist").jqxListBox({selectedIndex: -1 }); 
                 }
             });
@@ -178,7 +178,7 @@
                 var item = $('#activitylist').jqxListBox('getItem', args.index);
                 if (item != null) {
                     
-                    sendrequest(item.label);
+                    sendrequest(item.label,'');
                     $("#activitylist").jqxListBox({selectedIndex: -1 }); 
                 }
             });
@@ -207,7 +207,7 @@
             });
 		
 
-	    sendrequest('Main Dashboard');
+	    sendrequest('Main Dashboard','');
         });
     </script>
 
@@ -244,9 +244,10 @@
 	         D.body.clientHeight, D.documentElement.clientHeight
 	    );
 	}
-        function sendrequest(reportname) {        
+        function sendrequest(reportname,param) {        
             container = document.getElementById('reportcontent');
             var URLString = new String("");
+            var params = {"param": param};
             switch(reportname)
 		{
 			case "Demography": 
@@ -284,7 +285,8 @@
 		}
             $.ajax({
                 url: URLString,
-                type: 'get',
+                type: 'POST',
+                data: JSON.stringify(params),
                 success: function (r) {
                     $('#reportcontent').html(r);
                     $('#jqxTabs').jqxTabs({height: getDocHeight()-135});

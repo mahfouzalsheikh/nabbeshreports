@@ -70,7 +70,7 @@ def customQueryLive(sql):
         
         
        
-        
+@csrf_exempt        
 def freelancerdemography_report(request):
     
     t = loader.get_template('./reports/freelancerdemography_report.html')
@@ -98,7 +98,7 @@ def freelancerdemography_getdata(request):
    
         return HttpResponse(render_to_string('freelancersdemography.json', c, context_instance=RequestContext(request)), mimetype='application/json')
         
-
+@csrf_exempt
 def freelancersgender_report(request):
     
     t = loader.get_template('./reports/freelancersgender_report.html')
@@ -121,7 +121,7 @@ def freelancersgender_getdata(request):
    
         return HttpResponse(render_to_string('freelancersgender.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
-
+@csrf_exempt
 def freelancersages_report(request):
     
     t = loader.get_template('./reports/freelancersages_report.html')
@@ -146,7 +146,7 @@ def freelancersages_getdata(request):
         
         
 
-
+@csrf_exempt
 def dashboard(request):
     
     t = loader.get_template('./reports/dashboard.html')
@@ -213,7 +213,7 @@ def dashboard_getdata(request):
         return HttpResponse(render_to_string('dashboard.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
         
         
-
+@csrf_exempt
 def jobs_employers_statistics(request):
     
     t = loader.get_template('./reports/jobs_employers_statistics.html')
@@ -254,14 +254,18 @@ def jobs_employers_statistics_getdata(request):
    
         return HttpResponse(render_to_string('jobs_employers_statistics.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
         
-
+@csrf_exempt
 def jobs_applications_statistics(request):
-    
-    t = loader.get_template('./reports/jobs_applications_statistics.html')
-    c = Context({
-        'jobs_applications_statistics': dashboard,
-    })
-    return HttpResponse(t.render(c))
+    if request.method == 'POST':
+    	objs = simplejson.loads(request.raw_post_data)
+    	#print objs
+        t = loader.get_template('./reports/jobs_applications_statistics.html')
+        param =  objs['param']
+        c = Context({'jobs_applications_statistics': dashboard, 'param': param})
+        
+#        return HttpResponse(t.render(c) )
+        return HttpResponse(render_to_string('./reports/jobs_applications_statistics.html', c, context_instance=RequestContext(request)), mimetype='application/html') 
+        
         
 @csrf_exempt 
 def jobs_applications_statistics_getdata(request):
@@ -311,7 +315,7 @@ def jobs_communications_getdata(request):
         
 
 
-
+@csrf_exempt
 def sign_job_proposal_invoice(request):
     
     t = loader.get_template('./reports/sign_job_proposal_invoice.html')
@@ -341,7 +345,7 @@ def sign_job_proposal_invoice_getdata(request):
         return HttpResponse(render_to_string('sign_job_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
         
         
-        
+@csrf_exempt        
 def sign_application_proposal_invoice(request):
     
     t = loader.get_template('./reports/sign_application_proposal_invoice.html')
@@ -377,7 +381,7 @@ def sign_application_proposal_invoice_getdata(request):
         
         
 
-
+@csrf_exempt
 def top_freelancers(request):
     
     t = loader.get_template('./reports/top_freelancers.html')
@@ -412,7 +416,7 @@ def top_freelancers_getdata(request):
         c = Context({'users': results})
         return HttpResponse(render_to_string('top_freelancers.json', c, context_instance=RequestContext(request)), mimetype='application/json')             
 
-
+@csrf_exempt
 def top_employers(request):
     
     t = loader.get_template('./reports/top_employers.html')
