@@ -431,8 +431,16 @@ def top_employers_getdata(request):
         objs = simplejson.loads(request.raw_post_data)
         print objs
         limit = objs['limit']
+        priority = objs['priority']
         
-        sql = ("select u.id,au.first_name || ' ' || au.last_name as fullname ,au.email, 'http://www.nabbesh.com/' || u.homepage as homepage, 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') as photo, count(distinct cj.id) as jobs_count    from users u inner join auth_user au on u.django_user_id=au.id inner join skills_users su on su.id_user=u.id  left outer join contracts_job cj on cj.employer_id=u.id where u.photo is not null and u.photo <>'' group  by u.id,au.email,fullname,photo,homepage order by jobs_count desc limit " + limit)
+        sortsql = ""
+        if priority== "Jobs Count":
+            sortsql= " order by jobs_count"
+        else:
+            sortsql= " order by accepted_proposals_count"
+
+        
+        sql = ("select u.id, au.first_name || ' ' || au.last_name as fullname , au.email, 'http://www.nabbesh.com/' || u.homepage as homepage, 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') as photo, count(distinct cj.id) as jobs_count, count(distinct applications.proposal_id) as accepted_proposals_count from users u inner join auth_user au on u.django_user_id=au.id inner join skills_users su on su.id_user=u.id    left outer join contracts_job cj on cj.employer_id=u.id   left outer join ( select distinct cj1.employer_id,cm1.id as proposal_id from contracts_job cj1 inner join contracts_application ca1 on ca1.job_id=cj1.id inner join contracts_message cm1 on cm1.application_id=ca1.id  inner join contracts_proposal cp1 on cp1.message_ptr_id=cm1.id where cp1.status=4) applications on applications.employer_id=u.id where u.photo is not null and u.photo <>'' group  by u.id,au.email,fullname,photo,homepage  "+sortsql+"  desc limit " + limit)
         
         results = customQuery(sql,0)
  	#print results	
