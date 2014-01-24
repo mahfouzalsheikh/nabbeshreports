@@ -8,20 +8,7 @@
 </script>
 <script type="text/javascript">
 
-    
-      $('#limitmenu').on('select', function (event) {
-                    var args = event.args;
-                    if (args != undefined) {
-                        var item = event.args.item;
-                        if (item != null) {
-                            drawChart(item.label);
-                        }
-                    }
-                });
-      
-      var source = ["1000","500","250","200","100","50","10","2"]; 
-      
-     $("#limitmenu").jqxComboBox({ source: source, width: '60px', height: '25px', selectedIndex:0}); 
+
 	
      function drawChart(limit) {
       var params = {"limit": limit};
@@ -33,12 +20,14 @@
           async: false
           }).responseText;
 
-
-      var data = new google.visualization.DataTable(jsonData);
-
+       //$("#output").html(jsonData);
+      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+      
+      
 	 var options = {
           title:"Freelancers Demography",width: '100%', height: 600, is3D: true,
           //legend: 'none',
+          sliceVisibilityThreshold: 1/200,
           pieSliceText: 'percentage',
           slices: {  4: {offset: 0.1},
                     1: {offset: 0.1},
@@ -54,6 +43,14 @@
       
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       tablearea.draw(data,null);
+      
+      var options = {
+        //region: 'SA',
+        height: 500,
+        colorAxis: {colors: ['white', 'blue']}
+      };
+      var chart = new google.visualization.GeoChart(document.getElementById('maps'));
+      chart.draw(data, options);
     }
 	
 		
@@ -70,7 +67,9 @@
         </div>
 <div style="padding: 20px 20px 20px 20px">
 <div id="visualization" style="width: 100%; height:600px; float: left;"></div>
+<div id="maps" style="width: 100%; height:100%; float: left;"></div>
 <div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
+<div id="output"></div>
 </div>
 
               

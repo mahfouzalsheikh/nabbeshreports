@@ -86,12 +86,8 @@ def freelancerdemography_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
 
-        sql = "select * from (select count(*) as usercount,\
-        replace(reverse(substring(reverse(replace(formatted_address,'-',',')),1,position(',' in reverse(replace(formatted_address,'-',','))))),', ','') \
-        as country from users group by country order by usercount desc) total where usercount>="+objs['limit']+" and country  is not null and country  <>'' union \
-	select sum(usercount) as usercount, 'All The Rest' from (select count(*) as usercount,replace(reverse(substring(reverse(replace(formatted_address,'-',',')),\
-	1,position(',' in reverse(replace(formatted_address,'-',','))))),', ','') as country from users group by country order by usercount desc)\
-	 total where usercount<"+objs['limit']+" order by usercount desc;"
+        sql = ("select country,count(*) as usercount from users group by country order by usercount desc")
+ 
         results = customQuery(sql,0)
 
         c = Context({'countries': results})
