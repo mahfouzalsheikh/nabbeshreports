@@ -91,7 +91,6 @@
         var str = data.getValue(item.row, 1);
          //alert(str.toString());
         drawDetailsChart(str.toString());
-       
       }
       
       google.visualization.events.addListener(tablearea, 'select', selectHandler);
@@ -155,7 +154,7 @@
          };
         var jobsmap = new google.visualization.GeoChart(document.getElementById('jobsmap'));
         jobsmap.draw(jobsMapView, jobsmapoptions);
-      
+        
       
     }
     drawChart(priority,limit);
