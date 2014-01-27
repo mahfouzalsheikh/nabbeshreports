@@ -102,11 +102,7 @@
             
       tablearea.draw(data,null);
       
-      var options = {
-        //region: 'SA',
-        height: 300,
-        colorAxis: {colors: ['white', 'blue']}
-      };
+
       //var chart = new google.visualization.GeoChart(document.getElementById('maps'));
       //chart.draw(data, options);
     }
@@ -144,6 +140,7 @@
         //region: 'SA',
         title: 'Users',
         height: 400,
+        width:600,
         colorAxis: {colors: ['white', 'blue']}
          };
         var usersmap = new google.visualization.GeoChart(document.getElementById('usersmap'));
@@ -153,6 +150,7 @@
         //region: 'SA',
         title: 'Jobs',
         height: 400,
+        width:600,
         colorAxis: {colors: ['white', 'green']}
          };
         var jobsmap = new google.visualization.GeoChart(document.getElementById('jobsmap'));
@@ -181,9 +179,9 @@
 <div style="padding: 20px 20px 20px 20px">
 
 
-<div id="jobsmap" style="width: 100%; height:100%; float: left;"></div>
+<div id="jobsmap" style="width: 600px; height:400px; float: left;"></div>
 
-<div id="usersmap" style="width: 100%; height:100%; float: left;"></div>
+<div id="usersmap" style="width: 600px; height:400px; float: left;"></div>
 
 <div id="detailsarea" style="width: 100%; height:100%; float: left;"></div>
 <div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
