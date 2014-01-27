@@ -1,0 +1,4 @@
+[["Skill Name", "Skill_id", "Users have it", "U Countries Count", "Jobs require it", "J Countries Count", "Availability Rate"], 
+{% for country in countries %}["{{ country.0 }}",{{ country.1 }},{{ country.2 }},{{ country.3 }},{{ country.4 }},{{ country.5 }},{{ country.6 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]
+
+

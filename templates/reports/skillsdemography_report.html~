@@ -1,0 +1,133 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+
+<script type="text/javascript">
+ var theme = 'bootstrap';
+ $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ 
+</script>
+<script type="text/javascript">
+
+
+	
+     function drawChart(limit) {
+      var params = {"limit": limit};
+      var jsonData = $.ajax({
+          url: "skillsdemography_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+
+       //$("#output").html(jsonData);
+      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+      
+      
+	 var options = {
+          title:"Freelancers Demography",width: '100%', height: 600, is3D: true,
+          //legend: 'none',
+          sliceVisibilityThreshold: 1/200,
+          pieSliceText: 'percentage',
+          slices: {  4: {offset: 0.1},
+                    1: {offset: 0.1},
+                    2: {offset: 0.1},
+                    3: {offset: 0.1},
+          },
+        };
+
+
+      
+
+      
+      var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
+      
+      function selectHandler() {
+        var selection = tablearea.getSelection();
+        var item = selection[0];
+        var str = data.getValue(item.row, 1);
+         //alert(str.toString());
+        drawDetailsChart(str.toString());
+       
+      }
+      
+      google.visualization.events.addListener(tablearea, 'select', selectHandler);
+      
+      
+      tablearea.draw(data,null);
+      
+      var options = {
+        //region: 'SA',
+        height: 500,
+        colorAxis: {colors: ['white', 'blue']}
+      };
+      //var chart = new google.visualization.GeoChart(document.getElementById('maps'));
+      //chart.draw(data, options);
+    }
+     
+     
+    function drawDetailsChart(skill_id)
+    {
+      //alert(job_id);
+      var params = {"skill_id": skill_id};
+      var jsonData = $.ajax({
+          url: "skillsdemographydetails_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+      //alert(jsonData.length);   
+       
+
+        var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+        
+        var usersMapView = new google.visualization.DataView(data); 
+        usersMapView.setColumns([0,1]);
+        var jobsMapView =  new google.visualization.DataView(data);
+        jobsMapView.setColumns([0,2]);
+        
+        var detailsarea = new google.visualization.Table(document.getElementById('detailsarea'));
+        detailsarea.draw(data,{allowHtml: true});
+ 
+        var usersmapoptions = {
+        //region: 'SA',
+        title: 'Users',
+        height: 500,
+        colorAxis: {colors: ['white', 'blue']}
+         };
+        var usersmap = new google.visualization.GeoChart(document.getElementById('usersmap'));
+        usersmap.draw(usersMapView, usersmapoptions);
+        
+        var jobsmapoptions = {
+        //region: 'SA',
+        title: 'Jobs',
+        height: 500,
+        colorAxis: {colors: ['white', 'green']}
+         };
+        var jobsmap = new google.visualization.GeoChart(document.getElementById('jobsmap'));
+        jobsmap.draw(jobsMapView, jobsmapoptions);
+      
+      
+    }
+    drawChart("1000");
+</script>
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+               
+            </div>
+        </div>
+<div style="padding: 20px 20px 20px 20px">
+
+<div id="usersmap" style="width: 100%; height:100%; float: left;"></div>
+<div id="jobsmap" style="width: 100%; height:100%; float: left;"></div>
+<div id="detailsarea" style="width: 100%; height:100%; float: left;"></div>
+<div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
+<div id="output"></div>
+</div>
+
+              
+    
+

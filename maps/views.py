@@ -94,6 +94,10 @@ def freelancerdemography_getdata(request):
    
         return HttpResponse(render_to_string('freelancersdemography.json', c, context_instance=RequestContext(request)), mimetype='application/json')
         
+        
+        
+        
+        
 @csrf_exempt
 def freelancersgender_report(request):
     
@@ -441,9 +445,48 @@ def top_employers_getdata(request):
         results = customQuery(sql,0)
  	#print results	
         c = Context({'users': results})
-        return HttpResponse(render_to_string('top_employers.json', c, context_instance=RequestContext(request)), mimetype='application/json')             
+        return HttpResponse(render_to_string('top_employers.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
+        
+        
+
+
+@csrf_exempt        
+def skillsdemography_report(request):
+    
+    t = loader.get_template('./reports/skillsdemography_report.html')
+    c = Context({
+        'skillsdemography_report': freelancerdemography_report,
+    })
+    return HttpResponse(t.render(c))
+
+    
+    
+@csrf_exempt
+def skillsdemography_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+
+        sql = ("select skills.name, calc.*, case when calc.jobs_require_it<>0 then cast(calc.users_have_it as real)/cast(calc.jobs_require_it as real) else 0 end as availability_rate from skills_skill skills inner join (select ss.id, count(distinct su.id_user)  as users_have_it, count(distinct u1.country) as countries_users, count(distinct crs.job_id) as jobs_require_it, count(distinct u2.country) as countries_jobs from skills_skill ss left outer join skills_users su on su.skill_id=ss.id inner join users u1 on su.id_user=u1.id left outer join contracts_requiredskill crs on crs.skill_id=ss.id inner join contracts_job cj on cj.id=crs.job_id inner join users u2 on u2.id=cj.employer_id where ss.deleted=false group by ss.id) calc on calc.id=skills.id order by availability_rate desc")
+ 
+        results = customQuery(sql,0)
+
+        c = Context({'countries': results})
+   
+        return HttpResponse(render_to_string('skillsdemography.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
         
         
         
-        
+@csrf_exempt
+def skillsdemographydetails_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        skill_id= objs['skill_id']
+        sql = ("select country, jobs_count,users_count, case when jobs_count<>0 then cast(users_count as real)/cast(jobs_count as real) else 0 end as availability_rate from  (select case when total1.country is not null then total1.country else total2.country end as country, case when total1.jobs_count is not null then total1.jobs_count else 0 end as jobs_count, case when total2.users_count is not null then total2.users_count else 0 end as users_count from ( select count(*) as jobs_count,u.country  from contracts_job cj  inner join users u on cj.employer_id=u.id  inner join contracts_requiredskill crs on crs.job_id=cj.id where crs.skill_id= "+skill_id +" group by u.country) total1 full outer join  (select count(*) as users_count, u.country  from users u  inner join skills_users su on su.id_user=u.id where su.skill_id="+skill_id+" group by u.country) total2 on total1.country=total2.country ) total")
+ 
+        results = customQuery(sql,0)
+
+        c = Context({'countries': results})
+   
+        return HttpResponse(render_to_string('skillsdemographydetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+                
 

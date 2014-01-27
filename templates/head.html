@@ -142,6 +142,27 @@
 
 
 
+	var skillssource = ["Skills Demography"];
+
+            $("#skillslist").jqxListBox({
+                
+                source: skillssource,
+                width: 176,
+                height: 30,
+                selectedIndex: -1,
+                theme: theme
+            });
+            $('#skillslist').on('select', function (event) {
+                var args = event.args;
+                var item = $('#skillslist').jqxListBox('getItem', args.index);
+                if (item != null) {
+                    
+                    sendrequest(item.label,'');
+                    $("#skillslist").jqxListBox({selectedIndex: -1 }); 
+                }
+            });
+
+
             var dashboardssource = [
                 "Main Dashboard"
             ];
@@ -281,6 +302,9 @@
   				break;
 		        case "Top Employers":
   		                URLString = "top_employers";
+  				break;
+  			case "Skills Demography":
+  				URLString = "skillsdemography_report"	
   				break;
 			default:
   			      URLString = "dashboard";

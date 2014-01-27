@@ -1,0 +1,4 @@
+[["Country Code", "Jobs Count", "Users Count", "Availability Rate"], 
+{% for country in countries %}["{{ country.0 }}",{{ country.1 }},{{ country.2 }},{{ country.3 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]
+
+
