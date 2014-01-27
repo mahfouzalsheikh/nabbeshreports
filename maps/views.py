@@ -39,11 +39,11 @@ def customQuery(sql, db):
     print sql
     if db==0:
         result=customQueryOffline(sql)
-        print result
+        #print result
         return result
     else:
         result=customQueryLive(sql)
-        print result
+        #print result
         return result
     
 
@@ -465,8 +465,21 @@ def skillsdemography_report(request):
 def skillsdemography_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
-
-        sql = ("select skills.name, calc.*, case when calc.jobs_require_it<>0 then cast(calc.users_have_it as real)/cast(calc.jobs_require_it as real) else 0 end as availability_rate from skills_skill skills inner join (select ss.id, count(distinct su.id_user)  as users_have_it, count(distinct u1.country) as countries_users, count(distinct crs.job_id) as jobs_require_it, count(distinct u2.country) as countries_jobs from skills_skill ss left outer join skills_users su on su.skill_id=ss.id inner join users u1 on su.id_user=u1.id left outer join contracts_requiredskill crs on crs.skill_id=ss.id inner join contracts_job cj on cj.id=crs.job_id inner join users u2 on u2.id=cj.employer_id where ss.deleted=false group by ss.id) calc on calc.id=skills.id order by availability_rate desc")
+        limit = objs['limit']
+        priority = objs['priority']
+        print priority
+        
+        sortsql="users_have_it"
+        if priority=="Users Count":
+            sortsql="users_have_it"
+        elif priority=="Users Country Count":
+            sortsql="countries_users"
+        elif priority=="Jobs Count":
+            sortsql="jobs_require_it"
+        elif priority=="Jobs Country Count":
+            sortsql="countries_jobs"
+        
+        sql = ("select skills.name, calc.*, case when calc.jobs_require_it<>0 then cast(calc.users_have_it as real)/cast(calc.jobs_require_it as real) else 0 end as availability_rate from skills_skill skills inner join (select ss.id, count(distinct su.id_user)  as users_have_it, count(distinct u1.country) as countries_users, count(distinct crs.job_id) as jobs_require_it, count(distinct u2.country) as countries_jobs from skills_skill ss left outer join skills_users su on su.skill_id=ss.id inner join users u1 on su.id_user=u1.id left outer join contracts_requiredskill crs on crs.skill_id=ss.id inner join contracts_job cj on cj.id=crs.job_id inner join users u2 on u2.id=cj.employer_id where ss.deleted=false group by ss.id) calc on calc.id=skills.id order by "+sortsql+" desc limit "+ limit)
  
         results = customQuery(sql,0)
 

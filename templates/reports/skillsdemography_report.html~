@@ -8,10 +8,53 @@
 </script>
 <script type="text/javascript">
 
+    $('#prioritymenu').on('select', function (event) {
+                    var args = event.args;
+                    if (args != undefined) {
+                        var item = event.args.item;
+                        if (item != null) {                            
+                            priority=item.label
+                        }
+                    }
+                });
+      
+     var source = ["Users Count","Users Country Count", "Jobs Count", "Jobs Country Count"];
+       
+      $("#prioritymenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0});  
+       var priority="Users Count";  
+      
+      
+     $('#limitmenu').on('select', function (event) {
+                    var args = event.args;
+                    if (args != undefined) {
+                        var item = event.args.item;
+                        if (item != null) {
+                            limit = item.label;
+                        }
+                    }
+                });
+      
+      var source = ["10", "100","500", "1000"]; 
+      
+     $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:1}); 
+     
+     var limit = "100"; 
+     
+     
+       
+       
+     $("#filterButton").jqxButton({ width: '200'});
+     $("#filterButton").on('click', function () {
+                                         
+                  drawChart(priority,limit);
+                 
 
+                });
+                
+                  
 	
-     function drawChart(limit) {
-      var params = {"limit": limit};
+     function drawChart(priority,limit) {
+      var params = {"priority":priority, "limit": limit};
       var jsonData = $.ajax({
           url: "skillsdemography_getdata",
           dataType:"json",
@@ -53,12 +96,15 @@
       
       google.visualization.events.addListener(tablearea, 'select', selectHandler);
       
-      
+      $("#jobsmap").hide();
+      $("#usersmap").hide();
+      $("#detailsarea").hide();
+            
       tablearea.draw(data,null);
       
       var options = {
         //region: 'SA',
-        height: 500,
+        height: 300,
         colorAxis: {colors: ['white', 'blue']}
       };
       //var chart = new google.visualization.GeoChart(document.getElementById('maps'));
@@ -68,7 +114,11 @@
      
     function drawDetailsChart(skill_id)
     {
-      //alert(job_id);
+      
+      $("#jobsmap").show();
+      $("#usersmap").show();
+      $("#detailsarea").show();
+      
       var params = {"skill_id": skill_id};
       var jsonData = $.ajax({
           url: "skillsdemographydetails_getdata",
@@ -83,9 +133,9 @@
         var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
         
         var usersMapView = new google.visualization.DataView(data); 
-        usersMapView.setColumns([0,1]);
+        usersMapView.setColumns([0,2]);
         var jobsMapView =  new google.visualization.DataView(data);
-        jobsMapView.setColumns([0,2]);
+        jobsMapView.setColumns([0,1]);
         
         var detailsarea = new google.visualization.Table(document.getElementById('detailsarea'));
         detailsarea.draw(data,{allowHtml: true});
@@ -93,7 +143,7 @@
         var usersmapoptions = {
         //region: 'SA',
         title: 'Users',
-        height: 500,
+        height: 400,
         colorAxis: {colors: ['white', 'blue']}
          };
         var usersmap = new google.visualization.GeoChart(document.getElementById('usersmap'));
@@ -102,7 +152,7 @@
         var jobsmapoptions = {
         //region: 'SA',
         title: 'Jobs',
-        height: 500,
+        height: 400,
         colorAxis: {colors: ['white', 'green']}
          };
         var jobsmap = new google.visualization.GeoChart(document.getElementById('jobsmap'));
@@ -110,19 +160,31 @@
       
       
     }
-    drawChart("1000");
+    drawChart(priority,limit);
 </script>
 
  <div id='optionsExpander'>
             <div>Options</div>
             <div>
-               
+               <table>
+                    <tr>
+                   <td>Priority: </td><td><div id="prioritymenu"></div><td></td></td>
+                   </tr> 
+                   <tr>
+                   <tr>
+                    <td>Limit: </td><td><div id="limitmenu"></div><td></td></td>
+                   </tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
+                </table>   
             </div>
         </div>
 <div style="padding: 20px 20px 20px 20px">
 
-<div id="usersmap" style="width: 100%; height:100%; float: left;"></div>
+
 <div id="jobsmap" style="width: 100%; height:100%; float: left;"></div>
+
+<div id="usersmap" style="width: 100%; height:100%; float: left;"></div>
+
 <div id="detailsarea" style="width: 100%; height:100%; float: left;"></div>
 <div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
 <div id="output"></div>
