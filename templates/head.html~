@@ -316,7 +316,11 @@
                 success: function (r) {
                     $('#reportcontent').html(r);
                     $('#jqxTabs').jqxTabs({height: getDocHeight()-135});
-                    $('#mainSplitter').jqxSplitter({height: $('#jqxTabs').jqxTabs('height')-70});
+                    
+                   
+                    //$('#mainSplitter').jqxSplitter({height: '800'});
+                       
+                   $('#mainSplitter').jqxSplitter({height: $('#jqxTabs').jqxTabs('height')-70});
                    
                    
                 }
