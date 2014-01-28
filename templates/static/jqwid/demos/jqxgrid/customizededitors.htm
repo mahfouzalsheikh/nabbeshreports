@@ -3,7 +3,7 @@
 <head>
     <title id='Description'>This example shows how to customize the Grid editors.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
@@ -17,11 +17,9 @@
     <script type="text/javascript" src="../../jqwidgets/jqxdropdownlist.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcombobox.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxpanel.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            var theme = getDemoTheme();
- 
+        $(document).ready(function () {           
             // prepare the data
             var ordersSource =
             {
@@ -54,7 +52,6 @@
             {
                 width: 670,
                 source: ordersAdapter,
-                theme: theme,
                 selectionmode: 'singlecell',
                 editable: true,
                 pageable: true,
@@ -65,7 +62,7 @@
                         createeditor: function (row, column, editor) {
                             // assign a new data source to the combobox.
                             var list = ['Stuttgart', 'Rio de Janeiro', 'Strasbourg'];
-                            editor.jqxComboBox({ source: list, promptText: "Please Choose:" });
+                            editor.jqxComboBox({ autoDropDownHeight: true, source: list, promptText: "Please Choose:" });
                         },
                         // update the editor's value before saving it.
                         cellvaluechanging: function (row, column, columntype, oldvalue, newvalue) {
@@ -78,7 +75,7 @@
                         createeditor: function (row, column, editor) {
                             // assign a new data source to the dropdownlist.
                             var list = ['Germany', 'Brazil', 'France'];
-                            editor.jqxDropDownList({ source: list });
+                            editor.jqxDropDownList({ autoDropDownHeight: true, source: list });
                         },
                         // update the editor's value before saving it.
                         cellvaluechanging: function (row, column, columntype, oldvalue, newvalue) {

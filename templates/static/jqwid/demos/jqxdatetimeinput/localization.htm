@@ -1,5 +1,5 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta name="keywords" content="jQuery Calendar, Month Calendar, MonthCalendar, DateTimeInput, DateTimePicker, Date Picker" /> 
     <meta name="description" content="jqxDateTimeInput provides support for localizing its input field and popup calendarfor different languages 
@@ -15,8 +15,8 @@
         The localization is set to the jqxDateTimeInput instance by setting the jqxDateTimeInput's
         culture property. </title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdatetimeinput.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcalendar.js"></script>
@@ -30,18 +30,17 @@
 <body>
     <div id='content'>
         <script type="text/javascript">
-            $(document).ready(function () {
-                var theme = getDemoTheme();
+            $(document).ready(function () {               
                 // define available cultures
                 var availableCultures = ['Czech (Czech Republic)', 'German (Germany)', 'English (Canada)', 'English (United States)',
                   'French (France)', 'Italian (Italy)', 'Japanese (Japan)', 'Hebrew (Israel)', 'Russian (Russia)', 'Croatian (Croatia)', 'Sanskrit (India)'
                 ];
 
                 // create a jqxDateTimeInput.
-                $("#jqxDateTimeInput").jqxDateTimeInput({width: '250px', height: '25px', theme: theme });
+                $("#jqxDateTimeInput").jqxDateTimeInput({width: '250px', height: '25px'});
 
                 // create a ComboBox
-                $("#jqxDropDownList").jqxDropDownList({ source: availableCultures, selectedIndex: 3, theme: theme, width: '200px', height: '25px' });
+                $("#jqxDropDownList").jqxDropDownList({ source: availableCultures, selectedIndex: 3,  width: '200px', height: '25px' });
                 // set the culture.
                 $("#jqxDropDownList").on('select', function (event) {
                     var index = event.args.index;
@@ -92,7 +91,7 @@
                             });
                             break;
                         case 9:
-                            $.getScript('../../jqwidgets/globalization/globalize.culture.hr.js', function () {
+                            $.getScript('../../jqwidgets/globalization/globalize.culture.hr-HR.js', function () {
                                 $("#jqxDateTimeInput").jqxDateTimeInput({ culture: 'hr' });
                             });
                             break;

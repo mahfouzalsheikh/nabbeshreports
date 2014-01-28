@@ -1,17 +1,17 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <title id='Description'>jqxChart Export to JPEG or PNG. In order to export the Chart you will need a browser which supports HTML5.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxchart.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
+            
             // prepare data source
             var source =
             {
@@ -77,8 +77,8 @@
             // setup the chart
             $('#jqxChart').jqxChart(settings);
 
-            $("#jpegButton").jqxButton({ theme: theme });
-            $("#pngButton").jqxButton({ theme: theme });
+            $("#jpegButton").jqxButton({  });
+            $("#pngButton").jqxButton({  });
 
             $("#jpegButton").click(function () {
                 // call the export server to create a JPEG image

@@ -2,7 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxexpander.js"></script> 
     <script type="text/javascript" src="../../jqwidgets/jqxvalidator.js"></script> 
@@ -12,7 +12,7 @@
     <script type="text/javascript" src="../../jqwidgets/jqxcalendar.js"></script> 
     <script type="text/javascript" src="../../jqwidgets/jqxdatetimeinput.js"></script> 
     <script type="text/javascript" src="../../jqwidgets/jqxmaskedinput.js"></script> 
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script> 
+    <script type="text/javascript" src="../../scripts/demos.js"></script> 
     <style type="text/css">
         .demo-iframe {
             border: none;
@@ -62,8 +62,8 @@
 <body style='overflow: hidden;'>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-         $('#sendButton').jqxButton({ width: 70, theme: theme });
+            
+         $('#sendButton').jqxButton({ width: 70});
        
             $('.text-input').addClass('jqx-input');
             $('.text-input').addClass('jqx-rc-all');
@@ -108,7 +108,7 @@
 		</div>
 			<table align="left" class="register-table">
 				<tr>
-					<td colspan="3"><label class='form-label'>Name:<span class="required">*</span></label</td>
+					<td colspan="3"><label class='form-label'>Name:<span class="required">*</span></label></td>
 				</tr>
 				<tr id='nameGroup'>
 					<td><input placeHolder="First Name" name="firstname" type="text" id="firstname" style='width: 100px;' class="text-input" /></td>
@@ -116,19 +116,19 @@
 					<td><input placeHolder="Last Name" name="lastname" type="text" id="lastname" style='width: 140px;' class="text-input" /></td>
 				</tr>
 				<tr>
-					<td colspan="3"><label class='form-label'>E-mail address:<span class="required">*</span></label</td>
+					<td colspan="3"><label class='form-label'>E-mail address:<span class="required">*</span></label></td>
 				</tr>
 				<tr>
 					<td colspan="3"><input placeHolder="E-mail" name="email" type="text" id="email" style='width: 90%;' class="text-input" /></td>
 				</tr>
 				<tr>
-					<td colspan="3"><label class='form-label'>Subject:<span class="required">*</span></label</td>
+					<td colspan="3"><label class='form-label'>Subject:<span class="required">*</span></label></td>
 				</tr>
 				<tr>
 					<td colspan="3"><input placeHolder="Subject" name="subject" type="text" id="subject" style='width: 110%;' class="text-input" /></td>
 				</tr>
 				<tr>
-					<td colspan="3"><label class='form-label'>Message:<span class="required">*</span></label</td>
+					<td colspan="3"><label class='form-label'>Message:<span class="required">*</span></label></td>
 				</tr>
 				<tr>
 					<td colspan="3"><textarea placeHolder="Enter your message here" name="message" type="text" id="message" rows="10" style='height: 150px; width: 150%;' class="text-input"></textarea></td>

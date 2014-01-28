@@ -5,8 +5,8 @@
     <meta name="description" content="This demo demonstrates how to trigger the jqxNumberInput's valuechanged and textchanged events." />
     <title id='Description'>This demo demonstrates the 'simple' input mode of the jqxNumberInput</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxscrollbar.js"></script>
@@ -14,13 +14,11 @@
     <script type="text/javascript" src="../../jqwidgets/jqxnumberinput.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
             // Create jqxNumberInput
-            $("#numericInput").jqxNumberInput({ width: '250px', height: '25px', inputMode: 'simple', spinButtons: true,  theme: theme });
+            $("#numericInput").jqxNumberInput({ width: '250px', height: '25px', inputMode: 'simple', spinButtons: true });
           
             $('#Events').css('border', 'none');
-            $('#Events').jqxPanel({ theme: theme, height: '250px', width: '300px' });
+            $('#Events').jqxPanel({  height: '250px', width: '300px' });
 
             $('#numericInput').on('valuechanged', function (event) {
                 var value = event.args.value;

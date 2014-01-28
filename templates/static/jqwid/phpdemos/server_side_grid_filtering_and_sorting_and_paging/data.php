@@ -117,7 +117,8 @@
 	}
 	
 	if (isset($_GET['sortdatafield']))
-	{	
+	{
+	
 		$sortfield = $_GET['sortdatafield'];
 		$sortorder = $_GET['sortorder'];
 		
@@ -127,27 +128,28 @@
 			{
 				if ($sortorder == "desc")
 				{
-					$query = "SELECT * FROM Orders ORDER BY" . " " . $sortfield . " DESC";
+					$query = "SELECT * FROM Orders ORDER BY" . " " . $sortfield . " DESC LIMIT $start, $pagesize";
 				}
 				else if ($sortorder == "asc")
 				{
-					$query = "SELECT * FROM Orders ORDER BY" . " " . $sortfield . " ASC";
+					$query = "SELECT * FROM Orders ORDER BY" . " " . $sortfield . " ASC LIMIT $start, $pagesize";
 				}
 			}
 			else
 			{
 				if ($sortorder == "desc")
 				{
-					$filterquery .= " ORDER BY" . " " . $sortfield . " DESC";
+					$filterquery .= " ORDER BY" . " " . $sortfield . " DESC LIMIT $start, $pagesize";
 				}
 				else if ($sortorder == "asc")	
 				{
-					$filterquery .= " ORDER BY" . " " . $sortfield . " ASC";
+					$filterquery .= " ORDER BY" . " " . $sortfield . " ASC LIMIT $start, $pagesize";
 				}
 				$query = $filterquery;
 			}		
 		}
 	}
+	
 	
 	$result = mysql_query($query) or die("SQL Error 1: " . mysql_error());
 

@@ -4,7 +4,7 @@
     <title id='Description'>In order to enter in edit mode, click any of the 'Edit' buttons. To save the changes, click the 'Save' button in the popup dialog. To cancel the changes
     click the 'Cancel' button in the popup dialog.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script> 
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
@@ -18,12 +18,10 @@
     <script type="text/javascript" src="../../jqwidgets/jqxlistbox.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdropdownlist.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxinput.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="generatedata.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
             // prepare the data
             var data = generatedata(200);
 
@@ -59,8 +57,8 @@
             $("#product").width(150);
             $("#product").height(23);
 
-            $("#quantity").jqxNumberInput({ width: 150, height: 23, theme: theme, decimalDigits: 0, spinButtons: true });
-            $("#price").jqxNumberInput({symbol: '$', width: 150, height: 23, theme: theme, spinButtons: true });
+            $("#quantity").jqxNumberInput({ width: 150, height: 23,  decimalDigits: 0, spinButtons: true });
+            $("#price").jqxNumberInput({symbol: '$', width: 150, height: 23,  spinButtons: true });
 
             var dataAdapter = new $.jqx.dataAdapter(source);
             var editrow = -1;
@@ -70,7 +68,6 @@
             {
                 width: 670,
                 source: dataAdapter,
-                theme: theme,
                 pageable: true,
                 autoheight: true,
                 columns: [
@@ -79,9 +76,9 @@
                   { text: 'Product', datafield: 'productname', width: 190 },
                   { text: 'Quantity', datafield: 'quantity', width: 90, cellsalign: 'right' },
                   { text: 'Price', datafield: 'price', width: 90, cellsalign: 'right', cellsformat: 'c2' },
-                 { text: 'Edit', datafield: 'Edit', columntype: 'button', cellsrenderer: function () {
+                  { text: 'Edit', datafield: 'Edit', columntype: 'button', cellsrenderer: function () {
                      return "Edit";
-                 }, buttonclick: function (row) {
+                  }, buttonclick: function (row) {
                      // open the popup window when the user clicks a button.
                      editrow = row;
                      var offset = $("#jqxgrid").offset();
@@ -98,13 +95,13 @@
                      // show the popup window.
                      $("#popupWindow").jqxWindow('open');
                  }
-                 },
+                 }
                 ]
             });
 
             // initialize the popup window and buttons.
             $("#popupWindow").jqxWindow({
-                width: 250, resizable: false, theme: theme, isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+                width: 250, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
             });
 
             $("#popupWindow").on('open', function () {

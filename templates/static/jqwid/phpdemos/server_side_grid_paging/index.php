@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.classic.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxscrollbar.js"></script>
@@ -24,12 +24,12 @@
             {
                  datatype: "json",
                  datafields: [
-					 { name: 'CompanyName'},
-					 { name: 'ContactName'},
-					 { name: 'ContactTitle'},
-					 { name: 'Address'},
-					 { name: 'City'},
-					 { name: 'Country'}
+					 { name: 'CompanyName', type: 'string'},
+					 { name: 'ContactName', type: 'string'},
+					 { name: 'ContactTitle', type: 'string'},
+					 { name: 'Address', type: 'string'},
+					 { name: 'City', type: 'string'},
+					 { name: 'Country', type: 'string'}
                 ],
 			    url: 'data.php',
 				root: 'Rows',

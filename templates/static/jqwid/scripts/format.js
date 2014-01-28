@@ -34,7 +34,7 @@ function formatCode(precode) {
         linecount++;
     }
 
-    return "<pre style='width: 700px; max-width: 700px; margin: 10px;' class='code'>" + newcode + "</pre>";
+    return "<pre style='width: 700px; max-width: 700px; margin: 5px;' class='code'>" + newcode + "</pre>";
 }
 
 function colourKeywords(keywords, codeline) {

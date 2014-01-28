@@ -3,7 +3,7 @@
 <head>
     <title id='Description'>Right-Click on a jqxGrid Row to open a Context Menu.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script> 
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
@@ -16,12 +16,10 @@
     <script type="text/javascript" src="../../jqwidgets/jqxwindow.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxlistbox.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdropdownlist.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="generatedata.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
             // prepare the data
             var data = generatedata(25);
 
@@ -68,8 +66,8 @@
                 $("#product").addClass('jqx-input-' + theme);
             }
 
-            $("#quantity").jqxNumberInput({ width: 150, height: 23, theme: theme, decimalDigits: 0, spinButtons: true });
-            $("#price").jqxNumberInput({symbol: '$', width: 150, height: 23, theme: theme, spinButtons: true });
+            $("#quantity").jqxNumberInput({ width: 150, height: 23,  decimalDigits: 0, spinButtons: true });
+            $("#price").jqxNumberInput({symbol: '$', width: 150, height: 23,  spinButtons: true });
 
             var dataAdapter = new $.jqx.dataAdapter(source);
             var editrow = -1;
@@ -79,7 +77,6 @@
             {
                 width: 670,
                 source: dataAdapter,
-                theme: theme,
                 pageable: true,
                 autoheight: true,
                 columns: [
@@ -92,7 +89,7 @@
             });
 
             // create context menu
-            var contextMenu = $("#Menu").jqxMenu({ width: 200, height: 58, autoOpenPopup: false, mode: 'popup', theme: theme });
+            var contextMenu = $("#Menu").jqxMenu({ width: 200, height: 58, autoOpenPopup: false, mode: 'popup'});
 
             $("#jqxgrid").on('contextmenu', function () {
                 return false;
@@ -136,7 +133,7 @@
             });
 
             // initialize the popup window and buttons.
-            $("#popupWindow").jqxWindow({ width: 250, resizable: false, theme: theme, isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01 });
+            $("#popupWindow").jqxWindow({ width: 250, resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01 });
             $("#Cancel").jqxButton({ theme: theme });
             $("#Save").jqxButton({ theme: theme });
 

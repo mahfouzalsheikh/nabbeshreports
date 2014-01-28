@@ -3,8 +3,8 @@
 <head>
     <title id='Description'>To switch the widget to a right-to-left representation, just enable a single property - "rtl". When this property is on, the widget itself is mirrored (the layout of its UI elements is reversed).</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxwindow.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdatetimeinput.js"></script>
@@ -28,18 +28,18 @@
                     'Twitter - John Doe is following you. Look at his profile',
                     'New videos, take a look at YouTube.com'
             ];
-            var theme = getDemoTheme();
+            
             // Create Docking.
-            $('#docking').jqxDocking({ rtl: true, theme: theme, orientation: 'horizontal', width: 700, mode: 'docked' });
+            $('#docking').jqxDocking({ rtl: true,  orientation: 'horizontal', width: 700, mode: 'docked' });
             $('#docking').jqxDocking('disableWindowResize', 'window1');
             $('#docking').jqxDocking('disableWindowResize', 'window2');
             $('#docking').jqxDocking('disableWindowResize', 'window3');
             $('#docking').jqxDocking('disableWindowResize', 'window4');
 
-            $('#calendar').jqxCalendar({ rtl: true, theme: theme, width: 180, height: 180 });
-            $('#newsTbs').jqxTabs({ rtl: true, theme: theme, width: '100%', height: 181, selectedItem: 1 });
-            $('#listbox').jqxListBox({ rtl: true, source: source, theme: theme, width: '100%', height: 181 });
-            $('#zodiak').jqxPanel({ rtl: true, theme: theme, width: '100%', height: 180 });
+            $('#calendar').jqxCalendar({ rtl: true,  width: 180, height: 180 });
+            $('#newsTbs').jqxTabs({ rtl: true,  width: '100%', height: 181, selectedItem: 1 });
+            $('#listbox').jqxListBox({ rtl: true, source: source,  width: '100%', height: 181 });
+            $('#zodiak').jqxPanel({ rtl: true,  width: '100%', height: 180 });
         });
     </script>
 </head>

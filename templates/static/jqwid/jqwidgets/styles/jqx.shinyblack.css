@@ -35,7 +35,49 @@
 .jqx-grid-column-menubutton-shinyblack, .jqx-grid-column-sortdescbutton-shinyblack, .jqx-expander-arrow-top-shinyblack, .jqx-window-collapse-button-collapsed-shinyblack, .jqx-menu-item-arrow-down-shinyblack, .jqx-menu-item-arrow-down-selected-shinyblack, .jqx-menu-item-arrow-down-shinyblack, .jqx-icon-arrow-down-shinyblack, .jqx-icon-arrow-down-hover-shinyblack, .jqx-icon-arrow-down-selected-shinyblack{background-image:url('images/icon-down-white.png'); background-repeat:no-repeat; background-position:center}
 .jqx-tabs-arrow-left-shinyblack, .jqx-menu-item-arrow-left-selected-shinyblack, .jqx-menu-item-arrow-top-left, .jqx-icon-arrow-left-shinyblack, .jqx-icon-arrow-down-left-shinyblack, .jqx-icon-arrow-left-selected-shinyblack{background-image:url('images/icon-left-white.png'); background-repeat:no-repeat; background-position:center}
 .jqx-tabs-arrow-right-shinyblack, .jqx-menu-item-arrow-right-selected-shinyblack, .jqx-menu-item-arrow-top-right-shinyblack, .jqx-icon-arrow-right-shinyblack, .jqx-icon-arrow-right-hover-shinyblack, .jqx-icon-arrow-right-selected-shinyblack{background-image:url('images/icon-right-white.png'); background-repeat:no-repeat; background-position:center}
-.jqx-window-close-button-shinyblack, .icon-close-shinyblack, .jqx-tabs-close-button-shinyblack, .jqx-tabs-close-button-hover-shinyblack, .jqx-tabs-close-button-selected-shinyblack{background-image:url(images/close_white.png);  background-repeat:no-repeat;  background-position:center}
+.jqx-window-close-button-shinyblack, .jqx-icon-close-shinyblack, .jqx-tabs-close-button-shinyblack, .jqx-tabs-close-button-hover-shinyblack, .jqx-tabs-close-button-selected-shinyblack{background-image:url(images/close_white.png);  background-repeat:no-repeat;  background-position:center}
 /*applied to the progressbar's value element*/
 .jqx-progressbar-value-shinyblack{background: #555;}
 .jqx-progressbar-value-vertical-shinyblack{background: #555;}
+.jqx-icon-arrow-first-shinyblack
+{
+    background-image: url('images/icon-first-white.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.jqx-icon-arrow-last-shinyblack
+{
+    background-image: url('images/icon-last-white.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.jqx-grid-cell-shinyblack.jqx-grid-cell-selected-shinyblack>.jqx-grid-group-expand-shinyblack,
+.jqx-grid-cell-shinyblack.jqx-grid-cell-hover-shinyblack>.jqx-grid-group-expand-shinyblack {
+    background-image: url('images/icon-down-white.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.jqx-grid-cell-shinyblack.jqx-grid-cell-selected-shinyblack>.jqx-grid-group-collapse-shinyblack,
+.jqx-grid-cell-shinyblack.jqx-grid-cell-hover-shinyblack>.jqx-grid-group-collapse-shinyblack {
+    background-image: url('images/icon-right-white.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.jqx-grid-cell-shinyblack.jqx-grid-cell-selected-shinyblack>.jqx-grid-group-collapse-rtl-shinyblack,
+.jqx-grid-cell-shinyblack.jqx-grid-cell-hover-shinyblack>.jqx-grid-group-collapse-rtl-shinyblack {
+    background-image: url('images/icon-left-white.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.jqx-grid-cell-shinyblack.jqx-grid-cell-selected-shinyblack>.jqx-grid-group-expand-rtl-shinyblack,
+.jqx-grid-cell-shinyblack.jqx-grid-cell-hover-shinyblack>.jqx-grid-group-expand-rtl-shinyblack {
+    background-image: url('images/icon-down-white.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.jqx-icon-search-shinyblack
+{
+    background-image: url(images/search_white.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}

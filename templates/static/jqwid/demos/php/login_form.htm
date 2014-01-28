@@ -2,12 +2,12 @@
 <html>
 <head>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcheckbox.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxvalidator.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <style type="text/css">
         .demo-iframe {
             border: none;
@@ -33,12 +33,12 @@
 <body>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
+            
             $("#username, #password").addClass('jqx-input');
             if (theme != '') {
                 $("#username, #password").addClass('jqx-input-' + theme);
             }
-            $("#rememberme").jqxCheckBox({ width: 130, theme: theme });
+            $("#rememberme").jqxCheckBox({ width: 130});
             $("#loginButton").jqxButton({theme: theme});
 
             // add validation rules.
@@ -50,7 +50,7 @@
                        { input: '#password', message: 'Password is required!', action: 'keyup, blur', rule: 'required' },
                        { input: '#password', message: 'Your password must be between 4 and 12 characters!', action: 'keyup, blur', rule: 'length=4,12' }
                 ]
-                       , theme: theme
+                       
             });
             // validate form.
             $("#loginButton").click(function () {

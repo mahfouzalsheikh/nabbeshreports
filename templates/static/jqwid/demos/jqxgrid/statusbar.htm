@@ -4,7 +4,7 @@
     <title id='Description'>In this sample is demonstrated how to display status bar in
         jqxGrid.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
@@ -17,12 +17,10 @@
     <script type="text/javascript" src="../../jqwidgets/jqxdropdownlist.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcheckbox.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxwindow.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="generatedata.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            var theme = getDemoTheme();
-
+        $(document).ready(function () {          
             var getAdapter = function () {
                 // prepare the data
                 var data = generatedata(15);
@@ -56,8 +54,7 @@
             $("#jqxgrid").jqxGrid(
             {
                 width: 680,
-                source: getAdapter(),
-                theme: theme,
+                source: getAdapter(),               
                 showstatusbar: true,
                 renderstatusbar: function (statusbar) {
                     // appends buttons to the status bar.
@@ -71,10 +68,10 @@
                     container.append(reloadButton);
                     container.append(searchButton);
                     statusbar.append(container);
-                    addButton.jqxButton({ theme: theme, width: 60, height: 20 });
-                    deleteButton.jqxButton({ theme: theme, width: 65, height: 20 });
-                    reloadButton.jqxButton({ theme: theme, width: 65, height: 20 });
-                    searchButton.jqxButton({ theme: theme, width: 50, height: 20 });
+                    addButton.jqxButton({  width: 60, height: 20 });
+                    deleteButton.jqxButton({  width: 65, height: 20 });
+                    reloadButton.jqxButton({  width: 65, height: 20 });
+                    searchButton.jqxButton({  width: 50, height: 20 });
                     // add new row.
                     addButton.click(function (event) {
                         var datarow = generatedata(1);
@@ -84,10 +81,8 @@
                     deleteButton.click(function (event) {
                         var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
                         var rowscount = $("#jqxgrid").jqxGrid('getdatainformation').rowscount;
-                        if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
-                            var id = $("#jqxgrid").jqxGrid('getrowid', selectedrowindex);
-                            $("#jqxgrid").jqxGrid('deleterow', id);
-                        }
+                        var id = $("#jqxgrid").jqxGrid('getrowid', selectedrowindex);
+                        $("#jqxgrid").jqxGrid('deleterow', id);
                     });
                     // reload grid data.
                     reloadButton.click(function (event) {
@@ -111,12 +106,12 @@
             });
 
             // create jqxWindow.
-            $("#jqxwindow").jqxWindow({ resizable: false, theme: theme, autoOpen: false, width: 210, height: 180 });
+            $("#jqxwindow").jqxWindow({ resizable: false,  autoOpen: false, width: 210, height: 180 });
             // create find and clear buttons.
-            $("#findButton").jqxButton({ width: 70, theme: theme });
-            $("#clearButton").jqxButton({ width: 70, theme: theme });
+            $("#findButton").jqxButton({ width: 70});
+            $("#clearButton").jqxButton({ width: 70});
             // create dropdownlist.
-            $("#dropdownlist").jqxDropDownList({ autoDropDownHeight: true, selectedIndex: 0, width: 200, height: 23, theme: theme,
+            $("#dropdownlist").jqxDropDownList({ autoDropDownHeight: true, selectedIndex: 0, width: 200, height: 23, 
                 source: [
                     'First Name', 'Last Name', 'Product', 'Quantity', 'Price'
                 ]

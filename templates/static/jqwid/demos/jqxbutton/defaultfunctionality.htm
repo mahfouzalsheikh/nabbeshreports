@@ -1,13 +1,13 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta name="keywords" content="jQuery Button, CheckBox, Toggle Button, Repeat Button, Radio Button, Link Button, Button" />
     <meta name="description" content="The jqxButton widget allows you to display a button on the Web page." />
     <title id='Description'>The jqxButton widget allows you to display a button on the Web
         page.</title>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
 </head>
@@ -15,11 +15,11 @@
     <div id='content'>
         <script type="text/javascript">
             $(document).ready(function () {
-                var theme = getDemoTheme();
+                
                 // Create jqxButton widgets.
-                $("#jqxButton").jqxButton({ width: '150', theme: theme });
-                $("#jqxSubmitButton").jqxButton({ width: '150', theme: theme });
-                $("#jqxDisabledButton").jqxButton({ disabled: true, width: '150', theme: theme });
+                $("#jqxButton").jqxButton({ width: '150'});
+                $("#jqxSubmitButton").jqxButton({ width: '150'});
+                $("#jqxDisabledButton").jqxButton({ disabled: true, width: '150'});
 
                 // Subscribe to Click events.
                 $("#jqxButton").on('click', function () {

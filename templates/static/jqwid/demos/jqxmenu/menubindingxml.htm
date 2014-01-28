@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
     <title id='Description'>In this demo the jqxMenu is built from XML data.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxmenu.js"></script>
@@ -13,9 +13,7 @@
     <div id='content'>
         <script type="text/javascript">
             $(document).ready(function () {
-                var theme = getDemoTheme();
-
-                // prepare the data
+               // prepare the data
                 var source =
                 {
                     datatype: "xml",
@@ -40,8 +38,8 @@
                 // get the tree items. The first parameter is the grouping fields. The second parameter is the sub items collection name. The third parameter is the group's name. 
                 // Each jqxMenu item has a 'label' property, but in the data source, we have a 'CompanyName' field. The last parameter 
                 // specifies the mapping between the 'CompanyName' and 'label' fields.  
-                var records = dataAdapter.getGroupedRecords(['ContactTitle'], 'items', 'label', [{ name: 'ContactName', map: 'label'}]);
-                $('#jqxWidget').jqxMenu({ source: records, mode: 'vertical',  width: '150px', theme: theme });
+                var records = dataAdapter.getGroupedRecords(['ContactTitle', 'ContactName'], 'items', 'label', [{ name: 'ContactName', map: 'label'}]);
+                $('#jqxWidget').jqxMenu({ source: records, mode: 'vertical',  width: '150px'});
             });
         </script>
         <div id='jqxWidget'>

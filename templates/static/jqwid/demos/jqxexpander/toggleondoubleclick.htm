@@ -7,15 +7,15 @@
         To change the toggle mode, set the toggleMode property to 'dblclick', 'click'
         or 'none'. </title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxexpander.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
+            
             // Create jqxExpander and set its toggleMode property to 'dblclick'. 
-            $("#jqxExpander").jqxExpander({ width: '350px', toggleMode: 'dblclick', theme: theme });
+            $("#jqxExpander").jqxExpander({ width: '350px', toggleMode: 'dblclick'});
         });
     </script>
 </head>

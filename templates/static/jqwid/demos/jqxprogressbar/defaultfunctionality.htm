@@ -5,8 +5,8 @@
     <meta name="description" content="The jqxProgressBar widget visually indicates the progress of a lengthy operation" />
     <title id='Description'>The jqxProgressBar widget visually indicates the progress of a lengthy operation.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxprogressbar.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
@@ -14,11 +14,10 @@
     <script type="text/javascript">
         $(document).ready(function () {
             // Create jqxProgressBar.
-            var theme = getDemoTheme();
-            $("#jqxProgressBar").jqxProgressBar({ width: 250, height: 30, value: 50, theme: theme });
-            $("#jqxVerticalProgressBar").jqxProgressBar({ width: 30, height: 250, value: 50, orientation: 'vertical', theme: theme });
+            $("#jqxProgressBar").jqxProgressBar({ width: 250, height: 30, value: 50});
+            $("#jqxVerticalProgressBar").jqxProgressBar({ width: 30, height: 250, value: 50, orientation: 'vertical'});
             // Create jqxButton.
-            $('#button').jqxButton({ theme: theme });
+            $('#button').jqxButton({});
             // Update ProgressBars.
             $('#button').click(function () {
                 var value = $('#ValueInput')[0].value;
@@ -26,8 +25,8 @@
                 $("#jqxVerticalProgressBar").jqxProgressBar({ value: value });
             });
 
-            $("#checkbox").jqxCheckBox({ theme: theme });
-            $("#customtextcheckbox").jqxCheckBox({ theme: theme });
+            $("#checkbox").jqxCheckBox({});
+            $("#customtextcheckbox").jqxCheckBox({});
 
             $("#checkbox").on('change', function (event) {
                 $("#jqxProgressBar").jqxProgressBar({ showText: event.args.checked });

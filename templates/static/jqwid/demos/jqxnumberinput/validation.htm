@@ -7,20 +7,19 @@
     <title id='Description'>In this jqxNumberInput demo the input is restricted from 0 to 1000. When the user enters a value which is not from 0 to 1000, the
     jqxNumberInput automatically updates the value to 0 or 1000 depending on the whether the value is below 0 or above 1000. That happens on blur event.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxtooltip.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxnumberinput.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
             // Create jqxNumberInput
-            $("#numericInput").jqxNumberInput({ width: '250px', height: '25px', min: 0, max: 1000, theme: theme });
+            $("#numericInput").jqxNumberInput({ width: '250px', height: '25px', min: 0, max: 1000});
             // Create currency Input.
-            $("#currencyInput").jqxNumberInput({ width: '250px', height: '25px', min: 0, max: 1000, symbol: '$', theme: theme });
+            $("#currencyInput").jqxNumberInput({ width: '250px', height: '25px', min: 0, max: 1000, symbol: '$'});
             // Create custom validation Input.
-            $("#validation").jqxNumberInput({ width: '250px', height: '25px', min: 0, max: 1000, value: 0, theme: theme });
+            $("#validation").jqxNumberInput({ width: '250px', height: '25px', min: 0, max: 1000, value: 0});
         });
     </script>
 </head>

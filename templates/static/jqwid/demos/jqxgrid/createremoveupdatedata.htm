@@ -4,7 +4,7 @@
     <title id='Description'>This example demostrates how we can manipulate data at client side. The Grid plugin provides you callback functions when you add, remove or update a row.
     </title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script> 
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
@@ -15,11 +15,9 @@
     <script type="text/javascript" src="../../jqwidgets/jqxdropdownlist.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.selection.js"></script> 
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
             // prepare the data
             var data = {};
 
@@ -105,7 +103,6 @@
                 width: 500,
                 height: 350,
                 source: dataAdapter,
-                theme: theme,
                 columns: [
                   { text: 'First Name', datafield: 'firstname', width: 100 },
                   { text: 'Last Name', datafield: 'lastname', width: 100 },

@@ -3,7 +3,7 @@
 <head>
     <title id='Description'>In order to enter in edit mode, 'click' on a Grid cell. The sample illustrates how to enable/disable the editing and the jqxGrid edit modes.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
@@ -19,12 +19,10 @@
     <script type="text/javascript" src="../../jqwidgets/jqxnumberinput.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdatetimeinput.js"></script>
     <script type="text/javascript" src="../../jqwidgets/globalization/globalize.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="generatedata.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            var theme = getDemoTheme();
-
+        $(document).ready(function () {           
             // prepare the data
             var data = generatedata(200);
 
@@ -57,7 +55,6 @@
                 width: 600,
                 source: dataAdapter,
                 editable: true,
-                theme: theme,
                 selectionmode: 'singlecell',
                 editmode: 'click',
                 columns: [
@@ -70,12 +67,12 @@
             });
 
             var editModes = ['Click', 'Double-Click', 'Selected Cell Click'];
-            $("#editmodes").jqxDropDownList({ theme: theme, autoDropDownHeight: true, dropDownWidth: 150, width: 150, height: 25, selectedIndex: 0, source: editModes });
-            $("#firstname").jqxCheckBox({ theme: theme, checked: true });
-            $("#lastname").jqxCheckBox({ theme: theme, checked: true });
-            $("#productname").jqxCheckBox({ theme: theme, checked: true });
-            $("#available").jqxCheckBox({ theme: theme, checked: true });
-            $("#quantity").jqxCheckBox({ theme: theme, checked: true });
+            $("#editmodes").jqxDropDownList({  autoDropDownHeight: true, dropDownWidth: 150, width: 150, height: 25, selectedIndex: 0, source: editModes });
+            $("#firstname").jqxCheckBox({  checked: true });
+            $("#lastname").jqxCheckBox({  checked: true });
+            $("#productname").jqxCheckBox({  checked: true });
+            $("#available").jqxCheckBox({  checked: true });
+            $("#quantity").jqxCheckBox({  checked: true });
 
             // change the Edit mode.
             $("#editmodes").on('select', function (event) {

@@ -7,22 +7,21 @@
     <title id='Description'>The jqxNumberInput widget allows you to edit currency, percentages and any type of numeric data. The edited data can 
     be presented in various formats. Other built-in capabilities are customizable number of digits and decimal digits, currency symbol's string and position, group and decimal separator character.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxnumberinput.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
             // Create jqxNumberInput
-            $("#numericInput").jqxNumberInput({ width: '250px', height: '25px', theme: theme, spinButtons: true });
+            $("#numericInput").jqxNumberInput({ width: '250px', height: '25px',  spinButtons: true });
             // Create Percentage Input.
-            $("#percentageInput").jqxNumberInput({ width: '250px', height: '25px', digits: 3, symbolPosition: 'right', symbol: '%', theme: theme, spinButtons: true });
+            $("#percentageInput").jqxNumberInput({ width: '250px', height: '25px', digits: 3, symbolPosition: 'right', symbol: '%',  spinButtons: true });
             // Create Currency Input.
-            $("#currencyInput").jqxNumberInput({ width: '250px', height: '25px', symbol: '$', theme: theme, spinButtons: true });
+            $("#currencyInput").jqxNumberInput({ width: '250px', height: '25px', symbol: '$',  spinButtons: true });
             // Create Disabled Input.
-            $("#disabledInput").jqxNumberInput({ width: 250, height: 25, disabled: true, theme: theme, spinButtons: true });
+            $("#disabledInput").jqxNumberInput({ width: 250, height: 25, disabled: true,  spinButtons: true });
         });
     </script>
 </head>

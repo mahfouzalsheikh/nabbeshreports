@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
     <title id='Description'>The jqxColorPicker widget allows you to easily pick a color.
     </title>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcolorpicker.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxradiobutton.js"></script>
@@ -48,17 +48,15 @@
             }
 
             $(document).ready(function () {
-                var theme = getDemoTheme();
-
                 $("#colorPicker").on('colorchange', function (event) {
                     $("#dropDownButton").jqxDropDownButton('setContent', getTextElementByColor(event.args.color));
                     $('#photoGallery').css('border-color', "#" + event.args.color.hex);
                 });
 
-                $("#colorPicker").jqxColorPicker({ color: "ffaabb", colorMode: 'hue', width: 220, height: 200, theme: theme });
-                $("#dropDownButton").jqxDropDownButton({ width: 150, height: 22, theme: theme });
+                $("#colorPicker").jqxColorPicker({ color: "ffaabb", colorMode: 'hue', width: 220, height: 220});
+                $("#dropDownButton").jqxDropDownButton({ width: 150, height: 22});
                 $("#dropDownButton").jqxDropDownButton('setContent', getTextElementByColor(new $.jqx.color({ hex: "ffaabb" })));
-                $('#photoGallery').jqxScrollView({ slideShow: true, width: 500, height: 350, showButtons: false, theme: theme });
+                $('#photoGallery').jqxScrollView({ slideShow: true, width: 500, height: 350, showButtons: false});
             });
         </script>
         <div id='jqxWidget'>

@@ -5,8 +5,8 @@
     <meta name="description" content="Show, Hide, Pin, Unpin or Open and Close the jqxWindow through its API functions." />
     <title id='Description'>Show, Hide, Pin, Unpin or Open and Close the jqxWindow through its API functions.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxwindow.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
@@ -14,7 +14,6 @@
     <script type="text/javascript" src="../../jqwidgets/jqxscrollbar.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxpanel.js"></script>
     <script type="text/javascript">
-
         var customButtonsDemo = (function () {
             var _collapsed = false;
 
@@ -67,38 +66,35 @@
             };
 
             function _searchButtonHandle() {
-                if ($('#searchTextInput').val() !== '') {
-                    $('#searchTextButton').jqxButton('disabled', false);
-                } else {
-                    $('#searchTextButton').jqxButton('disabled', true);
+                if ($('#searchTextButton').length > 0) {
+                    if ($('#searchTextInput').val() !== '') {
+                        $('#searchTextButton').jqxButton('disabled', false);
+                    } else {
+                        $('#searchTextButton').jqxButton('disabled', true);
+                    }
+                    $('#cancelButton').jqxButton('disabled', false);
                 }
-                $('#cancelButton').jqxButton('disabled', false);
             };
 
             function _createElements() {
-                $('#showWindowButton').jqxButton({ theme: customButtonsDemo.config.theme, width: '80px'});
-                $('#hideWindowButton').jqxButton({ theme: customButtonsDemo.config.theme, width: '80px' });
-                $('#pinWindowButton').jqxButton({ theme: customButtonsDemo.config.theme, width: '80px' });
-                $('#unpinWindowButton').jqxButton({ theme: customButtonsDemo.config.theme, width: '80px' });
-                $('#collapseWindowButton').jqxButton({ theme: customButtonsDemo.config.theme, width: '80px' });
-                $('#expandWindowButton').jqxButton({ theme: customButtonsDemo.config.theme, width: '80px' });
-                $('#customWindow').jqxWindow({ theme: customButtonsDemo.config.theme, width: 400,
+                $('#showWindowButton').jqxButton({ width: '80px'});
+                $('#hideWindowButton').jqxButton({ width: '80px' });
+                $('#pinWindowButton').jqxButton({ width: '80px' });
+                $('#unpinWindowButton').jqxButton({ width: '80px' });
+                $('#collapseWindowButton').jqxButton({ width: '80px' });
+                $('#expandWindowButton').jqxButton({ width: '80px' });
+                $('#customWindow').jqxWindow({  width: 400,
                     height: 110, resizable: false,
                     cancelButton: $('#cancelButton'),
                     initContent: function () {
-                        $('#searchTextButton').jqxButton({ theme: customButtonsDemo.config.theme, width: '80px', disabled: true });
-                        $('#cancelButton').jqxButton({ theme: customButtonsDemo.config.theme, width: '80px', disabled: false });
-                        $('#matchCaseCheckBox').jqxCheckBox({ theme: customButtonsDemo.config.theme, width: '150px' });
+                        $('#searchTextButton').jqxButton({ width: '80px', disabled: true });
+                        $('#cancelButton').jqxButton({ width: '80px', disabled: false });
+                        $('#matchCaseCheckBox').jqxCheckBox({ width: '150px' });
                     }
                 });
             };
 
             return {
-
-                config: {
-                    theme: null
-                },
-
                 init: function () {
                     _createElements();
                     _addEventListeners();
@@ -107,10 +103,6 @@
         } ());
 
         $(document).ready(function () {
-            var theme = $.data(document.body, 'theme', theme);
-            if (theme == undefined) theme = '';
-
-            customButtonsDemo.config.theme = theme;
             customButtonsDemo.init();
         });
     </script>

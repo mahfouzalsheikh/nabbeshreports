@@ -1,8 +1,9 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
     <link rel="stylesheet" href="../../Styles/jqx.apireference.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/documentation.js"></script>
     <meta name="keywords" content="jQuery, jQuery Validation, Validator, Vlidation Widget, jqxValidator" />
     <meta name="description" content="This page represents the help documentation of the jqxValidator widget." />
     <title>jqxValidator API Reference</title>
@@ -94,6 +95,32 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
     return result;
 }
                         </code></pre>
+                        <p>
+                            Set the hintRender property of a rule.
+                        </p>
+                        <pre><code>
+$('#sendButton').on('click', function () {
+    $('#testForm').jqxValidator('validate');
+});
+
+var that = this;
+var render = function (message, input) {
+    if (that._message) {
+        that._message.remove();
+    }
+    that._message = $("<pre style='width: 700px; max-width: 700px; margin: 10px;' class='code'><span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;span style=<span style=" clear: both; padding: 0px; margin: 0px; color: #a24;">'background: red; color: white;'</span>&gt;</span><span style="clear: both; padding: 0px; margin: 0px; color: #a24;">" + message + "</span><span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/span&gt;</span><div/></pre>")
+    that._message.appendTo($(document.body));
+    return that._message;
+}
+
+    $('#testForm').jqxValidator({
+    rules: [
+        { input: '#userInput', message: 'Username is required!', action: 'keyup, blur', rule: 'required', hintRender: render },
+        { input: '#userInput', message: 'Your username must be between 3 and 12 characters!', action: 'keyup, blur', rule: 'length=3,12', hintRender: render }
+]});
+                        </code></pre>
+                                 <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/GQAfe/">rules is set to a custom function</a></div>
                     </div>
                 </td>
             </tr>
@@ -122,6 +149,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                             Get the <code>rtl</code> property.
                         </p>
                         <pre><code>var rtl = $('#jqxValidator').jqxValidator('rtl'); </code></pre>
+                                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/dvhSq/">rtl is set to true</a></div>
                     </div>
                 </td>
             </tr>
@@ -150,38 +179,12 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                             Get the <code>hintType</code> property.
                         </p>
                         <pre><code>var hintType = $('#jqxValidator').jqxValidator('hintType'); </code></pre>
+                              <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/FrpxJ/">hintType is set to 'label'</a></div>
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td class="documentation-option-type-click">
-                    <span id='Span1'>scroll</span>
-                </td>
-                <td>
-                    <span>Boolean</span>
-                </td>
-                <td>
-                    true
-                </td>
-            </tr>
-            <tr>
-                <td colspan='3' style='width: 100%'>
-                    <div class="documentation-option-description property-content" style="display: none;">
-                        <p>
-                            Sets or gets whether the jqxValidator will scroll the page to the first invalid input.</p>
-                        <h4>
-                            Code examples</h4>
-                        <p>
-                            Set the <code>scroll</code> property.
-                        </p>
-                        <pre><code>$('#jqxValidator').jqxValidator( { scroll: false } );</code></pre>
-                         <p>
-                            Get the <code>scroll</code> property.
-                        </p>
-                        <pre><code>var scroll = $('#jqxValidator').jqxValidator('scroll'); </code></pre>
-                    </div>
-                </td>
-            </tr>
+          
             <tr>
                 <td class="documentation-option-type-click">
                     <span id='Span2'>focus</span>
@@ -208,67 +211,13 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                             Get the <code>focus</code> property.
                         </p>
                         <pre><code>var focus = $('#jqxValidator').jqxValidator('focus'); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/hnVmz/">focus is set to false</a></div>
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td class="documentation-option-type-click">
-                    <span id='Span3'>scrollDuration</span>
-                </td>
-                <td>
-                    <span>Number</span>
-                </td>
-                <td>
-                    300
-                </td>
-            </tr>
-            <tr>
-                <td colspan='3' style='width: 100%'>
-                    <div class="documentation-option-description property-content" style="display: none;">
-                        <p>
-                            Sets or gets the scroll duration, to the first invalid input, when the validation fails. </p>
-                        <h4>
-                            Code examples</h4>
-                        <p>
-                            Set the <code>scrollDuration</code> property.
-                        </p>
-                        <pre><code>$('#jqxValidator').jqxValidator({ scrollDuration: 500 }); </code></pre>
-                        <p>
-                            Get the <code>scrollDuration</code> property.
-                        </p>
-                        <pre><code>var scrollDuration = $('#jqxValidator').jqxValidator('scrollDuration'); </code></pre>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="documentation-option-type-click">
-                    <span id='Span4'>scrollCallback</span>
-                </td>
-                <td>
-                    <span>Function</span>
-                </td>
-                <td>
-                   null
-                </td>
-            </tr>
-            <tr>
-                <td colspan='3' style='width: 100%'>
-                    <div class="documentation-option-description property-content" style="display: none;">
-                        <p>
-                          Sets or gets a callback function which will be executed when the scroll, to the first invalid input, ends. </p>
-                        <h4>
-                            Code examples</h4>
-                        <p>
-                            Set the <code>scrollCallback</code> property.
-                        </p>
-                        <pre><code>$('#jqxValidator').jqxValidator({ scrollCallback: function () { alert('Scrolled'); } }); </code></pre>
-                        <p>
-                            Get the <code>scrollCallback</code> property.
-                        </p>
-                        <pre><code>var scrollCallback = $('#jqxValidator').jqxValidator('scrollCallback'); </code></pre>
-                    </div>
-                </td>
-            </tr>
+            
+            
              <tr>
                 <td class="documentation-option-type-click">
                     <span id='Span5'>position</span>
@@ -295,6 +244,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                             Get the <code>position</code> property.
                         </p>
                         <pre><code>var position = $('#jqxValidator').jqxValidator('position'); </code></pre>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/d3TyU/">position is set to 'left'</a></div>
                     </div>
                 </td>
             </tr>
@@ -324,6 +275,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                             Get the <code>arrow</code> property.
                         </p>
                         <pre><code>var arrow = $('#jqxValidator').jqxValidator('arrow'); </code></pre>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/qeXG7/">arrow is set to false</a></div>
                     </div>
                 </td>
             </tr>
@@ -358,6 +311,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                             Get the <code>animation</code> property.
                         </p>
                         <pre><code>var animation = $('#jqxValidator').jqxValidator('animation'); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/zUafx/">animation is set to 'none'</a></div>
                     </div>
                 </td>
             </tr>
@@ -387,6 +342,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                             Get the <code>animationDuration</code> property.
                         </p>
                         <pre><code>var animationDuration = $('#jqxValidator').jqxValidator('animationDuration'); </code></pre>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/WWbn6/">animationDuration is set to 3000</a></div>
                     </div>
                 </td>
             </tr>
@@ -417,6 +374,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                             Get the <code>closeOnClick</code> property.
                         </p>
                         <pre><code>var closeOnClick = $('#jqxValidator').jqxValidator('closeOnClick'); </code></pre>
+                             <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/n4cRJ/">closeOnClick is set to false</a></div>
                     </div>
                 </td>
             </tr>
@@ -446,6 +405,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                             Get the <code>onError</code> property.
                         </p>
                         <pre><code>var onError = $('#jqxValidator').jqxValidator('onError'); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/mGqWD/">onError is set to a custom function</a></div>
                     </div>
                 </td>
             </tr>
@@ -475,6 +436,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                             Get the <code>onSuccess</code> property.
                         </p>
                         <pre><code>var onSuccess = $('#jqxValidator').jqxValidator('onSuccess'); </code></pre>
+                                    <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/8CtQU/">onSuccess is set to a custom function</a></div>
                     </div>
                 </td>
             </tr>
@@ -506,6 +469,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                             Bind to the <code>validationError</code> event.
                         </p>
                         <pre><code>$('#jqxValidator').on('validationError', function (event) { // Some code here. }); </code></pre>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/AUGwP/"> Bind to the validationError event by type jqxValidator.</a></div>
                     </div>
                 </td>
             </tr>
@@ -531,6 +496,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                             Bind to the <code>validationSuccess</code> event.
                         </p>
                         <pre><code>$('#jqxValidator').on('validationSuccess', function (event) { // Some code here. }); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/tkUmx/"> Bind to the validationSuccess event by type jqxValidator.</a></div>
                     </div>
                 </td>
             </tr>
@@ -562,6 +529,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                         </p>
                         <pre><code>$('#jqxValidator').jqxValidator('validate', element);
                         </code></pre>
+                             <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/hQwmm/"> validates the jqxValidator.</a></div>
                     </div>
                 </td>
             </tr>
@@ -588,6 +557,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                         </p>
                         <pre><code>$('#jqxValidator').jqxValidator('validateInput', '#passwordInput');
                         </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/hQwmm/"> validates an input the jqxValidator.</a></div>
                     </div>
                 </td>
             </tr>
@@ -612,6 +583,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                         </p>
                         <pre><code>$('#jqxValidator').jqxValidator('hideHint', '#passwordInput');
                         </code></pre>
+                            <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/9WgYa/"> hides all hints for a specific input in the jqxValidator.</a></div>
                     </div>
                 </td>
             </tr>
@@ -636,6 +609,8 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                         </p>
                         <pre><code>$('#jqxValidator').jqxValidator('hide');
                         </code></pre>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/uA6Gt/"> hides all hints in the jqxValidator.</a></div>
                     </div>
                 </td>
             </tr>
@@ -659,7 +634,10 @@ $('#form').jqxValidator( { rules: [{ input: '#passwordInput',
                             Invoke the <code>checkItem</code> method.
                         </p>
                         <pre><code>$('#jqxValidator').jqxValidator('updatePosition');
+                              
                          </code></pre>
+                                      <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/9Xpzn/"> updates a position of all hints in the jqxValidator.</a></div>
                     </div>
                 </td>
             </tr>

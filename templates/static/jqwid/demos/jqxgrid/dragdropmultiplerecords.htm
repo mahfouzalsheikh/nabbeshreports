@@ -3,7 +3,7 @@
 <head>
     <title id='Description'>This example shows how to setup a one way drag and drop of multiple Grid rows to another HTML element.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
@@ -13,12 +13,10 @@
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.selection.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxexpander.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdragdrop.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="generatedata.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
             var source =
             {
                 localdata: generatedata(10),
@@ -43,7 +41,6 @@
             {
                 width: 400,
                 source: dataAdapter,
-                theme: theme,
                 ready: function()
                 {
                     $("#grid").jqxGrid('selectrow', 0);
@@ -59,7 +56,7 @@
             var gridCells = $('#grid').find('.jqx-grid-cell');
 
             // initialize the jqxDragDrop plug-in. Set its drop target to the second Grid.
-            gridCells.jqxDragDrop({ appendTo: 'body', theme: theme, dragZIndex: 99999,
+            gridCells.jqxDragDrop({ appendTo: 'body',  dragZIndex: 99999,
                 dropAction: 'none',
                 initFeedback: function (feedback) {
                     var rowsindexes = $("#grid").jqxGrid('getselectedrowindexes');
@@ -171,7 +168,7 @@
                 }
             });
 
-            $("#form").jqxExpander({ theme: theme, width: 400, toggleMode: 'none', showArrow: false });
+            $("#form").jqxExpander({  width: 400, toggleMode: 'none', showArrow: false });
          });
     </script>
 </head>

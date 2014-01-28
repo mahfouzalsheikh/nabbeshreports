@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-	<script type="text/javascript" src="../../scripts/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
 	<script type="text/javascript" src="../../jqwidgets/jqxchart.js"></script>	
 	<script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>	
@@ -16,8 +16,8 @@
 				 datatype: "json",
 				 datafields: [
 					 { name: 'OrderDate', type: 'date'},
-					 { name: 'Quantity'},
-					 { name: 'ProductName'}
+					 { name: 'Quantity', type: 'number'},
+					 { name: 'ProductName', type: 'string'}
 				],
 				url: 'data.php',
 				cache: false

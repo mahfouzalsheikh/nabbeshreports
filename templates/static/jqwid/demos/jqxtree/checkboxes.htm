@@ -7,8 +7,8 @@
     <title id='Description'>The jqxTree can display a checkboxes next to its items. You can also enable three-state checkboxes. In this mode, when the user
      checks an item, its sub items also become checked. When there is an unchecked item, the parent item is in indeterminate state.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxscrollbar.js"></script>
@@ -17,11 +17,10 @@
     <script type="text/javascript" src="../../jqwidgets/jqxcheckbox.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            // Create jqxTree 
-            var theme = getDemoTheme();
             // create jqxTree
-            $('#jqxTree').jqxTree({ height: '400px', hasThreeStates: true, checkboxes: true, width: '330px', theme: theme });
-            $('#jqxCheckBox').jqxCheckBox({ width: '200px', height: '25px', checked: true, theme: theme });
+            $('#jqxTree').jqxTree({ height: '400px', hasThreeStates: true, checkboxes: true, width: '330px'});
+            $('#jqxTree').css('visibility', 'visible');
+            $('#jqxCheckBox').jqxCheckBox({ width: '200px', height: '25px', checked: true });
             $('#jqxCheckBox').on('change', function (event) {
                 var checked = event.args.checked;
                 $('#jqxTree').jqxTree({ hasThreeStates: checked });
@@ -33,7 +32,7 @@
 <body class='default'>
     <div id='jqxWidget'>
         <div style='float: left;'>
-            <div id='jqxTree' style='float: left; margin-left: 20px;'>
+            <div id='jqxTree' style='visibility: hidden; float: left; margin-left: 20px;'>
                 <ul>
                     <li id='home'>Home</li>
                     <li item-checked='true' item-expanded='true'>Solutions

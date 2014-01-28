@@ -3,7 +3,7 @@
 <head>
     <title id='Description'>This example shows how to display row details after each grid row.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script> 
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
@@ -12,11 +12,9 @@
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.selection.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxtabs.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
             // prepare the data
             var data = new Array();
 
@@ -71,7 +69,6 @@
                 var information = null;
                 var notes = null;
                 tabsdiv = $($(parentElement).children()[0]);
-
                 if (tabsdiv != null) {
                     information = tabsdiv.find('.information');
                     notes = tabsdiv.find('.notes');
@@ -116,7 +113,7 @@
 
                     var notescontainer = $('<div style="white-space: normal; margin: 5px;"><span>' + datarecord.notes + '</span></div>');
                     $(notes).append(notescontainer);
-                    $(tabsdiv).jqxTabs({ width: 600, height: 170, theme: theme });
+                    $(tabsdiv).jqxTabs({ width: 600, height: 170});
                 }
             }
             var dataAdapter = new $.jqx.dataAdapter(source);
@@ -126,7 +123,6 @@
                 width: 670,
                 height: 250,
                 source: dataAdapter,
-                theme: theme,
                 rowdetails: true,
                 rowdetailstemplate: { rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li class='title'></li><li>Notes</li></ul><div class='information'></div><div class='notes'></div></div>", rowdetailsheight: 200 },
                 ready: function () {

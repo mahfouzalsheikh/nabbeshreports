@@ -1,5 +1,5 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta name="keywords" content="jQuery DropDownList, List, ListBox, Popup List, jqxDropDownList, jqxListBox, List Widget, ListBox Widget, DropDownList Widget" />
     <meta name="description" content="The jqxListBox represents a widget that contains a list of selectable items." />
@@ -7,8 +7,8 @@
         With the jqxListBox's Drag and Drop, you can reorder items, move items from one
         ListBox to another or just drop an item anywhere and get its data.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxscrollbar.js"></script>
@@ -19,8 +19,6 @@
     <div id='content'>
         <script type="text/javascript">
             $(document).ready(function () {
-                var theme = getDemoTheme();
-
                 var data1 = [
                     "Affogato",
                     "Americano",
@@ -55,7 +53,7 @@
                     "Liqueur coffee"
                 ];
                 // Create a jqxListBox
-                $("#listBoxA").jqxListBox({ allowDrop: true, allowDrag: true, source: data1, width: 200, height: 250, theme: theme,
+                $("#listBoxA").jqxListBox({ allowDrop: true, allowDrag: true, source: data1, width: 200, height: 250, 
                     dragStart: function (item) {
                         if (item.label == "Breve")
                             return false;
@@ -68,7 +66,7 @@
                     }
                 });
 
-                $("#listBoxB").jqxListBox({ allowDrop: true, allowDrag: true, source: data2, width: 200, height: 250, theme: theme,
+                $("#listBoxB").jqxListBox({ allowDrop: true, allowDrag: true, source: data2, width: 200, height: 250, 
                     dragEnd: function (dragItem, dropItem) {
                         if (dragItem.label == "Frappuccino")
                             return false;
@@ -112,7 +110,6 @@
                         }
                     }
                 });
-
             });
         </script>
         <div id='jqxWidget'>

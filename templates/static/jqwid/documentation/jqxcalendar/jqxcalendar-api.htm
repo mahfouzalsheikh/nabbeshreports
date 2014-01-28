@@ -1,7 +1,8 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/documentation.js"></script>
     <link rel="stylesheet" href="../../Styles/jqx.apireference.css" type="text/css" />
     <meta name="keywords" content="jQuery, Calendar, Month Calendar, DatePicker" />
     <meta name="description" content="This page represents the help documentation of the jqxCalendar widget." />
@@ -57,12 +58,15 @@
                             Get the <code>disabled</code> property.
                         </p>
                         <pre><code>var disabled = $('#jqxCalendar').jqxCalendar('disabled');</code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/uW4uF/">disabled is set to true</a>
+                       </div> 
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="documentation-option-type-click">
-                    <span id='Span1'>minDate</span>
+                    <span id='Span1'>min</span>
                 </td>
                 <td>
                     <span>Date</span>
@@ -79,19 +83,21 @@
                         <h4>
                             Code example</h4>
                         <p>
-                            Set the <code>minDate</code> property.
+                            Set the <code>min</code> property.
                         </p>
                         <pre><code>$('#jqxCalendar').jqxCalendar('setMinDate', new Date(2000, 0, 1));</code></pre>
                          <p>
-                            Get the <code>minDate</code> property.
+                            Get the <code>min</code> property.
                         </p>
                         <pre><code>var getMinDate = $('#jqxCalendar').jqxCalendar('getMinDate');</code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/weSTQ/">min is set to (2013, 0, 1)</a> </div> 
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="documentation-option-type-click">
-                    <span id='Span2'>maxDate</span>
+                    <span id='Span2'>max</span>
                 </td>
                 <td>
                     <span>Date</span>
@@ -108,13 +114,15 @@
                         <h4>
                             Code example</h4>
                         <p>
-                            Set the <code>maxDate</code> property.
+                            Set the <code>max</code> property.
                         </p>
                         <pre><code>$('#jqxCalendar').jqxCalendar('setMaxDate', new Date(2012, 0, 1));</code></pre>
                         <p>
-                            Get the <code>maxDate</code> property.
+                            Get the <code>max</code> property.
                         </p>
                         <pre><code>var getMaxDate = $('#jqxCalendar').jqxCalendar('getMaxDate');</code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/PeWL3/">max is set to (2014, 0, 1)</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -146,6 +154,8 @@
                             Get the <code>stepMonths</code> property.
                         </p>
                         <pre><code>var stepMonths = $('#jqxCalendar').jqxCalendar('stepMonths');</code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/teN8U/">stepMonths is set to 3</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -176,6 +186,8 @@
                             Get the <code>width</code> property.
                         </p>
                         <pre><code>var width = $('#jqxCalendar').jqxCalendar('width');</code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/X5bJp/">width is set to '250px'</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -206,6 +218,8 @@
                             Get the <code>height</code> property.
                         </p>
                         <pre><code>var height = $('#jqxCalendar').jqxCalendar('height');</code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/yr5R8/">height is set to '200px'</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -239,6 +253,8 @@
                                 Set the widget's theme property to 'energyblue' when you initialize it.
                             </li>
                         </ul>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/4fXpX/">theme is set to 'energyblue'</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -267,6 +283,8 @@
                             Get the <code>rtl</code> property.
                         </p>
                         <pre><code>var rtl = $('#jqxCalendar').jqxCalendar('rtl'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/MSn6h/">rtl is set to true</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -297,6 +315,8 @@
                             Get the <code>value</code> property.
                         </p>
                         <pre><code>var value = $('#jqxCalendar').jqxCalendar('value'); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/x8wqa/">value is set to (2011, 9, 1) </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -328,6 +348,8 @@
                             Get the <code>firstDayOfWeek</code> property.
                         </p>
                         <pre><code>var firstDayOfWeek = $('#jqxCalendar').jqxCalendar('firstDayOfWeek'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/tBuG2/">firstDayOfWeek is set to 3 </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -358,6 +380,8 @@
                             Get the <code>showWeekNumbers</code> property.
                         </p>
                         <pre><code>var showWeekNumbers = $('#jqxCalendar').jqxCalendar('showWeekNumbers'); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/c2Hcq/">showWeekNumbers is set to false </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -389,6 +413,8 @@
                             Get the <code>showDayNames</code> property.
                         </p>
                         <pre><code>var showDayNames = $('#jqxCalendar').jqxCalendar('showDayNames'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/FNQ77/">showDayNames is set to false </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -419,6 +445,8 @@
                             Get the <code>enableWeekend</code> property.
                         </p>
                         <pre><code>var enableWeekend = $('#jqxCalendar').jqxCalendar('enableWeekend'); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Nb3GC/">enableWeekend is set to true </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -449,6 +477,8 @@
                             Get the <code>enableViews</code> property.
                         </p>
                         <pre><code>var enableViews = $('#jqxCalendar').jqxCalendar('enableViews'); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/KqdHh/">enableViews is set to true </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -479,6 +509,8 @@
                             Get the <code>enableOtherMonthDays</code> property.
                         </p>
                         <pre><code>var enableOtherMonthDays = $('#jqxCalendar').jqxCalendar('enableOtherMonthDays'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Pjzqd/">enableOtherMonthDays is set to false </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -509,6 +541,8 @@
                             Get the <code>showOtherMonthDays</code> property.
                         </p>
                         <pre><code>var showOtherMonthDays = $('#jqxCalendar').jqxCalendar('showOtherMonthDays'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/j7qHP/">showOtherMonthDays is set to false </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -539,6 +573,8 @@
                             Get the <code>navigationDelay</code> property.
                         </p>
                         <pre><code>var navigationDelay = $('#jqxCalendar').jqxCalendar('navigationDelay'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/XwHcb/">navigationDelay is set to 2000 </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -569,6 +605,8 @@
                             Get the <code>rowHeaderWidth</code> property.
                         </p>
                         <pre><code>var rowHeaderWidth = $('#jqxCalendar').jqxCalendar('rowHeaderWidth'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/dd3HX/">rowHeaderWidth is set to 30 </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -600,6 +638,8 @@
                             Get the <code>columnHeaderHeight</code> property.
                         </p>
                         <pre><code>var columnHeaderHeight = $('#jqxCalendar').jqxCalendar('columnHeaderHeight'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/8jvtK/">columnHeaderHeight is set to 50 </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -630,6 +670,8 @@
                             Get the <code>titleHeight</code> property.
                         </p>
                         <pre><code>var titleHeight = $('#jqxCalendar').jqxCalendar('titleHeight'); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/HYfVS/">titleHeight is set to 50 </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -667,6 +709,8 @@
                             Get the <code>dayNameFormat</code> property.
                         </p>
                         <pre><code>var dayNameFormat = $('#jqxCalendar').jqxCalendar('dayNameFormat'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/9NjzR/">dayNameFormat is set to 'firstTwoLetters' </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -675,10 +719,10 @@
                     <span id='Span17'>titleFormat</span>
                 </td>
                 <td>
-                    <span>String</span>
+                    <span>Array</span>
                 </td>
                 <td>
-                    MMMM yyyy
+                   ["MMMM yyyy", "yyyy", "yyyy"]
                 </td>
             </tr>
             <tr>
@@ -721,6 +765,8 @@
                             Get the <code>titleFormat</code> property.
                         </p>
                         <pre><code>var titleFormat = $('#jqxCalendar').jqxCalendar('titleFormat'); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/LNHN6/">titleFormat is set to 'MMMM' </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -751,6 +797,8 @@
                             Get the <code>readOnly</code> property.
                         </p>
                         <pre><code>var readOnly = $('#jqxCalendar').jqxCalendar('readOnly'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/3ncWN/">readOnly is set to true </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -781,6 +829,8 @@
                             Get the <code>showFooter</code> property.
                         </p>
                         <pre><code>var showFooter = $('#jqxCalendar').jqxCalendar('showFooter'); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/5VtR7/">showFooter is set to true </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -789,7 +839,7 @@
                     <span id='Span45'>selectionMode</span>
                 </td>
                 <td>
-                    <span>Boolean</span>
+                    <span>String</span>
                 </td>
                 <td>
                     'default'
@@ -811,11 +861,13 @@
                         <p>
                             Set the <code>selectionMode</code> property.
                         </p>
-                        <pre><code>$('#jqxCalendar').jqxCalendar({ selectionMode: true });</code></pre>
+                        <pre><code>$('#jqxCalendar').jqxCalendar({ selectionMode: 'range' });</code></pre>
                          <p>
                             Get the <code>selectionMode</code> property.
                         </p>
                         <pre><code>var selectionMode = $('#jqxCalendar').jqxCalendar('selectionMode'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/wsmJh/">selectionMode is set to 'range' </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -846,6 +898,8 @@
                             Get the <code>todayString</code> property.
                         </p>
                         <pre><code>var todayString = $('#jqxCalendar').jqxCalendar('todayString'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/PEmar/">todayString is set to 'Today' </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -876,6 +930,8 @@
                             Get the <code>clearString</code> property.
                         </p>
                         <pre><code>var clearString = $('#jqxCalendar').jqxCalendar('clearString'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/JjDC8/">clearString is set to 'Clear' </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -909,6 +965,8 @@
                             Get the <code>culture</code> property.
                         </p>
                         <pre><code>var culture = $('#jqxCalendar').jqxCalendar('culture'); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/jbaEG/">culture is set to 'de-DE' </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -939,6 +997,8 @@
                             Get the <code>enableFastNavigation</code> property.
                         </p>
                         <pre><code>var enableFastNavigation = $('#jqxCalendar').jqxCalendar('enableFastNavigation'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/VHCdU/">enableFastNavigation is set to false </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -971,6 +1031,8 @@
                             Get the <code>enableHover</code> property.
                         </p>
                         <pre><code>var enableHover = $('#jqxCalendar').jqxCalendar('enableHover'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/2StuR/">enableHover is set to false </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1003,6 +1065,8 @@
                             Get the <code>enableAutoNavigation</code> property.
                         </p>
                         <pre><code>var enableAutoNavigation = $('#jqxCalendar').jqxCalendar('enableAutoNavigation'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Qnu2m/">enableAutoNavigation is set to false </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1033,6 +1097,8 @@
                             Get the <code>enableTooltips</code> property.
                         </p>
                         <pre><code>var enableTooltips = $('#jqxCalendar').jqxCalendar('enableTooltips'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/4KJ4x/">enableTooltips is set to true </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1064,6 +1130,8 @@
                             Get the <code>backText</code> property.
                         </p>
                         <pre><code>var backText = $('#jqxCalendar').jqxCalendar('backText'); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/DjuAs/">backText is set to 'Back' </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1095,6 +1163,8 @@
                             Get the <code>forwardText</code> property.
                         </p>
                         <pre><code>var forwardText = $('#jqxCalendar').jqxCalendar('forwardText'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/q549T/">forwardText is set to 'Forward' </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1124,6 +1194,8 @@
                             Get the <code>specialDates</code> property.
                         </p>
                         <pre><code>var specialDates = $('#jqxCalendar').jqxCalendar('specialDates'); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/M79ze/">specialDates is set to 5th/current month/current year </a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1156,6 +1228,8 @@
                         </p>
                         <pre><code>$('#jqxCalendar').on('backButtonClick', function () { // Some code here. });
                         </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/rXFe9/">Bind to the backButtonClick event by type: jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1182,6 +1256,8 @@
                         </p>
                         <pre><code>$('#jqxCalendar').on('nextButtonClick', function (event) { // Some code here. });
                         </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/QE2EJ/">Bind to the nextButtonClick event by type: jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1219,6 +1295,8 @@
     // var viewTo = view.to;
 });
                         </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/FrNWD/">Bind to the change event by type: jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>     
@@ -1250,6 +1328,8 @@
     var viewTo = view.to;
 });
                         </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/eJ9RN/">Bind to the viewChange event by type: jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>           
@@ -1282,6 +1362,8 @@
                             Invoke to the <code>navigateForward</code> method.
                         </p>
                         <pre><code>$('#jqxCalendar').jqxCalendar('navigateForward', 5); </code></pre>
+    <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/QJuTK/">navigates forward with 5 months in jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1308,6 +1390,8 @@
                             Invoke the <code>navigateBackward</code> method,
                         </p>
                         <pre><code>$('#jqxCalendar').jqxCalendar('navigateBackward', 5); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/pdajt/">navigates backward with 5 months in jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1334,6 +1418,8 @@
                             Invoke the <code>setMinDate</code> method.
                         </p>
                         <pre><code>$('#jqxCalendar ').jqxCalendar('setMinDate', new Date(2008, 0, 1));</code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/m9TpD/">sets the minimum date of the jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1360,6 +1446,8 @@
                             Invoke the <code>getMinDate</code> method. The retuned value is a JavaScript Date object.
                         </p>
                         <pre><code>var minDate = $('#jqxCalendar').jqxCalendar('getMinDate');</code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/GT4Tc/">gets the minimum date of the jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1386,6 +1474,8 @@
                             Invoke the <code>setMaxDate</code> method. The expected parameter is a JavaScript Date Object.
                         </p>
                         <pre><code>$('#jqxCalendar ').jqxCalendar('setMaxDate', new Date(2012, 0, 1)); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/m5yY6/">sets the maximum date of the jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1412,6 +1502,8 @@
                             Invoke the <code>getMaxDate</code> method.
                         </p>
                         <pre><code>var getMaxDate= $('#jqxCalendar').jqxCalendar('getMaxDate'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Xg2GT/">gets the maximum date of the jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1438,6 +1530,8 @@
                             Invoke the <code>setDate</code> method.
                         </p>
                         <pre><code>$('#jqxCalendar ').jqxCalendar('setDate', new Date(2012, 0, 1)); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/zSyAR/">sets the date of the jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1464,6 +1558,8 @@
                             Invoke the <code>getDate</code> method.
                         </p>
                         <pre><code>var getDate= $('#jqxCalendar').jqxCalendar('getDate'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/FyMWy/">gets the date of the jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1496,6 +1592,8 @@
     date2.setFullYear(2012, 7, 15);
     $("#jqxCalendar").jqxCalendar('setRange', date1, date2);
                         </code></pre>
+                                            <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/kxVAQ/">sets the range values of the jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1525,6 +1623,8 @@
     var from = range.from;
     var to = range.to;
                         </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/UN5Nv/">gets the range values of the jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1550,7 +1650,9 @@
                             Invoke the <code>render</code> method.
                         </p>
                         <pre><code>$("#jqxCalendar").jqxCalendar('render');</code></pre>
-                    </div>
+                        <div style="padding-bottom:5px;">
+                         <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/gceDn/">renders the jqxCalendar.</a> </div> 
+                   </div>
                 </td>
             </tr>
            <tr>
@@ -1575,6 +1677,8 @@
                             Invoke the <code>refresh</code> method.
                         </p>
                         <pre><code>$("#jqxCalendar").jqxCalendar('refresh');</code></pre>
+                        <div style="padding-bottom:5px;">
+                         <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/HuWga/">refresh the jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
@@ -1600,8 +1704,64 @@
                             Invoke the <code>focus</code> method.
                         </p>
                         <pre><code>$("#jqxCalendar").jqxCalendar('focus');</code></pre>
+                         <div style="padding-bottom:5px;">
+                         <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/GCuD3/">focus the jqxCalendar.</a> </div> 
                     </div>
                 </td>
+            </tr>
+           <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span32'>today</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Sets the Date to Today.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Invoke the <code>today</code> method.
+                        </p>
+                        <pre><code>$('#jqxCalendar').jqxCalendar('today'); </code></pre>
+                         <div style="padding-bottom:5px;">
+                         <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/qn72L/">Sets the Date to Today in the jqxCalendar.</a> </div> 
+                    </div>
+                     </td>
+            </tr>
+           <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span33'>clear</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Clears the selection.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Invoke the <code>clear</code> method.
+                        </p>
+                        <pre><code>$('#jqxCalendar').jqxCalendar('clear'); </code></pre>
+                         <div style="padding-bottom:5px;">
+                         <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/62Jbn/">clears the selection in the jqxCalendar.</a> </div> 
+                    </div>
+                     </td>
             </tr>
            <tr>
                 <td class="documentation-option-type-click">
@@ -1625,6 +1785,8 @@
                             Invoke the <code>destroy</code> method.
                         </p>
                         <pre><code>$('#jqxCalendar').jqxCalendar('destroy'); </code></pre>
+                         <div style="padding-bottom:5px;">
+                         <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Mm45h/">destroys the jqxCalendar.</a> </div> 
                     </div>
                      </td>
             </tr>
@@ -1683,13 +1845,13 @@ $('#jqxCalendar').val();
 // Get JavaScript Date using jQuery's val. 
 $('#jqxCalendar').val('date');
  </code></pre>
+                         <div style="padding-bottom:5px;">
+                         <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/HVnme/">invoke val method of the jqxCalendar.</a> </div> 
                     </div>
                 </td>
             </tr>
         </table>
-       
         <br />
-    </div>
-                                                               
+    </div>                                                           
 </body>
 </html>

@@ -4,7 +4,7 @@
     <title id='Description'>This example shows how to integrate jqxGrid with Knockout.js.
     </title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../scripts/json2.js"></script> 
     <script type="text/javascript" src="../../scripts/knockout-2.2.1.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
@@ -17,7 +17,7 @@
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.edit.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxknockout.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcheckbox.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             var initialData = [
@@ -49,10 +49,12 @@
                 this.updateItem = function () {
                     // update the first item.
                     var item = {};
-                    item.name = initialData[Math.floor(Math.random() * initialData.length)].name;
-                    item.sales = Math.floor(Math.random() * 500);
-                    item.price = Math.floor(Math.random() * 200);
-                    this.items.replace(this.items()[0], item);
+                    if (initialData.length > 0) {
+                        item.name = initialData[Math.floor(Math.random() * initialData.length)].name;
+                        item.sales = Math.floor(Math.random() * 500);
+                        item.price = Math.floor(Math.random() * 200);
+                        this.items.replace(this.items()[0], item);
+                    }
                 };
             };
 
@@ -63,13 +65,12 @@
 <body class='default'>
     <div id='jqxWidget'>
         <div style="margin-bottom: 10px;">
-            <input id="addButton" type="button" data-bind="click: addItem, jqxButton: {theme: getDemoTheme()}" value="Add Item" />
-            <input id="removeButton" type="button" data-bind="click: removeItem, jqxButton: {theme: getDemoTheme()}" value="Remove First Item" />
-            <input id="updateButton" type="button" data-bind="click: updateItem, jqxButton: {theme: getDemoTheme()}" value="Update First Item" />
-            <div data-bind="jqxCheckBox: {checked: disabled, theme: getDemoTheme()}" style='margin-top: 5px;' id="checkBox">Disabled</div>
+            <input id="addButton" type="button" data-bind="click: addItem, jqxButton: {}" value="Add Item" />
+            <input id="removeButton" type="button" data-bind="click: removeItem, jqxButton: {}" value="Remove Last Item" />
+            <input id="updateButton" type="button" data-bind="click: updateItem, jqxButton: {}" value="Update First Item" />
+            <div data-bind="jqxCheckBox: {checked: disabled}" style='margin-top: 5px;' id="checkBox">Disabled</div>
         </div>
-        <div data-bind="jqxGrid: {source: items, disabled: disabled, autoheight: true,
-                theme: getDemoTheme(),
+        <div data-bind="jqxGrid: {source: items, disabled: disabled, autoheight: true,                
                 editable: true,
                 selectionmode: 'singlecell',
                 columns: [

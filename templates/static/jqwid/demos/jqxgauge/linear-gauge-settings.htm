@@ -4,8 +4,8 @@
     <meta name="keywords" content="jQuery Gauge, Gauge, Linear Gauge, Vertical Gauge, Horizontal Gauge" />
     <title id='Description'>This sample demonstrates the basic Linear Gauge settings.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxexpander.js"></script>
@@ -17,8 +17,7 @@
     <script type="text/javascript" src="../../jqwidgets/jqxslider.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme(),
-                majorTicks = { size: '10%', interval: 10 },
+            var majorTicks = { size: '10%', interval: 10 },
                 minorTicks = { size: '5%', interval: 2.5, style: { 'stroke-width': 1, stroke: '#aaaaaa'} },
                 labels = { interval: 20 };
             $('#gauge').jqxLinearGauge({
@@ -37,21 +36,21 @@
             });
             $('#gauge').jqxLinearGauge('value', 50);
 
-            $('#panel').jqxExpander({ width: 120, width: 280, height: 310, toggleMode: 'none', showArrow: false, theme: theme });
-            $('#showAnimationButton').jqxButton({ width: 85, theme: theme });
+            $('#panel').jqxExpander({ width: 120, width: 280, height: 310, toggleMode: 'none', showArrow: false});
+            $('#showAnimationButton').jqxButton({ width: 85});
 
-            $('#isVerticalCheckbox').jqxCheckBox({ checked: true, theme: theme });
-            $('#showTicksCheckbox').jqxCheckBox({ checked: true, theme: theme });
-            $('#showLabelsCheckbox').jqxCheckBox({ checked: true, theme: theme });
-            $('#showRangesCheckbox').jqxCheckBox({ checked: true, theme: theme });
-            $('#showBackgroundCheckbox').jqxCheckBox({ checked: true, theme: theme });
+            $('#isVerticalCheckbox').jqxCheckBox({ checked: true});
+            $('#showTicksCheckbox').jqxCheckBox({ checked: true});
+            $('#showLabelsCheckbox').jqxCheckBox({ checked: true});
+            $('#showRangesCheckbox').jqxCheckBox({ checked: true});
+            $('#showBackgroundCheckbox').jqxCheckBox({ checked: true});
 
-            $('#labelsNearRadio').jqxRadioButton({ theme: theme, groupName: 'labels-position' });
-            $('#labelsFarRadio').jqxRadioButton({ theme: theme, groupName: 'labels-position' });
-            $('#labelsBothRadio').jqxRadioButton({ checked: true, theme: theme, groupName: 'labels-position' });
-            $('#ticksNearRadio').jqxRadioButton({ theme: theme, groupName: 'ticks-position' });
-            $('#ticksFarRadio').jqxRadioButton({ theme: theme, groupName: 'ticks-position' });
-            $('#ticksBothRadio').jqxRadioButton({ checked: true, theme: theme, groupName: 'ticks-position' });
+            $('#labelsNearRadio').jqxRadioButton({  groupName: 'labels-position' });
+            $('#labelsFarRadio').jqxRadioButton({  groupName: 'labels-position' });
+            $('#labelsBothRadio').jqxRadioButton({ checked: true,  groupName: 'labels-position' });
+            $('#ticksNearRadio').jqxRadioButton({  groupName: 'ticks-position' });
+            $('#ticksFarRadio').jqxRadioButton({  groupName: 'ticks-position' });
+            $('#ticksBothRadio').jqxRadioButton({ checked: true,  groupName: 'ticks-position' });
 
             $('#isVerticalCheckbox').on('change', function (e) {
                 if (e.args.checked) {

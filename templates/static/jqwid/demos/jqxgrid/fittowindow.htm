@@ -3,7 +3,7 @@
 <head>
     <title id='Description'>This example shows how to fit the jqxGrid to the browser window's size..</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script> 
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
@@ -14,14 +14,12 @@
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.columnsresize.js"></script> 
     <script type="text/javascript" src="../../jqwidgets/jqxlistbox.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdropdownlist.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <style>
         html, body{width: 100%; height: 100%; overflow: hidden;}
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
             // prepare the data
             var data = new Array();
 
@@ -83,7 +81,6 @@
                 width: '99%',
                 height: '99%',
                 source: dataAdapter,
-                theme: theme,
                 columnsresize: true,
                 columns: [
                   { text: 'First Name', dataField: 'firstname', width: 100 },

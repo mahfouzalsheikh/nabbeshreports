@@ -8,20 +8,18 @@
         are automatically displayed when there is not enough available space for all tabs,
         You can also change the scroll buttons position.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxtabs.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxradiobutton.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
-            $('#jqxTabs').jqxTabs({ width: 450, theme: theme });
-            $('#leftButton').jqxRadioButton({ height: 25, width: 100, theme: theme });
-            $('#rightButton').jqxRadioButton({ height: 25, width: 100, checked: true, theme: theme });
-            $('#bothButton').jqxRadioButton({ height: 25, width: 100, theme: theme });
+            $('#jqxTabs').jqxTabs({ width: 450});
+            $('#leftButton').jqxRadioButton({ height: 25, width: 100});
+            $('#rightButton').jqxRadioButton({ height: 25, width: 100, checked: true});
+            $('#bothButton').jqxRadioButton({ height: 25, width: 100});
 
             $('#rightButton').on('checked', function () {
                 $('#jqxTabs').jqxTabs({ scrollPosition: 'right' });

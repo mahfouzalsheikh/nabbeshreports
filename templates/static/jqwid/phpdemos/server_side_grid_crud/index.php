@@ -3,8 +3,8 @@
 <head>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.classic.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.2.min.js"></script>
-    <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>   
+	<script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxscrollbar.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxmenu.js"></script>
@@ -50,14 +50,14 @@
                  datatype: "json",
 				 cache: false,
                  datafields: [
-					 { name: 'EmployeeID'},
-					 { name: 'FirstName'},
-					 { name: 'LastName'},
-					 { name: 'Title'},
-					 { name: 'Address'},
-					 { name: 'City'},
-					 { name: 'Country'},
-            		 { name: 'Notes'}
+					 { name: 'EmployeeID', type: 'string'},
+					 { name: 'FirstName', type: 'string'},
+					 { name: 'LastName', type: 'string'},
+					 { name: 'Title', type: 'string'},
+					 { name: 'Address', type: 'string'},
+					 { name: 'City', type: 'string'},
+					 { name: 'Country', type: 'string'},
+            		 { name: 'Notes', type: 'string'}
                 ],
 				id: 'EmployeeID',
                 url: 'data.php',
@@ -143,11 +143,11 @@
 
             // update row.
             $("#updaterowbutton").bind('click', function () {
-                var datarow = generaterow();
                 var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
                 var rowscount = $("#jqxgrid").jqxGrid('getdatainformation').rowscount;
                 if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
                     var id = $("#jqxgrid").jqxGrid('getrowid', selectedrowindex);
+                    var datarow = generaterow(id);
                     $("#jqxgrid").jqxGrid('updaterow', id, datarow);
                 }
             });

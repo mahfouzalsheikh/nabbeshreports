@@ -3,12 +3,12 @@
 <head>
     <title id="Description">Integration of jqxCalendar with Knockout</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../scripts/json2.js"></script>
     <script type="text/javascript" src="../../scripts/knockout-2.2.1.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdatetimeinput.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcalendar.js"></script>
     <script type="text/javascript" src="../../jqwidgets/globalization/globalize.js"></script>
@@ -36,12 +36,12 @@
     </script>
 </head>
 <body class='default'>
-    <div data-bind="jqxCalendar: {value: date, disabled: disabled, width: '250px', height: '250px', theme: getDemoTheme()}">
+    <div data-bind="jqxCalendar: {value: date, disabled: disabled, width: '250px', height: '250px'}">
     </div>
     <div style="margin-top: 5px; clear: both;">
-        <input id="getButton" data-bind="click: displayDate, jqxButton: {theme: getDemoTheme()}" type="button" value="Get Value" />
-        <input id="setButton" data-bind="click: setDate, jqxButton: {theme: getDemoTheme()}" type="button" value="Set Value" />
-        <div data-bind="jqxCheckBox: {checked: disabled, width: '100px', theme: getDemoTheme()}" style='margin-top: 5px;' id="checkBox">Disabled</div>
+        <input id="getButton" data-bind="click: displayDate, jqxButton: {}" type="button" value="Get Value" />
+        <input id="setButton" data-bind="click: setDate, jqxButton: {}" type="button" value="Set Value" />
+        <div data-bind="jqxCheckBox: {checked: disabled, width: '100px'}" style='margin-top: 5px;' id="checkBox">Disabled</div>
    </div>
 </body>
 </html>

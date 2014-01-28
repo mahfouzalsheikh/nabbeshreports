@@ -3,7 +3,7 @@
 <head>
     <title id='Description'>This example shows how to display nested Grid plugins.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
@@ -13,11 +13,9 @@
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.selection.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.filter.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.sort.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
             var url = "../sampledata/employees.xml";
 
             var source =
@@ -44,11 +42,11 @@
             var ordersSource =
             {
                 datafields: [
-                    { name: 'EmployeeID' },
-                    { name: 'ShipName' },
-                    { name: 'ShipAddress' },
-                    { name: 'ShipCity' },
-                    { name: 'ShipCountry' },
+                    { name: 'EmployeeID', type: 'string' },
+                    { name: 'ShipName', type: 'string' },
+                    { name: 'ShipAddress', type: 'string' },
+                    { name: 'ShipCity', type: 'string' },
+                    { name: 'ShipCountry', type: 'string' },
                     { name: 'ShippedDate', type: 'date' }
                 ],
                 root: "Orders",
@@ -60,12 +58,13 @@
 
             var ordersDataAdapter = new $.jqx.dataAdapter(ordersSource, { autoBind: true });
             orders = ordersDataAdapter.records;
+            var nestedGrids = new Array();
 
             // create nested grid.
             var initrowdetails = function (index, parentElement, gridElement, record) {
                 var id = record.uid.toString();
                 var grid = $($(parentElement).children()[0]);
-
+                nestedGrids[index] = grid;
                 var filtergroup = new $.jqx.filter();
                 var filter_or_operator = 1;
                 var filtervalue = id;
@@ -80,19 +79,21 @@
                 }
 
                 var orderssource = { datafields: [
-                    { name: 'EmployeeID' },
-                    { name: 'ShipName' },
-                    { name: 'ShipAddress' },
-                    { name: 'ShipCity' },
-                    { name: 'ShipCountry' },
-                    { name: 'ShippedDate' }
+                    { name: 'EmployeeID', type: 'string' },
+                    { name: 'ShipName', type: 'string' },
+                    { name: 'ShipAddress', type: 'string' },
+                    { name: 'ShipCity', type: 'string' },
+                    { name: 'ShipCountry', type: 'string' },
+                    { name: 'ShippedDate', type: 'date' }
                 ],
                     id: 'OrderID',
                     localdata: ordersbyid
                 }
+                var nestedGridAdapter = new $.jqx.dataAdapter(orderssource);
 
                 if (grid != null) {
-                    grid.jqxGrid({ source: orderssource, theme: theme, width: 600, height: 200,
+                    grid.jqxGrid({
+                        source: nestedGridAdapter, width: 600, height: 200,
                         columns: [
                           { text: 'Ship Name', datafield: 'ShipName', width: 200 },
                           { text: 'Ship Address', datafield: 'ShipAddress', width: 200 },
@@ -115,14 +116,12 @@
                 return '<span style="margin-left: 4px; margin-top: 9px; float: left;">' + value + '</span>';
             }
 
-
             // creage jqxgrid
             $("#jqxgrid").jqxGrid(
             {
                 width: 670,
                 height: 365,
                 source: source,
-                theme: theme,
                 rowdetails: true,
                 rowsheight: 35,
                 initrowdetails: initrowdetails,

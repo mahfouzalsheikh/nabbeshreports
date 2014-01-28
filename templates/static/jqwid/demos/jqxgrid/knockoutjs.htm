@@ -4,7 +4,7 @@
     <title id='Description'>This example shows how to integrate jqxGrid with knockout.js.
     </title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../scripts/knockout-2.2.1.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
@@ -12,11 +12,9 @@
     <script type="text/javascript" src="../../jqwidgets/jqxscrollbar.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxmenu.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
        <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
             var initialData = [
                 { name: "Well-Travelled Kitten", sales: 352, price: 75.95 },
                 { name: "Speedy Coyote", sales: 89, price: 190.00 },
@@ -69,7 +67,7 @@
             {
                 source: source,
                 autoheight: true,
-                theme: theme,
+                
                 columns: [
                     { text: 'Name', dataField: 'name', width: 200 },
                     { text: 'Sales', dataField: 'sales', width: 200, cellsalign: 'right' },

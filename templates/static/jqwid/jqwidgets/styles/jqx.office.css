@@ -99,7 +99,7 @@
 .jqx-grid-column-menubutton {
     background-image: url('images/office-icon-down.png');
  }
-.jqx-widget-office .jqx-grid-cell-selected-office, .jqx-grid-cell-selected-office{ background-color:#c6c6c6; border-color: #a5a5a5;  color:#000}
+.jqx-widget-office .jqx-grid-cell-selected-office, .jqx-grid-cell-selected-office{ background-color:#c6c6c6 !important; border-color: #a5a5a5 !important;  color:#000 !important}
 .jqx-grid-cell-hover-office{ background-color:#dedede;}
  /*applied to the column's sort button when the sort order is ascending.*/
  .jqx-grid-column-sortascbutton {

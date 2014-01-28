@@ -1,8 +1,9 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
     <link rel="stylesheet" href="../../Styles/jqx.apireference.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/documentation.js"></script>
     <meta name="keywords" content="jQuery, List, ListBox, DropDownList, Popup List, DropDown List, Input" />
     <meta name="description" content="This page represents the help documentation of the jqxDropDownList widget." />
     <title>jqxDropDownList API Reference</title>
@@ -56,6 +57,8 @@
                             Get the <code>disabled</code> property.
                         </p>
                         <pre><code>var disabled = $('#jqxDropDownList').jqxDropDownList('disabled');</code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/GLjm8/">disabled is set to true</a></div>
                     </div>
                 </td>
             </tr>
@@ -86,6 +89,8 @@
                             Get the <code>width</code> property.
                         </p>
                         <pre><code>var width = $('#jqxDropDownList').jqxDropDownList('width');</code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/9bc3f/">width is set to 200</a></div>
                     </div>
                 </td>
             </tr>
@@ -116,6 +121,8 @@
                             Get the <code>height</code> property.
                         </p>
                         <pre><code>var height = $('#jqxDropDownList').jqxDropDownList('height');</code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/hYM69/">height is set to 20</a></div>
                     </div>
                 </td>
             </tr>
@@ -144,6 +151,8 @@
                             Get the <code>rtl</code> property.
                         </p>
                         <pre><code>var rtl = $('#jqxDropDownList').jqxDropDownList('rtl'); </code></pre>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/FCTMQ/">rtl is set to true</a></div>
                     </div>
                 </td>
             </tr>
@@ -177,6 +186,8 @@
                                 Set the widget's theme property to 'energyblue' when you initialize it.
                             </li>
                         </ul>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/4KVKf/">theme is set to 'energyblue'</a></div>
                     </div>
                 </td>
             </tr>
@@ -206,6 +217,8 @@
                             Get the <code>selectedIndex</code> property.
                         </p>
                         <pre><code>var selectedIndex = $('#jqxDropDownList').jqxDropDownList('selectedIndex'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/7BbLk/">selectedIndex is set to 3</a></div>
                     </div>
                 </td>
             </tr>
@@ -261,13 +274,14 @@ var source =
 var dataAdapter = new $.jqx.dataAdapter(source);
 
 // Create a jqxListBox
-$("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactName", valueMember: "CompanyName", width: 200, height: 250, theme: theme });
+$("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactName", valueMember: "CompanyName", width: 200, height: 250});
 </code></pre>
                         <p>
                             Get the <code>source</code> property.
                         </p>
                         <pre><code>var source = $('#jqxDropDownList').jqxDropDownList('source'); </code></pre>
-
+<div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/hwJAs/">source is set to source</a></div>
                     </div>
                 </td>
             </tr>
@@ -297,6 +311,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>displayMember</code> property.
                         </p>
                         <pre><code>var displayMember = $('#jqxDropDownList').jqxDropDownList('displayMember'); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/CHPax/">displayMember is set to 'text'</a></div>
                     </div>
                 </td>
             </tr>
@@ -326,6 +342,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>valueMember</code> property.
                         </p>
                         <pre><code>var valueMember = $('#jqxDropDownList').jqxDropDownList('valueMember'); </code></pre>
+ <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/tbgGe/">valueMember is set to 'value'</a></div>
                     </div>
                 </td>
             </tr>  
@@ -356,6 +374,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>popupZIndex</code> property.
                         </p>
                         <pre><code>var zIndex = $('#jqxDropDownList').jqxDropDownList('popupZIndex'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/mrb6Y/">popupZIndex is set to 9999</a></div>
                     </div>
                 </td>
             </tr>
@@ -385,6 +405,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>checkboxes</code> property.
                         </p>
                         <pre><code>var checkboxes = $('#jqxDropDownList').jqxDropDownList('checkboxes'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/CLB86/">checkboxes is set to true</a></div>
                     </div>
                 </td>
             </tr>
@@ -414,6 +436,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>scrollBarSize</code> property.
                         </p>
                         <pre><code>var scrollBarSize = $('#jqxDropDownList').jqxDropDownList('scrollBarSize'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/mkE8c/">scrollBarSize is set to 15</a></div>
                     </div>
                 </td>
             </tr>
@@ -443,6 +467,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>enableHover</code> property.
                         </p>
                         <pre><code>var enableHover = $('#jqxDropDownList').jqxDropDownList('enableHover'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/mReYg/">enableHover is set to false</a></div>
                     </div>
                 </td>
             </tr>
@@ -472,6 +498,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>promptText</code> property.
                         </p>
                         <pre><code>var promptText = $('#jqxDropDownList').jqxDropDownList('placeHolder'); </code></pre>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/7UBGc/">promptText is set to 'Select'</a></div>
                     </div>
                 </td>
             </tr>
@@ -501,7 +529,9 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>incrementalSearch</code> property.
                         </p>
                         <pre><code>var incrementalSearch = $('#jqxDropDownList').jqxDropDownList('incrementalSearch'); </code></pre>
-                    </div>
+                     <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/LQEmK/">incrementalSearch is set to false</a></div>
+                         </div>
                 </td>
             </tr>
         <tr>
@@ -531,7 +561,9 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>incrementalSearchDelay</code> property.
                         </p>
                         <pre><code>var incrementalSearchDelay = $('#jqxDropDownList').jqxDropDownList('incrementalSearchDelay'); </code></pre>
-                    </div>
+                    <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/k9Mxj/">incrementalSearchDelay is set to 100</a></div>
+                         </div>
                 </td>
             </tr>
               <tr>
@@ -573,6 +605,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>searchMode</code> property.
                         </p>
                         <pre><code>var searchMode = $('#jqxDropDownList').jqxDropDownList('searchMode'); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/75QYe/">searchMode is set to 'startswith'</a></div>
                     </div>
                 </td>
             </tr>
@@ -602,6 +636,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>enableSelection</code> property.
                         </p>
                         <pre><code>var enableSelection = $('#jqxDropDownList').jqxDropDownList('enableSelection'); </code></pre>
+                      <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/SaBGE/">enableSelection is set to false</a></div>
                     </div>
                 </td>
             </tr>
@@ -631,7 +667,9 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>enableBrowserBoundsDetection</code> property.
                         </p>
                         <pre><code>var enableBrowserBoundsDetection = $('#jqxDropDownList').jqxDropDownList('enableBrowserBoundsDetection'); </code></pre>
-                    </div>
+                   <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/pjEYJ/">enableBrowserBoundsDetection is set to true</a></div>
+                         </div>
                 </td>
             </tr>
            <tr>
@@ -661,6 +699,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>autoOpen</code> property.
                         </p>
                         <pre><code>var autoOpen = $('#jqxDropDownList').jqxDropDownList('autoOpen'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/S5RcC/">autoOpen is set to true</a></div>
                     </div>
                 </td>
             </tr>
@@ -669,7 +709,7 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                     <span id='Span9'>dropDownHorizontalAlignment</span>
                 </td>
                 <td>
-                    <span>Boolean</span>
+                    <span>String</span>
                 </td>
                 <td>
                     'left'
@@ -695,6 +735,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>dropDownHorizontalAlignment</code> property.
                         </p>
                         <pre><code>var dropDownHorizontalAlignment = $('#jqxDropDownList').jqxDropDownList('dropDownHorizontalAlignment'); </code></pre>
+                     <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/8GGjT/">dropDownHorizontalAlignment is set to 'right'</a></div>
                     </div>
                 </td>
             </tr>
@@ -724,6 +766,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>dropDownHeight</code> property.
                         </p>
                         <pre><code>var dropDownHeight = $('#jqxDropDownList').jqxDropDownList('dropDownHeight'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/yfMAJ/">dropDownHeight is set to 200</a></div>
                     </div>
                 </td>
             </tr>
@@ -753,6 +797,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>dropDownWidth</code> property.
                         </p>
                         <pre><code>var dropDownWidth = $('#jqxDropDownList').jqxDropDownList('dropDownWidth'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/aL9be/">dropDownWidth is set to 210</a></div>
                     </div>
                 </td>
             </tr>
@@ -782,6 +828,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>autoDropDownHeight</code> property.
                         </p>
                         <pre><code>var autoDropDownHeight = $('#jqxDropDownList').jqxDropDownList('autoDropDownHeight'); </code></pre>
+                     <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/GH4cN/">autoDropDownHeight is set to 210</a></div>
                     </div>
                 </td>
             </tr>
@@ -812,6 +860,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>itemHeight</code> property.
                         </p>
                         <pre><code>var itemHeight = $('#jqxDropDownList').jqxDropDownList('itemHeight'); </code></pre>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/uY2fK/">itemHeight is set to 30</a></div>
                     </div>
                 </td>
             </tr>
@@ -848,6 +898,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>renderer</code> property.
                         </p>
                         <pre><code>var renderer = $('#jqxDropDownList').jqxDropDownList('renderer'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/GGPFp/">renderer is set to a custom rendering function</a></div>
                     </div>
                 </td>
             </tr>
@@ -883,7 +935,9 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>selectionRenderer</code> property.
                         </p>
                         <pre><code>var selectionRenderer = $('#jqxDropDownList').jqxDropDownList('selectionRenderer'); </code></pre>
-                    </div>
+                    <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/9Kt5r/">selectionRenderer is set to a custom rendering function</a></div>
+                         </div>
                 </td>
             </tr>
       <tr>
@@ -914,6 +968,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>openDelay</code> property.
                         </p>
                         <pre><code>var openDelay = $('#jqxDropDownList').jqxDropDownList('openDelay'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Y6EPt/">openDelay is set to 2000</a></div>
                     </div>
                 </td>
             </tr>
@@ -945,6 +1001,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>closeDelay</code> property.
                         </p>
                         <pre><code>var closeDelay = $('#jqxDropDownList').jqxDropDownList('closeDelay'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/JEfw2/">closeDelay is set to 2000</a></div>
                     </div>
                 </td>
             </tr>
@@ -981,7 +1039,9 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Get the <code>animationType</code> property.
                         </p>
                         <pre><code>var animationType = $('#jqxDropDownList').jqxDropDownList('animationType'); </code></pre>
-                    </div>
+                      <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/snQLr/">animationType is set to 'fade'</a></div>
+                         </div>
                 </td>
             </tr>
             <tr>
@@ -1036,6 +1096,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                                 <li>index - gets the item's index.</li>
                                 <li>group - gets the item's group.</li> 
                             </ul>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/3UJBg/">Bind to the select event by type:jqxDropDownList </a></div>
                     </div>
                 </td>
             </tr>
@@ -1085,6 +1147,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                                 <li>index - gets the item's index.</li>
                                 <li>group - gets the item's group.</li> 
                             </ul>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/6Qyyk/">Bind to the unselect event by type:jqxDropDownList </a></div>
                     </div>
                 </td>
             </tr>
@@ -1134,6 +1198,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                                 <li>index - gets the item's index.</li>
                                 <li>group - gets the item's group.</li> 
                             </ul>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/wBpPY/">Bind to the change event by type:jqxDropDownList </a></div>
                     </div>
                 </td>
             </tr>
@@ -1159,7 +1225,9 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Bind to the <code>open</code> by type: jqxDropDownList.
                         </p>
                         <pre><code>$('#jqxDropDownList').on('open', function (event) { // Some code here. }); </code></pre>
-                    </div>
+                    <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/aXQwh/">Bind to the open event by type:jqxDropDownList </a></div>
+                         </div>
                 </td>
             </tr>
             <tr>
@@ -1185,6 +1253,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         </p>
                         <pre><code>$('#jqxDropDownList').on('close', function (event) { // Some code here. });
                         </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/WBmD9/">Bind to the close event by type:jqxDropDownList </a></div>
                     </div>
                 </td>
             </tr>
@@ -1232,6 +1302,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                                 <li>index - gets the item's index.</li>
                                 <li>group - gets the item's group.</li> 
                             </ul>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/hxXtt/">Bind to the checkChange event by type:jqxDropDownList </a></div>
                     </div>
                 </td>
             </tr>
@@ -1257,6 +1329,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Bind to the <code>bindingComplete</code> event by type: jqxDropDownList.
                         </p>
 <pre><code>$("#jqxDropDownList").on('bindingComplete', function (event) { });</code></pre>  
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/FGGMU/">Bind to the bindingComplete event by type:jqxDropDownList </a></div>
                     </div>
                 </td>
             </tr>
@@ -1266,7 +1340,7 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         Methods</h2>
                 </td>
             </tr>
-          <tr>
+            <tr>
                 <td class="documentation-option-type-click">
                     <span id='Span31'>addItem</span>
                 </td>
@@ -1280,8 +1354,19 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                 <td colspan='3' style='width: 100%'>
                     <div class="documentation-option-description property-content" style="display: none;">
                         <p>
-                            Adds a new item to the jqxDropDownList. Returns 'true', if the new item is added or false if the item is not added.
+                            Adds a new item to the jqxDropDownList. Returns 'true', if the new item is added or 'false' if the item is not added. 
                         </p>
+                        <br />
+                        The following fields can be used for the new item:
+                             <ul>       
+                                <li>label - determines the item's label.</li>
+                                <li>value -  determines the item's value.</li>
+                                <li>disabled - determines whether the item is enabled/disabled.</li>
+                                <li>checked - determines whether item is checked/unchecked.</li>
+                                <li>hasThreeStates - determines whether the item's checkbox supports three states.</li>
+                                <li>html - determines the item's display html. This can be used instead of label.</li>
+                                <li>group - determines the item's group.</li> 
+                            </ul>                           
                         <h4>
                             Code example</h4>
                         <p>
@@ -1289,6 +1374,15 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         </p>
                         <pre><code>// @param String</code></pre>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('addItem', 'jQuery' ); </code></pre>
+                        <h4>
+                            Code example 2</h4>
+                        <p>
+                            Invoke the <code>addItem</code> method.
+                        </p>
+                        <pre><code>// @param Object</code></pre>
+                        <pre><code>$("#jqxDropDownList").jqxDropDownList('addItem', { label: 'Text' value: 'Id'} ); </code></pre>
+                      <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/UxPdt/">adds an item in the jqxDropDownList </a></div>
                     </div>
                 </td>
             </tr>
@@ -1306,8 +1400,18 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                 <td colspan='3' style='width: 100%'>
                     <div class="documentation-option-description property-content" style="display: none;">
                         <p>
-                            Inserts a new item to the jqxDropDownList.
+                            Inserts a new item to the jqxDropDownList. Returns 'true', if the new item is inserted or false if the insertaion fails.  The first parameter is Object or String - the new item. The second parameter is Number - the item's index.
                         </p>
+                        The following fields can be used for the new item:
+                             <ul>       
+                                <li>label - determines the item's label.</li>
+                                <li>value -  determines the item's value.</li>
+                                <li>disabled - determines whether the item is enabled/disabled.</li>
+                                <li>checked - determines whether item is checked/unchecked.</li>
+                                <li>hasThreeStates - determines whether the item's checkbox supports three states.</li>
+                                <li>html - determines the item's display html. This can be used instead of label.</li>
+                                <li>group - determines the item's group.</li> 
+                            </ul>  
                         <h4>
                             Code example</h4>
                         <p>
@@ -1316,6 +1420,45 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         <pre><code>// @param String</code></pre>
                         <pre><code>// @param Number</code></pre>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('insertAt', 'jQuery', 1 ); </code></pre>
+                        <h4>
+                            Code example 2</h4>
+                        <p>
+                            Invoke the <code>insertAt</code> method.
+                        </p>
+                        <pre><code>// @param Object</code></pre>
+                        <pre><code>// @param Number</code></pre>
+                        <pre><code>$("#jqxDropDownList").jqxDropDownList('insertAt', '{ label: 'Text' value: 'Id'}, 1 ); </code></pre>
+                    <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/sJDh6/">inserts an item in the jqxDropDownList </a></div>
+                         </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span71'>removeItem</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Removes an item from the listbox. Parameter type: Object returned by the "getItem" method or String - the value of an item. Returns 'true', if the item is removed or 'false', if the
+                            item is not removed.
+                        </p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Invoke the <code>removeItem</code> method.
+                        </p>
+                        <pre><code>// @param Object</code></pre>
+                        <pre><code>$("#jqxDropDownList").jqxDropDownList('removeItem', "List Item" ); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/FGs2y/">removes an item in the jqxDropDownList </a></div>
                     </div>
                 </td>
             </tr>
@@ -1333,7 +1476,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                 <td colspan='3' style='width: 100%'>
                     <div class="documentation-option-description property-content" style="display: none;">
                         <p>
-                            Removes an item from the jqxDropDownList. Index is a number of the item to remove
+                            Removes an item from the listbox. Parameter type: Number - the index of the item. The method returns 'true', if the item is removed or 'false', if the
+                            item is not removed.
                         </p>
                         <h4>
                             Code example</h4>
@@ -1342,12 +1486,159 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         </p>
                         <pre><code>// @param Number</code></pre>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('removeAt', 3 ); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/yaErM/">removes an item in the jqxDropDownList </a></div>
+                    </div>
+                </td>
+            </tr>
+           <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span72'>updateItem</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Updates an item. The first parameter is the new item. The second parameter could be an existing item or the value of an existing item.
+                        </p>
+                        <br />
+                        The following fields can be used for the item:
+                             <ul>       
+                                <li>label - determines the item's label.</li>
+                                <li>value -  determines the item's value.</li>
+                                <li>disabled - determines whether the item is enabled/disabled.</li>
+                                <li>checked - determines whether item is checked/unchecked.</li>
+                                <li>hasThreeStates - determines whether the item's checkbox supports three states.</li>
+                                <li>html - determines the item's display html. This can be used instead of label.</li>
+                                <li>group - determines the item's group.</li> 
+                            </ul>  
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Invoke the <code>updateItem</code> method.
+                        </p>
+                        <pre><code>// @param Object</code></pre>
+                        <pre><code>// @param Object</code></pre>
+                        <pre><code>$("#jqxDropDownList").jqxDropDownList('updateItem', { label: "Text", value: "Id1" }, "Antonio Moreno Taquera");</code></pre>
+                   <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/VwxqY/">updates an item in the jqxDropDownList </a></div>
+                         </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span16'>updateAt</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           Updates an item. The first parameter is the new item. The second parameter is the index of the item to be updated.                  
+                        </p>
+                        <br />
+                        The following fields can be used for the item:
+                             <ul>       
+                                <li>label - determines the item's label.</li>
+                                <li>value -  determines the item's value.</li>
+                                <li>disabled - determines whether the item is enabled/disabled.</li>
+                                <li>checked - determines whether item is checked/unchecked.</li>
+                                <li>hasThreeStates - determines whether the item's checkbox supports three states.</li>
+                                <li>html - determines the item's display html. This can be used instead of label.</li>
+                                <li>group - determines the item's group.</li> 
+                            </ul>  
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Invoke the <code>updateAt</code> method.
+                        </p>
+                        <pre><code>// @param Number</code></pre>
+                        <pre><code>$("#jqxDropDownList").jqxDropDownList('updateAt', { label: "Text", value: "Id1" }, 3 );</code></pre>
+                   <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/b4bYe/">updates an item in the jqxDropDownList </a></div>
+                         </div>
+                </td>
+            </tr>
+           <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span17'>clear</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Clears all items.
+                        </p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Invoke the <code>clear</code> method.
+                        </p>
+                        <pre><code>$("#jqxDropDownList").jqxDropDownList('clear'); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/jyUJd/">clears all items in the jqxDropDownList </a></div>
+                    </div>
+                </td>
+            </tr>
+           <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span74'>disableItem</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Disables an item. Item is an Object.
+                        </p>
+                        <br />
+                        The following fields can be used for the item:
+                             <ul>       
+                                <li>label - determines the item's label.</li>
+                                <li>value -  determines the item's value.</li>
+                                <li>disabled - determines whether the item is enabled/disabled.</li>
+                                <li>checked - determines whether item is checked/unchecked.</li>
+                                <li>hasThreeStates - determines whether the item's checkbox supports three states.</li>
+                                <li>html - determines the item's display html. This can be used instead of label.</li>
+                                <li>group - determines the item's group.</li> 
+                            </ul>  
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Invoke the <code>disableItem</code> method.
+                        </p>
+                        <pre><code>// @param Number</code></pre>
+                        <pre><code>$("#jqxDropDownList").jqxDropDownList('disableItem', "jQuery" ); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/VGUq5/">disables an item in the jqxDropDownList </a></div>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="documentation-option-type-click">
-                    <span id='Span16'>disableAt</span>
+                    <span id='Span70'>disableAt</span>
                 </td>
                 <td>
                     <span>Method</span>
@@ -1368,12 +1659,53 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         </p>
                         <pre><code>// @param Number</code></pre>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('disableAt', 8 ); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/WZNnr/">disables an item in the jqxDropDownList </a></div>
+                    </div>
+                </td>
+            </tr>
+           <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span75'>enableItem</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Enables an item. Item is an Object.
+                        </p>
+                        <br />
+                        The following fields can be used for the item:
+                             <ul>       
+                                <li>label - determines the item's label.</li>
+                                <li>value -  determines the item's value.</li>
+                                <li>disabled - determines whether the item is enabled/disabled.</li>
+                                <li>checked - determines whether item is checked/unchecked.</li>
+                                <li>hasThreeStates - determines whether the item's checkbox supports three states.</li>
+                                <li>html - determines the item's display html. This can be used instead of label.</li>
+                                <li>group - determines the item's group.</li> 
+                            </ul>  
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Invoke the <code>enableItem</code> method.
+                        </p>
+                        <pre><code>// @param Number</code></pre>
+                        <pre><code>$("#jqxDropDownList").jqxDropDownList('enableItem', "jQuery" ); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/7Yna9/">enables an item in the jqxDropDownList </a></div>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="documentation-option-type-click">
-                    <span id='Span17'>enableAt</span>
+                    <span id='Span76'>enableAt</span>
                 </td>
                 <td>
                     <span>Method</span>
@@ -1394,6 +1726,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         </p>
                         <pre><code>// @param Number</code></pre>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('enableAt', 3 ); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/8BgGn/">enables an item in the jqxDropDownList </a></div>
                     </div>
                 </td>
             </tr>
@@ -1421,6 +1755,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         </p>
                         <pre><code>// @param Number</code></pre>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('ensureVisible', 2 ); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/d3FgU/">ensures the visibility of an items in the jqxDropDownList  </a></div>
                     </div>
                 </td>
             </tr>
@@ -1457,6 +1793,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         </p>
                         <pre><code>// @param Number</code></pre>
                         <pre><code>var item = $("#jqxDropDownList").jqxDropDownList('getItem', 1 ); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Gp7N8/">gets the an items by its index in the jqxDropDownList  </a></div>
                     </div>
                 </td>
             </tr>
@@ -1493,7 +1831,9 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         </p>
                         <pre><code>// @param Value</code></pre>
                         <pre><code>var item = $("#jqxDropDownList").jqxDropDownList('getItemByValue', "Bon app'");</code></pre>                        
-                    </div>
+                   <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/6VsWb/">gets the an items by its value in the jqxDropDownList  </a></div>
+                         </div>
                 </td>
             </tr>
           <tr>
@@ -1533,7 +1873,9 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         <pre><code>var items = $("#jqxDropDownList").jqxDropDownList('getItems'); </code></pre>
                         Get the first item.
                         <pre><code>var items = $("#jqxDropDownList").jqxDropDownList('getItems'); var firstItem = items[0];</code></pre>
-                    </div>
+                   <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/gZW9b/">returns an Array of all items and displays the first 2 of them   </a></div>
+                         </div>
                 </td>
             </tr>
                 <tr>
@@ -1571,6 +1913,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Invoke the <code>getCheckedItems</code> method.
                         </p>
                         <pre><code>var items = $("#jqxDropDownList").jqxDropDownList('getCheckedItems'); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/AgNYz/">returns an Array of all checked items and displays first 2 of them    </a></div>
                     </div>
                 </td>
             </tr>
@@ -1608,6 +1952,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         </p>
                         <pre><code>// @param Number</code></pre>
                         <pre><code>var item = $("#jqxDropDownList").jqxDropDownList('getSelectedItem'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/4DhJf/">returns the selected item and displays it  </a></div>
                     </div>
                 </td>
             </tr>
@@ -1634,6 +1980,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         </p>
                         <pre><code>// @param Number</code></pre>
                         <pre><code>var index = $("#jqxDropDownList").jqxDropDownList('getSelectedIndex'); </code></pre>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/ESFzB/">returns the selected item's index and displays it  </a></div>
                     </div>
                 </td>
             </tr>
@@ -1660,6 +2008,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         </p>
                         <pre><code>// @param Number</code></pre>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('selectIndex', 0 ); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/RemY9/">select an item by its index in the jqxDropDownList  </a></div>
                     </div>
                 </td>
             </tr>
@@ -1686,6 +2036,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         </p>
                         <pre><code>// @param Number</code></pre>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('unselectIndex', 5 ); </code></pre>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/AwAhC/">unselect an item by its index in the jqxDropDownList  </a></div>
                     </div>
                 </td>
             </tr>
@@ -1714,6 +2066,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('selectItem', item ); </code></pre>
                         <br />
                         *To get an item, use the getItem or getItemByValue methods.
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/MysU4/">select an item in the jqxDropDownList  </a></div>
                     </div>
                 </td>
             </tr>
@@ -1742,6 +2096,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('unselectItem', item ); </code></pre>
                         <br />
                         *To get an item, use the getItem or getItemByValue methods.
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Z9yHu/">unselect an item in the jqxDropDownList  </a></div>
                     </div>
                 </td>
             </tr>
@@ -1767,6 +2123,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Invoke the <code>clearSelection</code> method.
                         </p>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('clearSelection'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/5FRxK/">clears the selection in the jqxDropDownList  </a></div>
                     </div>
                 </td>
             </tr>
@@ -1792,6 +2150,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Invoke the <code>clear</code> method.
                         </p>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('clear'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/VFx8p/">clears all items in the jqxDropDownList  </a></div>
                     </div>
                 </td>
             </tr>
@@ -1817,6 +2177,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Invoke the <code>close</code> method.
                         </p>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList("close" ); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/yuRKh/">closes the jqxDropDownList  </a></div>
                     </div>
                 </td>
             </tr>
@@ -1842,6 +2204,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Invoke the <code>open</code> method.
                         </p>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('open' ); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/w5Syg/">opens the jqxDropDownList  </a></div>
                     </div>
                 </td>
             </tr>
@@ -1867,6 +2231,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Invoke the <code>isOpened</code> method.
                         </p>
                         <pre><code>var opened = $("#jqxDropDownList").jqxDropDownList('isOpened' ); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/jXTmv/">check whether the jqxDropDownList is opened </a></div>
                     </div>
                 </td>
             </tr>
@@ -1892,6 +2258,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Invoke the <code>checkIndex</code> method. 
                         </p>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('checkIndex', 0); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/FGCfq/">checks a box in the jqxDropDownList</a></div>
                     </div>
                 </td>
             </tr>
@@ -1917,6 +2285,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Invoke the <code>uncheckIndex</code> method. 
                         </p>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('uncheckIndex', 0); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/UV4dc/">unchecks a box in the jqxDropDownList</a></div>
                     </div>
                 </td>
             </tr>
@@ -1942,6 +2312,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Invoke the <code>indeterminateIndex</code> method. 
                         </p>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('indeterminateIndex', 0); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/UpWf8/">indeterminate a box in the jqxDropDownList</a></div>
                     </div>
                 </td>
             </tr>
@@ -1970,6 +2342,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('checkItem', item ); </code></pre>
                       *To get an item, use the getItem or getItemByValue methods.
                         <br />
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/HgHaN/">checks an item in the jqxDropDownList</a></div>
                     </div>
                 </td>
             </tr>
@@ -1998,6 +2372,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('uncheckItem', item ); </code></pre>
                       *To get an item, use the getItem or getItemByValue methods.
                         <br />
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Jnapz/">unchecks an item in the jqxDropDownList</a></div>
                     </div>
                 </td>
             </tr>
@@ -2025,7 +2401,9 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         <pre><code>// @param list Item</code></pre>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('indeterminateItem', item ); </code></pre>
                         *To get an item, use the getItem or getItemByValue methods.
-                        <br
+                        <br />
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/pqMYX/">indeterminate an item in the jqxDropDownList</a></div>
                     </div>
                 </td>
             </tr>
@@ -2051,6 +2429,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Invoke the <code>checkAll</code> method.
                         </p>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('checkAll'); </code></pre>
+ <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/fw2g2/">checks all of the items in the jqxDropDownList</a></div>
                     </div>
                 </td>
             </tr>
@@ -2076,6 +2456,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Invoke the <code>uncheckAll</code> method.
                         </p>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('uncheckAll'); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/BV2Zy/">unchecks all of the items in the jqxDropDownList</a></div>
                     </div>
                 </td>
             </tr>
@@ -2101,6 +2483,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Invoke the <code>setContent</code> method.
                         </p>
                         <pre><code>$("#jqxDropDownList").jqxDropDownList('setContent', 'My Content'); </code></pre>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/RWh8c/">sets the content in the jqxDropDownList</a></div>
                     </div>
                 </td>
             </tr>
@@ -2130,7 +2514,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         'select' is the id of a select tag.
                         Code Example:
                          <pre style='margin: 10px;' class='code'>   <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;select style=<span style=" clear: both; padding: 0px; margin: 0px; color: #a24;">'height: 25px; width: 200px; margin-left: 30px;' id='select'</span>&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Affogato<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Americano<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Bicerin<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Breve<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Café Bombón<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Caffé Corretto<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Café Crema<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Caffé Latte<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Caffé macchiato<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Café mélange<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Coffee milk<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Cafe mocha<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Cappuccino<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Carajillo<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Cuban espresso<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Espresso<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>The Flat White<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Frappuccino<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Galao<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Greek frappé coffee<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Iced Coffee﻿<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Indian filter coffee<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Instant coffee<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Irish coffee<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                    <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;option&gt;</span>Liqueur coffee<span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/option&gt;</span><div/>                <span style="clear: both; padding: 0px; margin: 0px; color: #11a;">&lt;/select&gt;</span><div/></pre>
-                        
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Syj3g/">loads list items from a 'select' tag.</a></div>
                     </div>
                 </td>
             </tr>
@@ -2155,7 +2540,9 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         <p>
                             Invoke the <code>focus</code> method.
                         </p>
-                        <pre><code>$("#jqxDropDownList").jqxDropDownList('focus');</code></pre>                       
+                        <pre><code>$("#jqxDropDownList").jqxDropDownList('focus');</code></pre>    
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/FndA6/">focuses the jqxDropDownList</a></div>                   
                     </div>
                 </td>
             </tr>
@@ -2187,7 +2574,9 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         // Set value.
                          <pre><code>$("#jqxDropDownList").jqxDropDownList('val', 'New Value');</code></pre>                       
                         // Set value using jQuery's val().
-                         <pre><code>$("#jqxDropDownList").val('New Value');</code></pre>                                              
+                         <pre><code>$("#jqxDropDownList").val('New Value');</code></pre>   
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/w4Wqk/">sets or gets the selected value in the jqxDropDownList</a></div>                                             
                     </div>
                 </td>
             </tr>
@@ -2213,6 +2602,8 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                             Invoke the <code>destroy</code> method.
                         </p>
                         <pre><code>$('#jqxDropDownList').jqxDropDownList('destroy'); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/6nNAE/">destroys the jqxDropDownList</a></div>                                             
                     </div>
                 </td>
             </tr>

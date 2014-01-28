@@ -8,7 +8,7 @@
     <title id='Description'>jqxSplitter is a widget based on jQuery which provides an easy
         way to create dynamic layouts with resizable and collapsible panels.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxtree.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxsplitter.js"></script>
@@ -17,26 +17,25 @@
     <script type="text/javascript" src="../../jqwidgets/jqxlistbox.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxexpander.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxscrollbar.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             var rss = (function ($) {
                 var createWidgets = function () {
-                    var theme = getDemoTheme();
-
-                    $('#mainSplitter').jqxSplitter({ theme: theme, width: 600, height: 600, panels: [{ size: 200, min: 100 }, {min: 200, size: 400}] });
-                    $('#contentSplitter').jqxSplitter({ width: '100%', height: '100%', theme: theme, orientation: 'horizontal', panels: [{ size: 400, min: 100, collapsible: false }, { min: 100, collapsible: true}] });
-                    $("#feedExpander").jqxExpander({toggleMode: 'none', showArrow: false, width: "100%", height: "100%", theme: theme,
+                    $('#mainSplitter').jqxSplitter({  width: 600, height: 600, panels: [{ size: 200, min: 100 }, {min: 200, size: 400}] });
+                    $('#contentSplitter').jqxSplitter({ width: '100%', height: '100%',  orientation: 'horizontal', panels: [{ size: 400, min: 100, collapsible: false }, { min: 100, collapsible: true}] });
+                    $("#feedExpander").jqxExpander({toggleMode: 'none', showArrow: false, width: "100%", height: "100%", 
                         initContent: function () {
-                            $('#jqxTree').jqxTree({ height: '100%', width: '100%', theme: theme });
+                            $('#jqxTree').jqxTree({ height: '100%', width: '100%'});
                         }
                     });
-                    $("#feedContentExpander").jqxExpander({ toggleMode: 'none', showArrow: false, width: "100%", height: "100%", theme: theme, initContent: function () {
-                         $('#feedItemContent').jqxPanel({ theme: theme, width: '100%', height: '100%' });
+                    $("#feedContentExpander").jqxExpander({ toggleMode: 'none', showArrow: false, width: "100%", height: "100%",  initContent: function () {
+                         $('#feedItemContent').jqxPanel({  width: '100%', height: '100%' });
                     }
                     });
-                    $("#feedListExpander").jqxExpander({ toggleMode: 'none', showArrow: false, width: "100%", height: "100%", theme: theme, initContent: function () {
-                        $('#feedListContainer').jqxListBox({ theme: theme, source: ['1'], width: '100%', height: '100%' });
+                    $("#feedListExpander").jqxExpander({
+                        toggleMode: 'none', showArrow: false, width: "100%", height: "100%",  initContent: function () {
+                        $('#feedListContainer').jqxListBox({  source: ['1'], width: '100%', height: '100%' });
                     }
                     });
                 };
@@ -113,7 +112,7 @@
                     config.feedItemHeader.append(container);
                     container.find('td:first').append(link);
                     container.find('td:last').append(date);
-                    $("#feedContentExpander").jqxExpander('setHeaderContent', container.html());
+                    $("#feedContentExpander").jqxExpander('setHeaderContent', container[0].outerHTML);
                 };
 
                 var dataDir = 'data';

@@ -7,8 +7,8 @@
     <title id='Description'>The sample demonstrates the Tree's drag and drop functionality.
     </title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxscrollbar.js"></script>
@@ -18,21 +18,22 @@
     <script type="text/javascript" src="../../jqwidgets/jqxcheckbox.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
             // Create jqxTree
-            $('#treeA').jqxTree({ allowDrag: true, allowDrop: true, height: '300px', width: '220px', theme: theme,
+            $('#treeA').jqxTree({ allowDrag: true, allowDrop: true, height: '300px', width: '220px', 
                 dragStart: function (item) {
                     if (item.label == "Community")
                         return false;
                 }
             });
-            $('#treeB').jqxTree({ allowDrag: true, allowDrop: true, height: '300px', width: '220px', theme: theme,
+            $('#treeB').jqxTree({ allowDrag: true, allowDrop: true, height: '300px', width: '220px', 
                 dragEnd: function (item, dropItem, args, dropPosition, tree) {
                     if (item.label == "Forum")
                         return false;
                 }
             });
+            $('#treeA').css('visibility', 'visible');
+            $('#treeB').css('visibility', 'visible');
+
             $("#treeA, #treeB").on('dragStart', function (event) {
                 $("#dragStartLog").text("Drag Start: " + event.args.label);
                 $("#dragEndLog").text("");
@@ -68,7 +69,7 @@
 <body class='default'>
     <div id='jqxWidget'>
         <div style='float: left;'>
-            <div id='treeA' style='float: left; margin-left: 0px;'>
+            <div id='treeA' style='visibility: hidden; float: left; margin-left: 0px;'>
                 <ul>
                     <li id='home' item-selected='true'>Home</li>
                     <li item-expanded='true'>Solutions
@@ -80,7 +81,7 @@
                     <li>Community</li>
                 </ul>
             </div>
-            <div style='float: left; margin-left: 20px;' id="treeB">
+            <div style='visibility: hidden; float: left; margin-left: 20px;' id="treeB">
                 <ul>
                     <li>Products
                     </li>

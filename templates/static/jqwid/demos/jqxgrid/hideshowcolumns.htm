@@ -3,7 +3,7 @@
 <head>
     <title id='Description'>This example illustrates how to show and hide Grid columns.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxscrollbar.js"></script>
@@ -14,11 +14,9 @@
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script> 
     <script type="text/javascript" src="../../jqwidgets/jqxcheckbox.js"></script> 
     <script type="text/javascript" src="../../jqwidgets/jqxlistbox.js"></script> 
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
             var url = "../sampledata/beverages.txt";
 
             // prepare the data
@@ -40,14 +38,13 @@
             $("#jqxgrid").jqxGrid(
             {
                 width: 400,
-                source: dataAdapter,
-                theme: theme,
+                source: dataAdapter, 
                 ready: function () {
-                    $("#jqxgrid").jqxGrid('hidecolumn', 'name');
+                    // callback function which is called by jqxGrid when the widget is initialized and the binding is completed.
                 },
                 columnsresize: true,
                 columns: [
-                  { text: 'Name', datafield: 'name', width: 250 },
+                  { text: 'Name', datafield: 'name', hidden: true, width: 250 },
                   { text: 'Beverage Type', datafield: 'type', width: 250 },
                   { text: 'Calories', datafield: 'calories', width: 180 },
                   { text: 'Total Fat', datafield: 'totalfat', width: 120 },
@@ -57,14 +54,16 @@
 
             var listSource = [{ label: 'Name', value: 'name', checked: false }, { label: 'Beverage Type', value: 'type', checked: true }, { label: 'Calories', value: 'calories', checked: true }, { label: 'Total Fat', value: 'totalfat', checked: true }, { label: 'Protein', value: 'protein', checked: true}];
 
-            $("#jqxlistbox").jqxListBox({ source: listSource, width: 200, height: 200, theme: theme, checkboxes: true });
+            $("#jqxlistbox").jqxListBox({ source: listSource, width: 200, height: 200,  checkboxes: true });
             $("#jqxlistbox").on('checkChange', function (event) {
+                $("#jqxgrid").jqxGrid('beginupdate');
                 if (event.args.checked) {
                     $("#jqxgrid").jqxGrid('showcolumn', event.args.value);
                 }
                 else {
                     $("#jqxgrid").jqxGrid('hidecolumn', event.args.value);
                 }
+                $("#jqxgrid").jqxGrid('endupdate');
             });
         });
     </script>

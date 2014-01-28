@@ -3,7 +3,7 @@
 <head>
     <title id='Description'>This example shows how to set the initial page and page size of jqxGrid</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script> 
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
@@ -18,11 +18,9 @@
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.columnsresize.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.selection.js"></script> 
     <script type="text/javascript" src="../../jqwidgets/jqxpanel.js"></script>
-   <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+   <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
             var url = "../sampledata/orders.xml";
 
             // prepare the data
@@ -53,7 +51,7 @@
             {
                 width: 670,
                 source: dataAdapter,
-                theme: theme,
+                
                 selectionmode: 'multiplerowsextended',
                 sortable: true,
                 pageable: true,
@@ -69,7 +67,7 @@
                 ]
             });
 
-            $('#events').jqxPanel({ width: 300, height: 150, theme: theme });
+            $('#events').jqxPanel({ width: 300, height: 150});
 
             $("#jqxgrid").on("pagechanged", function (event) {
                 $("#eventslog").css('display', 'block');

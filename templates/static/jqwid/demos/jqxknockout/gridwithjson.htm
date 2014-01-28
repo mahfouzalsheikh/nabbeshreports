@@ -4,7 +4,7 @@
     <title id='Description'>This example shows how to populate jqxGrid with JSON data using jqxDataAdapter and Knockout.
     </title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../scripts/json2.js"></script> 
     <script type="text/javascript" src="../../scripts/knockout-2.2.1.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
@@ -17,7 +17,7 @@
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.edit.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxknockout.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcheckbox.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
 
@@ -58,7 +58,6 @@
             {
                 width: 670,
                 source: dataAdapter,
-                theme: getDemoTheme(),
                 columns: [
                   { text: 'Name', datafield: 'name', width: 250 },
                   { text: 'Beverage Type', datafield: 'type', width: 250 },

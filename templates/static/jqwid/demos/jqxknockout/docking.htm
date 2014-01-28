@@ -1,24 +1,22 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
     <title id='Description'>Integration of jqxDocking with Knockout. Type something in the text fields and
         press the Add button.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../scripts/json2.js"></script> 
     <script type="text/javascript" src="../../scripts/knockout-2.2.1.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdocking.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxwindow.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
 </head>
 <body class='default'>
     <div id="content">
         <script type="text/javascript">
             $(document).ready(function () {
-                var theme = getDemoTheme();
-
                 PeopleModel = function () {
                     //We define observable variable for the name
                     this.personName = ko.observable();
@@ -83,7 +81,7 @@
                 };
 
                 ko.applyBindings(new PeopleModel());
-                $('#docking').jqxDocking({ theme: theme, orientation: 'horizontal', width: 380, mode: 'docked' });
+                $('#docking').jqxDocking({  orientation: 'horizontal', width: 380, mode: 'docked' });
                 $('#Add').jqxButton({ theme: theme });
             });
         </script>

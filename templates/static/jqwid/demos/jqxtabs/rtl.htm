@@ -3,17 +3,15 @@
 <head>
     <title id='Description'>To switch the widget to a right-to-left representation, just enable a single property - "rtl". When this property is on, the widget itself is mirrored (the layout of its UI elements is reversed).</title> 
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxtabs.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcheckbox.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-
             // Create jqxTabs.
-            $('#tabsWidget').jqxTabs({rtl: true, width: 500, height: 250, position: 'top', theme: theme });
+            $('#tabsWidget').jqxTabs({rtl: true, width: 500, height: 250, position: 'top'});
         });
     </script>
 </head>

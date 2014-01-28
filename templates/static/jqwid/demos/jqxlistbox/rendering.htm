@@ -4,18 +4,18 @@
     <title id='Description'>In this sample is illustrated the usage of the jqxListBox's
         renderer function.</title>
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxscrollbar.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxsplitter.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxlistbox.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
-    <script type="text/javascript" src="../../scripts/gettheme.js"></script>
+    <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var theme = getDemoTheme();
-            $("#splitter").jqxSplitter({ theme: theme, width: 600, height: 600, panels: [{ size: '40%'}] });
+            
+            $("#splitter").jqxSplitter({  width: 600, height: 600, panels: [{ size: '40%'}] });
 
             // prepare the data
             var data = new Array();
@@ -106,7 +106,7 @@
             });
       
             // Create jqxListBox
-            $('#listbox').jqxListBox({ selectedIndex: 0, theme: theme, source: dataAdapter, displayMember: "firstname", valueMember: "notes", itemHeight: 70, height: '100%', width: '100%',
+            $('#listbox').jqxListBox({ selectedIndex: 0,  source: dataAdapter, displayMember: "firstname", valueMember: "notes", itemHeight: 70, height: '100%', width: '100%',
                 renderer: function (index, label, value) {
                     var datarecord = data[index];
                     var imgurl = '../../images/' + label.toLowerCase() + '.png';
@@ -121,11 +121,11 @@
 </head>
 <body class='default'>
     <div id="splitter">
-        <div>
+        <div style="overflow: hidden;">
             <div style="border: none;" id="listbox">
             </div>
         </div>
-        <div id="ContentPanel">
+        <div style="overflow: hidden;" id="ContentPanel">
         </div>
     </div>
 </body>
