@@ -72,7 +72,7 @@
       
       
       var dataView = new google.visualization.DataView(data);
-       
+      
 
       var formatter = new google.visualization.ColorFormat();
       formatter.addRange(0, 1, '#000000', '#ffecff');
@@ -107,7 +107,8 @@
       
       var options = {'showRowNumber': true, 'allowHtml': true, 'height': '500px'};
       
-      tablearea.draw(data,options);
+      dataView.setColumns([0,1,2,3,4,5,7,8,9,10]);
+      tablearea.draw(dataView,options);
       
      }
       // Apply formatter to second column
