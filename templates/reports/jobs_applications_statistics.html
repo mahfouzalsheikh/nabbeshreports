@@ -107,7 +107,7 @@
       
       var options = {'showRowNumber': true, 'allowHtml': true, 'height': '500px'};
       
-      dataView.setColumns([0,1,2,3,4,5,7,8,9,10]);
+      dataView.setColumns([0,1,2,3,4,5,6,8,9,10,11]);
       tablearea.draw(dataView,options);
       
      }
@@ -125,27 +125,32 @@
           data: JSON.stringify(params),
           async: false
           }).responseText;
-      //alert(jsonData.length);   
+
        
-       if(jsonData.length <=100){
+       if(jsonData.length <=120){
           $('#detailsarea').html('');
       }
       else
       {
-        var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
-        
+        //alert(jsonData); 
+        var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));               
         var formatter1 = new google.visualization.ColorFormat();
         formatter1.addRange(0, 1, '#000000', '#ffecff');
         formatter1.addRange(1, 1000, '#000000', '#3DAA95');
         formatter1.format(data, 4); 
-        formatter1.format(data, 3); 
         formatter1.format(data, 5); 
+        formatter1.format(data, 6); 
+        formatter1.addRange(0, 1, '#000000', '#ffecff');
+        formatter1.addRange(1, 1000, '#000000', '#3DAA95');
+        formatter1.format(data, 3); 
         var formatter2 = new google.visualization.PatternFormat('<a href="http://www.nabbesh.com/contracts/workstream/{0}"  target="_blank">Go To Workflow:{0}</a>');
         formatter2.format(data, [2],2);
         
+        
         var detailsarea = new google.visualization.Table(document.getElementById('detailsarea'));
         detailsarea.draw(data,{allowHtml: true});
- 
+        
+      
       }
       
     }
@@ -170,7 +175,9 @@
             </div>
         </div>
 
+
 <div id="reportarea" style="padding: 20px 20px 20px 20px">
+<div id="output"></div>
 <div id="detailsarea" style="width: 100%; height:100%; float: left; padding: 10px 10px 10px 0px"></div>
 <div id="tablearea" style="width: 100%; float: left;"></div>
 </div>

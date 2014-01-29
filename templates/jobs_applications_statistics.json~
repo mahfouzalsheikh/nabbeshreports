@@ -1,6 +1,6 @@
 [
-["Employer Name","Employer Email","Job ID","Job Title","Job Posted At","Application Count","Applicants Msgs", "Employers Rspns" ,"Proposal Count","Accepted Proposals","Status"],
-{% for metric in statistics %}["{{ metric.0 }}","{{ metric.1 }}",{{ metric.2 }},"{{ metric.3 }}","{{ metric.4 }}",{{ metric.5 }},{{ metric.6 }},{{ metric.7 }},{{ metric.8 }}, {{ metric.9 }},"{{ metric.10 }}"]
+["Employer Name","Employer Email","Job ID","Job Title","Job Posted At","Application Count", "Shortlisted Applications","Applicants Msgs", "Employers Responses" ,"Proposal Count","Accepted Proposals","Status"],
+{% for metric in statistics %}["{{ metric.0 }}","{{ metric.1 }}",{{ metric.2 }},"{{ metric.3 }}","{{ metric.4 }}",{{ metric.5 }},{{ metric.6 }},{{ metric.7 }},{{ metric.8 }}, {{ metric.9 }}, {{ metric.10 }},"{{ metric.11 }}"]
 {% if not forloop.last %},{% endif %}{% endfor %}
 ]
 

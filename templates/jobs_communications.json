@@ -1,4 +1,4 @@
-[["Use Id", "Email", "Application ID", "Proposals", "Accepted Proposals","Employer Responses"],
-{% for message in messages %}[{{ message.0 }},"{{ message.1 }}",{{ message.2 }},{{ message.3 }},{{ message.4 }},{{ message.5 }}]{% if not forloop.last %},{% endif %}{% endfor %}
+[["Use Id", "Email", "Application ID", "Shortlisted", "Proposals", "Accepted Proposals","Employer Responses"],
+{% for message in messages %}[{{ message.0 }},"{{ message.1 }}",{{ message.2 }},"{{ message.3 }}",{{ message.4 }},{{ message.5 }},{{ message.6 }}]{% if not forloop.last %},{% endif %}{% endfor %}
 ]
 
