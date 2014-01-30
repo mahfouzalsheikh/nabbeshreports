@@ -83,11 +83,11 @@
       formatter1.addRange(0, 1, '#000000', '#ffecff');
       formatter1.addRange(1, 1000, '#000000', '#3DAA95');
       formatter1.format(data, 9); 
-      
+      formatter1.format(data, 10); 
       var formatter3 = new google.visualization.ColorFormat();
       //formatter3.addRange(null,'Active', '#000000', '#ffecff');
       formatter3.addRange('Closed',null, '#fff', '#555555');
-      formatter3.format(data, 10); 
+      formatter3.format(data, 11); 
       
       var formatter2 = new google.visualization.PatternFormat('<a href="http://www.nabbesh.com/admin/contracts/job/{0}"  target="_blank">{0}</a>');
       formatter2.format(data, [2],2);
