@@ -78,7 +78,7 @@
       formatter.addRange(0, 1, '#000000', '#ffecff');
       formatter.addRange(1, 1000, '#000000', '#3DAA58');
       formatter.format(data, 8); 
-      
+      formatter.format(data, 6); 
       var formatter1 = new google.visualization.ColorFormat();
       formatter1.addRange(0, 1, '#000000', '#ffecff');
       formatter1.addRange(1, 1000, '#000000', '#3DAA95');
