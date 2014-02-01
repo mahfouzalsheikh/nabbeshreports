@@ -62,6 +62,8 @@ urlpatterns = patterns('',
     url(r'^skillsdemography_getdata$', 'nabbeshreports.maps.views.skillsdemography_getdata', name='skillsdemography_getdata'),  
     url(r'^skillsdemographydetails_getdata$', 'nabbeshreports.maps.views.skillsdemographydetails_getdata', name='skillsdemographydetails_getdata'),   
     
+    url(r'^googleanalytics_report$', 'nabbeshreports.maps.views.googleanalytics_report', name='googleanalytics_report'),
+    
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
     url(r'^static/admin/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.ADMIN_STATIC}),
     

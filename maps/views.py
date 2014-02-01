@@ -18,6 +18,61 @@ from django.db.models import Q
 from django.db import connection
 from django.db import connections
 from django.contrib.auth.decorators import login_required
+import gdata.service
+import gdata.analytics
+import sys
+import httplib2
+from apiclient.discovery import build
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.file import Storage
+from oauth2client.tools import run
+from apiclient.errors import HttpError
+from oauth2client.client import AccessTokenRefreshError
+
+
+# Declare constants and set configuration values
+
+# The file with the OAuth 2.0 Client details for authentication and authorization.
+CLIENT_SECRETS = 'client_secrets.json'
+
+# A helpful message to display if the CLIENT_SECRETS file is missing.
+MISSING_CLIENT_SECRETS_MESSAGE = '%s is missing' % CLIENT_SECRETS
+
+# The Flow object to be used if we need to authenticate.
+FLOW = flow_from_clientsecrets(CLIENT_SECRETS,
+    scope='https://www.googleapis.com/auth/analytics.readonly',
+    message=MISSING_CLIENT_SECRETS_MESSAGE)
+
+# A file to store the access token
+TOKEN_FILE_NAME = 'analytics.dat'
+
+def prepare_credentials():
+  # Retrieve existing credendials
+  storage = Storage(TOKEN_FILE_NAME)
+  credentials = storage.get()
+
+  # If existing credentials are invalid and Run Auth flow
+  # the run method will store any new credentials
+  if credentials is None or credentials.invalid:
+    credentials = run(FLOW, storage) #run Auth Flow and store credentials
+
+  return credentials
+  
+def initialize_service():
+  # 1. Create an http object
+  http = httplib2.Http()
+
+  # 2. Authorize the http object
+  # In this tutorial we first try to retrieve stored credentials. If
+  # none are found then run the Auth Flow. This is handled by the
+  # prepare_credentials() function defined earlier in the tutorial
+  credentials = prepare_credentials()
+  http = credentials.authorize(http)  # authorize the http object
+
+  # 3. Build the Analytics Service Object with the authorized http object
+  return build('analytics', 'v3', http=http)
+  
+ 
 
 
 @login_required(login_url='/accounts/login/')
@@ -139,13 +194,11 @@ def freelancersages_getdata(request):
         results = customQuery(sql,0)
 
         
- 
         c = Context({'ages': results})
-   
         return HttpResponse(render_to_string('freelancersages.json', c, context_instance=RequestContext(request)), mimetype='application/json')        
         
         
-
+ 
 @csrf_exempt
 def dashboard(request):
     
@@ -503,3 +556,42 @@ def skillsdemographydetails_getdata(request):
         return HttpResponse(render_to_string('skillsdemographydetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
                 
 
+
+@csrf_exempt        
+def googleanalytics_report(request):
+    
+    t = loader.get_template('./reports/googleanalytics_report.html')
+    service = initialize_service()
+    profile_id = get_first_profile_id(service)
+    param = profile_id
+    c = Context({'googleanalytics_report': freelancerdemography_report,  'param': param})
+    return HttpResponse(t.render(c))
+
+
+
+
+def get_first_profile_id(service):
+  # Get a list of all Google Analytics accounts for this user
+  accounts = service.management().accounts().list().execute()
+
+  if accounts.get('items'):
+    # Get the first Google Analytics account
+    firstAccountId = accounts.get('items')[0].get('id')
+
+    # Get a list of all the Web Properties for the first account
+    webproperties = service.management().webproperties().list(accountId=firstAccountId).execute()
+
+    if webproperties.get('items'):
+      # Get the first Web Property ID
+      firstWebpropertyId = webproperties.get('items')[0].get('id')
+
+      # Get a list of all Views (Profiles) for the first Web Property of the first Account
+      profiles = service.management().profiles().list(
+          accountId=firstAccountId,
+          webPropertyId=firstWebpropertyId).execute()
+
+      if profiles.get('items'):
+        # return the first View (Profile) ID
+        return profiles.get('items')[0].get('id')
+
+  return None
