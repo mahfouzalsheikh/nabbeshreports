@@ -2,6 +2,6 @@
 <head>
 </head>
 <body>
- Done! {{ param }}
+ {{ param }}
 </bod>
-</html>
+</html> 

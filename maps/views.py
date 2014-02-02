@@ -18,8 +18,7 @@ from django.db.models import Q
 from django.db import connection
 from django.db import connections
 from django.contrib.auth.decorators import login_required
-import gdata.service
-import gdata.analytics
+
 import sys
 import httplib2
 from apiclient.discovery import build
@@ -555,15 +554,46 @@ def skillsdemographydetails_getdata(request):
    
         return HttpResponse(render_to_string('skillsdemographydetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
                 
-
-
+@csrf_exempt
+def get_results(service, profile_id):
+  # Use the Analytics Service Object to query the Core Reporting API
+  return service.data().ga().get(
+      ids='ga:' + profile_id,
+      start_date='2014-01-01',
+      end_date='2014-01-31',
+      dimensions = 'ga:browser',
+      metrics='ga:pageviews').execute()
+      
 @csrf_exempt        
 def googleanalytics_report(request):
     
     t = loader.get_template('./reports/googleanalytics_report.html')
     service = initialize_service()
-    profile_id = get_first_profile_id(service)
-    param = profile_id
+    try:
+    # Step 2. Get the user's first profile ID.
+        profile_id = get_first_profile_id(service)
+        param = profile_id
+        if profile_id:
+      # Step 3. Query the Core Reporting API.
+            results = get_results(service, profile_id)
+
+      # Step 4. Output the results.
+            param = results
+      #print_results(results)
+
+    except TypeError, error:
+    # Handle errors in constructing a query.
+        param=error 
+     
+    except HttpError, error:
+    # Handle API errors.
+        param=error
+
+    except AccessTokenRefreshError:
+    # Handle Auth errors.
+        param=error
+        
+    
     c = Context({'googleanalytics_report': freelancerdemography_report,  'param': param})
     return HttpResponse(t.render(c))
 
