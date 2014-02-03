@@ -29,6 +29,9 @@ urlpatterns = patterns('',
     url(r'^freelancersgender_report$', 'nabbeshreports.maps.views.freelancersgender_report', name='freelancersgender_report'),
     url(r'^freelancersgender_getdata$', 'nabbeshreports.maps.views.freelancersgender_getdata', name='freelancersgender_getdata'),
     
+    url(r'^freelancerseducation_report$', 'nabbeshreports.maps.views.freelancerseducation_report', name='freelancerseducation_report'),
+    url(r'^freelancerseducation_getdata$', 'nabbeshreports.maps.views.freelancerseducation_getdata', name='freelancerseducation_getdata'),
+    
     url(r'^freelancersages_report$', 'nabbeshreports.maps.views.freelancersages_report', name='freelancersages_report'),
     url(r'^freelancersages_getdata$', 'nabbeshreports.maps.views.freelancersages_getdata', name='freelancersages_getdata'),
     

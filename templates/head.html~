@@ -97,13 +97,13 @@
             });
 
 
-            var freelancerssource = ["Demography","Gender Distribution","Age Distribution", "Top Freelancers"];
+            var freelancerssource = ["Demography","Gender Distribution","Age Distribution","Education", "Top Freelancers"];
 
             $("#freelancerslist").jqxListBox({
                 
                 source: freelancerssource,
                 width: 176,
-                height: 110,
+                height: 135,
                 selectedIndex: -1,
                 theme: theme
             });
@@ -281,6 +281,9 @@
   			case "Age Distribution":
   				URLString = "freelancersages_report";
   				break;
+  			case "Education":
+  				URLString = "freelancerseducation_report";
+  				break;	
   			case "Main Dashboard":
   				URLString = "dashboard";
   				break;

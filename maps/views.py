@@ -11,14 +11,14 @@ from django.utils import simplejson
 from django.template import Template, Context
 from django.template.loader import render_to_string
 from django.template import RequestContext
+from django.contrib.auth.decorators import permission_required
 import datetime
 import dateutil.parser
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 from django.db import connection
 from django.db import connections
-from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.decorators import login_required,user_passes_test
 import sys
 import httplib2
 from apiclient.discovery import build
@@ -174,6 +174,31 @@ def freelancersgender_getdata(request):
         c = Context({'genders': results})
    
         return HttpResponse(render_to_string('freelancersgender.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        
+        
+        
+@csrf_exempt
+def freelancerseducation_report(request):
+    
+    t = loader.get_template('./reports/freelancerseducation_report.html')
+    c = Context({
+        'freelancerseducation_report': freelancerseducation_report,
+    })
+    return HttpResponse(t.render(c))
+            
+@csrf_exempt
+def freelancerseducation_getdata(request):
+    if request.method == 'POST':
+        #objs = simplejson.loads(request.raw_post_data)
+
+        sql = "select  case degree when 6 then 'Bachelor of Science' when 7 then 'High School' when 5 then 'Bachelor of Arts' when 4 then 'Executive MBA' when 3 then 'MBA' when 2 then 'Masters' when 1 then 'PHD' end as education, usercount from (select count(distinct u.id ) as usercount, edu.degree from education edu inner join users u on edu.id_user=u.id group by edu.degree) total"
+        results = customQuery(sql,0)
+        print results
+ 
+        c = Context({'educations': results})
+   
+        return HttpResponse(render_to_string('freelancerseducation.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        
 
 @csrf_exempt
 def freelancersages_report(request):
@@ -564,6 +589,7 @@ def get_results(service, profile_id):
       dimensions = 'ga:browser',
       metrics='ga:pageviews').execute()
       
+#@permission_required('polls.can_vote')
 @csrf_exempt        
 def googleanalytics_report(request):
     
