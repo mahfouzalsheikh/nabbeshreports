@@ -8,9 +8,16 @@
 </script>
 <script type="text/javascript">
 
+     $("#downloadButton").jqxButton({ width: '200'});                
+      $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData(limit));
+    		var csv = JSON2CSV(json);
 
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "demography_data.csv");
+      }); 
 	
-     function drawChart(limit) {
+	
+     function getData(limit){
       var params = {"limit": limit};
       var jsonData = $.ajax({
           url: "freelancerdemography_getdata",
@@ -19,6 +26,11 @@
           data: JSON.stringify(params),
           async: false
           }).responseText;
+       return jsonData;    
+     }	
+     function drawChart(limit) {
+      
+      var jsonData = getData(limit);
 
        //$("#output").html(jsonData);
       var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
@@ -60,7 +72,7 @@
  <div id='optionsExpander'>
             <div>Options</div>
             <div>
-               
+               <input type="button" value="Download CSV" id='downloadButton' />
             </div>
         </div>
 <div style="padding: 20px 20px 20px 20px">

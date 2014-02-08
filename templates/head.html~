@@ -70,10 +70,11 @@
         google.load('visualization', '1', {packages: ['annotatedtimeline']});
         google.load('visualization', '1', {packages: ['controls']});
         google.load('visualization', '1', {packages: ['geochart']});
-                google.load('visualization', '1', {packages: ['geomap']});
+        google.load('visualization', '1', {packages: ['geomap']});
+
 
     </script>
- 
+    <script type="text/javascript" src="//www.google.com/jsapi"></script> 
     
     <script type="text/javascript">
     </script>
@@ -329,6 +330,65 @@
             });
 
         }
+        
+        function JSON2CSV(objArray) {
+    		var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+
+   		 var str = '';
+   		 var line = '';
+
+    		if ($("#labels").is(':checked')) {
+    		    var head = array[0];
+    		    if ($("#quote").is(':checked')) {
+        		    for (var index in array[0]) {
+           		     var value = index + "";
+           		     line += '"' + value.replace(/"/g, '""') + '",';
+         		   }
+       		 } else {
+      		      for (var index in array[0]) {
+		        line += index + ',';
+			    }
+    		   }
+
+    		    line = line.slice(0, -1);
+   		     str += line + '\r\n';
+ 		   }
+	
+   		 for (var i = 0; i < array.length; i++) {
+    		    var line = '';
+
+     		   if ($("#quote").is(':checked')) {
+       		     for (var index in array[i]) {
+        		        var value = array[i][index] + "";
+           		     line += '"' + value.replace(/"/g, '""') + '",';
+        		    }
+      		  } else {
+        		    for (var index in array[i]) {
+        		        line += array[i][index] + ',';
+           		 }
+       		 }
+       		 line = line.slice(0, -1);
+        		str += line + '\r\n';
+   		 }
+   		 return str;    
+		}
+		
+		function downloadWithName(uri, name) {
+		    function eventFire(el, etype){
+		        if (el.fireEvent) {
+            		(el.fireEvent('on' + etype));
+		        } else {
+		            var evObj = document.createEvent('Events');
+		            evObj.initEvent(etype, true, false);
+		            el.dispatchEvent(evObj);
+		        }
+		    }
+
+    var link = document.createElement("a");
+    link.download = name;
+    link.href = uri;
+    eventFire(link, "click");
+}
     </script>
 
 

@@ -252,9 +252,11 @@ def dashboard_getdata(request):
         else:
             grouper="10"
         
-        header_sql = ("select msgdate,COALESCE(message_count,0) as message_count,COALESCE(nmessage_count,0) as nmessage_count,COALESCE(freelancer_count,0) as freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count ,COALESCE(job_count,0) as job_count, COALESCE(proposal_count,0) as proposal_count, COALESCE(paidproposal_count,0) as paidproposal_count, COALESCE(application_count,0) as application_count, COALESCE(invoice_count,0) as invoice_count,COALESCE(invoicepaid_count,0) as invoicepaid_count from ")
+        header_sql = ("select msgdate,COALESCE(message_count,0) as message_count,COALESCE(nmessage_count,0) as nmessage_count,COALESCE(allusers_count,0) as allusers_count,COALESCE(freelancer_count,0) as freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count ,COALESCE(job_count,0) as job_count, COALESCE(proposal_count,0) as proposal_count, COALESCE(paidproposal_count,0) as paidproposal_count, COALESCE(application_count,0) as application_count, COALESCE(invoice_count,0) as invoice_count,COALESCE(invoicepaid_count,0) as invoicepaid_count from ")
         
         workflow_messages_sql = ("(select count(distinct id) as message_count,substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as msgdate from contracts_message where timestamp>='"+t1+"' and timestamp<='"+t2+"' group by msgdate) contractsmessages left outer join ")
+        
+        allusers_sql = ("(select count(distinct u.id) as allusers_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join auth_user au on au.id=u.django_user_id where date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) allusers on contractsmessages.msgdate=allusers.datejoined left outer join")
         
         freelancers_sql = ("(select count(distinct u.id) as freelancer_count, substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datejoined from users u inner join auth_user au on au.id=u.django_user_id where u.is_freelancer=true and date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) freelancers on contractsmessages.msgdate=freelancers.datejoined left outer join")
         
@@ -277,7 +279,7 @@ def dashboard_getdata(request):
         invoicesent_sql = ("(select count(distinct ci.message_ptr_id) as invoice_count,substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as invoicesent from contracts_invoice ci inner join contracts_message cm on ci.message_ptr_id=cm.id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' group by invoicesent) invoicessent on invoicessent.invoicesent=contractsmessages.msgdate left outer join ")
         
         invoicepaid_sql = ("(select count(distinct cp.id) as invoicepaid_count,substring(to_char(cp.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datepaid from contracts_invoice ci inner join contracts_paidout cp on ci.paid_out_id=cp.id  where cp.timestamp>='"+t1+"' and cp.timestamp<='"+t2+"' group by datepaid) invoicespaid on invoicespaid.datepaid=contractsmessages.msgdate")
-        sql = (header_sql + workflow_messages_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + proposalspaid_sql + application_sql + invoicesent_sql + invoicepaid_sql + "  order by msgdate")
+        sql = (header_sql + workflow_messages_sql + allusers_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + proposalspaid_sql + application_sql + invoicesent_sql + invoicepaid_sql + "  order by msgdate")
         
         
         

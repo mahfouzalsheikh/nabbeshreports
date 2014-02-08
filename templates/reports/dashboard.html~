@@ -38,22 +38,26 @@
                 
                 
       $("#filterButton").jqxButton({ width: '200'});
-      $("#filterButton").on('click', function () {                          
-                  draw(limit,fromdate,todate);
-
-                });
+      $("#filterButton").on('click', function () {draw(limit,fromdate,todate);});
+      $("#downloadButton").jqxButton({ width: '200'});                
+      $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData(limit,fromdate,todate));
+    		var csv = JSON2CSV(json);
+//	        window.open("data:text/csv;charset=utf-8," + escape(csv))
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "dashboard_data.csv");
+      }); 
      var fromdate = $('#fromdate').jqxDateTimeInput('getText');
      var todate = $('#todate').jqxDateTimeInput('getText');
      var limit="Day";
      
      
-     var metricslistsource = ["Workflow Msgs","Normal Msgs", "Joined as Freelancer","Joined as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Proposal Paid", "Job Apps", "Invoices Sent", "Invoices Paid"];
+     var metricslistsource = ["Workflow Msgs","Normal Msgs","All Signups", "Joined as Freelancer","Joined as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Proposal Paid", "Job Apps", "Invoices Sent", "Invoices Paid"];
      $("#metricslist").jqxListBox({width: 200,height: 140, source: metricslistsource, checkboxes: true});
-     $("#metricslist").jqxListBox('checkIndex', 3);
-     $("#metricslist").jqxListBox('checkIndex', 4);
-     $("#metricslist").jqxListBox('checkIndex', 5);
+     //$("#metricslist").jqxListBox('checkIndex', 2);
      $("#metricslist").jqxListBox('checkIndex', 6);
      $("#metricslist").jqxListBox('checkIndex', 7);
+     $("#metricslist").jqxListBox('checkIndex', 8);
+
      
      var JSONData;
      $("#metricslist").on('checkChange', function (event) {
@@ -138,18 +142,23 @@
       
       var options = {'showRowNumber': true, 'allowHtml': true, 'height': '400px'};
       
+      
       tablearea.draw(dataView2,options); 
       
+
      }
      
      function draw(limit,from,to) {
       var jsonData= getData(limit,from,to);	
       JSONData=jsonData;
       drawChart(jsonData,$("#metricslist").jqxListBox('getCheckedItems'));
+      
     }
     
+    
+    
       
-       
+  
     draw(limit,fromdate,todate);
 </script>
 
@@ -158,13 +167,13 @@
             <div>
                 <table>
                    <tr>
-                    <td>Group By:</td><td><div id="limitmenu"></div><td rowspan=4><div id="metricslist"></div></td></td>
+                    <td>Group By:</td><td><div id="limitmenu"></div><td rowspan=3><div id="metricslist"></div></td></td>
                    </tr> 
                    
                    <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
                    <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
                    
-                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>
                   
                 </table>  
                   
