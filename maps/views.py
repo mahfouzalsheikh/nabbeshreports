@@ -633,8 +633,8 @@ def get_results(service, profile_id):
   # Use the Analytics Service Object to query the Core Reporting API
   return service.data().ga().get(
       ids="ga:" + profile_id,
-      start_date="2013-01-01",
-      end_date="2014-01-31",
+      start_date="2014-02-01",
+      end_date="2014-02-28",
       max_results=10000, 
       dimensions = "ga:pagePath, ga:medium",
       metrics="ga:pageviews",
@@ -656,7 +656,7 @@ def googleanalytics_report(request):
             results = get_results(service, profile_id)
 
       # Step 4. Output the results.
-            param = results
+            param = results['rows']
       #print_results(results)
 
     except TypeError, error:
