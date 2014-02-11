@@ -1,0 +1,4 @@
+[["Applicant Country","Applicant City", "Employer Country", "Employer City","Application Count"],
+{% for user in lines %}["{{ user.0 }}","{{ user.1 }}","{{ user.2 }}","{{ user.3 }}",{{ user.4 }}]{% if not forloop.last %},{% endif %}{% endfor %}
+]
+

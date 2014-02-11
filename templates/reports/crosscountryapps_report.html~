@@ -1,0 +1,146 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript">
+ var theme = 'bootstrap';
+ $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
+ 
+</script>
+
+<script type="text/javascript">
+
+       $('#prioritymenu').on('select', function (event) {
+                    var args = event.args;
+                    if (args != undefined) {
+                        var item = event.args.item;
+                        if (item != null) {                            
+                            priority=item.label
+                        }
+                    }
+                });
+      
+     var source = ["Country","City"];
+       
+      $("#prioritymenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0});  
+                
+      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").on('click', function () {
+                             
+                  drawChart(priority, limit);
+                  
+                });
+     
+     var priority="Country";
+     
+     
+     $('#limitmenu').on('select', function (event) {
+                    var args = event.args;
+                    if (args != undefined) {
+                        var item = event.args.item;
+                        if (item != null) {
+                            limit = item.label;
+                        }
+                    }
+                });
+      
+      var source = ["10","20","50", "100", "1000", "10000"]; 
+      
+     $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:2}); 
+     
+     var limit = "50";
+     
+     function drawChart(priority, limit) {
+
+      var params = {"grouplevel": priority, "limit": limit};
+      var jsonData = $.ajax({
+          url: "crosscountryapps_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;	         
+      var jsondata = $.parseJSON(jsonData);
+      var data = new google.visualization.arrayToDataTable(jsondata);	                      
+      var dataView = new google.visualization.DataView(data);                              
+      var tablearea = new google.visualization.Table(document.getElementById('tablearea'));      
+      tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});       
+      
+      
+      initialize();       
+      var geoparams = {};
+        var geojsonData = $.ajax({
+          url: "geocodes",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(geoparams),
+          async: false
+          }).responseText;	         
+      var geojsondata = $.parseJSON(geojsonData);
+      //alert(geojsondata['LB']['lat'] + geojsondata['LB']['lon']);
+      
+      for (var i=1; i< jsondata.length; i++){                      
+         drawLine(jsondata[i][0].toString(), jsondata[i][1].toString(), jsondata[i][2]/100+1, map, geojsondata);                  
+      } 
+      //alert($.parseJSON(jsonData)[1][0]);
+      
+    }
+    
+                
+    var geocoder;
+    var map;
+    function initialize() {
+  	geocoder = new google.maps.Geocoder();  	
+ 	 var latlng = new google.maps.LatLng(34.397, 34.644); 	 
+  	 var mapOptions = {
+  	  zoom: 4,
+  	  center: latlng
+  	}  	 
+ 	 map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);	 
+	} 
+    
+   
+    
+    function drawLine(begin, end, weight, map, geocodes){     
+        
+        //alert();
+        var beginLoc= new google.maps.LatLng(geocodes[begin]['lat'], geocodes[begin]['lon']);
+        var endLoc= new google.maps.LatLng(geocodes[end]['lat'], geocodes[end]['lon']);
+        new google.maps.Polyline({
+             			 path: [
+                			beginLoc,
+               				endLoc               				
+            			  ],
+             			 strokeColor: '#3300FF',
+             			 geodesic: true,
+             			 strokeOpacity: 0.5,
+				 strokeWeight: weight,
+             			 map: map
+            			});
+       
+    } 
+           
+    drawChart(priority, limit);
+</script>
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+                   <tr>
+                    <td>Priority: </td><td><div id="prioritymenu"></div><td></td></td>
+                   </tr> 
+                   <tr>
+                    <td>Limit: </td><td><div id="limitmenu"></div><td></td></td>
+                   </tr>
+                   
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
+                </table>   
+            </div>
+        </div>
+<div style="padding: 20px 20px 20px 20px">
+<div id="map-canvas" style="width: 100%; height:500px; float: left;"></div>
+<div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
+
+</div>
+
+

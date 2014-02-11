@@ -580,16 +580,65 @@ def skillsdemographydetails_getdata(request):
         c = Context({'countries': results})
    
         return HttpResponse(render_to_string('skillsdemographydetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+            
+
+@csrf_exempt        
+def geocodes(request):
+    
+    t = loader.get_template('./geocodes.json')
+    c = Context({
+        'geocodes': geocodes,
+    })
+    return HttpResponse(t.render(c))
+            
+            
+@csrf_exempt        
+def crosscountryapps_report(request):
+    
+    t = loader.get_template('./reports/crosscountryapps_report.html')
+    c = Context({
+        'crosscountryapps_report': crosscountryapps_report,
+    })
+    return HttpResponse(t.render(c))
+            
+@csrf_exempt
+def crosscountryapps_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        grouplevel= objs['grouplevel']
+        limit = objs['limit']
+        colsql = 'applicants.country as appcountry, applicants.city as appcity,employers.country as empcountry, employers.city as empcity'
+        groupsql = 'group by empcountry,empcity,appcountry,appcity'
+        if grouplevel == 'Country':
+            colsql = 'applicants.country as appcountry,employers.country as empcountry'
+            groupsql = 'group by empcountry,appcountry'
+            
+        sql = ("select *, count(*) as appcount from  (select "+ colsql +" from users applicants  inner join contracts_application ca on ca.applicant_id=applicants.id  inner join contracts_job cj on cj.id=ca.job_id  inner join users employers on employers.id=cj.employer_id where employers.country<>applicants.country) total  where empcountry<>'' and appcountry<>'' " + groupsql + " order by appcount desc limit "+ limit)
+ 
+        results = customQuery(sql,0)
+
+        c = Context({'lines': results})
+        if grouplevel=='Country':
+	    return HttpResponse(render_to_string('crosscountryapps.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+	else:
+	    return HttpResponse(render_to_string('crosscityapps.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+	    
+            
+                        
+
                 
 @csrf_exempt
 def get_results(service, profile_id):
   # Use the Analytics Service Object to query the Core Reporting API
   return service.data().ga().get(
-      ids='ga:' + profile_id,
-      start_date='2014-01-01',
-      end_date='2014-01-31',
-      dimensions = 'ga:browser',
-      metrics='ga:pageviews').execute()
+      ids="ga:" + profile_id,
+      start_date="2013-01-01",
+      end_date="2014-01-31",
+      max_results=10000, 
+      dimensions = "ga:pagePath, ga:medium",
+      metrics="ga:pageviews",
+      filters="ga:pagePath=~finished_signup;ga:medium=~cpc").execute()
+      
       
 #@permission_required('polls.can_vote')
 @csrf_exempt        
