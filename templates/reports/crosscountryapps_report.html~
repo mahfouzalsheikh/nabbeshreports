@@ -90,7 +90,7 @@
     var map;
     
     function get_random_color() {
-    var letters = '0123456789ABCDEF'.split('');
+    var letters = '0123456789ABCD'.split('');
     var color = '#';
     for (var i = 0; i < 6; i++ ) {
         color += letters[Math.round(Math.random() * 15)];
@@ -125,7 +125,7 @@
             			  icons: [{icon: lineSymbol,offset: '100%', repeat: '200px'}],
              			 strokeColor: get_random_color(),
              			 geodesic: true,
-             			 strokeOpacity: 0.7,
+             			 strokeOpacity: 0.8,
 				 strokeWeight: weight,
              			 map: map
             			});
