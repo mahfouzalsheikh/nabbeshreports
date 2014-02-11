@@ -79,7 +79,7 @@
       //alert(geojsondata['LB']['lat'] + geojsondata['LB']['lon']);
       
       for (var i=1; i< jsondata.length; i++){                      
-         drawLine(jsondata[i][0].toString(), jsondata[i][1].toString(), jsondata[i][2]/100+1, map, geojsondata);                  
+         drawLine(jsondata[i][0].toString(), jsondata[i][1].toString(), jsondata[i][2]/300+1, map, geojsondata);                  
       } 
       //alert($.parseJSON(jsonData)[1][0]);
       
@@ -88,7 +88,18 @@
                 
     var geocoder;
     var map;
+    
+    function get_random_color() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.round(Math.random() * 15)];
+    }
+    return color;
+}
+    
     function initialize() {
+        
   	geocoder = new google.maps.Geocoder();  	
  	 var latlng = new google.maps.LatLng(34.397, 34.644); 	 
   	 var mapOptions = {
@@ -105,14 +116,16 @@
         //alert();
         var beginLoc= new google.maps.LatLng(geocodes[begin]['lat'], geocodes[begin]['lon']);
         var endLoc= new google.maps.LatLng(geocodes[end]['lat'], geocodes[end]['lon']);
+        var lineSymbol = { path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW};
         new google.maps.Polyline({
              			 path: [
                 			beginLoc,
                				endLoc               				
             			  ],
-             			 strokeColor: '#3300FF',
+            			  icons: [{icon: lineSymbol,offset: '100%', repeat: '200px'}],
+             			 strokeColor: get_random_color(),
              			 geodesic: true,
-             			 strokeOpacity: 0.5,
+             			 strokeOpacity: 0.7,
 				 strokeWeight: weight,
              			 map: map
             			});
