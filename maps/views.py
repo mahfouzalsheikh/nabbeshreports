@@ -491,7 +491,7 @@ def top_freelancers_getdata(request):
             sortsql= " order by application_count desc"
 
         #print sortsql   
-        sql = ("select u1.id,au.first_name || ' ' || au.last_name as fullname , au.email, 'http://www.nabbesh.com/profile/' || u1.id as homepage,  case when (u1.photo <>'' and u1.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u1.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as photo, total.skills_count, total.application_count  from users u1 inner join auth_user au on  u1.django_user_id=au.id   inner join  (select u.id, count(distinct su.skill_id) skills_count, count(distinct ca.id) as application_count  from users u  inner join skills_users su on su.id_user=u.id left outer join contracts_application ca on ca.applicant_id=u.id  group  by u.id "+sortsql+" limit "+ limit+") total on total.id=u1.id;")
+        sql = ("select u1.id,au.first_name || ' ' || au.last_name as fullname , au.email, 'http://www.nabbesh.com/profile/' || u1.id as homepage,  case when (u1.photo <>'' and u1.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u1.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as photo,u1.country, total.skills_count, total.application_count  from users u1 inner join auth_user au on  u1.django_user_id=au.id   inner join  (select u.id, count(distinct su.skill_id) skills_count, count(distinct ca.id) as application_count  from users u  inner join skills_users su on su.id_user=u.id left outer join contracts_application ca on ca.applicant_id=u.id  group  by u.id "+sortsql+" limit "+ limit+") total on total.id=u1.id;")
         
         results = customQuery(sql,0)
  	#print results	

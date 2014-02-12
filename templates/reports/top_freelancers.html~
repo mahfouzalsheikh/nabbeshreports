@@ -21,7 +21,7 @@
       
      var source = ["Skills Count","Application Count"];
        
-     $("#prioritymenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0});  
+      $("#prioritymenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0});  
                 
       $("#filterButton").jqxButton({ width: '200'});
       $("#filterButton").on('click', function () {
@@ -87,7 +87,7 @@
             
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       
-      dataView.setColumns([0,1,2,5,6]);
+      dataView.setColumns([0,1,2,5,6,7]);
       tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});
       
      
