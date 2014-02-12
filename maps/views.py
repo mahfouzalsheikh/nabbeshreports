@@ -658,7 +658,7 @@ def googleanalytics_report(request):
             results = get_results(service, profile_id)
 
       # Step 4. Output the results.
-            param = results['rows']
+            param = results['rows'][4][0]
       #print_results(results)
 
     except TypeError, error:

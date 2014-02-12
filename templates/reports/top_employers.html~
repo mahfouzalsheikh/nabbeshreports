@@ -66,8 +66,8 @@
       
       
       var dataView = new google.visualization.DataView(data);
-      
-
+            
+   
       
       var formatter2 = new google.visualization.PatternFormat('<a href="{0}"  target="_blank"><img src="{2}" width="64" height="64d">{1}</a>');
       formatter2.format(data, [3,1,4],1);
@@ -91,6 +91,23 @@
       google.visualization.events.addListener(tablearea, 'select', selectHandler);
       
       // Apply formatter to second column
+      
+      
+      var grouped_dt = google.visualization.data.group(data, [5], [{'column': 0, 'aggregation': google.visualization.data.count, 'type': 'number'}]);
+      //alert();
+      var chart = new google.visualization.PieChart(document.getElementById('visualization'));
+      var options = {
+          title:"Top Freelancers Demography",width: '100%', height: 400, is3D: true,
+          //legend: 'none',
+          sliceVisibilityThreshold: 1/200,
+          pieSliceText: 'percentage',
+          slices: {  4: {offset: 0.1},
+                    1: {offset: 0.1},
+                    2: {offset: 0.1},
+                    3: {offset: 0.1},
+          },
+        };
+	chart.draw(grouped_dt, options);
     }
     
      
