@@ -279,7 +279,9 @@ def dashboard_getdata(request):
         
         invoicesent_sql = ("(select count(distinct ci.message_ptr_id) as invoice_count,substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as invoicesent from contracts_invoice ci inner join contracts_message cm on ci.message_ptr_id=cm.id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' group by invoicesent) invoicessent on invoicessent.invoicesent=contractsmessages.msgdate left outer join ")
         
-        invoicepaid_sql = ("(select count(distinct cp.id) as invoicepaid_count,substring(to_char(cp.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as datepaid from contracts_invoice ci inner join contracts_paidout cp on ci.paid_out_id=cp.id  where cp.timestamp>='"+t1+"' and cp.timestamp<='"+t2+"' group by datepaid) invoicespaid on invoicespaid.datepaid=contractsmessages.msgdate")
+        invoicepaid_sql = ("(select count(distinct ci.message_ptr_id) as invoicepaid_count,substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as invoicepaid from contracts_invoice ci inner join contracts_message cm on ci.message_ptr_id=cm.id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' group by invoicepaid) invoicespaid on invoicespaid.invoicepaid=contractsmessages.msgdate")
+        
+        
         sql = (header_sql + workflow_messages_sql + allusers_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + proposalspaid_sql + application_sql +invited_sql+ invoicesent_sql + invoicepaid_sql + "  order by msgdate")
         
         
@@ -417,7 +419,7 @@ def sign_job_proposal_invoice_getdata(request):
         else:
             wheresql = ""
            
-        sql = ("select * from (select count(distinct au.email) as signed_up, count(distinct jobsposted.id) as posted_jobs, count(distinct paidproposal.id) as paid_proposal, count(distinct invoices.applicant_id) as invoices_paid  from users u inner join auth_user au on u.django_user_id=au.id  left outer join (select u1.id from users u1 inner join contracts_job cj on cj.employer_id= u1.id) jobsposted on jobsposted.id=u.id left outer join (select u2.id from users u2 inner join contracts_application ca2 on ca2.applicant_id=u2.id inner join contracts_message cm2 on cm2.application_id=ca2.id inner join contracts_proposal cp2 on cp2.message_ptr_id=cm2.id where cp2.status=4) paidproposal on paidproposal.id=u.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.paid_out_id is not null) invoices on invoices.applicant_id=u.id " + wheresql +") total ")
+        sql = ("select * from (select count(distinct au.email) as signed_up, count(distinct jobsposted.id) as posted_jobs, count(distinct paidproposal.id) as paid_proposal, count(distinct invoices.applicant_id) as invoices_paid  from users u inner join auth_user au on u.django_user_id=au.id  left outer join (select u1.id from users u1 inner join contracts_job cj on cj.employer_id= u1.id) jobsposted on jobsposted.id=u.id left outer join (select u2.id from users u2 inner join contracts_application ca2 on ca2.applicant_id=u2.id inner join contracts_message cm2 on cm2.application_id=ca2.id inner join contracts_proposal cp2 on cp2.message_ptr_id=cm2.id where cp2.status=4) paidproposal on paidproposal.id=u.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.status=4) invoices on invoices.applicant_id=u.id " + wheresql +") total ")
         
         results = customQuery(sql,0)
  	print results	
