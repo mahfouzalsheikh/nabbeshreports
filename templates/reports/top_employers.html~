@@ -75,7 +75,7 @@
             
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       
-      dataView.setColumns([0,1,2,5,6]);
+      dataView.setColumns([0,1,2,5,6,7]);
       tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});
       
       
