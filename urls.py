@@ -70,6 +70,16 @@ urlpatterns = patterns('',
     url(r'^geocodes$', 'nabbeshreports.maps.views.geocodes', name='geocodes'),
   
     
+    url(r'^proposals_getdata$', 'nabbeshreports.maps.views.proposals_getdata', name='proposals_getdata'),
+    url(r'^proposals_report$', 'nabbeshreports.maps.views.proposals_report', name='proposals_report'),
+
+#    url(r'^invoices_getdata$', 'nabbeshreports.maps.views.invoices_getdata', name='invoices_getdata'),
+#    url(r'^invoices_report$', 'nabbeshreports.maps.views.invoices_report', name='invoices_report'),
+
+#    url(r'^escrow_getdata$', 'nabbeshreports.maps.views.escrow_getdata', name='escrow_getdata'),
+#    url(r'^escrow_report$', 'nabbeshreports.maps.views.escrow_report', name='escrow_report'),
+
+    
     url(r'^googleanalytics_report$', 'nabbeshreports.maps.views.googleanalytics_report', name='googleanalytics_report'),
     
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),

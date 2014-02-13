@@ -139,8 +139,8 @@ def freelancerdemography_report(request):
 def freelancerdemography_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
-
-        sql = ("select country,count(*) as usercount from users group by country order by usercount desc")
+        grouper = objs['grouper']
+        sql = ("select "+grouper+", count(id) as usercount from users where "+grouper+" is not null and "+grouper+" <>''  group by "+grouper+" order by usercount desc")
  
         results = customQuery(sql,0)
 
@@ -252,7 +252,7 @@ def dashboard_getdata(request):
         else:
             grouper="10"
         
-        header_sql = ("select msgdate,COALESCE(message_count,0) as message_count,COALESCE(nmessage_count,0) as nmessage_count,COALESCE(allusers_count,0) as allusers_count,COALESCE(freelancer_count,0) as freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count ,COALESCE(job_count,0) as job_count, COALESCE(proposal_count,0) as proposal_count, COALESCE(paidproposal_count,0) as paidproposal_count, COALESCE(application_count,0) as application_count,COALESCE(invitation_count,0) as invitation_count , COALESCE(invoice_count,0) as invoice_count,COALESCE(invoicepaid_count,0) as invoicepaid_count from ")
+        header_sql = ("select msgdate,COALESCE(message_count,0) as message_count,COALESCE(nmessage_count,0) as nmessage_count,COALESCE(allusers_count,0) as allusers_count,COALESCE(freelancer_count,0) as freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count ,COALESCE(job_count,0) as job_count, COALESCE(proposal_count,0) as proposal_count, COALESCE(paidproposal_count,0) as paidproposal_count, COALESCE(application_count,0) as application_count,COALESCE(invitation_count,0) as invitation_count , COALESCE(invoice_count,0) as invoice_count,COALESCE(invoicepaid_count,0) as invoicepaid_count,round(COALESCE(invperjobavg,0),2) as invperjobavg from ")
         
         workflow_messages_sql = ("(select count(distinct id) as message_count,substring(to_char(timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as msgdate from contracts_message where timestamp>='"+t1+"' and timestamp<='"+t2+"' group by msgdate) contractsmessages left outer join ")
         
@@ -279,10 +279,11 @@ def dashboard_getdata(request):
         
         invoicesent_sql = ("(select count(distinct ci.message_ptr_id) as invoice_count,substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as invoicesent from contracts_invoice ci inner join contracts_message cm on ci.message_ptr_id=cm.id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' group by invoicesent) invoicessent on invoicessent.invoicesent=contractsmessages.msgdate left outer join ")
         
-        invoicepaid_sql = ("(select count(distinct ci.message_ptr_id) as invoicepaid_count,substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as invoicepaid from contracts_invoice ci inner join contracts_message cm on ci.message_ptr_id=cm.id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' group by invoicepaid) invoicespaid on invoicespaid.invoicepaid=contractsmessages.msgdate")
+        invoicepaid_sql = ("(select count(distinct ci.message_ptr_id) as invoicepaid_count,substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as invoicepaid from contracts_invoice ci inner join contracts_message cm on ci.message_ptr_id=cm.id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' group by invoicepaid) invoicespaid on invoicespaid.invoicepaid=contractsmessages.msgdate left outer join ")
         
+        invperjob_sql = ("(select avg(inv.jobinv) as invperjobavg, substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as invsentat from contracts_job cj inner join (select count(cji.id) as jobinv,cji.job_id from contracts_job_invited cji  group by cji.job_id) inv on inv.job_id=cj.id group by invsentat) invitationsperjob on invitationsperjob.invsentat=contractsmessages.msgdate ")
         
-        sql = (header_sql + workflow_messages_sql + allusers_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + proposalspaid_sql + application_sql +invited_sql+ invoicesent_sql + invoicepaid_sql + "  order by msgdate")
+        sql = (header_sql + workflow_messages_sql + allusers_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + proposalspaid_sql + application_sql +invited_sql+ invoicesent_sql + invoicepaid_sql +invperjob_sql +  "  order by msgdate")
         
         
         
@@ -628,7 +629,34 @@ def crosscountryapps_getdata(request):
 	    
             
                         
-
+@csrf_exempt        
+def proposals_report(request):
+    
+    t = loader.get_template('./reports/proposals_report.html')
+    c = Context({
+        'proposals_report': proposals_report,
+    })
+    return HttpResponse(t.render(c))
+            
+@csrf_exempt
+def proposals_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)         
+        grouper="7"
+        groupertext = objs['grouper']    
+        if groupertext=="Year":
+            grouper="4"
+        elif groupertext=="Month":
+            grouper="7"
+        elif groupertext=="Day": 
+            grouper="10"                   
+        sql = ("select sum(deposit_amount),count(message_ptr_id), min(deposit_amount),max(deposit_amount), round(avg(deposit_amount),3),median(deposit_amount), case when status=1 then 'New' when status=2 then 'Canceled' when status=3 then 'Declined' when status=4 then 'Accepted' end as status, substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as proposaltime from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id  where cm.timestamp>='2013-01-01' group by status, proposaltime order by proposaltime desc ,status ") 
+        results = customQuery(sql,0)
+        c = Context({'proposals': results})        
+	return HttpResponse(render_to_string('proposals.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+	
+            
+                       
                 
 @csrf_exempt
 def get_results(service, profile_id):
@@ -658,7 +686,7 @@ def googleanalytics_report(request):
             results = get_results(service, profile_id)
 
       # Step 4. Output the results.
-            param = results['rows'][4][0]
+            param = results['rows'][4]
       #print_results(results)
 
     except TypeError, error:

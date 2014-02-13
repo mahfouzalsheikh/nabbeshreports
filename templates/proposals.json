@@ -1,0 +1,4 @@
+[["Period","Amount","Count","Min","Max","Avg","Med", "Status"],
+{% for proposal in proposals %}["{{ proposal.7 }}",{{ proposal.0 }},{{ proposal.1 }},{{ proposal.2 }},{{ proposal.3 }},{{ proposal.4 }},{{ proposal.5 }},"{{ proposal.6 }}"]{% if not forloop.last %},{% endif %}{% endfor %}
+]
+

@@ -1,4 +1,4 @@
 [["Country","User Count"], 
-[{% for country in countries %}["{{ country.0 }}",{{ country.1 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]]
+{% for country in countries %}["{{ country.0 }}",{{ country.1 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]
 
 

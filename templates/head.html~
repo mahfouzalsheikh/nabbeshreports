@@ -164,6 +164,26 @@
                 }
             });
 
+	    var financesource = ["Under Constructions!"];
+
+            $("#financelist").jqxListBox({
+                
+                source: financesource,
+                width: 176,
+                height: 90,
+                selectedIndex: -1,
+                theme: theme
+            });
+            $('#financelist').on('select', function (event) {
+                var args = event.args;
+                var item = $('#financelist').jqxListBox('getItem', args.index);
+                if (item != null) {
+                    
+                    sendrequest(item.label,'');
+                    $("#financelist").jqxListBox({selectedIndex: -1 }); 
+                }
+            });
+
 
             var dashboardssource = [
                 "Main Dashboard"
@@ -314,6 +334,15 @@
   			case "Cross-Country Apps":
   				URLString = "crosscountryapps_report";	
   				break;
+  			case "Proposals":
+  				URLString = "proposals_report";	
+  				break;
+  			case "Invoices":
+  				URLString = "invoices_report";	
+  				break;
+  			case "Escrow":
+  				URLString = "escrow_report";	
+  				break;			
 			default:
   			      URLString = "dashboard";
 		}

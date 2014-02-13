@@ -59,9 +59,7 @@
             <div><div id='activitylist'> </div></div>
            
             <div>Finance</div>
-            <div>
-		
-            </div>
+            <div><div id='financelist'> </div></div>
             <div>Skills</div>
             <div><div id='skillslist'> </div></div>
         </div>

@@ -1,0 +1,142 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript">
+ var theme = 'bootstrap';
+ $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
+ 
+</script>
+
+<script type="text/javascript">
+
+      $('#groupmenu').on('select', function (event) {
+                    var args = event.args;
+                    if (args != undefined) {
+                        var item = event.args.item;
+                        if (item != null) {                            
+                            grouper=item.label
+                        }
+                    }
+                });
+      
+     var source = ["Year","Month", "Day"];
+       
+      $("#groupmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:1});  
+                
+      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").on('click', function () {
+                                         
+                  draw(grouper,fromdate,todate);
+                 
+
+                });
+     
+     var grouper="Month";
+     
+
+
+      var today = new Date(Date.now());
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+
+     
+     $("#fromdate").on('change', function (event) {
+                    fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
+                });
+     $("#todate").on('change', function (event) {
+                    todate= $('#todate').jqxDateTimeInput('getText'); 
+                });             
+     
+     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
+     var todate = $('#todate').jqxDateTimeInput('getText');
+     
+     var proposalsmetricslistsource = ["Accepted","New","Canceled","Declined"];
+     $("#proposalsmetricslist").jqxListBox({width: 200,height: 130, source: proposalsmetricslistsource, checkboxes: true});
+     //$("#proposalsmetricslist").jqxListBox('checkIndex', 2);
+     $("#proposalsmetricslist").jqxListBox('checkIndex', 0);
+     
+     var JSONData;
+     $("#proposalsmetricslist").on('checkChange', function (event) {
+       var proposalsmetrics = $("#proposalsmetricslist").jqxListBox('getCheckedItems');
+       
+       drawChart(JSONData,proposalsmetrics);             
+     });
+     
+     function getData(grouper,from,to){
+      var params = {"grouper": grouper, "fromdate": from, "todate": to};
+      var jsonData = $.ajax({
+          url: "proposals_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+     }
+     
+     
+     function drawChart(jsonData,metrics) {
+  
+      //var metricsarray=[0];
+      /*$.each(metrics, function (index) {                      
+                            metricsarray.push(this.index+1);                                               
+                    });*/
+     
+      
+	
+      
+  
+      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+	          
+         
+      var dataView = new google.visualization.DataView(data);
+                
+      var tablearea = new google.visualization.Table(document.getElementById('proposalstablearea'));
+      
+      var formatter3 = new google.visualization.ColorFormat();
+      formatter3.addRange('Canceled','Canceled', '#fff', '#555555');
+      formatter3.addRange('New','New', '#fff', '#55115');
+      formatter3.format(data, 7); 
+      tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});
+      
+      
+      var columnView = new google.visualization.DataView(data);
+      columnView.setColumns([7,1]);
+      var chart = new google.visualization.ColumnChart(document.getElementById('visualization'));
+      
+      //chart.draw(columnView,null);
+      
+      // Apply formatter to second column
+    }
+    
+    function draw(grouper,from,to) {
+      var jsonData= getData(grouper,from,to);	
+      JSONData=jsonData;
+      drawChart(jsonData,$("#proposalsmetricslist").jqxListBox('getCheckedItems'));
+      
+    } 
+  
+    draw(grouper,fromdate,todate);
+</script>
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+                   <tr>
+                    <td>Group By:</td><td><div id="groupmenu"></div><td rowspan=4><div id="proposalsmetricslist"></div></td></td>
+                   </tr>  
+         
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
+                </table>   
+            </div>
+        </div>
+<div style="padding: 20px 20px 20px 20px">
+
+<div id="proposalstablearea" style="width: 100%; height:100%; float: left;"></div>
+
+</div>
+
+
