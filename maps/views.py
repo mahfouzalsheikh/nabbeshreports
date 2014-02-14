@@ -644,6 +644,8 @@ def proposals_report(request):
 def proposals_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)         
+        t1 = objs['fromdate'] + ' 00:00:00+00'
+        t2 = objs['todate']  + ' 23:59:59+00'
         grouper="7"
         groupertext = objs['grouper']    
         if groupertext=="Year":
@@ -651,8 +653,10 @@ def proposals_getdata(request):
         elif groupertext=="Month":
             grouper="7"
         elif groupertext=="Day": 
-            grouper="10"                   
-        sql = ("select sum(deposit_amount),count(message_ptr_id), min(deposit_amount),max(deposit_amount), round(avg(deposit_amount),3),median(deposit_amount), case when status=1 then 'New' when status=2 then 'Canceled' when status=3 then 'Declined' when status=4 then 'Accepted' end as status, substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,"+grouper+") as proposaltime from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id  where cm.timestamp>='2013-01-01' group by status, proposaltime order by proposaltime desc ,status ") 
+            grouper="10"             
+            
+                  
+        sql = ("select substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1, "+grouper+") as sentat, COALESCE(sum(case when cp.status=1 then cp.deposit_amount end),0) as New, count(case when cp.status=1 then 1 end) as NewCount, round(COALESCE(avg(case when cp.status=1 then cp.deposit_amount end),0),2) as NewAvg, COALESCE(sum(case when cp.status=2 then cp.deposit_amount end),0) as Canceled, count(case when cp.status=2 then 1 end) as CanceledCount, round(COALESCE(avg(case when cp.status=2 then cp.deposit_amount end),0),2) as CanceledAvg, COALESCE(sum(case when cp.status=3 then cp.deposit_amount end),0) as Declined, count(case when cp.status=3 then 1 end) as DeclinedCount, round(COALESCE(avg(case when cp.status=3 then cp.deposit_amount end),0),2) as Avg, COALESCE(sum(case when cp.status=4 then cp.deposit_amount end),0) as Accepted, count(case when cp.status=4 then 1 end) as AcceptedCount, round(COALESCE(avg(case when cp.status=4 then cp.deposit_amount end),0),2) as AcceptedAvg from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"'  group  by sentat ") 
         results = customQuery(sql,0)
         c = Context({'proposals': results})        
 	return HttpResponse(render_to_string('proposals.json', c, context_instance=RequestContext(request)), mimetype='application/json')           

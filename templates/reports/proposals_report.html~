@@ -36,7 +36,7 @@
 
 
       var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-3))});
      $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
 
      
@@ -50,10 +50,12 @@
      var fromdate = $('#fromdate').jqxDateTimeInput('getText');
      var todate = $('#todate').jqxDateTimeInput('getText');
      
-     var proposalsmetricslistsource = ["Accepted","New","Canceled","Declined"];
+     var proposalsmetricslistsource = ["New Amount", "New Count", "New Average","Canceled Amount", "Canceled Count", "Canceled Average","Declined Amount", "Declined Count", "Declined Average","Accepted Amount", "Accepted Count", "Accepted Average"];
      $("#proposalsmetricslist").jqxListBox({width: 200,height: 130, source: proposalsmetricslistsource, checkboxes: true});
      //$("#proposalsmetricslist").jqxListBox('checkIndex', 2);
-     $("#proposalsmetricslist").jqxListBox('checkIndex', 0);
+     $("#proposalsmetricslist").jqxListBox('checkIndex', 10);
+     $("#proposalsmetricslist").jqxListBox('checkIndex', 11);
+     $("#proposalsmetricslist").jqxListBox('checkIndex', 12);
      
      var JSONData;
      $("#proposalsmetricslist").on('checkChange', function (event) {
@@ -71,16 +73,18 @@
           data: JSON.stringify(params),
           async: false
           }).responseText;
+          //alert(jsonData);
        return jsonData;    
+       
      }
      
      
      function drawChart(jsonData,metrics) {
   
-      //var metricsarray=[0];
-      /*$.each(metrics, function (index) {                      
+      var metricsarray=[0];
+      $.each(metrics, function (index) {                      
                             metricsarray.push(this.index+1);                                               
-                    });*/
+                    });
      
       
 	
@@ -93,10 +97,7 @@
                 
       var tablearea = new google.visualization.Table(document.getElementById('proposalstablearea'));
       
-      var formatter3 = new google.visualization.ColorFormat();
-      formatter3.addRange('Canceled','Canceled', '#fff', '#555555');
-      formatter3.addRange('New','New', '#fff', '#55115');
-      formatter3.format(data, 7); 
+      dataView.setColumns(metricsarray);
       tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});
       
       
@@ -108,6 +109,7 @@
       
       // Apply formatter to second column
     }
+    
     
     function draw(grouper,from,to) {
       var jsonData= getData(grouper,from,to);	
