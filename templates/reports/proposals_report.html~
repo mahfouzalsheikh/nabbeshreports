@@ -51,16 +51,16 @@
      var todate = $('#todate').jqxDateTimeInput('getText');
      
      var proposalsmetricslistsource = ["New Amount", "New Count", "New Average","Canceled Amount", "Canceled Count", "Canceled Average","Declined Amount", "Declined Count", "Declined Average","Accepted Amount", "Accepted Count", "Accepted Average"];
-     $("#proposalsmetricslist").jqxListBox({width: 200,height: 130, source: proposalsmetricslistsource, checkboxes: true});
+     $("#proposalsmetricslist").jqxDropDownList({width: 200,height: 130, source: proposalsmetricslistsource, checkboxes: true});
      //$("#proposalsmetricslist").jqxListBox('checkIndex', 2);
-     $("#proposalsmetricslist").jqxListBox('checkIndex', 0);
-     $("#proposalsmetricslist").jqxListBox('checkIndex', 3);
-     $("#proposalsmetricslist").jqxListBox('checkIndex', 6);
-     $("#proposalsmetricslist").jqxListBox('checkIndex', 9);
+     $("#proposalsmetricslist").jqxDropDownList('checkIndex', 0);
+     $("#proposalsmetricslist").jqxDropDownList('checkIndex', 3);
+     $("#proposalsmetricslist").jqxDropDownList('checkIndex', 6);
+     $("#proposalsmetricslist").jqxDropDownList('checkIndex', 9);
      
      var JSONData;
      $("#proposalsmetricslist").on('checkChange', function (event) {
-       var proposalsmetrics = $("#proposalsmetricslist").jqxListBox('getCheckedItems');
+       var proposalsmetrics = $("#proposalsmetricslist").jqxDropDownList('getCheckedItems');
        
        drawChart(JSONData,proposalsmetrics);             
      });
@@ -119,7 +119,7 @@
     function draw(grouper,from,to) {
       var jsonData= getData(grouper,from,to);	
       JSONData=jsonData;
-      drawChart(jsonData,$("#proposalsmetricslist").jqxListBox('getCheckedItems'));
+      drawChart(jsonData,$("#proposalsmetricslist").jqxDropDownList('getCheckedItems'));
       
     } 
   
@@ -131,7 +131,10 @@
             <div>
                 <table>
                    <tr>
-                    <td>Group By:</td><td><div id="groupmenu"></div><td rowspan=4><div id="proposalsmetricslist"></div></td></td>
+                    <td>Metrics:</td><td><div id="proposalsmetricslist"></div><td></td></td>
+                   </tr> 
+                   <tr>
+                    <td>Group By:</td><td><div id="groupmenu"></div><td rowspan=4></td></td>
                    </tr>  
          
                    <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
