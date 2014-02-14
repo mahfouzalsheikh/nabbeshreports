@@ -111,7 +111,7 @@
       columnView.setColumns([7,1]);
       var chart = new google.visualization.LineChart(document.getElementById('visualizationarea'));
       
-      chart.draw(dataView, {curveType: "function",width: '100%', height: 600,title:"Proposals Dashboard"}); 
+      chart.draw(dataView, {width: '100%', height: 600,title:"Proposals Dashboard"}); 
 
     }
     
