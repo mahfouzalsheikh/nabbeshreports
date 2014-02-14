@@ -55,7 +55,7 @@
      //$("#proposalsmetricslist").jqxListBox('checkIndex', 2);
      $("#proposalsmetricslist").jqxListBox('checkIndex', 10);
      $("#proposalsmetricslist").jqxListBox('checkIndex', 11);
-     $("#proposalsmetricslist").jqxListBox('checkIndex', 12);
+     $("#proposalsmetricslist").jqxListBox('checkIndex', 9);
      
      var JSONData;
      $("#proposalsmetricslist").on('checkChange', function (event) {
@@ -88,8 +88,13 @@
      
       
 	
+      dataarray =   $.parseJSON(jsonData);               
+     
+      var data1 = new google.visualization.arrayToDataTable(dataarray);
+      var data2 = new google.visualization.arrayToDataTable(dataarray);
       
-  
+      
+   
       var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
 	          
          
@@ -103,11 +108,10 @@
       
       var columnView = new google.visualization.DataView(data);
       columnView.setColumns([7,1]);
-      var chart = new google.visualization.ColumnChart(document.getElementById('visualization'));
+      var chart = new google.visualization.LineChart(document.getElementById('visualizationarea'));
       
-      //chart.draw(columnView,null);
-      
-      // Apply formatter to second column
+      chart.draw(dataView, {curveType: "function",width: '100%', height: 600,title:"Proposals Dashboard"}); 
+
     }
     
     
@@ -136,7 +140,7 @@
             </div>
         </div>
 <div style="padding: 20px 20px 20px 20px">
-
+<div id="visualizationarea" style="width: 100%; height:600px; float: left;"></div>
 <div id="proposalstablearea" style="width: 100%; height:100%; float: left;"></div>
 
 </div>
