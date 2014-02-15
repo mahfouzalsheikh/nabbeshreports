@@ -1,4 +1,4 @@
-[["Period","New Amount", "New Count", "New Average","Canceled Amount", "Canceled Count", "Canceled Average","Declined Amount", "Declined Count", "Declined Average","Accepted Amount", "Accepted Count", "Accepted Average"],
+[["Period","New Amount", "New Count", "New Average","Canceled Amount", "Canceled Count", "Canceled Average","Declined Amount", "Declined Count", "Declined Average","Paid Amount", "Paid Count", "Paid Average"],
 {% for invoice in invoices %}["{{ invoice.0 }}",{{ invoice.1 }},{{ invoice.2 }},{{ invoice.3 }},{{ invoice.4 }},{{ invoice.5 }},{{ invoice.6 }},{{ invoice.7 }},{{ invoice.8 }},{{ invoice.9 }},{{ invoice.10 }},{{ invoice.11 }},{{ invoice.12 }}]{% if not forloop.last %},{% endif %}{% endfor %}
 ]
 
