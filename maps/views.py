@@ -661,6 +661,38 @@ def proposals_getdata(request):
         c = Context({'proposals': results})        
 	return HttpResponse(render_to_string('proposals.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
 	
+
+
+@csrf_exempt        
+def invoices_report(request):
+    
+    t = loader.get_template('./reports/invoices_report.html')
+    c = Context({
+        'invoices_report': invoices_report,
+    })
+    return HttpResponse(t.render(c))
+            
+@csrf_exempt
+def invoices_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)         
+        t1 = objs['fromdate'] + ' 00:00:00+00'
+        t2 = objs['todate']  + ' 23:59:59+00'
+        grouper="7"
+        groupertext = objs['grouper']    
+        if groupertext=="Year":
+            grouper="4"
+        elif groupertext=="Month":
+            grouper="7"
+        elif groupertext=="Day": 
+            grouper="10"             
+            
+                  
+        sql = ("select  substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1, "+grouper+") as sentat, round(COALESCE(sum(case when ci.status=1 then quantity * unit_price end),0,2)) as NewAmount, count(case when ci.status=1 then 1 end) as NewCount, round(COALESCE(avg(case when ci.status=1 then quantity * unit_price end),0,2)) as NewAverage, round(COALESCE(sum(case when ci.status=2 then quantity * unit_price end),0,2)) as CancelledAmount, count(case when ci.status=2 then 1 end) as CancelledCount, round(COALESCE(avg(case when ci.status=2 then quantity * unit_price end),0,2)) as CancelledAverage, round(COALESCE(sum(case when ci.status=3 then quantity * unit_price end),0,2)) as DeclinedAmount, count(case when ci.status=3 then 1 end) as DeclinedCount, round(COALESCE(avg(case when ci.status=3 then quantity * unit_price end),0,2)) as DeclinedAverage, round(COALESCE(sum(case when ci.status=4 then quantity * unit_price end),0,2)) as PaidAmount, count(case when ci.status=4 then 1 end) as PaidCount, round(COALESCE(avg(case when ci.status=4 then quantity * unit_price end),0,2)) as PaidAverage  from contracts_invoice ci  inner join contracts_invoiceitem cii on cii.invoice_id=ci.message_ptr_id  inner join contracts_message cm on cm.id=ci.message_ptr_id  where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' group by sentat,status  order by sentat ") 
+        results = customQuery(sql,0)
+        c = Context({'invoices': results})        
+	return HttpResponse(render_to_string('invoices.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+	
             
                        
                 
