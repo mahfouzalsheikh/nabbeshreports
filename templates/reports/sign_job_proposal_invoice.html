@@ -13,14 +13,14 @@
      
      
      var today = new Date(Date.now());
-      $("#jqxCheckBox").jqxCheckBox({ width: 200, height: 25});
+      
                 
       $("#filterButton").jqxButton({ width: '200'});
       $("#filterButton").on('click', function () {                          
-                  drawChart(signupchecked);
+                  drawChart(signupchecked, cpcchecked);
 
                 });
-
+     $("#jqxCheckBox").jqxCheckBox({ width: 200, height: 25 , disabled: true});
      var signupchecked='False';
      $("#jqxCheckBox").on('change', function (event) {
                 var checked = event.args.checked;
@@ -33,10 +33,22 @@
             });   
             
             
+     $("#cpcCheckBox").jqxCheckBox({ width: 200, height: 25});       
+     var cpcchecked='False';
+     $("#cpcCheckBox").on('change', function (event) {
+                var checked = event.args.checked;
+                if (checked) {
+                    cpcchecked = 'True';
+                }
+                else {
+                    cpcchecked = 'False';
+                }
+            });   
+                  
      
-     function drawChart(signupchecked) {
+     function drawChart(signupchecked,cpcchecked) {
       
-      var params = {"signupchecked" : signupchecked};
+      var params = {"signupchecked" : signupchecked, "cpcchecked": cpcchecked};
       var jsonData = $.ajax({
           url: "sign_job_proposal_invoice_getdata",
           dataType:"json",
@@ -87,7 +99,7 @@
     
      
   
-    drawChart(signupchecked);
+    drawChart(signupchecked,cpcchecked);
 </script>
 
  <div id='optionsExpander'>
@@ -95,6 +107,7 @@
             <div>
                 <table>
                    <tr><td><div id='jqxCheckBox' style='margin-left: 10px; float: left;'>Signed up as Employer</div></td></tr>
+                   <tr><td><div id='cpcCheckBox' style='margin-left: 10px; float: left;'>Only from (google / cpc)</div></td></tr>
                    <tr><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
                 </table>   
             </div>

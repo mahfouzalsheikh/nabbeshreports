@@ -121,8 +121,12 @@ def customQueryLive(sql):
         result_list.append(row) 
     return result_list 
 
-        
-        
+
+def customQueryDDL(sql): 
+    cursor = connections['offline'].cursor()       
+    print cursor
+    return cursor.execute(sql)
+    
        
 @csrf_exempt        
 def freelancerdemography_report(request):
@@ -414,16 +418,21 @@ def sign_job_proposal_invoice_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
         #print objs
+        cpcchecked = objs['cpcchecked']
+
         signupchecked = objs['signupchecked']
 
         wheresql = ""
-        if signupchecked== "True":
-            wheresql= " Where u.is_employer=True"
+        if cpcchecked== "True":
+            wheresql= " Where lower(cast(u.id as text))in " +  getcpcGroup()
         else:
             wheresql = ""
            
+     
         sql = ("select * from (select count(distinct au.email) as signed_up, count(distinct jobsposted.id) as posted_jobs, count(distinct paidproposal.id) as paid_proposal, count(distinct invoices.applicant_id) as invoices_paid  from users u inner join auth_user au on u.django_user_id=au.id  left outer join (select u1.id from users u1 inner join contracts_job cj on cj.employer_id= u1.id) jobsposted on jobsposted.id=u.id left outer join (select u2.id from users u2 inner join contracts_application ca2 on ca2.applicant_id=u2.id inner join contracts_message cm2 on cm2.application_id=ca2.id inner join contracts_proposal cp2 on cp2.message_ptr_id=cm2.id where cp2.status=4) paidproposal on paidproposal.id=u.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.status=4) invoices on invoices.applicant_id=u.id " + wheresql +") total ")
         
+        
+        print getcpcGroup()
         results = customQuery(sql,0)
  	print results	
         c = Context({'statistics': results})
@@ -567,7 +576,7 @@ def skillsdemography_getdata(request):
         sql = ("select skills.name, calc.*, case when calc.jobs_require_it<>0 then cast(calc.users_have_it as real)/cast(calc.jobs_require_it as real) else 0 end as availability_rate from skills_skill skills inner join (select ss.id, count(distinct su.id_user)  as users_have_it, count(distinct u1.country) as countries_users, count(distinct crs.job_id) as jobs_require_it, count(distinct u2.country) as countries_jobs from skills_skill ss left outer join skills_users su on su.skill_id=ss.id inner join users u1 on su.id_user=u1.id left outer join contracts_requiredskill crs on crs.skill_id=ss.id inner join contracts_job cj on cj.id=crs.job_id inner join users u2 on u2.id=cj.employer_id where ss.deleted=false group by ss.id) calc on calc.id=skills.id order by "+sortsql+" desc limit "+ limit)
  
         results = customQuery(sql,0)
-
+    
         c = Context({'countries': results})
    
         return HttpResponse(render_to_string('skillsdemography.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
@@ -701,14 +710,15 @@ def get_results(service, profile_id):
   # Use the Analytics Service Object to query the Core Reporting API
   return service.data().ga().get(
       ids="ga:" + profile_id,
-      start_date="2014-02-01",
-      end_date="2014-02-28",
+      start_date="2014-02-05",
+      end_date="2020-02-28",
       max_results=10000, 
       dimensions = "ga:pagePath, ga:medium",
       metrics="ga:pageviews",
       filters="ga:pagePath=~finished_signup;ga:medium=~cpc").execute()
+#      filters="ga:pagePath=~finished_signup").execute()
       
-      
+
 #@permission_required('polls.can_vote')
 @csrf_exempt        
 def googleanalytics_report(request):
@@ -722,9 +732,21 @@ def googleanalytics_report(request):
         if profile_id:
       # Step 3. Query the Core Reporting API.
             results = get_results(service, profile_id)
-
-      # Step 4. Output the results.
-            param = results['rows'][4]
+            count=0
+            userprofiles=""
+            for userprofile in results['rows']:
+                userprofiles = userprofiles + "'" + userprofile[0].replace("?just_finished_signup=True","").replace("/profile/","").replace("/","").lower() + "',"
+                count=count+1
+	    userprofiles= "(" + userprofiles[:-1] + ")"
+	    print count
+	    sql = ("select count(id) from users where lower(cast(id as text)) in " + userprofiles )
+	    
+	    
+	    results = customQuery(sql,0)
+	    
+            param = results
+           
+           
       #print_results(results)
 
     except TypeError, error:
@@ -743,6 +765,32 @@ def googleanalytics_report(request):
     c = Context({'googleanalytics_report': freelancerdemography_report,  'param': param})
     return HttpResponse(t.render(c))
 
+
+
+@csrf_exempt        
+def getcpcGroup():        
+    service = initialize_service()
+    try:   
+        profile_id = get_first_profile_id(service)
+        param = profile_id
+        if profile_id:    
+            results = get_results(service, profile_id)
+            count=0
+            userprofiles=""
+            for userprofile in results['rows']:
+                userprofiles = userprofiles + "'" + userprofile[0].replace("?just_finished_signup=True","").replace("/profile/","").replace("/","").lower() + "',"
+                count=count+1
+	    userprofiles= "(" + userprofiles[:-1] + ")"
+	    print count
+	    return userprofiles
+	    
+    except TypeError, error:
+        param=error 
+    except HttpError, error:
+        param=error
+    except AccessTokenRefreshError:
+        param=error
+        
 
 
 
