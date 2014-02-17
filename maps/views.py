@@ -710,7 +710,7 @@ def get_results(service, profile_id):
   # Use the Analytics Service Object to query the Core Reporting API
   return service.data().ga().get(
       ids="ga:" + profile_id,
-      start_date="2013-02-06",
+      start_date="2014-02-01",
       end_date="2020-02-28",
       max_results=10000, 
       dimensions = "ga:pagePath, ga:medium",
