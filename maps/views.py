@@ -90,15 +90,20 @@ def home(request):
 
 
 def customQuery(sql, db):
-    print sql
+    ##print sql
     if db==0:
         result=customQueryOffline(sql)
         #print result
         return result
-    else:
+    elif db==1:
         result=customQueryLive(sql)
         #print result
         return result
+    else: 
+        result=customQueryOld(sql)
+        #print result
+        return result    
+    
     
 
 
@@ -121,11 +126,15 @@ def customQueryLive(sql):
         result_list.append(row) 
     return result_list 
 
+def customQueryOld(sql): 
+    cursor = connections['old'].cursor()
+    cursor.execute(sql,[])
+    #transaction.commit_unless_managed(using='live')
+    result_list = [] 
+    for row in cursor.fetchall(): 
+        result_list.append(row) 
+    return result_list 
 
-def customQueryDDL(sql): 
-    cursor = connections['offline'].cursor()       
-    print cursor
-    return cursor.execute(sql)
     
        
 @csrf_exempt        
@@ -424,7 +433,7 @@ def sign_job_proposal_invoice_getdata(request):
 
         wheresql = ""
         if cpcchecked== "True":
-            wheresql= " Where lower(cast(u.id as text))in " +  getcpcGroup()
+            wheresql= " Where u.id in " +  getcpcGroupNewAndOld()
         else:
             wheresql = ""
            
@@ -432,7 +441,9 @@ def sign_job_proposal_invoice_getdata(request):
         sql = ("select * from (select count(distinct au.email) as signed_up, count(distinct jobsposted.id) as posted_jobs, count(distinct paidproposal.id) as paid_proposal, count(distinct invoices.applicant_id) as invoices_paid  from users u inner join auth_user au on u.django_user_id=au.id  left outer join (select u1.id from users u1 inner join contracts_job cj on cj.employer_id= u1.id) jobsposted on jobsposted.id=u.id left outer join (select u2.id from users u2 inner join contracts_application ca2 on ca2.applicant_id=u2.id inner join contracts_message cm2 on cm2.application_id=ca2.id inner join contracts_proposal cp2 on cp2.message_ptr_id=cm2.id where cp2.status=4) paidproposal on paidproposal.id=u.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.status=4) invoices on invoices.applicant_id=u.id " + wheresql +") total ")
         
         
-        print getcpcGroup()
+        
+        print sql
+        #print getcpcGroupNewAndOld()
         results = customQuery(sql,0)
  	print results	
         c = Context({'statistics': results})
@@ -710,7 +721,7 @@ def get_results(service, profile_id):
   # Use the Analytics Service Object to query the Core Reporting API
   return service.data().ga().get(
       ids="ga:" + profile_id,
-      start_date="2014-02-01",
+      start_date="2013-01-01",
       end_date="2020-02-28",
       max_results=10000, 
       dimensions = "ga:pagePath, ga:medium",
@@ -735,16 +746,16 @@ def googleanalytics_report(request):
             count=0
             userprofiles=""
             for userprofile in results['rows']:
-                userprofiles = userprofiles + "'" + userprofile[0].replace("?just_finished_signup=True","").replace("/profile/","").replace("/","").lower() + "',"
+                userprofiles = userprofiles + "'" + userprofile[0].replace("?just_finished_signup=True","").replace("/profile/","").replace("/","").replace("&edit=true","").lower() + "',"
                 count=count+1
 	    userprofiles= "(" + userprofiles[:-1] + ")"
 	    print count
 	    sql = ("select count(id) from users where lower(cast(id as text)) in " + userprofiles )
 	    
-	    
+	    getcpcGroupNewAndOld()
 	    results = customQuery(sql,0)
 	    
-            param = results
+            param = userprofiles
            
            
       #print_results(results)
@@ -778,10 +789,9 @@ def getcpcGroup():
             count=0
             userprofiles=""
             for userprofile in results['rows']:
-                userprofiles = userprofiles + "'" + userprofile[0].replace("?just_finished_signup=True","").replace("/profile/","").replace("/","").lower() + "',"
+                userprofiles = userprofiles + "'" + userprofile[0].replace("?just_finished_signup=True","").replace("/profile/","").replace("/","").replace("&edit=true","").lower() + "',"
                 count=count+1
 	    userprofiles= "(" + userprofiles[:-1] + ")"
-	    print count
 	    return userprofiles
 	    
     except TypeError, error:
@@ -791,7 +801,27 @@ def getcpcGroup():
     except AccessTokenRefreshError:
         param=error
         
-
+def getcpcGroupNewAndOld():  
+    cpcresponse = getcpcGroup()
+    sql1 = ("select id from users where lower(homepage) in " + cpcresponse)
+    sql2 = ("select id from users where lower(cast(id as text)) in " + cpcresponse)
+    
+    result1 = customQuery(sql2,0)
+    result2 = customQuery(sql1,2)
+    
+    result = result1 + result2
+    #print result
+    count=0
+    userprofiles=""
+    for userprofile in result:
+        userprofiles = userprofiles + str(userprofile[0]) + ","
+        count=count+1
+    userprofiles= "(" + userprofiles[:-1] + ")"
+    #print userprofiles
+    return userprofiles
+    
+    
+     
 
 
 def get_first_profile_id(service):
