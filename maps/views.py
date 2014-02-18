@@ -417,9 +417,8 @@ def jobs_communications_getdata(request):
 def sign_job_proposal_invoice(request):
     
     t = loader.get_template('./reports/sign_job_proposal_invoice.html')
-    c = Context({
-        'sign_job_proposal_invoice': dashboard,
-    })
+    param = get_sourceliststring()
+    c = Context({'sign_job_proposal_invoice': dashboard,'param' : param  })
     return HttpResponse(t.render(c))        
         
 @csrf_exempt  
@@ -428,24 +427,22 @@ def sign_job_proposal_invoice_getdata(request):
         objs = simplejson.loads(request.raw_post_data)
         #print objs
         cpcchecked = objs['cpcchecked']
-
+        checkedItems = objs['checkedItems']
         signupchecked = objs['signupchecked']
+       
 
         wheresql = ""
         if cpcchecked== "True":
-            wheresql= " Where u.id in " +  getcpcGroupNewAndOld()
+            wheresql= " Where u.id in " +  getcpcGroupNewAndOld(checkedItems)
         else:
             wheresql = ""
            
      
         sql = ("select * from (select count(distinct au.email) as signed_up, count(distinct jobsposted.id) as posted_jobs, count(distinct paidproposal.id) as paid_proposal, count(distinct invoices.applicant_id) as invoices_paid  from users u inner join auth_user au on u.django_user_id=au.id  left outer join (select u1.id from users u1 inner join contracts_job cj on cj.employer_id= u1.id) jobsposted on jobsposted.id=u.id left outer join (select u2.id from users u2 inner join contracts_application ca2 on ca2.applicant_id=u2.id inner join contracts_message cm2 on cm2.application_id=ca2.id inner join contracts_proposal cp2 on cp2.message_ptr_id=cm2.id where cp2.status=4) paidproposal on paidproposal.id=u.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.status=4) invoices on invoices.applicant_id=u.id " + wheresql +") total ")
         
-        
-        
-        print sql
+                      
         #print getcpcGroupNewAndOld()
-        results = customQuery(sql,0)
- 	print results	
+        results = customQuery(sql,0)	
         c = Context({'statistics': results})
         return HttpResponse(render_to_string('sign_job_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
         
@@ -717,18 +714,57 @@ def invoices_getdata(request):
                        
                 
 @csrf_exempt
-def get_results(service, profile_id):
+def get_results(service, profile_id,checkedItems):
   # Use the Analytics Service Object to query the Core Reporting API
+  print checkedItems
   return service.data().ga().get(
       ids="ga:" + profile_id,
       start_date="2013-01-01",
       end_date="2020-02-28",
-      max_results=10000, 
+      max_results=100000, 
       dimensions = "ga:pagePath, ga:medium",
       metrics="ga:pageviews",
-      filters="ga:pagePath=~finished_signup;ga:medium=~cpc").execute()
+      filters="ga:pagePath=~finished_signup;"+checkedItems).execute()
 #      filters="ga:pagePath=~finished_signup").execute()
       
+      
+      
+@csrf_exempt
+def get_sourceliststring():
+    service = initialize_service()
+    try:
+        profile_id = get_first_profile_id(service)       
+        param = profile_id
+        if profile_id:
+	    results=get_sourcelist(service, profile_id)
+	    sources = ""
+	    for source in results:
+	        sources = sources + "" +source[0] + ","
+	    sources = sources[:-1]  
+            return sources
+            
+    except TypeError, error:
+        param=error 
+    except HttpError, error:
+
+        param=error
+    except AccessTokenRefreshError:
+        param=error
+        
+    
+    c = Context({'googleanalytics_report': freelancerdemography_report,  'param': param})
+    return HttpResponse(t.render(c))
+      
+@csrf_exempt
+def get_sourcelist(service, profile_id):
+  return service.data().ga().get(
+      ids="ga:" + profile_id,
+      start_date="2013-01-01",
+      end_date="2020-02-28",
+      max_results=100000, 
+      dimensions = "ga:medium",
+      metrics="ga:organicSearches").execute()['rows']
+#      filters="ga:pagePath=~finished_signup").execute()      
 
 #@permission_required('polls.can_vote')
 @csrf_exempt        
@@ -741,21 +777,12 @@ def googleanalytics_report(request):
         profile_id = get_first_profile_id(service)
         param = profile_id
         if profile_id:
-      # Step 3. Query the Core Reporting API.
-            results = get_results(service, profile_id)
-            count=0
-            userprofiles=""
-            for userprofile in results['rows']:
-                userprofiles = userprofiles + "'" + userprofile[0].replace("?just_finished_signup=True","").replace("/profile/","").replace("/","").replace("&edit=true","").lower() + "',"
-                count=count+1
-	    userprofiles= "(" + userprofiles[:-1] + ")"
-	    print count
-	    sql = ("select count(id) from users where lower(cast(id as text)) in " + userprofiles )
-	    
-	    getcpcGroupNewAndOld()
-	    results = customQuery(sql,0)
-	    
-            param = userprofiles
+	    results=get_sourcelist(service, profile_id)
+	    sources = ""
+	    for source in results:
+	        sources = sources + "'" +source[0] + "',"
+	    sources = "[" + sources[:-1]   + "]"   
+            param = sources
            
            
       #print_results(results)
@@ -779,13 +806,13 @@ def googleanalytics_report(request):
 
 
 @csrf_exempt        
-def getcpcGroup():        
+def getcpcGroup(checkedItems):        
     service = initialize_service()
     try:   
         profile_id = get_first_profile_id(service)
         param = profile_id
         if profile_id:    
-            results = get_results(service, profile_id)
+            results = get_results(service, profile_id,checkedItems)
             count=0
             userprofiles=""
             for userprofile in results['rows']:
@@ -801,8 +828,8 @@ def getcpcGroup():
     except AccessTokenRefreshError:
         param=error
         
-def getcpcGroupNewAndOld():  
-    cpcresponse = getcpcGroup()
+def getcpcGroupNewAndOld(checkedItems):      
+    cpcresponse = getcpcGroup(checkedItems)
     sql1 = ("select id from users where lower(homepage) in " + cpcresponse)
     sql2 = ("select id from users where lower(cast(id as text)) in " + cpcresponse)
     

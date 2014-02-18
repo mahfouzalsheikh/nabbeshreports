@@ -13,14 +13,31 @@
      
      
      var today = new Date(Date.now());
+     metricsstring= '{{ param }}'
+    
+     var metricslistsource = metricsstring.split(",");
+     metricslistsource.shift();
+     metricslistsource.shift();     
+     $("#metricslist").jqxDropDownList({width: 250,height: 25, source: metricslistsource, checkboxes: true, animationType: 'fade'});
+     var metricsss,checkedItems;
+     $("#metricslist").on('checkChange', function (event) {
+        metricsss = $("#metricslist").jqxDropDownList('getCheckedItems');
+        checkedItems = "";
+        $.each(metricsss, function (index) {
+                                checkedItems += "ga:medium=~" +this.label + ",";                          
+                            });    
+         checkedItems =   checkedItems.substring(0, checkedItems.length-1);
+         checkedItems =  encodeURI(checkedItems);
+     }); 
       
-                
-      $("#filterButton").jqxButton({ width: '200'});
-      $("#filterButton").on('click', function () {                          
-                  drawChart(signupchecked, cpcchecked);
+          
+      $("#filterButton").jqxButton({ width: '250'});
+      $("#filterButton").on('click', function () {   
+                  //alert(checkedItems);                     
+                  drawChart(signupchecked, cpcchecked,checkedItems);
 
                 });
-     $("#jqxCheckBox").jqxCheckBox({ width: 200, height: 25 , disabled: true});
+     $("#jqxCheckBox").jqxCheckBox({ width: 250, height: 25 , disabled: true});
      var signupchecked='False';
      $("#jqxCheckBox").on('change', function (event) {
                 var checked = event.args.checked;
@@ -33,7 +50,7 @@
             });   
             
             
-     $("#cpcCheckBox").jqxCheckBox({ width: 200, height: 25});       
+     $("#cpcCheckBox").jqxCheckBox({ width: 250, height: 25});       
      var cpcchecked='False';
      $("#cpcCheckBox").on('change', function (event) {
                 var checked = event.args.checked;
@@ -46,9 +63,9 @@
             });   
                   
      
-     function drawChart(signupchecked,cpcchecked) {
+     function drawChart(signupchecked,cpcchecked,checkedItems) {
       
-      var params = {"signupchecked" : signupchecked, "cpcchecked": cpcchecked};
+      var params = {"signupchecked" : signupchecked, "cpcchecked": cpcchecked, "checkedItems": checkedItems};
       var jsonData = $.ajax({
           url: "sign_job_proposal_invoice_getdata",
           dataType:"json",
@@ -83,7 +100,7 @@
       
       
       var chart1 = new google.visualization.ColumnChart(document.getElementById('chart1'));         
-      chart1.draw(data1, {title:"Signed Up",width: 180, height: 450, vAxis: {maxValue: 10000},legend: { position: "none" }});
+      chart1.draw(data1, {title:"Signed Up",width: 180, height: 450, vAxis: {maxValue: 1000},legend: { position: "none" }});
 
       var chart2 = new google.visualization.ColumnChart(document.getElementById('chart2'));         
       chart2.draw(data2, {title:"Posted a Job",width: 180, height: 450, vAxis: {maxValue: signedup},legend: { position: "none" }});
@@ -99,15 +116,17 @@
     
      
   
-    drawChart(signupchecked,cpcchecked);
+    drawChart(signupchecked,cpcchecked,checkedItems);
 </script>
 
  <div id='optionsExpander'>
             <div>Options</div>
             <div>
                 <table>
+                   
                    <tr><td><div id='jqxCheckBox' style='margin-left: 10px; float: left;'>Signed up as Employer</div></td></tr>
-                   <tr><td><div id='cpcCheckBox' style='margin-left: 10px; float: left;'>Only from (google / cpc)</div></td></tr>
+                   <tr><td><div id='cpcCheckBox' style='margin-left: 10px; float: left;'>Only from selected sources</div></td></tr>
+                   <tr><td><div id="metricslist"></div></td></tr>
                    <tr><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
                 </table>   
             </div>

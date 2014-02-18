@@ -171,7 +171,7 @@
             <div>
                 <table>
                    <tr>
-                      <tr><td>Metrics</td><td><div id="metricslist"></td></tr>
+                      <tr><td>Metrics</td><td><div id="metricslist"></div></td></tr>
                    </tr>
                    <tr>
                     <td>Group By:</td><td><div id="limitmenu"></div><td rowspan=3></div></td></td>
