@@ -13,13 +13,28 @@
      
      
      var today = new Date(Date.now());
+     metricsstring= '{{ param }}'
+     var metricslistsource = metricsstring.split(",");
+     metricslistsource.shift();
+     metricslistsource.shift(); 
      
+     $("#metricslist").jqxDropDownList({width: 250,height: 25, source: metricslistsource, checkboxes: true, animationType: 'fade'});
+     var metricsss,checkedItems;
+     $("#metricslist").on('checkChange', function (event) {
+        metricsss = $("#metricslist").jqxDropDownList('getCheckedItems');
+        checkedItems = "";
+        $.each(metricsss, function (index) {
+                                checkedItems += "ga:medium=~" +this.label + ",";                          
+                            });    
+         checkedItems =   checkedItems.substring(0, checkedItems.length-1);
+         checkedItems =  encodeURI(checkedItems);
+     }); 
         
-      $("#jqxCheckBox").jqxCheckBox({ width: 200, height: 25});
+      $("#jqxCheckBox").jqxCheckBox({ width: 250, height: 25 , disabled: true});
                 
-      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").jqxButton({ width: '250'});
       $("#filterButton").on('click', function () {                          
-                  drawChart(signupchecked);
+                  drawChart(signupchecked, cpcchecked,checkedItems);
                 });
       
      var signupchecked='False';
@@ -31,11 +46,24 @@
                 else {
                     signupchecked = 'False';
                 }
-            });         
+            });   
+            
+     $("#cpcCheckBox").jqxCheckBox({ width: 250, height: 25});       
+     var cpcchecked='False';
+     $("#cpcCheckBox").on('change', function (event) {
+                var checked = event.args.checked;
+                if (checked) {
+                    cpcchecked = 'True';
+                }
+                else {
+                    cpcchecked = 'False';
+                }
+            });   
+                               
 
-     function drawChart(signupchecked) {
+     function drawChart(signupchecked, cpcchecked,checkedItems) {
       
-      var params = {"signupchecked" : signupchecked};
+      var params = {"signupchecked" : signupchecked, "cpcchecked": cpcchecked, "checkedItems" :  checkedItems};
       var jsonData = $.ajax({
           url: "sign_application_proposal_invoice_getdata",
           dataType:"json",
@@ -86,7 +114,7 @@
     
      
   
-    drawChart(signupchecked);
+    drawChart(signupchecked, cpcchecked,checkedItems);
 </script>
 
  <div id='optionsExpander'>
@@ -94,6 +122,8 @@
             <div>
                 <table>                 
                    <tr><td><div id='jqxCheckBox' style='margin-left: 10px; float: left;'>Signed up as Freelancer</div></td></tr>
+                   <tr><td><div id='cpcCheckBox' style='margin-left: 10px; float: left;'>Only from selected sources</div></td></tr>
+                   <tr><td><div id="metricslist"></div></td></tr>                   
                    <tr><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
                 </table>   
             </div>

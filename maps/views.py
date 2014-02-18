@@ -430,7 +430,6 @@ def sign_job_proposal_invoice_getdata(request):
         checkedItems = objs['checkedItems']
         signupchecked = objs['signupchecked']
        
-
         wheresql = ""
         if cpcchecked== "True":
             wheresql= " Where u.id in " +  getcpcGroupNewAndOld(checkedItems)
@@ -440,7 +439,7 @@ def sign_job_proposal_invoice_getdata(request):
      
         sql = ("select * from (select count(distinct au.email) as signed_up, count(distinct jobsposted.id) as posted_jobs, count(distinct paidproposal.id) as paid_proposal, count(distinct invoices.applicant_id) as invoices_paid  from users u inner join auth_user au on u.django_user_id=au.id  left outer join (select u1.id from users u1 inner join contracts_job cj on cj.employer_id= u1.id) jobsposted on jobsposted.id=u.id left outer join (select u2.id from users u2 inner join contracts_application ca2 on ca2.applicant_id=u2.id inner join contracts_message cm2 on cm2.application_id=ca2.id inner join contracts_proposal cp2 on cp2.message_ptr_id=cm2.id where cp2.status=4) paidproposal on paidproposal.id=u.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.status=4) invoices on invoices.applicant_id=u.id " + wheresql +") total ")
         
-                      
+        print sql              
         #print getcpcGroupNewAndOld()
         results = customQuery(sql,0)	
         c = Context({'statistics': results})
@@ -451,9 +450,9 @@ def sign_job_proposal_invoice_getdata(request):
 def sign_application_proposal_invoice(request):
     
     t = loader.get_template('./reports/sign_application_proposal_invoice.html')
-    c = Context({
-        'sign_application_proposal_invoice': dashboard,
-    })
+    param = get_sourceliststring()
+    
+    c = Context({'sign_application_proposal_invoice': dashboard, 'param' : param  })
     return HttpResponse(t.render(c))        
         
 @csrf_exempt  
@@ -462,14 +461,13 @@ def sign_application_proposal_invoice_getdata(request):
         objs = simplejson.loads(request.raw_post_data)
         #print objs
         
+        cpcchecked = objs['cpcchecked']
+        checkedItems = objs['checkedItems']
         signupchecked = objs['signupchecked']
-        #t1 = objs['fromdate']  + ' 00:00:00+00'
-        #t2 = objs['todate'] + ' 23:59:59+00'
-        
-        #keywords = objs['searchkeywords']
+       
         wheresql = ""
-        if signupchecked== "True":
-            wheresql= " Where u.is_freelancer=True"
+        if cpcchecked== "True":
+            wheresql= " Where u.id in " +  getcpcGroupNewAndOld(checkedItems)
         else:
             wheresql = ""
 
