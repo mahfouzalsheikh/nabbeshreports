@@ -99,8 +99,8 @@
       
       var data1 = google.visualization.arrayToDataTable([[period, 'Signed Up',{ role: "style" }, { role: 'annotation' }],[period,  signedup, 'color: #3366CC; fill-opacity: 0.7; stroke-width: 4', signedup+ ' Users']]);
       var data2 = google.visualization.arrayToDataTable([[period, 'Posted a Job',{ role: "style" }, { role: 'annotation' }],[period,  postedjob, 'color: #DC3912; fill-opacity: 0.7; stroke-width: 4', postedjob+ ' Users,' + jobscount + ' Jobs']]);
-      var data3 = google.visualization.arrayToDataTable([[period, 'Paid a Proposal',{ role: "style" }, { role: 'annotation' }],[period,  paidproposal, 'color: #FF9900; fill-opacity: 0.7; stroke-width: 4', paidproposal+ ' Users,' + proposalscount +' Proposals']]);
-      var data4 = google.visualization.arrayToDataTable([[period, 'Paid an Invoice',{ role: "style" }, { role: 'annotation' }],[period,  paidinvoice, 'color: #109618; fill-opacity: 0.7; stroke-width: 4', paidinvoice+ ' Users,' + invoicescount + ' Invoices']]);
+      var data3 = google.visualization.arrayToDataTable([[period, 'Paid a Proposal',{ role: "style" }, { role: 'annotation' }],[period,  paidproposal, 'color: #FF9900; fill-opacity: 0.7; stroke-width: 4', paidproposal+ ' Users,' + proposalscount +' Props']]);
+      var data4 = google.visualization.arrayToDataTable([[period, 'Paid an Invoice',{ role: "style" }, { role: 'annotation' }],[period,  paidinvoice, 'color: #109618; fill-opacity: 0.7; stroke-width: 4', paidinvoice+ ' Users,' + invoicescount + ' Invs']]);
       
       
       var chart1 = new google.visualization.ColumnChart(document.getElementById('chart1'));         

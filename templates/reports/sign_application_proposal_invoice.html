@@ -78,7 +78,11 @@
       signedup=obj[0];
       appliedforjob=obj[1];
       sentproposal=obj[2];
-      sentinvoice=obj[3];      
+      sentinvoice=obj[3];   
+      
+      applicationscount = obj[4];
+      proposalscount = obj[5];
+      invoicescount = obj[6];   
       
       stage1=(parseFloat(appliedforjob) / parseFloat(signedup)*100).toFixed(2) + '%  >>>';
       stage2=(parseFloat(sentproposal) / parseFloat(appliedforjob)*100).toFixed(2) + '%  >>>';
@@ -92,9 +96,9 @@
       var period = '';
       
       var data1 = google.visualization.arrayToDataTable([[period, 'Signed Up',{ role: "style" }, { role: 'annotation' }],[period,  signedup, 'color: #3366CC; fill-opacity: 0.7; fill-opacity: 0.7; stroke-width: 4',signedup + ' Users']]);
-      var data2 = google.visualization.arrayToDataTable([[period, 'Applied For a Job',{ role: "style" }, { role: 'annotation' }],[period,  appliedforjob, 'color: #DC3912; fill-opacity: 0.7; stroke-width: 4',appliedforjob+ ' Users']]);
-      var data3 = google.visualization.arrayToDataTable([[period, 'Sent a Proposal',{ role: "style" }, { role: 'annotation' }],[period,  sentproposal, 'color: #FF9900; fill-opacity: 0.7; stroke-width: 4',sentproposal+ ' Users']]);
-      var data4 = google.visualization.arrayToDataTable([[period, 'Sent an Invoice',{ role: "style" }, { role: 'annotation' }],[period,  sentinvoice, 'color: #109618; fill-opacity: 0.7; stroke-width: 4',sentinvoice+ ' Users']]);
+      var data2 = google.visualization.arrayToDataTable([[period, 'Applied For a Job',{ role: "style" }, { role: 'annotation' }],[period,  appliedforjob, 'color: #DC3912; fill-opacity: 0.7; stroke-width: 4',appliedforjob+ ' Users, ' + applicationscount + " apps"]]);
+      var data3 = google.visualization.arrayToDataTable([[period, 'Sent a Proposal',{ role: "style" }, { role: 'annotation' }],[period,  sentproposal, 'color: #FF9900; fill-opacity: 0.7; stroke-width: 4',sentproposal+ ' Users, '+ proposalscount + ' Prop']]);
+      var data4 = google.visualization.arrayToDataTable([[period, 'Sent an Invoice',{ role: "style" }, { role: 'annotation' }],[period,  sentinvoice, 'color: #109618; fill-opacity: 0.7; stroke-width: 4',sentinvoice+ ' Users, ' + invoicescount + ' Invs' ]]);
       
 
       var chart1 = new google.visualization.ColumnChart(document.getElementById('chart1'));         
