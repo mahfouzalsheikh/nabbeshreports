@@ -426,10 +426,11 @@ def sign_job_proposal_invoice_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
         #print objs
+        print objs
         cpcchecked = objs['cpcchecked']
         checkedItems = objs['checkedItems']
         signupchecked = objs['signupchecked']
-       
+        
         wheresql = ""
         if cpcchecked== "True":
             wheresql= " Where u.id in " +  getcpcGroupNewAndOld(checkedItems)
