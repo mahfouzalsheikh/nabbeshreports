@@ -66,7 +66,7 @@
       }
       else
       {
-      //alert(jsonData);
+       console.log(jsonData);
       var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
 	          
       
@@ -77,17 +77,17 @@
       var formatter = new google.visualization.ColorFormat();
       formatter.addRange(0, 1, '#000000', '#ffecff');
       formatter.addRange(1, 1000, '#000000', '#3DAA58');
-      formatter.format(data, 8); 
-      formatter.format(data, 6); 
+      formatter.format(data, 7); 
+      formatter.format(data, 7); 
       var formatter1 = new google.visualization.ColorFormat();
       formatter1.addRange(0, 1, '#000000', '#ffecff');
       formatter1.addRange(1, 1000, '#000000', '#3DAA95');
-      formatter1.format(data, 9); 
       formatter1.format(data, 10); 
+      formatter1.format(data, 11); 
       var formatter3 = new google.visualization.ColorFormat();
       //formatter3.addRange(null,'Active', '#000000', '#ffecff');
       formatter3.addRange('Closed',null, '#fff', '#555555');
-      formatter3.format(data, 11); 
+      formatter3.format(data, 12); 
       
       var formatter2 = new google.visualization.PatternFormat('<a href="http://www.nabbesh.com/admin/contracts/job/{0}"  target="_blank">{0}</a>');
       formatter2.format(data, [2],2);
@@ -107,7 +107,7 @@
       
       var options = {'showRowNumber': true, 'allowHtml': true, 'height': '500px'};
       
-      dataView.setColumns([0,1,2,3,4,5,6,8,9,10,11]);
+      dataView.setColumns([0,1,2,3,4,5,6,8,9,10,11,12]);
       tablearea.draw(dataView,options);
       
      }
