@@ -16,8 +16,8 @@
      metricsstring= '{{ param }}'
     
      var metricslistsource = metricsstring.split(",");
-     metricslistsource.shift();
-     metricslistsource.shift();     
+     //metricslistsource.shift();
+     //metricslistsource.shift();     
      $("#metricslist").jqxDropDownList({width: 250,height: 25, source: metricslistsource, checkboxes: true, animationType: 'fade'});
      var metricsss,checkedItems;
      $("#metricslist").on('checkChange', function (event) {
