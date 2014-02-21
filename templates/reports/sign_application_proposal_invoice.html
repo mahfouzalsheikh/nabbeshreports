@@ -128,7 +128,7 @@
       chart4.draw(data4, {title:"Sent an Invoice",width: 180, height: 450, vAxis: {maxValue: sentinvoice},legend: { position: "none" }});
      
       var funnel = new RGraph.Funnel('cvs', [signedup,appliedforjob,sentproposal,sentinvoice])
-                .Set('labels', [signedup + ' Signed Up', appliedforjob + ' Users Applied ' + applicationscount + ' Jobs',sentproposal + ' Users Sent '+ proposalscount +' Proposal',sentinvoice + ' Users Sent '+ invoicescount +' Invoices'])
+                .Set('labels', [signedup + ' Signed Up', appliedforjob + ' Users Applied on ' + applicationscount + ' Jobs',sentproposal + ' Users Sent '+ proposalscount +' Proposal',sentinvoice + ' Users Sent '+ invoicescount +' Invoices'])
                 .Set('gutter.left', 180)
                 .Set('labels.sticks', true)
                 .Set('strokestyle', 'rgba(0,0,0,0)')
