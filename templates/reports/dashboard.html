@@ -35,7 +35,9 @@
                     todate= $('#todate').jqxDateTimeInput('getText'); 
                 });        
         
-                
+     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
+     var todate = $('#todate').jqxDateTimeInput('getText');
+     var limit="Day";          
                 
       $("#filterButton").jqxButton({ width: '200'});
       $("#filterButton").on('click', function () {draw(limit,fromdate,todate);});
@@ -46,9 +48,7 @@
 //	        window.open("data:text/csv;charset=utf-8," + escape(csv))
 	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "dashboard_data.csv");
       }); 
-     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
-     var todate = $('#todate').jqxDateTimeInput('getText');
-     var limit="Day";
+
      
      
      var metricslistsource = ["Workflow Msgs","Normal Msgs","All Signups", "Joined as Freelancer","Joined as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Proposal Paid", "Job Apps","Invitations", "Invoices Sent", "Invoices Paid", "Invitations/Job", "Applications/Job"];

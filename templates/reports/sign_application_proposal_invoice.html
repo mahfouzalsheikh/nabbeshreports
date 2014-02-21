@@ -13,6 +13,20 @@
      
      var checkedItems="";
      var today = new Date(Date.now());
+     $("#fromdate").jqxDateTimeInput({width: '250px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({width: '250px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+
+     
+     $("#fromdate").on('change', function (event) {
+                    fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
+                });
+     $("#todate").on('change', function (event) {
+                    todate= $('#todate').jqxDateTimeInput('getText'); 
+                });        
+        
+     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
+     var todate = $('#todate').jqxDateTimeInput('getText');
+     
      metricsstring= '{{ param }}'
      var metricslistsource = metricsstring.split(",");
      //metricslistsource.shift();
@@ -34,7 +48,7 @@
                 
       $("#filterButton").jqxButton({ width: '250'});
       $("#filterButton").on('click', function () {                          
-                  drawChart(signupchecked, cpcchecked,checkedItems);
+                  drawChart(signupchecked, cpcchecked,checkedItems,fromdate,todate);
                 });
       
      var signupchecked='False';
@@ -61,9 +75,9 @@
             });   
                                
 
-     function drawChart(signupchecked, cpcchecked,checkedItems) {
+     function drawChart(signupchecked, cpcchecked,checkedItems,fromdate,todate) {
       
-      var params = {"signupchecked" : signupchecked, "cpcchecked": cpcchecked, "checkedItems" :  checkedItems};
+      var params = {"signupchecked" : signupchecked, "cpcchecked": cpcchecked, "checkedItems" :  checkedItems, "fromdate": fromdate, "todate": todate};
       var jsonData = $.ajax({
           url: "sign_application_proposal_invoice_getdata",
           dataType:"json",
@@ -118,17 +132,20 @@
     
      
   
-    drawChart(signupchecked, cpcchecked,checkedItems);
+    drawChart(signupchecked, cpcchecked,checkedItems,fromdate,todate);
 </script>
 
  <div id='optionsExpander'>
             <div>Options</div>
             <div>
                 <table>                 
-                   <tr><td><div id='jqxCheckBox' style='margin-left: 10px; float: left;'>Signed up as Freelancer</div></td></tr>
-                   <tr><td><div id='cpcCheckBox' style='margin-left: 10px; float: left;'>Only from selected sources</div></td></tr>
-                   <tr><td><div id="metricslist"></div></td></tr>                   
-                   <tr><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
+                   
+                   <tr><td></td><td><div id='jqxCheckBox' style='margin-left: 10px; float: left;'>Signed up as Employer</div></td></tr>
+                   <tr><td></td><td><div id='cpcCheckBox' style='margin-left: 10px; float: left;'>Only from selected sources</div></td></tr>
+                   <tr><td></td><td><div id="metricslist"></div></td></tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                    
                 </table>   
             </div>
         </div>

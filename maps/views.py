@@ -428,12 +428,14 @@ def sign_job_proposal_invoice_getdata(request):
         cpcchecked = objs['cpcchecked']
         checkedItems = objs['checkedItems']
         signupchecked = objs['signupchecked']
+        t1 = objs['fromdate']
+        t2= objs['todate']
         
         wheresql = ""
         if cpcchecked== "True":
-            wheresql= " Where u.id in " +  getcpcGroupNewAndOld(checkedItems)
+            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  getcpcGroupNewAndOld(checkedItems)
         else:
-            wheresql = ""
+            wheresql = "Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"'"
            
      
         sql = ("select * from (select count(distinct au.email) as signed_up, count(distinct jobsposted.id) as posted_jobs, count(distinct paidproposal.id) as paid_proposal, count(distinct invoices.applicant_id) as invoices_paid, count(distinct jobsposted.jobid) as jobscount, count(distinct paidproposal.proposalid) as proposalscount, count(distinct invoices.invoiceid) as invoicescount  from users u inner join auth_user au on u.django_user_id=au.id  left outer join (select u1.id,cj.id as jobid from users u1 inner join contracts_job cj on cj.employer_id= u1.id) jobsposted on jobsposted.id=u.id left outer join (select u2.id,cp2.message_ptr_id as proposalid from users u2 inner join contracts_application ca2 on ca2.applicant_id=u2.id inner join contracts_message cm2 on cm2.application_id=ca2.id inner join contracts_proposal cp2 on cp2.message_ptr_id=cm2.id where cp2.status=4) paidproposal on paidproposal.id=u.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id  as invoiceid,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.status=4) invoices on invoices.applicant_id=u.id " + wheresql +") total ")
@@ -463,12 +465,13 @@ def sign_application_proposal_invoice_getdata(request):
         cpcchecked = objs['cpcchecked']
         checkedItems = objs['checkedItems']
         signupchecked = objs['signupchecked']
-       
+        t1 = objs['fromdate']
+        t2= objs['todate']        
         wheresql = ""
         if cpcchecked== "True":
-            wheresql= " Where u.id in " +  getcpcGroupNewAndOld(checkedItems)
+            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  getcpcGroupNewAndOld(checkedItems)
         else:
-            wheresql = ""
+            wheresql = "Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"'"
 
            
         sql = ("select count(distinct u.id) as user_count, count(distinct applicants.id) as applicants_count, count(distinct proposals.applicant_id) as proposal_count, count(distinct invoices.applicant_id) as invoice_count, count(distinct applicants.applicationid) as applicationscount, count(distinct proposals.proposalid) as proposalscount, count(distinct invoiceid) as invoicescount from users u inner join auth_user au on u.django_user_id=au.id left outer join (select u1.id,ca.id as applicationid from users u1 inner join contracts_application ca on ca.applicant_id=u1.id) applicants on applicants.id=u.id left outer join (select ca1.applicant_id,ca1.id,cp.message_ptr_id  as proposalid from contracts_application ca1 inner join contracts_message cm on cm.application_id=ca1.id inner join contracts_proposal cp on cp.message_ptr_id=cm.id) proposals on proposals.applicant_id=u.id left outer join (select ca2.applicant_id,ci.message_ptr_id as invoiceid from contracts_message cm1 inner join contracts_invoice ci on ci.message_ptr_id=cm1.id inner join contracts_application ca2 on ca2.id=cm1.application_id) invoices on invoices.applicant_id=u.id " + wheresql)
