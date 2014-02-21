@@ -8,7 +8,7 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 
-
+    <link rel="stylesheet" href="demos.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="/site_media/jqwid/jqwidgets/styles/jqx.base.css" type="text/css" />
 
     <link rel="stylesheet" href="/site_media/jqwid/jqwidgets/styles/jqx.bootstrap.css" type="text/css" />
@@ -36,6 +36,10 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcalendar.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdropdownlist.js"></script>
     <script type="text/javascript" src="/site_media/js/jquery.blockUI.js"></script>
+    
+    <script src="/site_media/js/rgraph/RGraph.common.core.js" ></script>
+    <script src="/site_media/js/rgraph/RGraph.funnel.js" ></script>
+    
     
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 

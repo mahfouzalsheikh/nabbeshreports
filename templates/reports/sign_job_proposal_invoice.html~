@@ -79,7 +79,7 @@
      
      function drawChart(signupchecked,cpcchecked,checkedItems,fromdate,todate) {
       
-      var params = {"signupchecked" : signupchecked, "cpcchecked": cpcchecked, "checkedItems": checkedItems, "fromdate": from, "todate": to};
+      var params = {"signupchecked" : signupchecked, "cpcchecked": cpcchecked, "checkedItems": checkedItems, "fromdate": fromdate, "todate": todate};
       var jsonData = $.ajax({
           url: "sign_job_proposal_invoice_getdata",
           dataType:"json",
@@ -128,7 +128,24 @@
 
       var chart4 = new google.visualization.ColumnChart(document.getElementById('chart4'));         
       chart4.draw(data4, {title:"Paid an Invoice",width: 180, height: 450, vAxis: {maxValue: paidinvoice},legend: { position: "none" }});
-    
+     
+           
+      
+      alert("");   
+      var funnel = new RGraph.Funnel('cvs', [signedup,postedjob,paidproposal,paidinvoice])
+                .Set('labels', [signedup + ' Signed Up', postedjob + ' Users Posted ' + jobscount + ' Jobs',paidproposal + ' Users Paid '+ proposalscount +' Proposal',paidinvoice + ' Users Paid '+ invoicescount +' Invoices'])
+                .Set('gutter.left', 180)
+                .Set('labels.sticks', true)
+                .Set('strokestyle', 'rgba(0,0,0,0)')
+                .Set('text.boxed', true)
+                .Set('labels.x', 10)
+                .Set('shadow', true)
+                .Set('shadow.offsetx', 10)
+                .Set('shadow.offsety', 10)
+                .Set('shadow.blur', 15)
+                .Set('shadow.color', 'gray')
+                .Draw();     
+ 
       // Apply formatter to second column
     }
     
@@ -152,7 +169,9 @@
             </div>
         </div>
 <div style="padding: 20px 20px 20px 20px">
+
 <div><center><h2>Employers Acitvity Funnel</h2></center></div>
+<canvas id="cvs" width=800" height="450">[No canvas support]</canvas>
 <table width="95%"><tr>
 <td><div id="chart1" style="width: 230; height:450px; float: left;"></div></td>
 <td><div id="stage1" style="font-size:18px"></div></td>
@@ -162,7 +181,6 @@
 <td><div id="stage3" style="font-size:18px"></div></td>
 <td><div id="chart4" style="width: 230; height:450px; float: left;"></div></td><td></td>
 </tr></table>
-
 
 </div>
 
