@@ -101,7 +101,7 @@
             });
 
 
-            var freelancerssource = ["Demography","Gender Distribution","Age Distribution","Education", "Top Freelancers"];
+            var freelancerssource = ["Demographic Profile","Gender Distribution","Age Distribution","Education", "Top Freelancers"];
 
             $("#freelancerslist").jqxListBox({
                 
@@ -145,7 +145,7 @@
 
 
 
-	var skillssource = ["Skills Demography"];
+	var skillssource = ["Skills Demographic Profile"];
 
             $("#skillslist").jqxListBox({
                 
@@ -296,7 +296,7 @@
             var params = {"param": param};
             switch(reportname)
 		{
-			case "Demography": 
+			case "Demographic Profile": 
   				URLString ="freelancerdemography_report";
  				break;
 			case "Gender Distribution":
@@ -329,7 +329,7 @@
 		        case "Top Employers":
   		                URLString = "top_employers";
   				break;
-  			case "Skills Demography":
+  			case "Skills Demographic Profile":
   				URLString = "skillsdemography_report";	
   				break;
   			case "Cross-Country Apps":
