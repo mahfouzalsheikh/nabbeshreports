@@ -128,16 +128,16 @@
       chart4.draw(data4, {title:"Sent an Invoice",width: 180, height: 450, vAxis: {maxValue: sentinvoice},legend: { position: "none" }});
      
       var funnel = new RGraph.Funnel('cvs', [signedup,appliedforjob,sentproposal,sentinvoice])
-                .Set('labels', [signedup + ' Signed Up', appliedforjob + ' Users Applied ' + applicationscount + ' Jobs',sentproposal + ' Users Sent '+ proposalscount +' Proposal',sentinvoice + ' Users Sent '+ invoicescount +' Invoices'])
+                .Set('labels', [signedup + ' Signed Up', stage1 + ' ' + appliedforjob + ' Users Applied on ' + applicationscount + ' Jobs',stage2 + ' ' + sentproposal + ' Users Sent '+ proposalscount +' Proposal',stage3 + ' ' +  sentinvoice + ' Users Sent '+ invoicescount +' Invoices'])
                 .Set('gutter.left', 180)
                 .Set('labels.sticks', true)
-                .Set('strokestyle', 'rgba(0,0,0,0)')
-                .Set('text.boxed', true)
+                .Set('strokestyle', 'rgba(255,0,0,0)')
+                .Set('text.boxed', true).Set('text.size',12)
                 .Set('labels.x', 10)
                 .Set('shadow', true)
-                .Set('shadow.offsetx', 10)
-                .Set('shadow.offsety', 10)
-                .Set('shadow.blur', 15)
+                .Set('shadow.offsetx', 0)
+                .Set('shadow.offsety', 0)
+                .Set('shadow.blur', 35)
                 .Set('shadow.color', 'gray')
                 .Draw();     
    

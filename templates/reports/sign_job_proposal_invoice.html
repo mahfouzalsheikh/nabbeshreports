@@ -100,6 +100,7 @@
       proposalscount = obj[5];
       invoicescount = obj[6];
       
+
       stage1=(parseFloat(postedjob) / parseFloat(signedup)*100).toFixed(2) + '%  >>>';
       stage2=(parseFloat(paidproposal) / parseFloat(postedjob)*100).toFixed(2) + '%  >>>';
       stage3=(parseFloat(paidinvoice) / parseFloat(paidproposal)*100).toFixed(2) + '%  >>>';
@@ -132,18 +133,18 @@
            
       
       var funnel = new RGraph.Funnel('cvs', [signedup,postedjob,paidproposal,paidinvoice])
-                .Set('labels', [signedup + ' Signed Up', postedjob + ' Users Posted ' + jobscount + ' Jobs',paidproposal + ' Users Paid '+ proposalscount +' Proposal',paidinvoice + ' Users Paid '+ invoicescount +' Invoices'])
-                .Set('gutter.left', 180)
+                .Set('labels', [signedup + ' Signed Up',stage1 + ' ' + postedjob + ' Users Posted ' + jobscount + ' Jobs',stage2 + ' ' + paidproposal + ' Users Paid '+ proposalscount +' Proposal',stage3 + ' ' + paidinvoice + ' Users Paid '+ invoicescount +' Invoices'])
+		.Set('gutter.left', 180)
                 .Set('labels.sticks', true)
-                .Set('strokestyle', 'rgba(0,0,0,0)')
-                .Set('text.boxed', true)
+                .Set('strokestyle', 'rgba(255,0,0,0)')
+                .Set('text.boxed', true).Set('text.size',12)
                 .Set('labels.x', 10)
                 .Set('shadow', true)
-                .Set('shadow.offsetx', 10)
-                .Set('shadow.offsety', 10)
-                .Set('shadow.blur', 15)
+                .Set('shadow.offsetx', 0)
+                .Set('shadow.offsety', 0)
+                .Set('shadow.blur', 35)
                 .Set('shadow.color', 'gray')
-                .Draw();     
+                .Draw();    
  
       // Apply formatter to second column
     }
