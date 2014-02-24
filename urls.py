@@ -65,6 +65,9 @@ urlpatterns = patterns('',
     url(r'^skillsdemography_getdata$', 'nabbeshreports.maps.views.skillsdemography_getdata', name='skillsdemography_getdata'),  
     url(r'^skillsdemographydetails_getdata$', 'nabbeshreports.maps.views.skillsdemographydetails_getdata', name='skillsdemographydetails_getdata'),   
     
+    url(r'^skillsdistribution_report$', 'nabbeshreports.maps.views.skillsdistribution_report', name='skillsdistribution_report'),
+    url(r'^skillsdistribution_getdata$', 'nabbeshreports.maps.views.skillsdistribution_getdata', name='skillsdistribution_getdata'), 
+    
     url(r'^crosscountryapps_getdata$', 'nabbeshreports.maps.views.crosscountryapps_getdata', name='crosscountryapps_getdata'),
     url(r'^crosscountryapps_report$', 'nabbeshreports.maps.views.crosscountryapps_report', name='crosscountryapps_report'),    
     url(r'^geocodes$', 'nabbeshreports.maps.views.geocodes', name='geocodes'),

@@ -1,0 +1,110 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+
+<script type="text/javascript">
+ var theme = 'bootstrap';
+ $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ 
+</script>
+<script type="text/javascript">
+
+    $('#prioritymenu').on('select', function (event) {
+                    var args = event.args;
+                    if (args != undefined) {
+                        var item = event.args.item;
+                        if (item != null) {                            
+                            priority=item.label
+                        }
+                    }
+                });
+      
+     var source = ["Users Count", "Jobs Count"];
+       
+      $("#prioritymenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0});  
+       var priority="Users Count";  
+      
+      
+     $('#limitmenu').on('select', function (event) {
+                    var args = event.args;
+                    if (args != undefined) {
+                        var item = event.args.item;
+                        if (item != null) {
+                            limit = item.label;
+                        }
+                    }
+                });
+      
+      var source = ["10","50", "100","500", "1000", "10000"]; 
+      
+     $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:1}); 
+     
+     var limit = "50"; 
+     var searchkeywords = '';
+     
+     $("#searchkeywordsfield").jqxInput({placeHolder: "Keywords", height: 25, width: 200, minLength: 1});  
+       
+     $("#filterButton").jqxButton({ width: '200'});
+     $("#filterButton").on('click', function () {
+                                         
+                  drawChart(priority,limit);
+                 
+
+                });
+                                  	
+     function drawChart(priority,limit) {
+      searchkeywords= $('#searchkeywordsfield').val();
+      var params = {"priority":priority, "limit": limit, "searchkeywords": searchkeywords};
+      var jsonData = $.ajax({
+          url: "skillsdistribution_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+
+       //$("#output").html(jsonData);
+      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+      
+      
+	 
+          
+      var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
+                             
+      tablearea.draw(data,null);
+      
+
+      //var chart = new google.visualization.GeoChart(document.getElementById('maps'));
+      //chart.draw(data, options);
+    }
+     
+     
+
+    drawChart(priority,limit);
+</script>
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+               <table>
+                    <tr>
+                   <td>Priority: </td><td><div id="prioritymenu"></div><td></td></td>
+                   </tr> 
+                   <tr>
+                   <tr>
+                    <td>Limit: </td><td><div id="limitmenu"></div><td></td></td>
+                   </tr>
+                   <tr><td>Search:</td><td><input type="text" id="searchkeywordsfield"/></td></tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
+                </table>   
+            </div>
+        </div>
+<div style="padding: 20px 20px 20px 20px">
+
+
+<div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
+<div id="output"></div>
+</div>
+
+              
+    
+

@@ -559,6 +559,7 @@ def skillsdemography_report(request):
     c = Context({
         'skillsdemography_report': freelancerdemography_report,
     })
+   
     return HttpResponse(t.render(c))
 
     
@@ -569,8 +570,8 @@ def skillsdemography_getdata(request):
         objs = simplejson.loads(request.raw_post_data)
         limit = objs['limit']
         priority = objs['priority']
-        print priority
         
+             
         sortsql="users_have_it"
         if priority=="Users Count":
             sortsql="users_have_it"
@@ -582,13 +583,17 @@ def skillsdemography_getdata(request):
             sortsql="countries_jobs"
         
         sql = ("select skills.name, calc.*, case when calc.jobs_require_it<>0 then cast(calc.users_have_it as real)/cast(calc.jobs_require_it as real) else 0 end as availability_rate from skills_skill skills inner join (select ss.id, count(distinct su.id_user)  as users_have_it, count(distinct u1.country) as countries_users, count(distinct crs.job_id) as jobs_require_it, count(distinct u2.country) as countries_jobs from skills_skill ss left outer join skills_users su on su.skill_id=ss.id inner join users u1 on su.id_user=u1.id left outer join contracts_requiredskill crs on crs.skill_id=ss.id inner join contracts_job cj on cj.id=crs.job_id inner join users u2 on u2.id=cj.employer_id where ss.deleted=false group by ss.id) calc on calc.id=skills.id order by "+sortsql+" desc limit "+ limit)
- 
+        
+        print sql 
         results = customQuery(sql,0)
     
         c = Context({'countries': results})
    
         return HttpResponse(render_to_string('skillsdemography.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
         
+
+
+ 
         
         
 @csrf_exempt
@@ -604,6 +609,49 @@ def skillsdemographydetails_getdata(request):
    
         return HttpResponse(render_to_string('skillsdemographydetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
             
+
+@csrf_exempt        
+def skillsdistribution_report(request):
+    
+    t = loader.get_template('./reports/skillsdistribution_report.html')
+    c = Context({
+        'skillsdistribution_report': freelancerdemography_report,
+    })
+   
+    return HttpResponse(t.render(c))
+
+    
+    
+@csrf_exempt
+def skillsdistribution_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        limit = objs['limit']
+        priority = objs['priority']
+        
+        searchkeywords = objs['searchkeywords']     
+        
+        searchsql = ""
+        if searchkeywords <> "":
+            searchsql = "and lower(name) like '%%" +searchkeywords.lower() + "%%'"
+        
+        
+        sortsql="userscount"
+        if priority=="Users Count":
+            sortsql="userscount"        
+        elif priority=="Jobs Count":
+            sortsql="jobscount"
+       
+        
+        sql = ("select * from (select ss.id, ss.name,count(distinct su.id_user) as userscount, count( distinct cr.job_id) as jobscount  from skills_skill ss left outer join skills_users su on ss.id=su.skill_id left outer join contracts_requiredskill cr on cr.skill_id=ss.id  group by ss.id ) total where (jobscount<>0 or userscount<>0) "+searchsql+" order by "+sortsql+" desc limit "+limit)
+        
+        
+        print sql
+        results = customQuery(sql,0)     
+        c = Context({'countries': results})
+        
+        return HttpResponse(render_to_string('skillsdistribution.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+
 
 @csrf_exempt        
 def geocodes(request):

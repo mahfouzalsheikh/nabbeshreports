@@ -8,7 +8,7 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 
-    <link rel="stylesheet" href="demos.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/site_media/css/demos.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="/site_media/jqwid/jqwidgets/styles/jqx.base.css" type="text/css" />
 
     <link rel="stylesheet" href="/site_media/jqwid/jqwidgets/styles/jqx.bootstrap.css" type="text/css" />
@@ -149,13 +149,13 @@
 
 
 
-	var skillssource = ["Skills Demographic Profile"];
+	var skillssource = ["Skills Demographic Profile", "Skills Distribution"];
 
             $("#skillslist").jqxListBox({
                 
                 source: skillssource,
                 width: 176,
-                height: 30,
+                height: 55,
                 selectedIndex: -1,
                 theme: theme
             });
@@ -347,7 +347,10 @@
   				break;
   			case "Escrow":
   				URLString = "escrow_report";	
-  				break;			
+  				break;	
+  			case "Skills Distribution":
+  			      URLString = "skillsdistribution_report";	
+  		   	      break;	  			
 			default:
   			      URLString = "dashboard";
 		}
