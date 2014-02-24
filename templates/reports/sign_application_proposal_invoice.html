@@ -13,7 +13,7 @@
      
      var checkedItems="";
      var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({width: '250px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#fromdate").jqxDateTimeInput({width: '250px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-3))});
      $("#todate").jqxDateTimeInput({width: '250px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
 
      
@@ -126,6 +126,7 @@
 
       var chart4 = new google.visualization.ColumnChart(document.getElementById('chart4'));         
       chart4.draw(data4, {title:"Sent an Invoice",width: 180, height: 450, vAxis: {maxValue: sentinvoice},legend: { position: "none" }});
+      $('#date').html('From (' + fromdate + ') To (' + todate +')' );     
      
       var funnel = new RGraph.Funnel('cvs', [signedup,appliedforjob,sentproposal,sentinvoice])
                 .Set('labels', [signedup + ' Signed Up', stage1 + ' ' + appliedforjob + ' Users Applied on ' + applicationscount + ' Jobs',stage2 + ' ' + sentproposal + ' Users Sent '+ proposalscount +' Proposal',stage3 + ' ' +  sentinvoice + ' Users Sent '+ invoicescount +' Invoices'])
@@ -164,8 +165,8 @@
             </div>
         </div>
 <div style="padding: 20px 20px 20px 20px">
-
-<div><center><h2>Freelancers Acitvity Funnel</h2></center></div>
+ 
+<div><center><h2>Freelancers Acitvity Funnel</h2><div id='date'></div></center></div>
 <center><canvas id="cvs" width=800" height="450">[No canvas support]</canvas></center>
 <table width="95%"><tr>
 <td><div id="chart1" style="width: 230; height:450px; float: left;"></div></td>
