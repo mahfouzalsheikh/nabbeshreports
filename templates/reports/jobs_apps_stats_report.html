@@ -30,7 +30,12 @@
                  
 
                 });
-     
+     $("#downloadButton").jqxButton({ width: '200'});            
+     $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData(grouper,fromdate,todate));
+    		var csv = JSON2CSV(json);
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "jobs_apps_stats_data.csv");
+      }); 
      var grouper="Month";
      
      function firstDayInPreviousMonth(yourDate) {
@@ -145,7 +150,8 @@
          
                    <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
                    <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
-                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>       
+                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>                              
                 </table>   
             </div>
         </div>
