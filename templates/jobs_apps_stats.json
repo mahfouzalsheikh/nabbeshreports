@@ -1,0 +1,4 @@
+[["Period","Total Jobs", "Have 0 Apps", "Have 1-5 Apps","Have 6-10 Apps", "Have 11-50 Apps", "Have Over 50 Apps"],
+{% for col in jobs_apps_stats %}["{{ col.0 }}",{{ col.1 }},{{ col.2 }},{{ col.3 }},{{ col.4 }},{{ col.5 }},{{ col.6 }}]{% if not forloop.last %},{% endif %}{% endfor %}
+]
+

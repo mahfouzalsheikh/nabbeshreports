@@ -1,0 +1,4 @@
+[["Period","Total Jobs", "Have 0 Apps", "Have 1-5 Apps","Canceled Amount", "Canceled Count", "Canceled Average"],
+{% for col in jobs_apps_stats %}["{{ col.0 }}",{{ col.1 }},{{ col.2 }},{{ col.3 }},{{ col.4 }},{{ col.5 }},{{ col.6 }}]{% if not forloop.last %},{% endif %}{% endfor %}
+]
+
