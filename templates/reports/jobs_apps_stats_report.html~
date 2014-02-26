@@ -123,8 +123,7 @@
        
       chart.draw(columnView, options); 
 
-
-
+      
     }
     
     
@@ -156,7 +155,7 @@
             </div>
         </div>
 <div style="padding: 20px 20px 20px 20px">
-<div><h2><center>Applications per Job Groups</center></h2></div>
+<div><h2><center>Jobs per Applications Amount Groups</center></h2></div>
 <div id="visualizationarea" style="width: 100%; height:450px; float: left;"></div>
 <div id="proposalstablearea" style="width: 100%; height:100%; float: left;"></div>
 
