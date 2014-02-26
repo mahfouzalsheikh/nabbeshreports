@@ -71,11 +71,11 @@
             }
          }
       }   
-      //alert(maxvalue);
+      
       for (col_i = 2; col_i < column_count; col_i++) { 
          for  (row_i = 0; row_i < row_count; row_i++){
              data.setProperty(row_i, col_i, 'style', 'background-color: ' + rgbToHex(255-Math.round(data.getValue(row_i,col_i)*255/maxvalue),255-Math.round(data.getValue(row_i,col_i)*255/maxvalue),255));
-             //alert(Math.round(data.getValue(row_i,col_i)).toString());
+            
              }
       }
       }

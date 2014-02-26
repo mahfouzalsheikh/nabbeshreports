@@ -264,11 +264,8 @@
 
 
     <script type="text/javascript">
-        $(document).ajaxStart(function () {
-            //$("#wait").css("display","block"); 
-            //$("#loadmapButton").jqxButton({ disabled: true }); 
- 
-            $.blockUI({ message: '<h2>Just a moment!</h2>',  css: { 
+        $(document).ajaxStart(function () { 
+            $.blockUI({ message: "<img src=/site_media/img/load_trans.gif/><h2>Just a moment!</h2>",  css: { 
             border: 'none', 
             padding: '15px', 
             backgroundColor: '#000', 
