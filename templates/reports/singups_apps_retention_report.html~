@@ -1,0 +1,164 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript">
+ var theme = 'bootstrap';
+ $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
+ 
+</script>
+
+<script type="text/javascript">
+
+      $('#groupmenu').on('select', function (event) {
+                    var args = event.args;
+                    if (args != undefined) {
+                        var item = event.args.item;
+                        if (item != null) {                            
+                            grouper=item.label
+                        }
+                    }
+                });
+      
+     var source = ["Year","Month"];
+       
+      $("#groupmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:1});  
+                
+      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").on('click', function () {
+                                         
+                  draw(grouper,fromdate,todate);
+                 
+
+                });
+     $("#downloadButton").jqxButton({ width: '200'});            
+     $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData(grouper,fromdate,todate));
+    		var csv = JSON2CSV(json);
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "jobs_apps_stats_data.csv");
+      }); 
+     var grouper="Month";
+     
+     function firstDayInPreviousMonth(yourDate) {
+        var d = new Date(yourDate);
+        d.setDate(1);
+        d.setMonth(d.getMonth() - 1);
+       return d;
+     }
+     
+     function lastDayInPreviousMonth(yourDate) {
+        var d = new Date(yourDate);
+        d.setDate(0);
+        d.setMonth(d.getMonth());
+       return d;
+     }
+
+     
+      var today = new Date(Date.now());
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: firstDayInPreviousMonth(new Date(new Date(today).setMonth(today.getMonth()-5)))});
+     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: lastDayInPreviousMonth(today) });
+
+     
+     $("#fromdate").on('change', function (event) {
+                    fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
+                });
+     $("#todate").on('change', function (event) {
+                    todate= $('#todate').jqxDateTimeInput('getText'); 
+                });             
+     
+     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
+     var todate = $('#todate').jqxDateTimeInput('getText');
+     
+     
+     
+     function getData(grouper,from,to){
+      var params = {"grouper": grouper, "fromdate": from, "todate": to};
+      var jsonData = $.ajax({
+          url: "jobs_apps_stats_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+          //alert(jsonData);
+       return jsonData;    
+       
+      
+     }
+     
+     
+     function drawChart(jsonData,metrics) {
+  
+     
+      
+	
+      dataarray =   $.parseJSON(jsonData);               
+     
+      var data1 = new google.visualization.arrayToDataTable(dataarray);
+      var data2 = new google.visualization.arrayToDataTable(dataarray);
+      
+      
+   
+      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+	          
+         
+      var dataView = new google.visualization.DataView(data);
+                
+      var tablearea = new google.visualization.Table(document.getElementById('proposalstablearea'));
+      
+      tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});
+      
+      
+      var columnView = new google.visualization.DataView(data);
+
+      columnView.setColumns([0,2,3,4,5,6]);
+      var chart = new google.visualization.ColumnChart(document.getElementById('visualizationarea'));
+     
+       var options = {
+        width: '100%',
+        height: 450,
+        legend: { position: 'top', maxLines: 3 },
+	bar: { groupWidth: '75%' },
+        isStacked: true
+      };
+       
+      chart.draw(columnView, options); 
+
+      
+    }
+    
+    
+    function draw(grouper,from,to) {
+      var jsonData= getData(grouper,from,to);	
+      drawChart(jsonData);
+      
+    } 
+  
+    draw(grouper,fromdate,todate);
+</script>
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+                   <tr>
+                    <td>Metrics:</td><td><div id="proposalsmetricslist"></div><td></td></td>
+                   </tr> 
+                   <tr>
+                    <td>Group By:</td><td><div id="groupmenu"></div><td rowspan=4></td></td>
+                   </tr>  
+         
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>       
+                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>                              
+                </table>   
+            </div>
+        </div>
+<div style="padding: 20px 20px 20px 20px">
+<div><h2><center>Jobs per Applications Amount Groups</center></h2></div>
+<div id="visualizationarea" style="width: 100%; height:450px; float: left;"></div>
+<div id="proposalstablearea" style="width: 100%; height:100%; float: left;"></div>
+
+</div>
+
+

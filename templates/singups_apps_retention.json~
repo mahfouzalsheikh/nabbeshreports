@@ -1,0 +1,4 @@
+[["Period","Total Signups", "1","2","3","4","5","6","7","8","9","10","11","12"],
+{% for col in singups_apps_retention %}["{{ col.0 }}",{{ col.1 }},{{ col.2 }},{{ col.3 }},{{ col.4 }},{{ col.5 }},{{ col.6 }}]{% if not forloop.last %},{% endif %}{% endfor %}
+]
+

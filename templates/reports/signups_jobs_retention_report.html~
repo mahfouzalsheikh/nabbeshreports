@@ -1,0 +1,122 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript">
+ var theme = 'bootstrap';
+ $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
+ 
+</script>
+
+<script type="text/javascript">
+
+
+     $("#downloadButton").jqxButton({ width: '200'});            
+     $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData(grouper,fromdate,todate));
+    		var csv = JSON2CSV(json);
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "signups_jobss_retention_data.csv");
+      }); 
+    
+
+     
+   
+     
+     
+     
+     function getData(){
+      var params = {};
+      var jsonData = $.ajax({
+          url: "signups_jobs_retention_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+          
+       return jsonData;    
+      
+      
+     }
+     
+     
+     function drawChart(jsonData) {
+  
+     
+      
+	
+      dataarray =   $.parseJSON(jsonData);               
+     
+
+      
+      
+   
+      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+	          
+      formatcolors(data);
+      
+         
+      var dataView = new google.visualization.DataView(data);
+                
+      var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
+      
+      tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});
+          
+
+      
+    }
+    
+    function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    function rgbToHex(r, g, b) {
+       return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
+    function formatcolors(data) { alert 
+      var row_count = data.getNumberOfRows();
+      var column_count = data.getNumberOfColumns();
+      var maxvalue=0
+      for (col_i = 2; col_i < column_count; col_i++) { 
+         for  (row_i = 0; row_i < row_count; row_i++){
+            value = data.getValue(row_i,col_i);
+            if (value>maxvalue){
+               maxvalue=value;
+            }
+         }
+      }   
+      //alert(maxvalue);
+      for (col_i = 2; col_i < column_count; col_i++) { 
+         for  (row_i = 0; row_i < row_count; row_i++){
+             data.setProperty(row_i, col_i, 'style', 'background-color: ' + rgbToHex(255-Math.round(data.getValue(row_i,col_i)*255/maxvalue),255,255-Math.round(data.getValue(row_i,col_i)*255/maxvalue)));
+       
+             }
+      }
+      }
+    
+    function draw() {
+      var jsonData= getData();	
+      drawChart(jsonData);
+      
+    } 
+  
+    draw();
+</script>
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+    
+                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>                              
+                </table>   
+            </div>
+        </div>
+<div style="padding: 20px 20px 20px 20px">
+<div><h2><center>Percentage Of Users Who Posted a Job During</center></h2></div>
+
+<div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
+
+</div>
+
+

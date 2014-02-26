@@ -789,6 +789,54 @@ def jobs_apps_stats_getdata(request):
         results = customQuery(sql,0)
         c = Context({'jobs_apps_stats': results})        
 	return HttpResponse(render_to_string('jobs_apps_stats.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+
+
+
+@csrf_exempt        
+def signups_apps_retention_report(request):
+    
+    t = loader.get_template('./reports/signups_apps_retention_report.html')
+    c = Context({
+        'signups_apps_retention_report': signups_apps_retention_report,
+    })
+    return HttpResponse(t.render(c))
+            
+@csrf_exempt
+def signups_apps_retention_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)         
+                    
+            
+                  
+        sql = ("select datejoined,totalsignup, round((month1::float * 100.00 /totalsignup::float)::numeric,2) as applied_month1, round((month2::float * 100.00 /totalsignup::float)::numeric,2) as applied_month2,round((month3::float * 100.00 /totalsignup::float)::numeric,2) as applied_month3,round((month4::float * 100.00 /totalsignup::float)::numeric,2) as applied_month4,round((month5::float * 100.00 /totalsignup::float)::numeric,2) as applied_month5,round((month6::float * 100.00 /totalsignup::float)::numeric,2) as applied_month6,round((month7::float * 100.00 /totalsignup::float)::numeric,2) as applied_month7,round((month8::float * 100.00 /totalsignup::float)::numeric,2) as applied_month8,round((month9::float * 100.00 /totalsignup::float)::numeric,2) as applied_month9,round((month10::float * 100.00 /totalsignup::float)::numeric,2) as applied_month10,round((month11::float * 100.00 /totalsignup::float)::numeric,2) as applied_month11,round((month12::float * 100.00 /totalsignup::float)::numeric,2) as applied_month12 from (select substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,7) as datejoined,count(distinct id) as totalsignup,count(distinct case when timestamp >=(date_joined + INTERVAL '0 Day') and timestamp <=(date_joined + INTERVAL '1 Month') then id else null end) as month1, count(distinct case when timestamp >=(date_joined + INTERVAL '1 Month') and timestamp <=(date_joined + INTERVAL '2 Month') then id else null end) as month2,count(distinct case when timestamp >=(date_joined + INTERVAL '2 Month') and timestamp <=(date_joined + INTERVAL '3 Month') then id else null end) as month3,count(distinct case when timestamp >=(date_joined + INTERVAL '3 Month') and timestamp <=(date_joined + INTERVAL '4 Month') then id else null end) as month4,count(distinct case when timestamp >=(date_joined + INTERVAL '4 Month') and timestamp <=(date_joined + INTERVAL '5 Month') then id else null end) as month5,count(distinct case when timestamp >=(date_joined + INTERVAL '5 Month') and timestamp <=(date_joined + INTERVAL '6 Month') then id else null end) as month6,count(distinct case when timestamp >=(date_joined + INTERVAL '6 Month') and timestamp <=(date_joined + INTERVAL '7 Month') then id else null end) as month7,count(distinct case when timestamp >=(date_joined + INTERVAL '7 Month') and timestamp <=(date_joined + INTERVAL '8 Month') then id else null end) as month8,count(distinct case when timestamp >=(date_joined + INTERVAL '8 Month') and timestamp <=(date_joined + INTERVAL '9 Month') then id else null end) as month9,count(distinct case when timestamp >=(date_joined + INTERVAL '9 Month') and timestamp <=(date_joined + INTERVAL '10 Month') then id else null end) as month10,count(distinct case when timestamp >=(date_joined + INTERVAL '10 Month') and timestamp <=(date_joined + INTERVAL '11 Month') then id else null end) as month11,count(distinct case when timestamp >=(date_joined + INTERVAL '11 Month') and timestamp <=(date_joined + INTERVAL '12 Month') then id else null end) as month12 from (select u.id,au.date_joined, ca.timestamp from users u inner join auth_user au on u.django_user_id=au.id left outer join contracts_application ca on ca.applicant_id=u.id) total group by datejoined order by datejoined desc) final ") 
+        results = customQuery(sql,0)
+        c = Context({'signups_apps_retention': results})        
+	return HttpResponse(render_to_string('signups_apps_retention.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+	           
+
+
+@csrf_exempt        
+def signups_jobs_retention_report(request):
+    
+    t = loader.get_template('./reports/signups_jobs_retention_report.html')
+    c = Context({
+        'signups_jobs_retention_report': signups_jobs_retention_report,
+    })
+    return HttpResponse(t.render(c))
+            
+@csrf_exempt
+def signups_jobs_retention_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)         
+                    
+            
+                  
+        sql = ("select datejoined,totalsignup,  round((month1::float * 100.00 /totalsignup::float)::numeric,2) as applied_month1,  round((month2::float * 100.00 /totalsignup::float)::numeric,2) as applied_month2, round((month3::float * 100.00 /totalsignup::float)::numeric,2) as applied_month3, round((month4::float * 100.00 /totalsignup::float)::numeric,2) as applied_month4, round((month5::float * 100.00 /totalsignup::float)::numeric,2) as applied_month5, round((month6::float * 100.00 /totalsignup::float)::numeric,2) as applied_month6, round((month7::float * 100.00 /totalsignup::float)::numeric,2) as applied_month7, round((month8::float * 100.00 /totalsignup::float)::numeric,2) as applied_month8, round((month9::float * 100.00 /totalsignup::float)::numeric,2) as applied_month9, round((month10::float * 100.00 /totalsignup::float)::numeric,2) as applied_month10, round((month11::float * 100.00 /totalsignup::float)::numeric,2) as applied_month11, round((month12::float * 100.00 /totalsignup::float)::numeric,2) as applied_month12 from ( select substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,7) as datejoined, count(distinct id) as totalsignup, count(distinct case when created_at >=(date_joined + INTERVAL '0 Day') and created_at <=(date_joined + INTERVAL '1 Month') then id else null end) as month1,  count(distinct case when created_at >=(date_joined + INTERVAL '1 Month') and created_at <=(date_joined + INTERVAL '2 Month') then id else null end) as month2, count(distinct case when created_at >=(date_joined + INTERVAL '2 Month') and created_at <=(date_joined + INTERVAL '3 Month') then id else null end) as month3, count(distinct case when created_at >=(date_joined + INTERVAL '3 Month') and created_at <=(date_joined + INTERVAL '4 Month') then id else null end) as month4, count(distinct case when created_at >=(date_joined + INTERVAL '4 Month') and created_at <=(date_joined + INTERVAL '5 Month') then id else null end) as month5, count(distinct case when created_at >=(date_joined + INTERVAL '5 Month') and created_at <=(date_joined + INTERVAL '6 Month') then id else null end) as month6, count(distinct case when created_at >=(date_joined + INTERVAL '6 Month') and created_at <=(date_joined + INTERVAL '7 Month') then id else null end) as month7, count(distinct case when created_at >=(date_joined + INTERVAL '7 Month') and created_at <=(date_joined + INTERVAL '8 Month') then id else null end) as month8, count(distinct case when created_at >=(date_joined + INTERVAL '8 Month') and created_at <=(date_joined + INTERVAL '9 Month') then id else null end) as month9, count(distinct case when created_at >=(date_joined + INTERVAL '9 Month') and created_at <=(date_joined + INTERVAL '10 Month') then id else null end) as month10, count(distinct case when created_at >=(date_joined + INTERVAL '10 Month') and created_at <=(date_joined + INTERVAL '11 Month') then id else null end) as month11, count(distinct case when created_at >=(date_joined + INTERVAL '11 Month') and created_at <=(date_joined + INTERVAL '12 Month') then id else null end) as month12  from  ( select u.id,au.date_joined, cj.created_at from  users u  inner join auth_user au on u.django_user_id=au.id left outer join contracts_job cj on cj.employer_id=u.id) total  group by datejoined order by datejoined desc  ) final   ") 
+        results = customQuery(sql,0)
+        
+        print results
+        c = Context({'signups_jobs_retention': results})        
+	return HttpResponse(render_to_string('signups_jobs_retention.json', c, context_instance=RequestContext(request)), mimetype='application/json')     
 	           
                 
 @csrf_exempt

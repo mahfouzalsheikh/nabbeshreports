@@ -82,6 +82,12 @@ urlpatterns = patterns('',
     url(r'^jobs_apps_stats_getdata$', 'nabbeshreports.maps.views.jobs_apps_stats_getdata', name='jobs_apps_stats_getdata'),
     url(r'^jobs_apps_stats_report$', 'nabbeshreports.maps.views.jobs_apps_stats_report', name='jobs_apps_stats_report'),
 
+    url(r'^signups_apps_retention_getdata$', 'nabbeshreports.maps.views.signups_apps_retention_getdata', name='signups_apps_retention_getdata'),
+    url(r'^signups_apps_retention_report$', 'nabbeshreports.maps.views.signups_apps_retention_report', name='signups_apps_retention_report'),
+
+    url(r'^signups_jobs_retention_getdata$', 'nabbeshreports.maps.views.signups_jobs_retention_getdata', name='signups_jobs_retention_getdata'),
+    url(r'^signups_jobs_retention_report$', 'nabbeshreports.maps.views.signups_jobs_retention_report', name='signups_jobs_retention_report'),
+    
 #    url(r'^escrow_getdata$', 'nabbeshreports.maps.views.escrow_getdata', name='escrow_getdata'),
 #    url(r'^escrow_report$', 'nabbeshreports.maps.views.escrow_report', name='escrow_report'),
 

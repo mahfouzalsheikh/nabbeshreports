@@ -175,7 +175,7 @@
                 
                 source: financesource,
                 width: 176,
-                height: 90,
+                height: 55,
                 selectedIndex: -1,
                 theme: theme
             });
@@ -213,13 +213,13 @@
             });
             
             
-            var activitysource = ["Employers & Jobs Stats", "Jobs/Applications Tracking", "Employers Funnel", "Freelancers Funnel", "Cross-Country Apps", "Jobs & Apps Stats"];
+            var activitysource = ["Employers & Jobs Stats", "Jobs/Applications Tracking", "Employers Funnel", "Freelancers Funnel", "Cross-Country Apps", "Jobs & Apps Stats", "Signups/Apps Retention", "Signups/Jobs Retention"];
 
             $("#activitylist").jqxListBox({
                 
                 source: activitysource,
                 width: 176,
-                height: 160,
+                height: 210,
                 selectedIndex: -1,
                 theme: theme
             });
@@ -353,8 +353,13 @@
   		   	      break;	
   		   	case "Jobs & Apps Stats":
   		   	      URLString = "jobs_apps_stats_report";  
+  		   	      break;  		   	      
+  		   	case "Signups/Apps Retention":  		   	      
+  		   	      URLString = "signups_apps_retention_report";
   		   	      break;
-  		   	      			
+  		   	case "Signups/Jobs Retention":    			
+  		   	      URLString = "signups_jobs_retention_report";
+  		   	      break;
 			default:
   			      URLString = "dashboard";
 		}
