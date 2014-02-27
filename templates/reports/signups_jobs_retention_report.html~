@@ -54,6 +54,20 @@
 	          
       formatcolors(data);
       
+      var formatter = new google.visualization.NumberFormat(
+      {suffix: " %", negativeColor: 'red', negativeParens: true});
+      formatter.format(data, 2);
+      formatter.format(data, 3);
+      formatter.format(data, 4);
+      formatter.format(data, 5);
+      formatter.format(data, 6);
+      formatter.format(data, 7);
+      formatter.format(data, 8);
+      formatter.format(data, 9);
+      formatter.format(data, 10); 
+      formatter.format(data, 11);
+      formatter.format(data, 12);
+      formatter.format(data, 13);
          
       var dataView = new google.visualization.DataView(data);
                 
@@ -88,7 +102,9 @@
       //alert(maxvalue);
       for (col_i = 2; col_i < column_count; col_i++) { 
          for  (row_i = 0; row_i < row_count; row_i++){
-             data.setProperty(row_i, col_i, 'style', 'background-color: ' + rgbToHex(255-Math.round(data.getValue(row_i,col_i)*255/maxvalue),255,255-Math.round(data.getValue(row_i,col_i)*255/maxvalue)));
+         if(col_i>row_i+2){data.setProperty(row_i, col_i, 'style', 'background-color: '+ rgbToHex(200,200,200) + ';color: ' +rgbToHex(200,200,200) ); }
+              else
+             data.setProperty(row_i, col_i, 'style', 'background-color: ' + rgbToHex(255-Math.round(data.getValue(row_i,col_i)*255/maxvalue),255,255-Math.round(data.getValue(row_i,col_i)*255/maxvalue))+ '; font-size: 16px');
        
              }
       }
