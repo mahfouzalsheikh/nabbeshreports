@@ -88,7 +88,7 @@
       
       for (col_i = 2; col_i < column_count; col_i++) { 
          for  (row_i = 0; row_i < row_count; row_i++){
-              if(col_i>row_i+2){data.setProperty(row_i, col_i, 'style', 'background-color: '+ rgbToHex(200,200,200))}
+              if(col_i>row_i+2){data.setProperty(row_i, col_i, 'style', 'background-color: '+ rgbToHex(200,200,200) + ';color: ' +rgbToHex(200,200,200) ); }
               else
              data.setProperty(row_i, col_i, 'style', 'background-color: ' + rgbToHex(255-Math.round(data.getValue(row_i,col_i)*255/maxvalue),255-Math.round(data.getValue(row_i,col_i)*255/maxvalue),255) + '; font-size: 16px');
 
