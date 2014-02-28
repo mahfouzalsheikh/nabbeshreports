@@ -838,6 +838,17 @@ def signups_jobs_retention_getdata(request):
         c = Context({'signups_jobs_retention': results})        
 	return HttpResponse(render_to_string('signups_jobs_retention.json', c, context_instance=RequestContext(request)), mimetype='application/json')     
 	           
+
+
+@csrf_exempt     
+def vistest_report(request):
+    
+    t = loader.get_template('./reports/vistest_report.html')
+    c = Context({
+        'vistest_report': vistest_report,
+    })
+    return HttpResponse(t.render(c))
+
                 
 @csrf_exempt
 def get_results(service, profile_id,checkedItems):

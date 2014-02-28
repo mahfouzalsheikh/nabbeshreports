@@ -92,6 +92,9 @@ urlpatterns = patterns('',
 #    url(r'^escrow_report$', 'nabbeshreports.maps.views.escrow_report', name='escrow_report'),
 
     
+
+    url(r'^vistest_report$', 'nabbeshreports.maps.views.vistest_report', name='vistest_report'),
+    
     url(r'^googleanalytics_report$', 'nabbeshreports.maps.views.googleanalytics_report', name='googleanalytics_report'),
     
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),

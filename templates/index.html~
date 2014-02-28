@@ -4,7 +4,7 @@
 <body bgcolor="#F8F8F8">
 
 
-<div style="padding: 0px 0px 0px 10px; height:70px">
+<div style="padding: 0px 0px 0px 10px; height:20px">
 <div><a href="/"><img src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></a></div>
 <div style="padding: 0px 10px 10px 10px;font-size: 12px;float: right">
 
@@ -23,7 +23,7 @@
                 <ul style="margin-left: 40px;" id="unorderedList">
                     <li>
                         <div style="height: 40px;">
-                    
+                    	    <img style='float: left;' width='32' height='32' src="/site_media/img/charts.png" alt="" class="small-image" />
                             <div style="float: left; margin-left: 6px; text-align: center; margin-top: 5px; font-size: 14px;">
                                 Reports
 			    </div>
