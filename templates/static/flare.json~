@@ -67,7 +67,7 @@
     {
      "name": "converters",
      "children": [
-      {"name": "Converters", "size": 55721, "title": "test"},
+      {"name": "Converters", "size": 55721},
       {"name": "DelimitedTextConverter", "size": 4294},
       {"name": "GraphMLConverter", "size": 9800},
       {"name": "IDataConverter", "size": 1314},

@@ -35,7 +35,9 @@
                     todate= $('#todate').jqxDateTimeInput('getText'); 
                 });        
         
-                
+     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
+     var todate = $('#todate').jqxDateTimeInput('getText');
+     var limit="Day";          
                 
       $("#filterButton").jqxButton({ width: '200'});
       $("#filterButton").on('click', function () {draw(limit,fromdate,todate);});
@@ -46,9 +48,7 @@
 //	        window.open("data:text/csv;charset=utf-8," + escape(csv))
 	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "dashboard_data.csv");
       }); 
-     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
-     var todate = $('#todate').jqxDateTimeInput('getText');
-     var limit="Day";
+
      
      
      var metricslistsource = ["Workflow Msgs","Normal Msgs","All Signups", "Joined as Freelancer","Joined as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Proposal Paid", "Job Apps","Invitations", "Invoices Sent", "Invoices Paid", "Invitations/Job", "Applications/Job"];
@@ -86,23 +86,47 @@
     var row_count = data.getNumberOfRows();
     var column_count = data.getNumberOfColumns();
     var new_row = new Array();
+    var max_row = new Array();
+    var min_row = new Array();
+    var avg_row = new Array();
 
     for (col_i = 0; col_i < column_count; col_i++) { 
       var cell_value = 0;
+      var max_value = 0;
+      var min_value = 10000000000;
+      var avg_value = 0; 
       if (data.getColumnType(col_i) == 'string') {
-        new_row[col_i] = 'Total Within the Period';
+        new_row[col_i] = 'Total';
+        max_row[col_i] = 'Max';
+        min_row[col_i] = 'Min';
+        avg_row[col_i] = 'Avg';
+        
       }
       else if (data.getColumnType(col_i) == 'number') {
         
          
           for (row_i = 0; row_i < row_count; row_i++) {
             cell_value = cell_value + data.getValue(row_i, col_i);
+            if(max_value<data.getValue(row_i, col_i)){max_value=data.getValue(row_i, col_i); }
+            if(min_value>data.getValue(row_i, col_i)){min_value=data.getValue(row_i, col_i);}                                                          
           }
          
+
          cell_formatted = Math.round(cell_value*100)/100;
 	 new_row[col_i] = {v: cell_value, f: '' + cell_formatted};
+                           
+         max_formatted = Math.round(max_value*100)/100;
+	 max_row[col_i] = {v: max_value, f: '' + max_formatted};
 
-        
+         min_formatted = Math.round(min_value*100)/100;
+	 min_row[col_i] = {v: min_value, f: '' + min_formatted};
+          
+          
+         avg_value = cell_value/row_count; 
+         avg_formatted = Math.round(avg_value*100)/100;
+	 avg_row[col_i] = {v: avg_value, f: '' + avg_formatted};
+
+
       }
       else { 
         new_row[col_i] = null;
@@ -110,6 +134,15 @@
       
     }  
       data.addRows([new_row]);
+      data.addRows([max_row]);
+      data.addRows([min_row]);
+      data.addRows([avg_row]);
+         
+      for (col_i = 0; col_i < column_count; col_i++) {
+          for (row_i = row_count; row_i < row_count+4; row_i++) {
+               data.setProperty(row_i, col_i, 'style', 'background-color: rgb(180,180,255); font-size: 14px');
+          }
+      }      
       return data;
 
     }
