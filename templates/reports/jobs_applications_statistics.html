@@ -62,18 +62,22 @@
 	
 	
 	
-	
+	  var initrowdetails = function (index, parentElement, gridElement, datarecord) { }
           jqwdata = JSON.parse(jsonData);
           jqwdata.shift();
 	  
 	   var cellclass = function (row, columnfield, value) {
                 if (value == 0) {
                     return 'red';
-                }
-               
+                }               
                 else return 'green';
             }
-	  
+	  var statusclass = function (row, columnfield, value) {
+                if (value == 'Closed') {
+                    return 'red';
+                }               
+                else return 'green';
+            }
 	  var source =
 	  
             { localdata : jqwdata,
@@ -90,7 +94,7 @@
                     { name: 'Employers Responses', type: 'int', map: '9'},
                     { name: 'Proposal Count', type: 'int', map: '10'},
                     { name: 'Accepted Proposals', type: 'int', map: '11'},
-                    { name: 'Status', type: 'string', map: '12'},                    
+                    { name: 'Status', type: 'bool', map: '12'}                   
                     ],
                 datatype: "array"
             };
@@ -98,6 +102,10 @@
                 var html = "<a href='http://www.nabbesh.com/admin/contracts/job/"+value+"' target=_blank>"+ value+ "</a>";
                 return html;
             }
+            var items = new Array();
+            items.push('Active');
+            items.push('Closed');
+            
             var dataAdapter = new $.jqx.dataAdapter(source);
             $("#jqwtablearea").jqxGrid(
             {
@@ -111,8 +119,8 @@
                 altrows: true,
                 columns: [
                   { text: 'Employer Name', datafield: 'Employer Name', filtertype: 'textbox', pinned: true, width:100},
-                  { text: 'Employer Email', datafield: 'Employer Email', filtertype: 'textbox', width:100},
-                  { text: 'Job ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer},
+                  { text: 'Employer Email', datafield: 'Employer Email', filtertype: 'textbox', width:100, pinned: true},
+                  { text: 'Job ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer, pinned: true},
                   { text: 'Job Title', datafield: 'Job Title', filtertype: 'textbox'},
                   { text: 'Job Posted At', datafield: 'Job Posted At', filtertype: 'date'},
                   { text: 'Budget', datafield: 'Budget', filtertype: 'number'},
@@ -122,7 +130,7 @@
                   { text: 'Employers Responses', datafield: 'Employers Responses', filtertype: 'number', cellclassname: cellclass},
                   { text: 'Proposal Count', datafield: 'Proposal Count', filtertype: 'number', cellclassname: cellclass},
                   { text: 'Accepted Proposals', datafield: 'Accepted Proposals', filtertype: 'number', cellclassname: cellclass},                  
-                  { text: 'Status', datafield: 'Status', filtertype: 'number'},
+                  { text: 'Status', datafield: 'Status', threestatecheckbox: true, columntype: 'checkbox', filtertype: 'bool'}
                 ]
             });          
             //$("#jqwtablearea").jqxGrid('autoresizecolumns');
@@ -268,7 +276,7 @@
 <style>     
         .green {
             color: black\9;
-            background-color: #ff00ff\9;
+            background-color: #3DAA95\9;
         }
         .yellow {
             color: black\9;
@@ -280,7 +288,7 @@
         }
         .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
             color: black;
-            background-color: #33AD33;
+            background-color: #3DAA95;
         }
         .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
             color: black;
@@ -288,7 +296,7 @@
         }
         .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
             color: black;
-            background-color: #FFCCCC;
+            background-color: #ffecff;
         }
 </style>
 
