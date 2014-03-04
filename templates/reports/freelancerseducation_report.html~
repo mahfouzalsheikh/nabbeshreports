@@ -30,12 +30,12 @@
                 source: dataAdapter,
                 columnsresize: true,
                 sortable: true,
+                showfilterrow: true,
                 filterable: true,
                 altrows: true,
-                sortable: true,
                 columns: [
-                  { text: 'Degree', datafield: 'Degree'},
-                  { text: 'User Count', datafield: 'UserCount'}
+                  { text: 'Degree', datafield: 'Degree', filtertype: 'textbox'},
+                  { text: 'User Count', datafield: 'UserCount', filtertype: 'number'}
                 ]
             });    
 
