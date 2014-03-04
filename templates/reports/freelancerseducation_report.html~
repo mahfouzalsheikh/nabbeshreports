@@ -13,7 +13,7 @@
           
           jqwdata = JSON.parse(jsonData);
           jqwdata.shift();
-          //console.log(jqwdata);
+          console.log(jqwdata);
 	  var source =
             { localdata : jqwdata,
               datafields: [

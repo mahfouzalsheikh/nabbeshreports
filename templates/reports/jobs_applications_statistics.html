@@ -60,7 +60,84 @@
           async: false
           }).responseText;
 	
-
+	
+	
+	
+          jqwdata = JSON.parse(jsonData);
+          jqwdata.shift();
+	  
+	   var cellclass = function (row, columnfield, value) {
+                if (value == 0) {
+                    return 'red';
+                }
+                else if (value > 0 && value < 5) {
+                    return 'yellow';
+                }
+                else return 'green';
+            }
+	  
+	  var source =
+	  
+            { localdata : jqwdata,
+              datafields: [ 
+                    { name: 'Employer Name', type: 'string', map: '0'},
+                    { name: 'Employer Email', type: 'string', map: '1'},
+                    { name: 'Job ID', type: 'int', map: '2'},
+                    { name: 'Job Title', type: 'string', map: '3'},
+                    { name: 'Job Posted At', type: 'date', map: '4'},
+                    { name: 'Budget', type: 'float', map: '5'},
+                    { name: 'Application Count', type: 'int', map: '6'},
+                    { name: 'Shortlisted Applications', type: 'int', map: '7'},
+                    { name: 'Applicants Msgs', type: 'int', map: '8'},
+                    { name: 'Employers Responses', type: 'int', map: '9'},
+                    { name: 'Proposal Count', type: 'int', map: '10'},
+                    { name: 'Accepted Proposals', type: 'int', map: '11'},
+                    { name: 'Status', type: 'string', map: '12'},                    
+                    ],
+                datatype: "array"
+            };
+            var joblinkrenderer = function (row, column, value) {                                
+                var html = "<a href='http://www.nabbesh.com/admin/contracts/job/"+value+"' target=_blank>"+ value+ "</a>";
+                return html;
+            }
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            $("#jqwtablearea").jqxGrid(
+            {
+                width: '100%',
+                height: '100%',
+                source: dataAdapter,
+                columnsresize: true,
+                sortable: true,
+                showfilterrow: true,
+                filterable: true,
+                altrows: true,
+                columns: [
+                  { text: 'Employer Name', datafield: 'Employer Name', filtertype: 'textbox', pinned: true, width:100},
+                  { text: 'Employer Email', datafield: 'Employer Email', filtertype: 'textbox', width:100},
+                  { text: 'Job ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer},
+                  { text: 'Job Title', datafield: 'Job Title', filtertype: 'textbox'},
+                  { text: 'Job Posted At', datafield: 'Job Posted At', filtertype: 'date'},
+                  { text: 'Budget', datafield: 'Budget', filtertype: 'number'},
+                  { text: 'Application Count', datafield: 'Application Count', filtertype: 'number', cellclassname: cellclass},
+                  { text: 'Shortlisted Applications', datafield: 'Shortlisted Applications', filtertype: 'number', cellclassname: cellclass},
+                  { text: 'Applicants Msgs', datafield: 'Applicants Msgs', filtertype: 'number', cellclassname: cellclass},
+                  { text: 'Employers Responses', datafield: 'Employers Responses', filtertype: 'number', cellclassname: cellclass},
+                  { text: 'Proposal Count', datafield: 'Proposal Count', filtertype: 'number', cellclassname: cellclass},
+                  { text: 'Accepted Proposals', datafield: 'Accepted Proposals', filtertype: 'number', cellclassname: cellclass},                  
+                  { text: 'Status', datafield: 'Status', filtertype: 'number'},
+                ]
+            });          
+            //$("#jqwtablearea").jqxGrid('autoresizecolumns');
+      
+            $('#jqwtablearea').on('rowselect', function (event) 
+		{
+		    var args = event.args; 
+		    var row = args.rowindex;
+		    var cell = $('#jqwtablearea').jqxGrid('getcell', row, 'Job ID');	
+		    drawCommunicationChart(cell.value.toString());
+		});
+      
+      
       if(jsonData.length <=184){
         alert('Hoot! No results for your search');
       }
@@ -107,12 +184,20 @@
       var options = {'showRowNumber': true, 'allowHtml': true, 'height': '500px'};
       
       dataView.setColumns([0,1,2,3,4,5,6,8,9,10,11,12]);
-      tablearea.draw(dataView,options);
+      //tablearea.draw(dataView,options);
       
  
      }
       // Apply formatter to second column
     }
+    
+    
+    
+    
+    
+    
+    
+    
     
     function drawCommunicationChart(job_id)
     {
@@ -157,7 +242,6 @@
     
     drawChart(fromdate,todate, searchkeywords);
     
-
 </script>
 
 
@@ -180,6 +264,34 @@
 <div id="output"></div>
 <div id="detailsarea" style="width: 100%; height:100%; float: left; padding: 10px 10px 10px 0px"></div>
 <div id="tablearea" style="width: 100%; float: left;"></div>
+<div id="jqwtablearea" style="width: 100%; height:100%; float: left;"></div>
 </div>
+
+<style>     
+        .green {
+            color: black\9;
+            background-color: #ff00ff\9;
+        }
+        .yellow {
+            color: black\9;
+            background-color: yellow\9;
+        }
+        .red {
+            color: black\9;
+            background-color: #e83636\9;
+        }
+        .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+            color: black;
+            background-color: #33AD33;
+        }
+        .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+            color: black;
+            background-color: #FFFF80;
+        }
+        .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+            color: black;
+            background-color: #FFCCCC;
+        }
+</style>
 
 
