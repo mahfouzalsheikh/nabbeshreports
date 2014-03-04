@@ -60,13 +60,12 @@
           async: false
           }).responseText;
 	
-	
+
       if(jsonData.length <=184){
         alert('Hoot! No results for your search');
       }
       else
       {
-       console.log(jsonData);
       var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
 	          
       
@@ -99,7 +98,7 @@
         var item = selection[0];
         var str = data.getValue(item.row, 2);
     
-        drawCommunicationChart(str.toString());
+        drawCommunicationChart(str.toString());        
        
       }
       
@@ -110,6 +109,7 @@
       dataView.setColumns([0,1,2,3,4,5,6,8,9,10,11,12]);
       tablearea.draw(dataView,options);
       
+ 
      }
       // Apply formatter to second column
     }
@@ -125,8 +125,8 @@
           data: JSON.stringify(params),
           async: false
           }).responseText;
-
-       
+        
+      
        if(jsonData.length <=120){
           $('#detailsarea').html('');
       }

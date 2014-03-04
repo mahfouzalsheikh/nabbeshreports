@@ -37,6 +37,17 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdropdownlist.js"></script>
     <script type="text/javascript" src="/site_media/js/jquery.blockUI.js"></script>
     
+    
+    
+       
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.selection.js"></script> 
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.sort.js"></script> 
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.filter.js"></script>
+
+    
     <script src="/site_media/js/rgraph/RGraph.common.core.js" ></script>
     <script src="/site_media/js/rgraph/RGraph.funnel.js" ></script>
     
@@ -369,8 +380,7 @@
                 success: function (r) {
                     $('#reportcontent').html(r);
                     $('#jqxTabs').jqxTabs({height: getDocHeight()-135});
-                    
-                   
+                                                                             
                     //$('#mainSplitter').jqxSplitter({height: '800'});
                        
                    $('#mainSplitter').jqxSplitter({height: $('#jqxTabs').jqxTabs('height')-70});

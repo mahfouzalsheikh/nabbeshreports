@@ -199,7 +199,9 @@
     draw(limit,fromdate,todate);
 </script>
 
- <div id='optionsExpander'>
+<div id='report'>
+
+<div id='optionsExpander'>
             <div>Options</div>
             <div>
                 <table>
@@ -226,5 +228,5 @@
 <div id="visualization" style="width: 100%; height:600px; float: left;"></div>
 <div id="tablearea" style="width: 100%; float: left;"></div>
 
-
+</div>
 
