@@ -64,10 +64,9 @@
 	
 	  var initrowdetails = function (index, parentElement, gridElement, datarecord) {
 	       var cell = $('#jqwtablearea').jqxGrid('getcell', index, 'Job ID');		       	       	       
-	       var jsonstring = getCommunicationJSON(cell.value.toString());	
-	       //alert(jsonstring.length);
+	       var jsonstring = getCommunicationJSON(cell.value.toString());		      
 	       
-	       if(jsonstring.length>115){
+	     if(jsonstring.length>115){
 	       detailsjqwdata = JSON.parse(jsonstring);
 	       detailsjqwdata.shift();
 	       
@@ -114,7 +113,7 @@
                  ]
              }); 
              //$('#detailstable').jqxGrid('autoresizecolumns');         
-	     }  
+	     } else {$('#detailstable').html("No Communications");}	  
 	   }
           jqwdata = JSON.parse(jsonData);
           jqwdata.shift();
