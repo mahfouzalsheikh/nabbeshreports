@@ -62,7 +62,61 @@
 	
 	
 	
-	  var initrowdetails = function (index, parentElement, gridElement, datarecord) { }
+	  var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+	       var cell = $('#jqwtablearea').jqxGrid('getcell', index, 'Job ID');		       	       	       
+	       var jsonstring = getCommunicationJSON(cell.value.toString());	
+	       //alert(jsonstring.length);
+	       
+	       if(jsonstring.length>115){
+	       detailsjqwdata = JSON.parse(jsonstring);
+	       detailsjqwdata.shift();
+	       
+	       var applinkrenderer = function (row, column, value) {                                
+                  var html = "<a href='http://www.nabbesh.com/contracts/workstream/"+value+"' target=_blank>Go To Workstream: "+ value+ "</a>";
+                  return html;
+                }
+	       
+	       var source =	  
+               { localdata : detailsjqwdata,
+                 datafields: [ 
+                    { name: 'User Id', type: 'int', map: '0'},
+                    { name: 'Email', type: 'string', map: '1'},
+                    { name: 'Application ID', type: 'string', map: '2'},
+                    { name: 'Shortlisted', type: 'int', map: '3'},
+                    { name: 'Proposals', type: 'int', map: '4'},
+                    { name: 'Accepted Proposals', type: 'int', map: '5'},
+                    { name: 'Employer Responses', type: 'int', map: '6'},                                     
+                    ],
+                datatype: "array"
+               };
+               var dataAdapter = new $.jqx.dataAdapter(source);
+               $(parentElement).jqxGrid(
+               {
+                 theme: theme,
+                 width: '85%',
+                 height: '300',
+                 source: dataAdapter,
+                 columnsresize: true,
+                 sortable: true,
+                 showfilterrow: true,
+                 filterable: true,
+                 altrows: true,
+                 rowdetails: true,
+
+                 columns: [
+                   { text: 'User Id', datafield: 'User Id', filtertype: 'number'},
+                   { text: 'Email', datafield: 'Email', filtertype: 'textbox'},
+                   { text: 'Application ID', datafield: 'Application ID', filtertype: 'number', cellsrenderer: applinkrenderer},
+                   { text: 'Shortlisted', datafield: 'Shortlisted', filtertype: 'number', cellclassname: cellclass},
+                   { text: 'Proposals', datafield: 'Proposals', filtertype: 'number', cellclassname: cellclass},
+                   { text: 'Accepted Proposals', datafield: 'Accepted Proposals', filtertype: 'number', cellclassname: cellclass},
+                   { text: 'Employer Responses', datafield: 'Employer Responses', filtertype: 'number', cellclassname: cellclass}
+                   
+                 ]
+             }); 
+             $(parentElement).jqxGrid('autoresizecolumns');         
+	     }  
+	   }
           jqwdata = JSON.parse(jsonData);
           jqwdata.shift();
 	  
@@ -78,8 +132,7 @@
                 }               
                 else return 'green';
             }
-	  var source =
-	  
+	    var source =	  
             { localdata : jqwdata,
               datafields: [ 
                     { name: 'Employer Name', type: 'string', map: '0'},
@@ -105,22 +158,26 @@
             var items = new Array();
             items.push('Active');
             items.push('Closed');
-            
+            var theme = 'bootstrap';
             var dataAdapter = new $.jqx.dataAdapter(source);
             $("#jqwtablearea").jqxGrid(
             {
+                theme: theme,
                 width: '100%',
-                height: '100%',
+                height: '500',
                 source: dataAdapter,
                 columnsresize: true,
                 sortable: true,
                 showfilterrow: true,
                 filterable: true,
-                altrows: true,
+                //altrows: true,
+                rowdetails: true,
+                rowdetailstemplate: { rowdetails: "<div id='jqwtableareadetailed' style='width: 100%; height:100%; float: left;'></div>", rowdetailsheight: 100 },
+                initrowdetails: initrowdetails,
                 columns: [
-                  { text: 'Employer Name', datafield: 'Employer Name', filtertype: 'textbox', pinned: true, width:100},
-                  { text: 'Employer Email', datafield: 'Employer Email', filtertype: 'textbox', width:100, pinned: true},
-                  { text: 'Job ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer, pinned: true},
+                  { text: 'Employer Name', datafield: 'Employer Name', filtertype: 'textbox', width:100},
+                  { text: 'Employer Email', datafield: 'Employer Email', filtertype: 'textbox', width:100},
+                  { text: 'Job ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer},
                   { text: 'Job Title', datafield: 'Job Title', filtertype: 'textbox'},
                   { text: 'Job Posted At', datafield: 'Job Posted At', filtertype: 'date'},
                   { text: 'Budget', datafield: 'Budget', filtertype: 'number'},
@@ -248,6 +305,27 @@
     
     drawChart(fromdate,todate, searchkeywords);
     
+    
+    
+    function getCommunicationJSON(job_id)
+    {
+      
+      
+      var params = {"job_id": job_id};
+      
+      var jsonData = $.ajax({
+          url: "jobs_communications_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+              
+      
+      return jsonData;
+    }
+    
+    
 </script>
 
 
@@ -269,7 +347,7 @@
 <div id="reportarea" style="padding: 20px 20px 20px 20px">
 <div id="output"></div>
 <div id="detailsarea" style="width: 100%; height:100%; float: left; padding: 10px 10px 10px 0px"></div>
-<div id="tablearea" style="width: 100%; float: left;"></div>
+<div id="tablearea" style="width: 100%;height: 100% float: left;"></div>
 <div id="jqwtablearea" style="width: 100%; height:100%; float: left;"></div>
 </div>
 
