@@ -113,7 +113,7 @@
                  ]
              }); 
              //$('#detailstable').jqxGrid('autoresizecolumns');         
-	     } else {$('#detailstable').html("No Communications");}	  
+	     } else {$('#detailstable').html("No Details to Display!");}	  
 	   }
           jqwdata = JSON.parse(jsonData);
           jqwdata.shift();
@@ -170,6 +170,9 @@
                 filterable: true,
                 altrows: true,
                 rowdetails: true,
+                showstatusbar: true,
+                statusbarheight: 70,
+                showaggregates: true,
                 rowdetailstemplate: { rowdetails: "<div id='jqwtableareadetailed' style='background-color: #7094B8;width: 100%; padding: 10px 10px 10px 10px; float: left;'><div id='detailstable'></div></div>", rowdetailsheight: 200 },
                 initrowdetails: initrowdetails,
                 columns: [
@@ -178,13 +181,13 @@
                   { text: 'Job ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer},
                   { text: 'Job Title', datafield: 'Job Title', filtertype: 'textbox'},
                   { text: 'Job Posted At', datafield: 'Job Posted At', filtertype: 'date'},
-                  { text: 'Budget', datafield: 'Budget', filtertype: 'number'},
-                  { text: 'Application Count', datafield: 'Application Count', filtertype: 'number', cellclassname: cellclass},
-                  { text: 'Shortlisted Applications', datafield: 'Shortlisted Applications', filtertype: 'number', cellclassname: cellclass},
-                  { text: 'Applicants Msgs', datafield: 'Applicants Msgs', filtertype: 'number', cellclassname: cellclass},
-                  { text: 'Employers Responses', datafield: 'Employers Responses', filtertype: 'number', cellclassname: cellclass},
-                  { text: 'Proposal Count', datafield: 'Proposal Count', filtertype: 'number', cellclassname: cellclass},
-                  { text: 'Accepted Proposals', datafield: 'Accepted Proposals', filtertype: 'number', cellclassname: cellclass},                  
+                  { text: 'Budget', datafield: 'Budget', filtertype: 'number', aggregates: ['min', 'max','sum']},
+                  { text: 'Application Count', datafield: 'Application Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum']},
+                  { text: 'Shortlisted Applications', datafield: 'Shortlisted Applications', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum']},
+                  { text: 'Applicants Msgs', datafield: 'Applicants Msgs', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum']},
+                  { text: 'Employers Responses', datafield: 'Employers Responses', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum']},
+                  { text: 'Proposal Count', datafield: 'Proposal Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum']},
+                  { text: 'Accepted Proposals', datafield: 'Accepted Proposals', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum']},                  
                   { text: 'Status', datafield: 'Status', threestatecheckbox: true, columntype: 'checkbox', filtertype: 'bool'}
                 ]
             });          
