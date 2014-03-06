@@ -30,9 +30,12 @@
                 
       $("#filterButton").jqxButton({ width: '200'});
       $("#filterButton").on('click', function () {          
-                     
-                  drawChart(fromdate,todate,searchkeywords);
-                  $('#detailsarea').html('');
+                  source.localdata  = getData(fromdate,todate,searchkeywords);
+                  
+                  console.log(source.localdata);
+                  //drawChart(fromdate,todate,searchkeywords);
+                  $("#jqwtablearea").jqxGrid('updatebounddata','cells');
+                  
                 });
      var fromdate = $('#fromdate').jqxDateTimeInput('getText');
      var todate = $('#todate').jqxDateTimeInput('getText');
@@ -47,21 +50,46 @@
      }
      
      
-     
-     
-     function drawChart(from,to,searchkeywords) {
-      searchkeywords= $('#searchkeywordsfield').val();
-      var params = {"fromdate": from, "todate": to, "searchkeywords": searchkeywords};
-      var jsonData = $.ajax({
+     function getData(from,to,searchkeywords){
+        searchkeywords= $('#searchkeywordsfield').val();
+        var params = {"fromdate": from, "todate": to, "searchkeywords": searchkeywords};
+        var jsonData = $.ajax({
           url: "jobs_applications_statistics_getdata",
           dataType:"json",
           type: "POST",
           data: JSON.stringify(params),
           async: false
           }).responseText;
-	
-	
-	
+          jqwdata = JSON.parse(jsonData);
+          jqwdata.shift();
+          
+           
+           return  jqwdata;
+          
+     }
+     
+     var source =
+       { localdata : getData(fromdate,todate,searchkeywords),
+              datafields: [ 
+                    { name: 'Employer Name', type: 'string', map: '0'},
+                    { name: 'Employer Email', type: 'string', map: '1'},
+                    { name: 'Job ID', type: 'int', map: '2'},
+                    { name: 'Job Title', type: 'string', map: '3'},
+                    { name: 'Job Posted At', type: 'date', map: '4'},
+                    { name: 'Budget', type: 'float', map: '5'},
+                    { name: 'Application Count', type: 'int', map: '6'},
+                    { name: 'Shortlisted Applications', type: 'int', map: '7'},
+                    { name: 'Applicants Msgs', type: 'int', map: '8'},
+                    { name: 'Employers Responses', type: 'int', map: '9'},
+                    { name: 'Proposal Count', type: 'int', map: '10'},
+                    { name: 'Accepted Proposals', type: 'int', map: '11'},
+                    { name: 'Status', type: 'bool', map: '12'}                   
+                    ],
+                datatype: "array"
+            };
+     function drawChart(from,to,searchkeywords) {
+     
+
 	  var initrowdetails = function (index, parentElement, gridElement, datarecord) {
 	       var cell = $('#jqwtablearea').jqxGrid('getcell', index, 'Job ID');		       	       	       
 	       var jsonstring = getCommunicationJSON(cell.value.toString());		      
@@ -115,49 +143,29 @@
              //$('#detailstable').jqxGrid('autoresizecolumns');         
 	     } else {$('#detailstable').html("No Details to Display!");}	  
 	   }
-          jqwdata = JSON.parse(jsonData);
-          jqwdata.shift();
-	  
+
 	   var cellclass = function (row, columnfield, value) {
                 if (value == 0) {
                     return 'red';
                 }               
                 else return 'green';
             }
-	  var statusclass = function (row, columnfield, value) {
+	   var statusclass = function (row, columnfield, value) {
                 if (value == 'Closed') {
                     return 'red';
                 }               
                 else return 'green';
             }
-	    var source =	  
-            { localdata : jqwdata,
-              datafields: [ 
-                    { name: 'Employer Name', type: 'string', map: '0'},
-                    { name: 'Employer Email', type: 'string', map: '1'},
-                    { name: 'Job ID', type: 'int', map: '2'},
-                    { name: 'Job Title', type: 'string', map: '3'},
-                    { name: 'Job Posted At', type: 'date', map: '4'},
-                    { name: 'Budget', type: 'float', map: '5'},
-                    { name: 'Application Count', type: 'int', map: '6'},
-                    { name: 'Shortlisted Applications', type: 'int', map: '7'},
-                    { name: 'Applicants Msgs', type: 'int', map: '8'},
-                    { name: 'Employers Responses', type: 'int', map: '9'},
-                    { name: 'Proposal Count', type: 'int', map: '10'},
-                    { name: 'Accepted Proposals', type: 'int', map: '11'},
-                    { name: 'Status', type: 'bool', map: '12'}                   
-                    ],
-                datatype: "array"
-            };
+            
             var joblinkrenderer = function (row, column, value) {                                
                 var html = "<a href='http://www.nabbesh.com/admin/contracts/job/"+value+"' target=_blank>"+ value+ "</a>";
                 return html;
             }
-            var items = new Array();
-            items.push('Active');
-            items.push('Closed');
+            
+            
+           var dataAdapter = new $.jqx.dataAdapter(source);
             var theme = 'bootstrap';
-            var dataAdapter = new $.jqx.dataAdapter(source);
+                        
             $("#jqwtablearea").jqxGrid(
             {
                 theme: theme,
@@ -200,129 +208,22 @@
 		    var cell = $('#jqwtablearea').jqxGrid('getcell', row, 'Job ID');	
 		    //drawCommunicationChart(cell.value.toString());
 		});
-      
-      
-      if(jsonData.length <=184){
-        alert('Hoot! No results for your search');
-      }
-      else
-      {
-      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
-	          
-      
-      
-      var dataView = new google.visualization.DataView(data);
-      
 
-      var formatter = new google.visualization.ColorFormat();
-      formatter.addRange(0, 1, '#000000', '#ffecff');
-      formatter.addRange(1, 1000, '#000000', '#3DAA58');
-      formatter.format(data, 7); 
-      formatter.format(data, 7); 
-      var formatter1 = new google.visualization.ColorFormat();
-      formatter1.addRange(0, 1, '#000000', '#ffecff');
-      formatter1.addRange(1, 1000, '#000000', '#3DAA95');
-      formatter1.format(data, 10); 
-      formatter1.format(data, 11); 
-      var formatter3 = new google.visualization.ColorFormat();
-      //formatter3.addRange(null,'Active', '#000000', '#ffecff');
-      formatter3.addRange('Closed',null, '#fff', '#555555');
-      formatter3.format(data, 12); 
-      
-      var formatter2 = new google.visualization.PatternFormat('<a href="http://www.nabbesh.com/admin/contracts/job/{0}"  target="_blank">{0}</a>');
-      formatter2.format(data, [2],2);
-            
-      var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
-     
-      function selectHandler() {
-        var selection = tablearea.getSelection();
-        var item = selection[0];
-        var str = data.getValue(item.row, 2);
-    
-        drawCommunicationChart(str.toString());        
-       
-      }
-      
-      google.visualization.events.addListener(tablearea, 'select', selectHandler);
-      
-      var options = {'showRowNumber': true, 'allowHtml': true, 'height': '500px'};
-      
-      dataView.setColumns([0,1,2,3,4,5,6,8,9,10,11,12]);
-      //tablearea.draw(dataView,options);
-      
- 
-     }
-      // Apply formatter to second column
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    function drawCommunicationChart(job_id)
-    {
-      //alert(job_id);
-      var params = {"job_id": job_id};
-      var jsonData = $.ajax({
-          url: "jobs_communications_getdata",
-          dataType:"json",
-          type: "POST",
-          data: JSON.stringify(params),
-          async: false
-          }).responseText;
-        
-      
-       if(jsonData.length <=120){
-          $('#detailsarea').html('');
-      }
-      else
-      {
-        //alert(jsonData); 
-        var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));               
-        var formatter1 = new google.visualization.ColorFormat();
-        formatter1.addRange(0, 1, '#000000', '#ffecff');
-        formatter1.addRange(1, 1000, '#000000', '#3DAA95');
-        formatter1.format(data, 4); 
-        formatter1.format(data, 5); 
-        formatter1.format(data, 6); 
-        formatter1.addRange(0, 1, '#000000', '#ffecff');
-        formatter1.addRange(1, 1000, '#000000', '#3DAA95');
-        formatter1.format(data, 3); 
-        var formatter2 = new google.visualization.PatternFormat('<a href="http://www.nabbesh.com/contracts/workstream/{0}"  target="_blank">Go To Workflow:{0}</a>');
-        formatter2.format(data, [2],2);
-        
-        
-        var detailsarea = new google.visualization.Table(document.getElementById('detailsarea'));
-        detailsarea.draw(data,{allowHtml: true});
-        
-      
-      }
-      
-    }
-    
+
     drawChart(fromdate,todate, searchkeywords);
-    
-    
-    
+
     function getCommunicationJSON(job_id)
     {
-      
-      
-      var params = {"job_id": job_id};
-      
+      var params = {"job_id": job_id};      
       var jsonData = $.ajax({
           url: "jobs_communications_getdata",
           dataType:"json",
           type: "POST",
           data: JSON.stringify(params),
           async: false
-          }).responseText;
-              
-      
+          }).responseText;                   
       return jsonData;
     }
     
@@ -347,8 +248,7 @@
 
 <div id="reportarea" style="padding: 20px 20px 20px 20px">
 <div id="output"></div>
-<div id="detailsarea" style="width: 100%; height:100%; float: left; padding: 10px 10px 10px 0px"></div>
-<div id="tablearea" style="width: 100%;height: 100% float: left;"></div>
+
 <div id="jqwtablearea" style="width: 100%; height:100%; float: left;"></div>
 </div>
 
@@ -367,6 +267,7 @@
         }
         .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
             color: black;
+            font-size: 16;
             background-color: #3DAA95;
         }
         .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
