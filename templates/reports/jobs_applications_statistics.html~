@@ -184,7 +184,7 @@
                 showstatusbar: true,
                 statusbarheight: 70,
                 showaggregates: true,
-                rowdetailstemplate: { rowdetails: "<div id='jqwtableareadetailed' style='background-color:#E6EBF0;width: 100%; padding: 10px 10px 10px 10px; float: left;'><div id='detailstable'></div></div>", rowdetailsheight: 200 },
+                rowdetailstemplate: { rowdetails: "<div id='jqwtableareadetailed' style='background-color:#CCD6E0;width: 100%; padding: 10px 10px 10px 10px; float: left;'><div id='detailstable'></div></div>", rowdetailsheight: 200 },
                 initrowdetails: initrowdetails,
                 columns: [
                   { text: 'Name', datafield: 'Employer Name', filtertype: 'textbox', width:100, columngroup: 'EmployerDetails'},
@@ -196,7 +196,7 @@
                   { text: 'Status', datafield: 'Status', threestatecheckbox: true, columntype: 'checkbox', width:50, filtertype: 'bool', columngroup: 'JobDetails'},
                   { text: 'Count', datafield: 'Application Count', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'ApplicantsInformation'},
                   { text: 'Shortlisted', datafield: 'Shortlisted Applications', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'ApplicantsInformation'},
-                  { text: 'Msgs', datafield: 'Applicants Msgs', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'ApplicantsInformation'},
+                  //{ text: 'Msgs', datafield: 'Applicants Msgs', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'ApplicantsInformation'},
                   { text: 'Emp Resp', datafield: 'Employers Responses', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'ApplicantsInformation'},
                   { text: 'Count', datafield: 'Proposal Count', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'Proposals'},
                   { text: 'Accepted', datafield: 'Accepted Proposals', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'Proposals'}
