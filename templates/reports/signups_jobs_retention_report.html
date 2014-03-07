@@ -78,7 +78,7 @@
       var chart = new google.visualization.LineChart(document.getElementById('visualization'));
       
       
-      
+      //console.log(dataarray);
       var flippedarray = [];
       for(var col_i =0; col_i<dataarray[0].length; col_i++){
          var row=[];
@@ -92,7 +92,7 @@
          flippedarray.push(row);
          }
        }
-
+       //console.log(flippedarray)
        var visdata = new google.visualization.arrayToDataTable(flippedarray); 
       var dataView1 = new google.visualization.DataView(visdata); 
       dataView1.setColumns([0,2,3,4,5,6,7,8,9,10,11,12,13]);

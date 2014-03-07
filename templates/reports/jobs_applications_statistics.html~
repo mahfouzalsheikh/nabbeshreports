@@ -162,7 +162,10 @@
                 return html;
             }
             
-            
+            var emillinkrenderer = functionl (row, column, value) {                                
+                var html = "<a href='mailto:"+value+"?Subject=Hello%20again' target=_top>"+value+"</a>";
+                return html;
+            }
            var dataAdapter = new $.jqx.dataAdapter(source);
             var theme = 'bootstrap';
                         
@@ -188,8 +191,8 @@
                   { text: 'Employer Email', datafield: 'Employer Email', filtertype: 'textbox', width:100},
                   { text: 'Job ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer},
                   { text: 'Job Title', datafield: 'Job Title', filtertype: 'textbox'},
-                  { text: 'Job Posted At', datafield: 'Job Posted At', filtertype: 'date'},
-                  { text: 'Budget', datafield: 'Budget', filtertype: 'number', aggregates: ['min', 'max','sum']},
+                  { text: 'Job Posted At', datafield: 'Job Posted At', filtertype: 'date',cellsformat: 'dd-MM-yy HH:m'},
+                  { text: 'Budget', datafield: 'Budget', filtertype: 'number',cellsformat: 'c2', aggregates: ['min', 'max','sum']},
                   { text: 'Application Count', datafield: 'Application Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum']},
                   { text: 'Shortlisted Applications', datafield: 'Shortlisted Applications', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum']},
                   { text: 'Applicants Msgs', datafield: 'Applicants Msgs', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum']},
