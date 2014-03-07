@@ -75,7 +75,28 @@
       
       tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});
           
+      var chart = new google.visualization.LineChart(document.getElementById('visualization'));
+      
+      
+      
+      var flippedarray = [];
+      for(var col_i =0; col_i<dataarray[0].length; col_i++){
+         var row=[];
+         if(col_i != 1) {
+         for(var row_i =0; row_i<dataarray.length; row_i++){ 
+          //console.log(dataarray[row_i][col_i]);
+          row.push(dataarray[row_i][col_i]);
+          
+         }
+         
+         flippedarray.push(row);
+         }
+       }
 
+       var visdata = new google.visualization.arrayToDataTable(flippedarray); 
+      var dataView1 = new google.visualization.DataView(visdata); 
+      dataView1.setColumns([0,2,3,4,5,6,7,8,9,10,11,12,13]);
+      chart.draw(dataView1, {curveType: "function",width: '100%', height: 600});
       
     }
     
@@ -130,7 +151,7 @@
         </div>
 <div style="padding: 20px 20px 20px 20px">
 <div><h2><center>Percentage Of Users Who Posted a Job During</center></h2></div>
-
+<div id="visualization" style="width: 100%; height:600px; float: left;"></div>
 <div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
 
 </div>
