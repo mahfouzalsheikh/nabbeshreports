@@ -140,7 +140,7 @@
             </div>
         </div>
 <div style="padding: 20px 20px 20px 20px">
-<div><h2><center>Percentage Of Users Who Applied For a Job During</center></h2></div>
+<div><h2><center>Percentage of Users Who Applied For a Job During</center></h2></div>
 <div id="visualization" style="width: 100%; height:600px; float: left;"></div>
 <div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
 
