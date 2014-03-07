@@ -162,7 +162,7 @@
                 return html;
             }
             
-            var emillinkrenderer = functionl (row, column, value) {                                
+            var emillinkrenderer = function (row, column, value) {                                
                 var html = "<a href='mailto:"+value+"?Subject=Hello%20again' target=_top>"+value+"</a>";
                 return html;
             }
@@ -188,7 +188,7 @@
                 initrowdetails: initrowdetails,
                 columns: [
                   { text: 'Employer Name', datafield: 'Employer Name', filtertype: 'textbox', width:100},
-                  { text: 'Employer Email', datafield: 'Employer Email', filtertype: 'textbox', width:100},
+                  { text: 'Employer Email', datafield: 'Employer Email', filtertype: 'textbox', width:100, cellsrenderer: emillinkrenderer},
                   { text: 'Job ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer},
                   { text: 'Job Title', datafield: 'Job Title', filtertype: 'textbox'},
                   { text: 'Job Posted At', datafield: 'Job Posted At', filtertype: 'date',cellsformat: 'dd-MM-yy HH:m'},
