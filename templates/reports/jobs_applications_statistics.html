@@ -187,10 +187,10 @@
                 rowdetailstemplate: { rowdetails: "<div id='jqwtableareadetailed' style='background-color: #7094B8;width: 100%; padding: 10px 10px 10px 10px; float: left;'><div id='detailstable'></div></div>", rowdetailsheight: 200 },
                 initrowdetails: initrowdetails,
                 columns: [
-                  { text: 'Employer Name', datafield: 'Employer Name', filtertype: 'textbox', width:100},
-                  { text: 'Employer Email', datafield: 'Employer Email', filtertype: 'textbox', width:100},
+                  { text: 'Employer Name', datafield: 'Employer Name', filtertype: 'textbox'},
+                  { text: 'Employer Email', datafield: 'Employer Email', filtertype: 'textbox'},
                   { text: 'Job ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer},
-                  { text: 'Job Title', datafield: 'Job Title', filtertype: 'textbox'},
+                  { text: 'Job Title', datafield: 'Job Title', filtertype: 'textbox', width:150},
                   { text: 'Job Posted At', datafield: 'Job Posted At', filtertype: 'date',cellsformat: 'dd-MM-yy HH:m'},
                   { text: 'Budget', datafield: 'Budget', filtertype: 'number',cellsformat: 'c2', aggregates: ['min', 'max','sum']},
                   { text: 'Application Count', datafield: 'Application Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum']},
