@@ -78,7 +78,7 @@
       var chart = new google.visualization.LineChart(document.getElementById('visualization'));
       
       
-      console.log(dataarray);
+      //console.log(dataarray);
       var flippedarray = [];
       for(var col_i =0; col_i<dataarray[0].length; col_i++){
          var row=[];
