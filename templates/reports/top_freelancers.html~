@@ -48,7 +48,7 @@
       
       var source = ["10", "100","500", "1000"]; 
       
-     $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0}); 
+     $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:1}); 
      
      var limit = "100";
      

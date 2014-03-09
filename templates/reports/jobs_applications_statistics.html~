@@ -184,6 +184,7 @@
                 showstatusbar: true,
                 statusbarheight: 70,
                 showaggregates: true,
+                groupable: true,
                 rowdetailstemplate: { rowdetails: "<div id='jqwtableareadetailed' style='background-color:#CCD6E0;width: 100%; padding: 10px 10px 10px 10px; float: left;'><div id='detailstable'></div></div>", rowdetailsheight: 200 },
                 initrowdetails: initrowdetails,
                 columns: [
