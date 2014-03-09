@@ -50,7 +50,7 @@
       
      $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0}); 
      
-     var limit = "10";
+     var limit = "100";
      
      function getData(priority,limit){
         var params = {"priority": priority, "limit": limit};
