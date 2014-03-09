@@ -1,4 +1,4 @@
-[["Id","Full Name", "Email", "Homepuser","Photo","Country","Skill Count", "Application Count"],
-{% for user in users %}[{{ user.0 }},"{{ user.1 }}","{{ user.2 }}","{{ user.3 }}","{{ user.4 }}","{{ user.5 }}",{{ user.6 }}, {{ user.7 }}]{% if not forloop.last %},{% endif %}{% endfor %}
+[["Id","Full Name", "Email", "Homepuser","Photo","Country","Profile Completion","Skill Count", "Application Count"],
+{% for user in users %}[{{ user.0 }},"{{ user.1 }}","{{ user.2 }}","{{ user.3 }}","{{ user.4 }}","{{ user.5 }}",{{ user.6 }}, {{ user.7 }}, {{ user.8 }}]{% if not forloop.last %},{% endif %}{% endfor %}
 ]
 

@@ -507,13 +507,17 @@ def top_freelancers_getdata(request):
         #keywords = objs['searchkeywords']
         sortsql = ""
         if priority== "Skills Count":
-            sortsql= " order by skills_count desc"
+            sortsql= " order by skillscount desc"
+        elif priority=="Profile Completion":
+            sortsql= " order by profilecompletion desc"
         else:
-            sortsql= " order by application_count desc"
+            sortsql= " order by applicationcount  desc"    
 
         #print sortsql   
-        sql = ("select u1.id,au.first_name || ' ' || au.last_name as fullname , au.email, 'http://www.nabbesh.com/profile/' || u1.id as homepage,  case when (u1.photo <>'' and u1.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u1.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as photo,u1.country, total.skills_count, total.application_count  from users u1 inner join auth_user au on  u1.django_user_id=au.id   inner join  (select u.id, count(distinct su.skill_id) skills_count, count(distinct ca.id) as application_count  from users u  inner join skills_users su on su.id_user=u.id left outer join contracts_application ca on ca.applicant_id=u.id  group  by u.id "+sortsql+" limit "+ limit+") total on total.id=u1.id;")
+        sql = ("select u.id,au.first_name || ' ' || au.last_name as fullname,au.email, 'http://www.nabbesh.com/profile/' || u.id as homepage, case when (u.photo <>'' and u.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/' || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as photo, usercountry, round(((addedskills::float+hasphoto::float+hasbio::float+employment::float+education::float+visual::float)*100/6)::numeric,0) as profilecompletion,skillscount, applicationcount from users u inner join auth_user au on u.django_user_id=au.id inner join ( select u.id as userid ,u.country as usercountry, case when count(distinct su.skill_id)>0 then 1 else 0 end as addedskills, count(distinct su.skill_id) as skillscount, case when (u.photo is not null and u.photo<>'') then 1 else 0 end as hasphoto, case when (u.bio is not null and u.bio <>'') then 1 else 0 end as hasbio, case when count(distinct ce.id)> 0 then 1 else 0 end as employment, case when count(distinct edu.id)>0 then 1 else 0 end as education, case when count(distinct ct.id)>0 then 1 else 0 end as visual, count(distinct ca.id) as applicationcount from users u inner join auth_user au on u.django_user_id=au.id left outer join skills_users su on su.id_user=u.id left outer join education edu on edu.id_user=u.id inner join canvas_box cb on cb.profile_id=u.id left outer join canvas_employment ce on ce.box_id=cb.id left outer join canvas_thumbnail ct on ct.box_id=cb.id inner join contracts_application ca on ca.applicant_id=u.id group by u.id) total on total.userid=u.id "+ sortsql + " limit "+ limit)
         
+        
+        print sql
         results = customQuery(sql,0)
  	#print results	
         c = Context({'users': results})
