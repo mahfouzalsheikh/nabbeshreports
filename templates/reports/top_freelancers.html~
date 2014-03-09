@@ -108,6 +108,8 @@
                 filterable: true,
                 altrows: true,
                 rowsheight: 75,
+                groupable: true,
+                selectionmode: 'checkbox',
            
                 
                 columns: [
