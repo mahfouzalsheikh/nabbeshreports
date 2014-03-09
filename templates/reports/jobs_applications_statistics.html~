@@ -182,8 +182,9 @@
                 altrows: true,
                 rowdetails: true,
                 showstatusbar: true,
-                statusbarheight: 70,
+                statusbarheight: 90,
                 showaggregates: true,
+                selectionmode: 'checkbox',
                 
                 rowdetailstemplate: { rowdetails: "<div id='jqwtableareadetailed' style='background-color:#CCD6E0;width: 100%; padding: 10px 10px 10px 10px; float: left;'><div id='detailstable'></div></div>", rowdetailsheight: 200 },
                 initrowdetails: initrowdetails,
@@ -193,14 +194,14 @@
                   { text: 'ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer,width: 45, columngroup: 'JobDetails'},
                   { text: 'Title', datafield: 'Job Title', filtertype: 'textbox', columngroup: 'JobDetails'},
                   { text: 'Created At', datafield: 'Job Posted At', filtertype: 'date', width:100,cellsformat: 'dd-MM-yy HH:m', columngroup: 'JobDetails'},
-                  { text: 'Budget', datafield: 'Budget', filtertype: 'number', width:90,cellsformat: 'c2', aggregates: ['min', 'max','sum'], columngroup: 'JobDetails'},
+                  { text: 'Budget', datafield: 'Budget', filtertype: 'number', width:90,cellsformat: 'c2', aggregates: ['min', 'max','sum','avg'], columngroup: 'JobDetails'},
                   { text: 'Status', datafield: 'Status', threestatecheckbox: true, columntype: 'checkbox', width:50, filtertype: 'bool', columngroup: 'JobDetails'},
-                  { text: 'Count', datafield: 'Application Count', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'ApplicantsInformation'},
-                  { text: 'Shortlisted', datafield: 'Shortlisted Applications', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'ApplicantsInformation'},
+                  { text: 'Count', datafield: 'Application Count', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'ApplicantsInformation'},
+                  { text: 'Shortlisted', datafield: 'Shortlisted Applications', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'ApplicantsInformation'},
                   //{ text: 'Msgs', datafield: 'Applicants Msgs', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'ApplicantsInformation'},
-                  { text: 'Emp Resp', datafield: 'Employers Responses', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'ApplicantsInformation'},
-                  { text: 'Count', datafield: 'Proposal Count', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'Proposals'},
-                  { text: 'Accepted', datafield: 'Accepted Proposals', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'Proposals'}
+                  { text: 'Emp Resp', datafield: 'Employers Responses', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'ApplicantsInformation'},
+                  { text: 'Count', datafield: 'Proposal Count', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'Proposals'},
+                  { text: 'Accepted', datafield: 'Accepted Proposals', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'Proposals'}
 
                 ],
                 columngroups: 
