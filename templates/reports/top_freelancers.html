@@ -64,10 +64,17 @@
           data: JSON.stringify(params),
           async: false
           }).responseText;
-          console.log(jsonData);
-          jqwdata = JSON.parse(jsonData);
-          jqwdata.shift();                     
-          return  jqwdata;
+          if(jsonData.length<109){
+              alert("No Results! try to change search criterias!");
+              return [];
+          }else
+          {
+            console.log(jsonData);
+            jqwdata = JSON.parse(jsonData);
+            jqwdata.shift(); 
+
+            return  jqwdata;
+          }
                
      }
      
