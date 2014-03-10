@@ -37,7 +37,7 @@
      
      var searchkeywords= $('#searchkeywordsfield').val();
      
-     $("#searchkeywordsfield").jqxInput({placeHolder: "Keywords", height: 25, width: 200, minLength: 1});  
+     $("#searchkeywordsfield").jqxInput({placeHolder: "search by skill", height: 25, width: 200, minLength: 1});  
      $('#limitmenu').on('select', function (event) {
                     var args = event.args;
                     if (args != undefined) {
