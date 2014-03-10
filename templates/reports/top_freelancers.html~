@@ -67,12 +67,14 @@
           if(jsonData.length<109){
               alert("No Results! try to change search criterias!");
               return [];
-          }
-          console.log(jsonData);
-          jqwdata = JSON.parse(jsonData);
-          jqwdata.shift(); 
+          }else
+          {
+            console.log(jsonData);
+            jqwdata = JSON.parse(jsonData);
+            jqwdata.shift(); 
 
-          return  jqwdata;
+            return  jqwdata;
+          }
                
      }
      

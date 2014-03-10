@@ -60,12 +60,16 @@
           data: JSON.stringify(params),
           async: false
           }).responseText;
-          jqwdata = JSON.parse(jsonData);
-          jqwdata.shift();
-          
-           
-           return  jqwdata;
-          
+          //alert(jsonData.length);
+          if(jsonData.length<227){
+              alert("No Results! try to change search criterias!");
+              return [];
+          }else
+          {
+             jqwdata = JSON.parse(jsonData);
+             jqwdata.shift();          
+             return  jqwdata;
+          }
      }
      
      var source =
