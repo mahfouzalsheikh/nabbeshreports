@@ -35,7 +35,9 @@
      
      var priority="Profile Completion";
      
+     var searchkeywords= $('#searchkeywordsfield').val();
      
+     $("#searchkeywordsfield").jqxInput({placeHolder: "Keywords", height: 25, width: 200, minLength: 1});  
      $('#limitmenu').on('select', function (event) {
                     var args = event.args;
                     if (args != undefined) {
@@ -53,7 +55,8 @@
      var limit = "100";
      
      function getData(priority,limit){
-        var params = {"priority": priority, "limit": limit};
+        searchkeywords= $('#searchkeywordsfield').val();
+        var params = {"priority": priority, "limit": limit, "searchkeywords": searchkeywords};
         var jsonData = $.ajax({
           url: "top_freelancers_getdata",
           dataType:"json",
@@ -141,7 +144,7 @@
                    <tr>
                     <td>Limit: </td><td><div id="limitmenu"></div><td></td></td>
                    </tr>
-                   
+                   <tr><td>Search:</td><td><input type="text" id="searchkeywordsfield"/></td></tr>
                    <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
                 </table>   
             </div>
