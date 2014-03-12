@@ -75,20 +75,21 @@
      var source =
        { localdata : getData(fromdate,todate,searchkeywords),
               datafields: [ 
-                    { name: 'Employer Name', type: 'string', map: '0'},
-                    { name: 'Employer Email', type: 'string', map: '1'},
-                    { name: 'Employer Phone', type: 'string', map: '2'},                    
-                    { name: 'Job ID', type: 'int', map: '3'},
-                    { name: 'Job Title', type: 'string', map: '4'},
-                    { name: 'Job Posted At', type: 'date', map: '5'},
-                    { name: 'Budget', type: 'float', map: '6'},
-                    { name: 'Application Count', type: 'int', map: '7'},
-                    { name: 'Shortlisted Applications', type: 'int', map: '8'},
-                    { name: 'Applicants Msgs', type: 'int', map: '9'},
-                    { name: 'Employers Responses', type: 'int', map: '10'},
-                    { name: 'Proposal Count', type: 'int', map: '11'},
-                    { name: 'Accepted Proposals', type: 'int', map: '12'},
-                    { name: 'Status', type: 'bool', map: '12'}                   
+                    { name: 'Employer Id', type: 'int', map: '0'},
+                    { name: 'Employer Name', type: 'string', map: '1'},
+                    { name: 'Employer Email', type: 'string', map: '2'},
+                    { name: 'Employer Phone', type: 'string', map: '3'},                    
+                    { name: 'Job ID', type: 'int', map: '4'},
+                    { name: 'Job Title', type: 'string', map: '5'},
+                    { name: 'Job Posted At', type: 'date', map: '6'},
+                    { name: 'Budget', type: 'float', map: '7'},
+                    { name: 'Application Count', type: 'int', map: '8'},
+                    { name: 'Shortlisted Applications', type: 'int', map: '9'},
+                    { name: 'Applicants Msgs', type: 'int', map: '10'},
+                    { name: 'Employers Responses', type: 'int', map: '11'},
+                    { name: 'Proposal Count', type: 'int', map: '12'},
+                    { name: 'Accepted Proposals', type: 'int', map: '13'},
+                    { name: 'Status', type: 'bool', map: '14'}                   
                     ],
                 datatype: "array"
             };
@@ -177,6 +178,10 @@
                 var html = "<a href='mailto:"+value+"?Subject=Hello%20again' target=_top>"+value+"</a>";
                 return html;
             }
+             var profileidrenderer = function (row, column, value) {                                
+                  var html = "<a href='http://www.nabbesh.com/profile/"+value+"' target=_blank>"+ value+ "</a>";
+                  return html;
+                } 
            var dataAdapter = new $.jqx.dataAdapter(source);
             var theme = 'bootstrap';
                         
@@ -199,7 +204,9 @@
                 
                 rowdetailstemplate: { rowdetails: "<div id='jqwtableareadetailed' style='background-color:#CCD6E0;width: 100%; padding: 10px 10px 10px 10px; float: left;'><div id='detailstable'></div></div>", rowdetailsheight: 200 },
                 initrowdetails: initrowdetails,
+
                 columns: [
+                  { text: 'ID', datafield: 'Employer Id', filtertype: 'textbox', width:50, columngroup: 'EmployerDetails'},
                   { text: 'Name', datafield: 'Employer Name', filtertype: 'textbox', width:100, columngroup: 'EmployerDetails'},
                   { text: 'Email', datafield: 'Employer Email', filtertype: 'textbox', width:150, columngroup: 'EmployerDetails'},
                   { text: 'Phone', datafield: 'Employer Phone', filtertype: 'textbox', width:120, columngroup: 'EmployerDetails'},
