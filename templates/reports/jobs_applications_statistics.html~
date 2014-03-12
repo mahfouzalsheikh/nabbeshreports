@@ -60,8 +60,8 @@
           data: JSON.stringify(params),
           async: false
           }).responseText;
-          //alert(jsonData.length);
-          if(jsonData.length<236){
+          alert(jsonData.length);
+          if(jsonData.length<241){
               alert("No Results! try to change search criterias!");
               return [];
           }else
@@ -206,7 +206,7 @@
                 initrowdetails: initrowdetails,
 
                 columns: [
-                  { text: 'ID', datafield: 'Employer Id', filtertype: 'textbox', width:50, columngroup: 'EmployerDetails'},
+                  { text: 'ID', datafield: 'Employer Id', filtertype: 'textbox', width:50, columngroup: 'EmployerDetails', cellsrenderer:profileidrenderer},
                   { text: 'Name', datafield: 'Employer Name', filtertype: 'textbox', width:100, columngroup: 'EmployerDetails'},
                   { text: 'Email', datafield: 'Employer Email', filtertype: 'textbox', width:150, columngroup: 'EmployerDetails'},
                   { text: 'Phone', datafield: 'Employer Phone', filtertype: 'textbox', width:120, columngroup: 'EmployerDetails'},
