@@ -61,7 +61,7 @@
           async: false
           }).responseText;
           //alert(jsonData.length);
-          if(jsonData.length<227){
+          if(jsonData.length<236){
               alert("No Results! try to change search criterias!");
               return [];
           }else
@@ -98,8 +98,8 @@
 	  var initrowdetails = function (index, parentElement, gridElement, datarecord) {
 	       var cell = $('#jqwtablearea').jqxGrid('getcell', index, 'Job ID');		       	       	       
 	       var jsonstring = getCommunicationJSON(cell.value.toString());		      
-	       
-	     if(jsonstring.length>115){
+	     //alert(jsonstring.length);
+	     if(jsonstring.length>125){
 	       detailsjqwdata = JSON.parse(jsonstring);
 	       detailsjqwdata.shift();
 	       
@@ -107,6 +107,10 @@
                   var html = "<a href='http://www.nabbesh.com/contracts/workstream/"+value+"' target=_blank>Go To Workflow:"+ value+ "</a>";
                   return html;
                 }
+                var profileidrenderer = function (row, column, value) {                                
+                  var html = "<a href='http://www.nabbesh.com/profile/"+value+"' target=_blank>"+ value+ "</a>";
+                  return html;
+                } 
 	       
 	       var source =	  
                { localdata : detailsjqwdata,
@@ -136,7 +140,7 @@
 
 
                  columns: [
-                   { text: 'User Id', datafield: 'User Id', filtertype: 'number', width:50},
+                   { text: 'User Id', datafield: 'User Id', filtertype: 'number', width:50, cellsrenderer:profileidrenderer},
                    { text: 'Email', datafield: 'Email', filtertype: 'textbox', width:200},
                    { text: 'Phone', datafield: 'Phone', filtertype: 'textbox', width:120},
                    { text: 'Workflow', datafield: 'Application ID', filtertype: 'number', width:150, cellsrenderer: applinkrenderer},
