@@ -27,6 +27,8 @@ from oauth2client.file import Storage
 from oauth2client.tools import run
 from apiclient.errors import HttpError
 from oauth2client.client import AccessTokenRefreshError
+import cv2
+import urllib
 
 
 # Declare constants and set configuration values
@@ -178,7 +180,9 @@ def freelancersgender_report(request):
 def freelancersgender_getdata(request):
     if request.method == 'POST':
         #objs = simplejson.loads(request.raw_post_data)
-
+        
+        detect("https://s3.amazonaws.com/fideloper.com/faces_orig.jpg")
+        
         sql = "select usercount, case gender when 0 then 'Male' when 1 then 'Female' end from \
          (select count(*) as usercount, gender from users where gender < 2 group by gender) total;"
         results = customQuery(sql,0)
@@ -376,18 +380,18 @@ def jobs_applications_statistics_getdata(request):
         
         keywords = objs['searchkeywords']
         
-       
+        
      
         searchsql = ""
         if keywords <> "":
             searchsql = "and (lower(substring(cj.title,1,40)) like '%%" +keywords.lower() + "%%' or lower(substring(au.email,1,40)) like '%%" +keywords.lower() + "%%' or lower(substring(au.first_name || ' ' || au.last_name,1,40)) like '%%" +keywords.lower() + "%%')"
        
        
-        sql = ("select au.first_name || ' ' || au.last_name as employer_name,au.email as Employer_Email, cj.id as job_id,substring(cj.title,1,200) as job_title,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16) as created_at, COALESCE(cj.budget, 0) ,count(distinct ca.id) as application_count, count( distinct case when ca.shortlisted=true then ca.id else null end) as shortlisted, sum(case when cm.from_applicant=true then 1 else 0 end) as applicant_messages, sum(case when cm.from_applicant=false then 1 else 0 end) as employer_responses,count(distinct cp.message_ptr_id) as proposal_count, sum(case when cp.status=4 then 1 else 0 end) as acceptedproposal_count, case when cj.status=1 then True when cj.status=2 then False end as JobStatus from contracts_job cj left outer join contracts_application ca   on cj.id=ca.job_id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id where created_at>='"+t1+"' and created_at<='"+t2+"' "+searchsql+" group by employer_name,cj.id,job_title,cj.created_at,au.email order by cj.created_at desc;")
+        sql = ("select au.first_name || ' ' || au.last_name as employer_name,au.email as Employer_Email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile as phone, cj.id as job_id,substring(cj.title,1,200) as job_title,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16) as created_at, COALESCE(cj.budget, 0) ,count(distinct ca.id) as application_count, count( distinct case when ca.shortlisted=true then ca.id else null end) as shortlisted, sum(case when cm.from_applicant=true then 1 else 0 end) as applicant_messages, sum(case when cm.from_applicant=false then 1 else 0 end) as employer_responses,count(distinct cp.message_ptr_id) as proposal_count, sum(case when cp.status=4 then 1 else 0 end) as acceptedproposal_count, case when cj.status=1 then True when cj.status=2 then False end as JobStatus from contracts_job cj left outer join contracts_application ca   on cj.id=ca.job_id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id where created_at>='"+t1+"' and created_at<='"+t2+"' "+searchsql+" group by employer_name,cj.id,job_title,cj.created_at,au.email,phone order by cj.created_at desc;")
         
-       
+        print sql
         results = customQuery(sql,1)
-        print sql                      
+                              
         c = Context({'statistics': results})
    
         return HttpResponse(render_to_string('jobs_applications_statistics.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
@@ -402,7 +406,7 @@ def jobs_communications_getdata(request):
         job_id = objs['job_id']
         #print job_id;
         
-        sql = ("select u.id,au.email,ca.id as application_id,case when ca.shortlisted=true then 1 else 0 end as shortlisted,count(cp.message_ptr_id) as proposals, sum(case when cp.status=4 then 1 else 0 end) as acceptedproposal_count, sum(case when cm.from_applicant=false then 1 else 0 end) as employer_responses from contracts_application ca inner join users u on u.id=ca.applicant_id inner join auth_user au on u.django_user_id=au.id inner join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id where job_id= "+job_id+" group by u.id,au.email, ca.id,shortlisted ;")
+        sql = ("select u.id,au.email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile as phone,ca.id as application_id,case when ca.shortlisted=true then 1 else 0 end as shortlisted,count(cp.message_ptr_id) as proposals, sum(case when cp.status=4 then 1 else 0 end) as acceptedproposal_count, sum(case when cm.from_applicant=false then 1 else 0 end) as employer_responses from contracts_application ca inner join users u on u.id=ca.applicant_id inner join auth_user au on u.django_user_id=au.id inner join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id where job_id= "+job_id+" group by u.id,au.email, phone, ca.id,shortlisted ;")
         
         print sql
         results = customQuery(sql,1)
@@ -515,7 +519,7 @@ def top_freelancers_getdata(request):
             sortsql= " order by applicationcount  desc"    
 
         #print sortsql   
-        sql = ("select distinct u.id,au.first_name || ' ' || au.last_name as fullname,au.email, case when (u.photo <>'' and u.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/' || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as photo, usercountry, round(((addedskills::float+hasphoto::float+hasbio::float+employment::float+education::float+visual::float)*100/6)::numeric,0) as profilecompletion,skillscount, applicationcount from users u inner join auth_user au on u.django_user_id=au.id inner join ( select u.id as userid ,u.country as usercountry, case when count(distinct su.skill_id)>0 then 1 else 0 end as addedskills, count(distinct su.skill_id) as skillscount, case when (u.photo is not null and u.photo<>'') then 1 else 0 end as hasphoto, case when (u.bio is not null and u.bio <>'') then 1 else 0 end as hasbio, case when count(distinct ce.id)> 0 then 1 else 0 end as employment, case when count(distinct edu.id)>0 then 1 else 0 end as education, case when count(distinct ct.id)>0 then 1 else 0 end as visual, count(distinct ca.id) as applicationcount from users u inner join auth_user au on u.django_user_id=au.id left outer join skills_users su on su.id_user=u.id left outer join education edu on edu.id_user=u.id inner join canvas_box cb on cb.profile_id=u.id left outer join canvas_employment ce on ce.box_id=cb.id left outer join canvas_thumbnail ct on ct.box_id=cb.id inner join contracts_application ca on ca.applicant_id=u.id group by u.id) total on total.userid=u.id inner join skills_users su1 on su1.id_user=u.id inner join skills_skill ss1 on ss1.id=su1.skill_id where lower(ss1.name) like '%%"+searchaql +"%%'"+ sortsql + " limit "+ limit)
+        sql = ("select distinct u.id,au.first_name || ' ' || au.last_name as fullname,au.email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile, case when (u.photo <>'' and u.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/' || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as photo, usercountry, round(((addedskills::float+hasphoto::float+hasbio::float+employment::float+education::float+visual::float)*100/6)::numeric,0) as profilecompletion,skillscount, applicationcount from users u inner join auth_user au on u.django_user_id=au.id inner join ( select u.id as userid ,u.country as usercountry, case when count(distinct su.skill_id)>0 then 1 else 0 end as addedskills, count(distinct su.skill_id) as skillscount, case when (u.photo is not null and u.photo<>'') then 1 else 0 end as hasphoto, case when (u.bio is not null and u.bio <>'') then 1 else 0 end as hasbio, case when count(distinct ce.id)> 0 then 1 else 0 end as employment, case when count(distinct edu.id)>0 then 1 else 0 end as education, case when count(distinct ct.id)>0 then 1 else 0 end as visual, count(distinct ca.id) as applicationcount from users u inner join auth_user au on u.django_user_id=au.id left outer join skills_users su on su.id_user=u.id left outer join education edu on edu.id_user=u.id inner join canvas_box cb on cb.profile_id=u.id left outer join canvas_employment ce on ce.box_id=cb.id left outer join canvas_thumbnail ct on ct.box_id=cb.id inner join contracts_application ca on ca.applicant_id=u.id group by u.id) total on total.userid=u.id inner join skills_users su1 on su1.id_user=u.id inner join skills_skill ss1 on ss1.id=su1.skill_id where lower(ss1.name) like '%%"+searchaql +"%%'"+ sortsql + " limit "+ limit)
         
         
         print sql
@@ -548,7 +552,7 @@ def top_employers_getdata(request):
             sortsql= " order by accepted_proposals_count"
 
         
-        sql = ("select u.id, au.first_name || ' ' || au.last_name as fullname , au.email, 'http://www.nabbesh.com/profile/' || u.id as homepage, case when (u.photo <>'' and u.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as photo, u.country, count(distinct cj.id) as jobs_count, count(distinct applications.proposal_id) as accepted_proposals_count from users u inner join auth_user au on u.django_user_id=au.id  left outer join contracts_job cj on cj.employer_id=u.id   left outer join ( select distinct cj1.employer_id,cm1.id as proposal_id from contracts_job cj1 inner join contracts_application ca1 on ca1.job_id=cj1.id inner join contracts_message cm1 on cm1.application_id=ca1.id  inner join contracts_proposal cp1 on cp1.message_ptr_id=cm1.id where cp1.status=4) applications on applications.employer_id=u.id group  by u.id,au.email,fullname,photo,homepage  "+sortsql+"  desc limit " + limit)
+        sql = ("select u.id, au.first_name || ' ' || au.last_name as fullname , au.email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile, 'http://www.nabbesh.com/profile/' || u.id as homepage, case when (u.photo <>'' and u.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as photo, u.country, count(distinct cj.id) as jobs_count, count(distinct applications.proposal_id) as accepted_proposals_count from users u inner join auth_user au on u.django_user_id=au.id  left outer join contracts_job cj on cj.employer_id=u.id   left outer join ( select distinct cj1.employer_id,cm1.id as proposal_id from contracts_job cj1 inner join contracts_application ca1 on ca1.job_id=cj1.id inner join contracts_message cm1 on cm1.application_id=ca1.id  inner join contracts_proposal cp1 on cp1.message_ptr_id=cm1.id where cp1.status=4) applications on applications.employer_id=u.id group  by u.id,au.email,fullname,photo,homepage  "+sortsql+"  desc limit " + limit)
         
         results = customQuery(sql,0)
  	#print results	
@@ -1019,3 +1023,13 @@ def get_first_profile_id(service):
         return profiles.get('items')[0].get('id')
 
   return None
+  
+  
+def detect(path):
+    urllib.urlretrieve (path, "img.jpg") 
+    img = cv2.imread("img.jpg")
+    print img
+    cascade = cv2.CascadeClassifier("/home/mahfouz/nabbeshreports/templates/haarcascade_frontalface_alt.xml")
+    rects = cascade.detectMultiScale(img, 1.3, 4, cv2.cv.CV_HAAR_SCALE_IMAGE, (20,20)) 
+    print rects
+    return rects

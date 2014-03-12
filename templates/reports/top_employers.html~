@@ -70,12 +70,12 @@
    
       
       var formatter2 = new google.visualization.PatternFormat('<a href="{0}"  target="_blank"><img src="{2}" width="64" height="64d">{1}</a>');
-      formatter2.format(data, [3,1,4],1);
+      formatter2.format(data, [4,1,5],1);
         
             
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
       
-      dataView.setColumns([0,1,2,5,6,7]);
+      dataView.setColumns([0,1,2,3,6,7,8]);
       tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});
       
       
@@ -93,7 +93,7 @@
       // Apply formatter to second column
       
       
-      var grouped_dt = google.visualization.data.group(data, [5], [{'column': 0, 'aggregation': google.visualization.data.count, 'type': 'number'}]);
+      var grouped_dt = google.visualization.data.group(data, [6], [{'column': 0, 'aggregation': google.visualization.data.count, 'type': 'number'}]);
       //alert();
       var chart = new google.visualization.PieChart(document.getElementById('visualization'));
       var options = {

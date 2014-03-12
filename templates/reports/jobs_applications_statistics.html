@@ -77,16 +77,17 @@
               datafields: [ 
                     { name: 'Employer Name', type: 'string', map: '0'},
                     { name: 'Employer Email', type: 'string', map: '1'},
-                    { name: 'Job ID', type: 'int', map: '2'},
-                    { name: 'Job Title', type: 'string', map: '3'},
-                    { name: 'Job Posted At', type: 'date', map: '4'},
-                    { name: 'Budget', type: 'float', map: '5'},
-                    { name: 'Application Count', type: 'int', map: '6'},
-                    { name: 'Shortlisted Applications', type: 'int', map: '7'},
-                    { name: 'Applicants Msgs', type: 'int', map: '8'},
-                    { name: 'Employers Responses', type: 'int', map: '9'},
-                    { name: 'Proposal Count', type: 'int', map: '10'},
-                    { name: 'Accepted Proposals', type: 'int', map: '11'},
+                    { name: 'Employer Phone', type: 'string', map: '2'},                    
+                    { name: 'Job ID', type: 'int', map: '3'},
+                    { name: 'Job Title', type: 'string', map: '4'},
+                    { name: 'Job Posted At', type: 'date', map: '5'},
+                    { name: 'Budget', type: 'float', map: '6'},
+                    { name: 'Application Count', type: 'int', map: '7'},
+                    { name: 'Shortlisted Applications', type: 'int', map: '8'},
+                    { name: 'Applicants Msgs', type: 'int', map: '9'},
+                    { name: 'Employers Responses', type: 'int', map: '10'},
+                    { name: 'Proposal Count', type: 'int', map: '11'},
+                    { name: 'Accepted Proposals', type: 'int', map: '12'},
                     { name: 'Status', type: 'bool', map: '12'}                   
                     ],
                 datatype: "array"
@@ -112,11 +113,12 @@
                  datafields: [ 
                     { name: 'User Id', type: 'int', map: '0'},
                     { name: 'Email', type: 'string', map: '1'},
-                    { name: 'Application ID', type: 'string', map: '2'},
-                    { name: 'Shortlisted', type: 'int', map: '3'},
-                    { name: 'Proposals', type: 'int', map: '4'},
-                    { name: 'Accepted Proposals', type: 'int', map: '5'},
-                    { name: 'Employer Responses', type: 'int', map: '6'},                                     
+                    { name: 'Phone', type: 'string', map: '2'},                    
+                    { name: 'Application ID', type: 'string', map: '3'},
+                    { name: 'Shortlisted', type: 'int', map: '4'},
+                    { name: 'Proposals', type: 'int', map: '5'},
+                    { name: 'Accepted Proposals', type: 'int', map: '6'},
+                    { name: 'Employer Responses', type: 'int', map: '7'},                                     
                     ],
                 datatype: "array"
                };
@@ -124,7 +126,7 @@
                $('#detailstable').jqxGrid(
                {
                  theme: theme,
-                 width: '900',
+                 width: '1000',
                  height: '180',
                  source: dataAdapter,
                  columnsresize: true,
@@ -136,6 +138,7 @@
                  columns: [
                    { text: 'User Id', datafield: 'User Id', filtertype: 'number', width:50},
                    { text: 'Email', datafield: 'Email', filtertype: 'textbox', width:200},
+                   { text: 'Phone', datafield: 'Phone', filtertype: 'textbox', width:120},
                    { text: 'Workflow', datafield: 'Application ID', filtertype: 'number', width:150, cellsrenderer: applinkrenderer},
                    { text: 'Shortlisted', datafield: 'Shortlisted', filtertype: 'number', width:80, cellclassname: cellclass},
                    { text: 'Proposals', datafield: 'Proposals', filtertype: 'number', width:80, cellclassname: cellclass},
@@ -195,6 +198,7 @@
                 columns: [
                   { text: 'Name', datafield: 'Employer Name', filtertype: 'textbox', width:100, columngroup: 'EmployerDetails'},
                   { text: 'Email', datafield: 'Employer Email', filtertype: 'textbox', width:150, columngroup: 'EmployerDetails'},
+                  { text: 'Phone', datafield: 'Employer Phone', filtertype: 'textbox', width:120, columngroup: 'EmployerDetails'},
                   { text: 'ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer,width: 45, columngroup: 'JobDetails'},
                   { text: 'Title', datafield: 'Job Title', filtertype: 'textbox', columngroup: 'JobDetails'},
                   { text: 'Created At', datafield: 'Job Posted At', filtertype: 'date', width:100,cellsformat: 'dd-MM-yy HH:m', columngroup: 'JobDetails'},

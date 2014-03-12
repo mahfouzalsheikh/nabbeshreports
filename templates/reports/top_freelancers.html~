@@ -84,11 +84,12 @@
                     { name: 'User Id', type: 'int', map: '0'},
                     { name: 'Freelancer Name', type: 'string', map: '1'},
                     { name: 'Email', type: 'string', map: '2'},
-                    { name: 'Photo', type: 'string', map: '3'},
-                    { name: 'Country', type: 'string', map: '4'},
-                    { name: 'Profile Completion', type: 'int', map: '5'},
-                    { name: 'Skill Count', type: 'int', map: '6'},
-                    { name: 'Application Count', type: 'int', map: '7'}                   
+                    { name: 'Mobile', type: 'string', map: '3'},
+                    { name: 'Photo', type: 'string', map: '4'},
+                    { name: 'Country', type: 'string', map: '5'},
+                    { name: 'Profile Completion', type: 'int', map: '6'},
+                    { name: 'Skill Count', type: 'int', map: '7'},
+                    { name: 'Application Count', type: 'int', map: '8'}                   
                     ],
                 datatype: "array"
             };
@@ -127,6 +128,7 @@
                   { text: 'User Id', datafield: 'User Id', cellsrenderer: homepagerenderer,filtertype: 'number'},
                   { text: 'Freelancer Name', datafield: 'Freelancer Name',filtertype: 'textbox'},
                   { text: 'Email', datafield: 'Email',width: 200,filtertype: 'textbox'},
+                  { text: 'Phone', datafield: 'Mobile',width: 120,filtertype: 'textbox'},
                   { text: 'Country', datafield: 'Country',filtertype: 'textbox'},
                   { text: 'Profile Completion', datafield: 'Profile Completion',width: 200, cellsrenderer: completionrenderer,filtertype: 'number'},
                   { text: 'Skill Count', datafield: 'Skill Count',filtertype: 'number'},
