@@ -380,14 +380,17 @@ def jobs_applications_statistics_getdata(request):
         
         keywords = objs['searchkeywords']
         
-        
+        contkeywords = objs['contsearchkeywords']
      
         searchsql = ""
         if keywords <> "":
             searchsql = "and (lower(substring(cj.title,1,40)) like '%%" +keywords.lower() + "%%' or lower(substring(au.email,1,40)) like '%%" +keywords.lower() + "%%' or lower(substring(au.first_name || ' ' || au.last_name,1,40)) like '%%" +keywords.lower() + "%%')"
+        
+        contsearchsql = "" 
+        if contkeywords <> "":
+            contsearchsql = " and (lower(substring(contauth.email,1,40)) like '%%" +contkeywords.lower() + "%%' or lower(substring(contauth.first_name || ' ' || contauth.last_name,1,40)) like '%%" +contkeywords.lower() + "%%') "
        
-       
-        sql = ("select u.id,au.first_name || ' ' || au.last_name as employer_name,au.email as Employer_Email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile as phone, cj.id as job_id,substring(cj.title,1,200) as job_title,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16) as created_at, COALESCE(cj.budget, 0) ,count(distinct ca.id) as application_count, count( distinct case when ca.shortlisted=true then ca.id else null end) as shortlisted, sum(case when cm.from_applicant=true then 1 else 0 end) as applicant_messages, sum(case when cm.from_applicant=false then 1 else 0 end) as employer_responses,count(distinct cp.message_ptr_id) as proposal_count, sum(case when cp.status=4 then 1 else 0 end) as acceptedproposal_count, case when cj.status=1 then True when cj.status=2 then False end as JobStatus from contracts_job cj left outer join contracts_application ca   on cj.id=ca.job_id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id where created_at>='"+t1+"' and created_at<='"+t2+"' "+searchsql+" group by employer_name,cj.id,job_title,cj.created_at,au.email,phone,u.id order by cj.created_at desc;")
+        sql = ("select u.id,au.first_name || ' ' || au.last_name as employer_name,au.email as Employer_Email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile as phone, cj.id as job_id,substring(cj.title,1,200) as job_title,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16) as created_at, COALESCE(cj.budget, 0) ,count(distinct ca.id) as application_count, count( distinct case when ca.shortlisted=true then ca.id else null end) as shortlisted, sum(case when cm.from_applicant=true then 1 else 0 end) as applicant_messages, sum(case when cm.from_applicant=false then 1 else 0 end) as employer_responses,count(distinct cp.message_ptr_id) as proposal_count, sum(case when cp.status=4 then 1 else 0 end) as acceptedproposal_count, case when cj.status=1 then True when cj.status=2 then False end as JobStatus from contracts_job cj left outer join contracts_application ca   on cj.id=ca.job_id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id left outer join users cont on cont.id=ca.applicant_id left join auth_user contauth on contauth.id=cont.django_user_id where created_at>='"+t1+"' and created_at<='"+t2+"' "+searchsql+ contsearchsql +" group by employer_name,cj.id,job_title,cj.created_at,au.email,phone,u.id order by cj.created_at desc;")
         
         print sql
         results = customQuery(sql,1)

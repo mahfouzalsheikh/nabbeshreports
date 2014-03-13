@@ -26,7 +26,8 @@
                     todate= $('#todate').jqxDateTimeInput('getText'); 
                 });        
         
-      $("#searchkeywordsfield").jqxInput({placeHolder: "Keywords", height: 25, width: 200, minLength: 1});          
+      $("#searchkeywordsfield").jqxInput({placeHolder: "By Employer Keywords", height: 25, width: 200, minLength: 1});
+      $("#contsearchkeywordsfield").jqxInput({placeHolder: "By Freelancer Keywords", height: 25, width: 200, minLength: 1});                    
                 
       $("#filterButton").jqxButton({ width: '200'});
       $("#filterButton").on('click', function () {          
@@ -52,7 +53,8 @@
      
      function getData(from,to,searchkeywords){
         searchkeywords= $('#searchkeywordsfield').val();
-        var params = {"fromdate": from, "todate": to, "searchkeywords": searchkeywords};
+        contsearchkeywords= $('#contsearchkeywordsfield').val();
+        var params = {"fromdate": from, "todate": to, "searchkeywords": searchkeywords, "contsearchkeywords": contsearchkeywords};
         var jsonData = $.ajax({
           url: "jobs_applications_statistics_getdata",
           dataType:"json",
@@ -60,7 +62,7 @@
           data: JSON.stringify(params),
           async: false
           }).responseText;
-          alert(jsonData.length);
+          //alert(jsonData.length);
           if(jsonData.length<241){
               alert("No Results! try to change search criterias!");
               return [];
@@ -272,6 +274,7 @@
                    <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
                    <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td></tr> 
                    <tr><td>Search:</td><td><input type="text" id="searchkeywordsfield"/></td></tr>
+                   <tr><td></td><td><input type="text" id="contsearchkeywordsfield"/></td></tr>
                    <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
                 </table>   
             </div>
