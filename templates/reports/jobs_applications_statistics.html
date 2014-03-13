@@ -102,7 +102,7 @@
 	       var cell = $('#jqwtablearea').jqxGrid('getcell', index, 'Job ID');		       	       	       
 	       var jsonstring = getCommunicationJSON(cell.value.toString());		      
 	     //alert(jsonstring.length);
-	     if(jsonstring.length>125){
+	     if(jsonstring.length>132){
 	       detailsjqwdata = JSON.parse(jsonstring);
 	       detailsjqwdata.shift();
 	       
@@ -120,12 +120,13 @@
                  datafields: [ 
                     { name: 'User Id', type: 'int', map: '0'},
                     { name: 'Email', type: 'string', map: '1'},
-                    { name: 'Phone', type: 'string', map: '2'},                    
-                    { name: 'Application ID', type: 'string', map: '3'},
-                    { name: 'Shortlisted', type: 'int', map: '4'},
-                    { name: 'Proposals', type: 'int', map: '5'},
-                    { name: 'Accepted Proposals', type: 'int', map: '6'},
-                    { name: 'Employer Responses', type: 'int', map: '7'},                                     
+                    { name: 'Name', type: 'string', map: '2'},
+                    { name: 'Phone', type: 'string', map: '3'},                    
+                    { name: 'Application ID', type: 'string', map: '4'},
+                    { name: 'Shortlisted', type: 'int', map: '5'},
+                    { name: 'Proposals', type: 'int', map: '6'},
+                    { name: 'Accepted Proposals', type: 'int', map: '7'},
+                    { name: 'Employer Responses', type: 'int', map: '8'},                                     
                     ],
                 datatype: "array"
                };
@@ -133,7 +134,7 @@
                $('#detailstable').jqxGrid(
                {
                  theme: theme,
-                 width: '1000',
+                 width: '1100',
                  height: '180',
                  source: dataAdapter,
                  columnsresize: true,
@@ -145,6 +146,7 @@
                  columns: [
                    { text: 'User Id', datafield: 'User Id', filtertype: 'number', width:50, cellsrenderer:profileidrenderer},
                    { text: 'Email', datafield: 'Email', filtertype: 'textbox', width:200},
+                   { text: 'Name', datafield: 'Name', filtertype: 'textbox', width:100},
                    { text: 'Phone', datafield: 'Phone', filtertype: 'textbox', width:120},
                    { text: 'Workflow', datafield: 'Application ID', filtertype: 'number', width:150, cellsrenderer: applinkrenderer},
                    { text: 'Shortlisted', datafield: 'Shortlisted', filtertype: 'number', width:80, cellclassname: cellclass},
