@@ -29,6 +29,8 @@ from apiclient.errors import HttpError
 from oauth2client.client import AccessTokenRefreshError
 import cv2
 import urllib
+import itertools
+import json
 
 
 # Declare constants and set configuration values
@@ -657,7 +659,7 @@ def skillsdistribution_getdata(request):
             sortsql="jobscount"
        
         
-        sql = ("select * from (select ss.id, ss.name,count(distinct su.id_user) as userscount, count( distinct cr.job_id) as jobscount  from skills_skill ss left outer join skills_users su on ss.id=su.skill_id left outer join contracts_requiredskill cr on cr.skill_id=ss.id  group by ss.id ) total where (jobscount<>0 or userscount<>0) "+searchsql+" order by "+sortsql+" desc limit "+limit)
+        sql = ("select *, case when jobscount<>0 then cast(userscount as real)/cast(jobscount as real) else 0 end as availability_rate  from (select * from (select ss.id, ss.name,count(distinct su.id_user) as userscount, count( distinct cr.job_id) as jobscount  from skills_skill ss left outer join skills_users su on ss.id=su.skill_id left outer join contracts_requiredskill cr on cr.skill_id=ss.id  group by ss.id ) total where (jobscount<>0 or userscount<>0) "+searchsql+" order by "+sortsql+" desc limit "+limit+") total")
         
         
         print sql
@@ -854,15 +856,91 @@ def signups_jobs_retention_getdata(request):
 	           
 
 
+
+
 @csrf_exempt     
 def vistest_report(request):
     
+   
     t = loader.get_template('./reports/vistest_report.html')
     c = Context({
         'vistest_report': vistest_report,
     })
     return HttpResponse(t.render(c))
 
+def getskillname(skillid):
+    result = customQuery("select name from skills_skill where id="+skillid,0)    
+    return result[0][0]
+
+def decorateelement(element):
+    result = list()
+    #print element
+    for i,item in enumerate(element[0]):
+        if i<>0:      
+            result.append(str(getskillname(str(item))))            
+        else:
+            result.append(str(item))         
+    return  result
+
+def getskillsgrouppower(listofskills):
+    result = 0
+    sql = "select  "
+    headers = "occurrence"
+    skillids = ""
+    joins = ""
+    wheresql = ""
+    
+    for i,item  in enumerate(listofskills):
+        headers = headers + ", skill" + str(i+1)
+        skillids = skillids + ", su" +str(i+1) +".skill_id as skill"+str(i+1)
+        if i <> 0:
+            joins = joins + " inner join skills_users su"+ str(i+1) +" on su1.id_user=su"+str(i+1)+".id_user "
+        
+        wheresql = wheresql + " and su"+ str(i+1) + ".skill_id=" + str(item[0])
+        
+        
+    sql = sql + headers + " from (select count(id_user) as "  + headers + " from (select  distinct su1.id_user " +  skillids + " from skills_users su1 " + joins + " where " + wheresql[4:] + "  )  total group by " + headers[12:] + " order by occurrence desc) final" 
+    #print sql   
+    result =  customQuery(sql,0)
+    #print result
+    return result
+    
+def list_duplicates(seq):
+  seen = set()
+  seen_add = seen.add
+  seen_twice = set( x for x in seq if x in seen or seen_add(x) )
+  return list( seen_twice )
+
+def preparetoappend(element):
+    if len(list_duplicates(element))>0:
+        return False
+    else:
+        return True
+def skillsmining(level,topskills):
+    sql = "select skill_id from (select count(distinct id_user) as usercount, skill_id from skills_users group by skill_id order by usercount desc limit "+str(topskills)+" ) total"    
+    skills = customQuery(sql,0)    
+    params = list()
+    for i in range(1,level+1):    
+        params.append(skills)        
+    results =  list()
+    for element in itertools.product(*params):   
+        if preparetoappend(element): 
+            if not sorted(element) in results:                                    
+                results.append(sorted(element))
+               # print element
+    calculatedresults = list()    
+    for element in results:
+        calculatedelement = getskillsgrouppower(element)
+        if len(calculatedelement)>0:
+            #print decorateelement(calculatedelement)
+            calculatedresults.append(decorateelement(calculatedelement))
+    return calculatedresults
+
+@csrf_exempt     
+def miningtest_report(request):       
+    #return HttpResponse(str(skillsmining(3,10)))
+    c = Context({'skills': skillsmining(2,50)})        
+    return HttpResponse(render_to_string('skillsmining.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
                 
 @csrf_exempt
 def get_results(service, profile_id,checkedItems):

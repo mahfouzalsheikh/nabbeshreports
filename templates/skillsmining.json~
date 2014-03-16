@@ -1,0 +1,4 @@
+[["Power","Skill 1", "Skill 2", "Skill 3","Skill 4", "Skill 5", "Skill6", "Skill7"],
+{% for skill in skills %}["{{ skill.0 }}","{{ skill.1 }}","{{ skill.2 }}","{{ skill.3 }}","{{ skill.4 }}","{{ skill.5 }}","{{ skill.6 }}","{{ skill.7 }}"]{% if not forloop.last %},{% endif %}{% endfor %}
+]
+

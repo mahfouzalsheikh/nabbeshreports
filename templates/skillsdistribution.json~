@@ -1,4 +1,4 @@
-[["Skill ID", "Skill Name", "Users have it", "Jobs require it"], 
-{% for country in countries %}[{{ country.0 }},"{{ country.1 }}",{{ country.2 }},{{ country.3 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]
+[["Skill ID", "Skill Name", "Users have it", "Jobs require it", "Availability Rate"], 
+{% for country in countries %}[{{ country.0 }},"{{ country.1 }}",{{ country.2 }},{{ country.3 }},{{ country.4 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]
 
 

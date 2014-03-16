@@ -93,6 +93,8 @@ urlpatterns = patterns('',
 
     
 
+    url(r'^miningtest_report$', 'nabbeshreports.maps.views.miningtest_report', name='miningtest_report'),
+
     url(r'^vistest_report$', 'nabbeshreports.maps.views.vistest_report', name='vistest_report'),
     
     url(r'^googleanalytics_report$', 'nabbeshreports.maps.views.googleanalytics_report', name='googleanalytics_report'),
