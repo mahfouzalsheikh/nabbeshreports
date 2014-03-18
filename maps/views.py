@@ -659,7 +659,7 @@ def skillsdistribution_getdata(request):
             sortsql="jobscount"
        
         
-        sql = ("select *, case when jobscount<>0 then cast(userscount as real)/cast(jobscount as real) else 0 end as availability_rate  from (select * from (select ss.id, ss.name,count(distinct su.id_user) as userscount, count( distinct cr.job_id) as jobscount  from skills_skill ss left outer join skills_users su on ss.id=su.skill_id left outer join contracts_requiredskill cr on cr.skill_id=ss.id  group by ss.id ) total where (jobscount<>0 or userscount<>0) "+searchsql+" order by "+sortsql+" desc limit "+limit+") total")
+        sql = ("select *, case when jobscount<>0 then cast(userscount as real)/cast(jobscount as real) else 0 end as availability_rate  from (select * from (select ss.id, ss.name,count(distinct su.id_user) as userscount, count( distinct cr.job_id) as jobscount  from skills_skill ss left outer join skills_users su on ss.id=su.skill_id left outer join contracts_requiredskill cr on cr.skill_id=ss.id where ss.deleted<>true and ss.published=true and ss.merge_to_id is null group by ss.id ) total where (jobscount<>0 or userscount<>0) "+searchsql+" order by "+sortsql+" desc limit "+limit+") total")
         
         
         print sql
