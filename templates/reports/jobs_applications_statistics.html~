@@ -134,7 +134,7 @@
                $('#detailstable').jqxGrid(
                {
                  theme: theme,
-                 width: '1100',
+                 width: '95%',
                  height: '180',
                  source: dataAdapter,
                  columnsresize: true,
