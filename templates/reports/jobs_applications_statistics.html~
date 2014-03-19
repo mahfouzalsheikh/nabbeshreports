@@ -144,15 +144,15 @@
 
 
                  columns: [
-                   { text: 'User Id', datafield: 'User Id', filtertype: 'number', width:50, cellsrenderer:profileidrenderer},
-                   { text: 'Email', datafield: 'Email', filtertype: 'textbox', width:200},
-                   { text: 'Name', datafield: 'Name', filtertype: 'textbox', width:100},
-                   { text: 'Phone', datafield: 'Phone', filtertype: 'textbox', width:120},
-                   { text: 'Workflow', datafield: 'Application ID', filtertype: 'number', width:150, cellsrenderer: applinkrenderer},
-                   { text: 'Shortlisted', datafield: 'Shortlisted', filtertype: 'number', width:80, cellclassname: cellclass},
-                   { text: 'Proposals', datafield: 'Proposals', filtertype: 'number', width:80, cellclassname: cellclass},
-                   { text: 'Accepted Proposals', datafield: 'Accepted Proposals', filtertype: 'number', width:150, cellclassname: cellclass},
-                   { text: 'Employer Responses', datafield: 'Employer Responses', filtertype: 'number', width:150, cellclassname: cellclass}
+                   { text: 'User Id', datafield: 'User Id', filtertype: 'number', cellsrenderer:profileidrenderer},
+                   { text: 'Email', datafield: 'Email', filtertype: 'textbox'},
+                   { text: 'Name', datafield: 'Name', filtertype: 'textbox'},
+                   { text: 'Phone', datafield: 'Phone', filtertype: 'textbox'},
+                   { text: 'Workflow', datafield: 'Application ID', filtertype: 'number', cellsrenderer: applinkrenderer},
+                   { text: 'Shortlisted', datafield: 'Shortlisted', filtertype: 'number', cellclassname: cellclass},
+                   { text: 'Proposals', datafield: 'Proposals', filtertype: 'number', cellclassname: cellclass},
+                   { text: 'Accepted Proposals', datafield: 'Accepted Proposals', filtertype: 'number', cellclassname: cellclass},
+                   { text: 'Employer Responses', datafield: 'Employer Responses', filtertype: 'number', cellclassname: cellclass}
                    
                  ]
              }); 
