@@ -22,7 +22,13 @@
        
       $("#prioritymenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0});  
        var priority="Users Count";  
-      
+     $("#downloadButton").jqxButton({ width: '200'});                
+      $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData(limit,fromdate,todate));
+    		var csv = JSON2CSV(json);
+//	        window.open("data:text/csv;charset=utf-8," + escape(csv))
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "skills_demographic_profile_data.csv");
+      }); 
       
      $('#limitmenu').on('select', function (event) {
                     var args = event.args;
@@ -51,9 +57,7 @@
 
                 });
                 
-                  
-	
-     function drawChart(priority,limit) {
+     function getData(priority,limit){
       var params = {"priority":priority, "limit": limit};
       var jsonData = $.ajax({
           url: "skillsdemography_getdata",
@@ -62,8 +66,12 @@
           data: JSON.stringify(params),
           async: false
           }).responseText;
-
-       //$("#output").html(jsonData);
+       return jsonData;   
+        
+     }
+	
+     function drawChart(priority,limit) {
+      var jsonData= getData(priority,limit);
       var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
       
       
@@ -171,7 +179,8 @@
                    <tr>
                     <td>Limit: </td><td><div id="limitmenu"></div><td></td></td>
                    </tr>
-                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>
+                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>                                     
                 </table>   
             </div>
         </div>
