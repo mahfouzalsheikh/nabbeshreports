@@ -1,0 +1,149 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript">
+ var theme = 'bootstrap';
+ $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
+ 
+</script>
+
+<script type="text/javascript">
+
+
+     $("#downloadButton").jqxButton({ width: '200'});            
+     $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData(grouper,fromdate,todate));
+    		var csv = JSON2CSV(json);
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "jobs_apps_retention_data.csv");
+      }); 
+    
+  
+     function getData(){
+      var params = {};
+      var jsonData = $.ajax({
+          url: "jobs_apps_retention_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+          //alert(jsonData);
+       return jsonData;    
+       
+      
+     }
+     
+     
+     function drawChart(jsonData) {
+             
+      dataarray =   $.parseJSON(jsonData);                               
+   
+      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+	          
+      formatcolors(data);
+      
+      var formatter = new google.visualization.NumberFormat(
+      {suffix: " %", negativeColor: 'red', negativeParens: true});
+      formatter.format(data, 2);
+      formatter.format(data, 3);
+      formatter.format(data, 4);
+      formatter.format(data, 5);
+      formatter.format(data, 6);
+      formatter.format(data, 7);
+      formatter.format(data, 8);
+      formatter.format(data, 9);
+      formatter.format(data, 10); 
+      formatter.format(data, 11);
+      formatter.format(data, 12);
+      formatter.format(data, 13);
+              
+      var dataView = new google.visualization.DataView(data);
+                
+      var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
+      
+      tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});
+      
+      var chart = new google.visualization.LineChart(document.getElementById('visualization'));
+      
+      
+      
+      var flippedarray = [];
+      for(var col_i =0; col_i<dataarray[0].length; col_i++){
+         var row=[];
+         if(col_i != 1) {
+         for(var row_i =0; row_i<dataarray.length; row_i++){ 
+          //console.log(dataarray[row_i][col_i]);
+          row.push(dataarray[row_i][col_i]);
+          
+         }
+         
+         flippedarray.push(row);
+         }
+       }
+
+       var visdata = new google.visualization.arrayToDataTable(flippedarray); 
+      var dataView1 = new google.visualization.DataView(visdata); 
+      dataView1.setColumns([0,2,3,4,5,6,7,8,9,10,11,12,13]);
+      chart.draw(dataView1, {width: '100%', height: 600});
+            
+    }
+    
+    function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    function rgbToHex(r, g, b) {
+       return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
+    function formatcolors(data) { alert 
+      var row_count = data.getNumberOfRows();
+      var column_count = data.getNumberOfColumns();
+      var maxvalue=0
+      for (col_i = 2; col_i < column_count; col_i++) { 
+         for  (row_i = 0; row_i < row_count; row_i++){
+            value = data.getValue(row_i,col_i);
+            if (value>maxvalue){
+               maxvalue=value;
+            }
+         }
+      }   
+      
+      for (col_i = 2; col_i < column_count; col_i++) { 
+         for  (row_i = 0; row_i < row_count; row_i++){
+              if(col_i>row_i+2){data.setProperty(row_i, col_i, 'style', 'background-color: '+ rgbToHex(200,200,200) + ';color: ' +rgbToHex(200,200,200) ); }
+              else
+             data.setProperty(row_i, col_i, 'style', 'background-color: ' + rgbToHex(255,255-Math.round(data.getValue(row_i,col_i)*255/maxvalue),255-Math.round(data.getValue(row_i,col_i)*255/maxvalue)) + '; font-size: 16px');
+
+            
+            
+             }
+      }
+      }
+    
+    function draw() {
+      var jsonData= getData();	
+      drawChart(jsonData);
+      
+    } 
+  
+    draw();
+</script>
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+    
+                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>                              
+                </table>   
+            </div>
+        </div>
+<div style="padding: 20px 20px 20px 20px">
+<div><h2><center>Percentage of Jobs Received Applications During</center></h2></div>
+<div id="visualization" style="width: 100%; height:600px; float: left;"></div>
+<div id="tablearea" style="width: 100%; height:100%; float: left;"></div>
+
+</div>
+
+

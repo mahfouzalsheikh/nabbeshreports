@@ -229,7 +229,7 @@
             });
             
             
-            var activitysource = ["Employers & Jobs Stats", "Jobs/Applications Tracking", "Employers Funnel", "Freelancers Funnel", "Cross-Country Apps", "Jobs & Apps Stats", "Signups/Apps Retention", "Signups/Jobs Retention"];
+            var activitysource = ["Employers & Jobs Stats", "Jobs/Applications Tracking", "Employers Funnel", "Freelancers Funnel", "Cross-Country Apps", "Jobs & Apps Stats", "Signups/Apps Retention", "Signups/Jobs Retention", "Jobs/Apps Retention"];
 
             $("#activitylist").jqxListBox({
                 
@@ -373,6 +373,9 @@
   		   	case "Signups/Jobs Retention":    			
   		   	      URLString = "signups_jobs_retention_report";
   		   	      break;
+  		   	case "Jobs/Apps Retention":    			
+  		   	      URLString = "jobs_apps_retention_report";
+  		   	      break;      
 			default:
   			      URLString = "dashboard";
 		}
