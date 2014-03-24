@@ -235,7 +235,7 @@
                 
                 source: activitysource,
                 width: 176,
-                height: 210,
+                height: 230,
                 selectedIndex: -1,
                 theme: theme
             });

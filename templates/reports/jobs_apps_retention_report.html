@@ -9,17 +9,30 @@
 
 <script type="text/javascript">
 
-
+     $("#numericInput").jqxNumberInput({ width: '200px', height: '25px', inputMode: 'simple', spinButtons: true, decimalDigits: 0, max:30, min:3 });     
+     $('#numericInput').jqxNumberInput('val', 12);
+     var month=12
      $("#downloadButton").jqxButton({ width: '200'});            
      $("#downloadButton").on('click', function () {
-                var json = $.parseJSON(getData(grouper,fromdate,todate));
+                var value = $('#numericInput').jqxNumberInput('val');
+                
+                var json = $.parseJSON(getData(value.toString()));
     		var csv = JSON2CSV(json);
-	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "jobs_apps_retention_data.csv");
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "signups_jobss_retention_data.csv");
       }); 
+     
+     $("#filterButton").jqxButton({ width: '200'});
+     $("#filterButton").on('click', function () {
+                  var value = $('#numericInput').jqxNumberInput('val');                       
+                  draw(value.toString());
+                 
+
+                }); 
+     
     
   
-     function getData(){
-      var params = {};
+     function getData(month){
+      var params = {'month': month};
       var jsonData = $.ajax({
           url: "jobs_apps_retention_getdata",
           dataType:"json",
@@ -50,9 +63,7 @@
       {
         if (col_i>1){
         formatter.format(data, col_i);
-        }
-
-       
+        }       
       }
       
      
@@ -121,21 +132,22 @@
       }
       }
     
-    function draw() {
-      var jsonData= getData();	
+    function draw(month) {
+      var jsonData= getData(month);	
       drawChart(jsonData);
       
     } 
   
-    draw();
+    draw(month);
 </script>
 
  <div id='optionsExpander'>
             <div>Options</div>
             <div>
                 <table>
-    
-                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>                              
+                   <tr><td>Months:</td><td><div style='margin-top: 3px;' id='numericInput'></td></tr>                                  
+                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                             
                 </table>   
             </div>
         </div>

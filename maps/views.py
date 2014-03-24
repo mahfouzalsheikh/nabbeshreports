@@ -821,7 +821,7 @@ def signups_apps_retention_report(request):
 def signups_apps_retention_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)                              
-        n=25    
+        n=int(objs['month'])   
         dynsql1=""
         dynsql2=""
         for i in range(1,n+1):             
@@ -848,7 +848,7 @@ def signups_jobs_retention_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)         
                      
-        n=25    
+        n=int(objs['month'])    
         dynsql1=""
         dynsql2=""
         for i in range(1,n+1):    
@@ -881,7 +881,7 @@ def jobs_apps_retention_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)         
                     
-        n=25    
+        n=int(objs['month'])     
         dynsql1=""
         dynsql2=""
         for i in range(1,n+1): 
