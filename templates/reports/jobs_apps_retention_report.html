@@ -28,6 +28,7 @@
           async: false
           }).responseText;
           //alert(jsonData);
+       console.log(jsonData);   
        return jsonData;    
        
       
@@ -43,19 +44,18 @@
       formatcolors(data);
       
       var formatter = new google.visualization.NumberFormat(
-      {suffix: " %", negativeColor: 'red', negativeParens: true});
-      formatter.format(data, 2);
-      formatter.format(data, 3);
-      formatter.format(data, 4);
-      formatter.format(data, 5);
-      formatter.format(data, 6);
-      formatter.format(data, 7);
-      formatter.format(data, 8);
-      formatter.format(data, 9);
-      formatter.format(data, 10); 
-      formatter.format(data, 11);
-      formatter.format(data, 12);
-      formatter.format(data, 13);
+      {suffix: "%", negativeColor: 'red', negativeParens: true});
+      
+      for(var col_i =0; col_i<dataarray[0].length; col_i++)
+      {
+        if (col_i>1){
+        formatter.format(data, col_i);
+        }
+
+       
+      }
+      
+     
               
       var dataView = new google.visualization.DataView(data);
                 

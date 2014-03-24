@@ -1,8 +1,42 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
+<head>
+<script type="text/javascript" src="/site_media/jqwid/scripts/jquery-1.10.2.min.js"></script>
 
-</style>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+        google.load('visualization', '1.0', {
+            'packages': ['corechart']
+        });
+        google.load('visualization', '1', {packages: ['table']});
+        google.load('visualization', '1', {packages: ['geochart']});
+        google.load('visualization', '1', {packages: ['annotatedtimeline']});
+        google.load('visualization', '1', {packages: ['controls']});
+        google.load('visualization', '1', {packages: ['geochart']});
+        google.load('visualization', '1', {packages: ['geomap']});
+   function getData(){
+
+      var jsonData = $.ajax({
+          url: "miningtest_getdata",
+          dataType:"json",
+          type: "POST",
+          async: false
+          }).responseText;
+       return jsonData;   
+        
+     }
+</script>     
+</head>
 <body>
-   {{vistest_report}}
+  <div id="vis"></div>
+  <script type="text/javascript">
+       
+       var data = new google.visualization.arrayToDataTable($.parseJSON(getData()));
+       var tablearea = new google.visualization.Table(document.getElementById('vis'));
+       tablearea.draw(data,null);
+       console.log(data);
+       
+  </script>
+  
 </body>

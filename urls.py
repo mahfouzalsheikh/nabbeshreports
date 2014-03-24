@@ -94,9 +94,10 @@ urlpatterns = patterns('',
 #    url(r'^escrow_getdata$', 'nabbeshreports.maps.views.escrow_getdata', name='escrow_getdata'),
 #    url(r'^escrow_report$', 'nabbeshreports.maps.views.escrow_report', name='escrow_report'),
 
-    
+   
 
     url(r'^miningtest_report$', 'nabbeshreports.maps.views.miningtest_report', name='miningtest_report'),
+    url(r'^miningtest_getdata$', 'nabbeshreports.maps.views.miningtest_getdata', name='miningtest_getdata'),
 
     url(r'^vistest_report$', 'nabbeshreports.maps.views.vistest_report', name='vistest_report'),
     
