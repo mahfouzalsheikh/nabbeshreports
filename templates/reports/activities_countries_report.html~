@@ -1,0 +1,62 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript">
+
+	
+     function drawChart() {
+      var jsonData = $.ajax({
+          url: "activities_countries_getdata",
+          dataType:"json",
+          type: "POST",
+          async: false
+          }).responseText;
+          
+          jqwdata = JSON.parse(jsonData);
+          jqwdata.shift();
+         
+	  var source =
+            { localdata : jqwdata,
+              datafields: [
+                    { name: 'Country', type: 'string', map: '0'},
+                    { name: 'UsersCount', type: 'int', map: '1' },
+                    { name: 'JobsCount', type: 'int', map: '2' },
+                    { name: 'ApplicationsCount', type: 'int', map: '3' },
+                    { name: 'ProposalsCount', type: 'int', map: '4' },
+                    { name: 'InvoicesCount', type: 'int', map: '5' },
+                    ],
+                datatype: "array"
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            $("#jqwtablearea").jqxGrid(
+            {
+                width: '100%',
+                height: '100%',
+                source: dataAdapter,
+                columnsresize: true,
+                sortable: true,
+                showfilterrow: true,
+                filterable: true,
+                altrows: true,
+                columns: [
+                  { text: 'Country', datafield: 'Country', filtertype: 'textbox'},
+                  { text: 'Users', datafield: 'UsersCount', filtertype: 'number'},
+                  { text: 'Jobs', datafield: 'JobsCount', filtertype: 'number'},
+                  { text: 'Applications', datafield: 'ApplicationsCount', filtertype: 'number'},
+                  { text: 'Proposals', datafield: 'ProposalsCount', filtertype: 'number'},
+                  { text: 'Invoices', datafield: 'InvoicesCount', filtertype: 'number'}
+                ]
+            });    
+
+
+    }
+	
+		
+    drawChart();
+</script>
+
+</div>
+<div style="padding: 20px 20px 20px 20px">
+<div id="jqwtablearea" style="width: 100%; height:100%; float: left;"></div>
+</div>              
+    
+

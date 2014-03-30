@@ -91,6 +91,8 @@ urlpatterns = patterns('',
     url(r'^signups_jobs_retention_getdata$', 'nabbeshreports.maps.views.signups_jobs_retention_getdata', name='signups_jobs_retention_getdata'),
     url(r'^signups_jobs_retention_report$', 'nabbeshreports.maps.views.signups_jobs_retention_report', name='signups_jobs_retention_report'),
     
+    url(r'^activities_countries_getdata$', 'nabbeshreports.maps.views.activities_countries_getdata', name='activities_countries_getdata'),
+    url(r'^activities_countries_report$', 'nabbeshreports.maps.views.activities_countries_report', name='activities_countries_report'),
 #    url(r'^escrow_getdata$', 'nabbeshreports.maps.views.escrow_getdata', name='escrow_getdata'),
 #    url(r'^escrow_report$', 'nabbeshreports.maps.views.escrow_report', name='escrow_report'),
 

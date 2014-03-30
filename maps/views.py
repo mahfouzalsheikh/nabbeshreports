@@ -896,6 +896,37 @@ def jobs_apps_retention_getdata(request):
 
 
 
+
+
+@csrf_exempt        
+def activities_countries_report(request):
+    
+    t = loader.get_template('./reports/activities_countries_report.html')
+    c = Context({
+        'activities_countries_report': jobs_apps_retention_report,
+    })
+    return HttpResponse(t.render(c))
+            
+@csrf_exempt
+def activities_countries_getdata(request):
+    if request.method == 'POST':
+        #objs = simplejson.loads(request.raw_post_data)         
+
+        sql = ("select distinct u.country, COALESCE(usercount,0) as usercount, COALESCE(jobscount,0) as jobscount, COALESCE(appscount,0) as appscount, COALESCE(proposalcount,0) as proposalcount, COALESCE(invoicecount,0) as invoicecount from users u left outer join (select count(distinct u.id) as usercount, u.country from users u inner join auth_user au on u.django_user_id=au.id group by u.country ) signups on signups.country=u.country left outer join (select count(distinct cj.id) as jobscount,u.country  from contracts_job cj inner join users u on u.id=cj.employer_id  group by u.country) jobs on jobs.country=u.country left outer join (select count(distinct ca.id) as appscount, u.country from contracts_application ca inner join users u on u.id=ca.applicant_id  group by u.country) apps on apps.country=u.country left outer join (select count(distinct cm.id) as proposalcount, u.country from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id inner join contracts_application ca on ca.id=cm.application_id inner join users u on u.id=ca.applicant_id group by u.country) proposals on proposals.country=u.country left outer join (select count(distinct cm.id) as invoicecount, u.country from contracts_invoice ci inner join contracts_message cm on cm.id=ci.message_ptr_id inner join contracts_application ca on ca.id=cm.application_id inner join users u on u.id=ca.applicant_id  group by u.country) invoices on invoices.country=u.country where u.country is not null and u.country<>'' order by usercount desc") 
+        print sql
+        results = customQuery(sql,0)
+        
+       
+        print results                           
+        c = Context({'countries': results})        
+	return HttpResponse(render_to_string('activities_countries.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+
+
+
+
+
+
+
 @csrf_exempt     
 def vistest_report(request):
     
