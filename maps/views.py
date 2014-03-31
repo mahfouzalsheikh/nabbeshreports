@@ -79,18 +79,9 @@ def initialize_service():
 
 
 @login_required(login_url='/accounts/login/')
-def home(request):
-    
-    user_list = Users.objects.filter(id__gt=5000)
-    t = loader.get_template('index.html')
-    #c = Context({
-    #    'user_list': user_list,
-    #})
-    #return render_to_response('index.html', c)
-    
+def home(request):    
+    t = loader.get_template('index.html')   
     return render_to_response('index.html', context_instance=RequestContext(request))
-    #return HttpResponse(t.render(c))
-
 
 
 def customQuery(sql, db):
@@ -141,14 +132,14 @@ def customQueryOld(sql):
 
     
        
-@csrf_exempt        
+@login_required(login_url='/accounts/login/')       
 def freelancerdemography_report(request):
     
     t = loader.get_template('./reports/freelancerdemography_report.html')
     c = Context({
         'freelancerdemography_report': freelancerdemography_report,
     })
-    return HttpResponse(t.render(c))
+    return render_to_response('./reports/freelancerdemography_report.html', context_instance=RequestContext(request))
 
     
     
@@ -169,7 +160,7 @@ def freelancerdemography_getdata(request):
         
         
         
-@csrf_exempt
+@login_required(login_url='/accounts/login/')
 def freelancersgender_report(request):
     
     t = loader.get_template('./reports/freelancersgender_report.html')
@@ -196,14 +187,14 @@ def freelancersgender_getdata(request):
         
         
         
-@csrf_exempt
+@login_required(login_url='/accounts/login/')
 def freelancerseducation_report(request):
     
     t = loader.get_template('./reports/freelancerseducation_report.html')
     c = Context({
         'freelancerseducation_report': freelancerseducation_report,
     })
-    return HttpResponse(t.render(c))
+    return render_to_response('./reports/freelancerseducation_report.html', context_instance=RequestContext(request))
             
 @csrf_exempt
 def freelancerseducation_getdata(request):
@@ -219,7 +210,7 @@ def freelancerseducation_getdata(request):
         return HttpResponse(render_to_string('freelancerseducation.json', c, context_instance=RequestContext(request)), mimetype='application/json')
         
 
-@csrf_exempt
+@login_required(login_url='/accounts/login/')
 def freelancersages_report(request):
     
     t = loader.get_template('./reports/freelancersages_report.html')
@@ -242,15 +233,11 @@ def freelancersages_getdata(request):
         
         
  
-@csrf_exempt
+@login_required(login_url='/accounts/login/')	
 def dashboard(request):
     
     t = loader.get_template('./reports/dashboard.html')
-    c = Context({
-        'dashboard': dashboard,
-    })
-    return HttpResponse(t.render(c))
-    
+    return render_to_response('./reports/dashboard.html', context_instance=RequestContext(request))
     
 @csrf_exempt 
 def dashboard_getdata(request):
@@ -317,14 +304,14 @@ def dashboard_getdata(request):
         return HttpResponse(render_to_string('dashboard.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
         
         
-@csrf_exempt
+@login_required(login_url='/accounts/login/')
 def jobs_employers_statistics(request):
     
     t = loader.get_template('./reports/jobs_employers_statistics.html')
     c = Context({
         'jobs_employers_statistics': dashboard,
     })
-    return HttpResponse(t.render(c))
+    return render_to_response('./reports/jobs_employers_statistics.html', context_instance=RequestContext(request))
         
 @csrf_exempt 
 def jobs_employers_statistics_getdata(request):
@@ -358,17 +345,18 @@ def jobs_employers_statistics_getdata(request):
    
         return HttpResponse(render_to_string('jobs_employers_statistics.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
         
-@csrf_exempt
+@login_required(login_url='/accounts/login/')
 def jobs_applications_statistics(request):
-    if request.method == 'POST':
-    	objs = simplejson.loads(request.raw_post_data)
+    if request.method == 'GET':
+    	#objs = simplejson.loads(request.raw_post_data)
     	#print objs
         t = loader.get_template('./reports/jobs_applications_statistics.html')
-        param =  objs['param']
-        c = Context({'jobs_applications_statistics': dashboard, 'param': param})
+        #param =  objs['param']
+        #c = Context({'jobs_applications_statistics': dashboard, 'param': param})
         
 #        return HttpResponse(t.render(c) )
-        return HttpResponse(render_to_string('./reports/jobs_applications_statistics.html', c, context_instance=RequestContext(request)), mimetype='application/html') 
+        #return HttpResponse(render_to_string('./reports/jobs_applications_statistics.html', c, context_instance=RequestContext(request)), mimetype='application/html') 
+        return render_to_response('./reports/jobs_applications_statistics.html', context_instance=RequestContext(request))
         
         
 @csrf_exempt 
@@ -421,13 +409,13 @@ def jobs_communications_getdata(request):
         
 
 
-@csrf_exempt
+@login_required(login_url='/accounts/login/')
 def sign_job_proposal_invoice(request):
     
     t = loader.get_template('./reports/sign_job_proposal_invoice.html')
     param = get_sourceliststring()
     c = Context({'sign_job_proposal_invoice': dashboard,'param' : param  })
-    return HttpResponse(t.render(c))        
+    return render_to_response('./reports/sign_job_proposal_invoice.html',c, context_instance=RequestContext(request))        
         
 @csrf_exempt  
 def sign_job_proposal_invoice_getdata(request):
@@ -457,14 +445,14 @@ def sign_job_proposal_invoice_getdata(request):
         return HttpResponse(render_to_string('sign_job_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
         
         
-@csrf_exempt        
+@login_required(login_url='/accounts/login/')        
 def sign_application_proposal_invoice(request):
     
     t = loader.get_template('./reports/sign_application_proposal_invoice.html')
     param = get_sourceliststring()
     
     c = Context({'sign_application_proposal_invoice': dashboard, 'param' : param  })
-    return HttpResponse(t.render(c))        
+    return render_to_response('./reports/sign_job_proposal_invoice.html',c, context_instance=RequestContext(request))        
         
 @csrf_exempt  
 def sign_application_proposal_invoice_getdata(request):
@@ -493,16 +481,16 @@ def sign_application_proposal_invoice_getdata(request):
         
         
 
-@csrf_exempt
+@login_required(login_url='/accounts/login/')
 def top_freelancers(request):
     
     t = loader.get_template('./reports/top_freelancers.html')
     c = Context({
         'top_freelancers': dashboard,
     })
-    return HttpResponse(t.render(c))   
+    return render_to_response('./reports/top_freelancers.html', context_instance=RequestContext(request))   
 
-@csrf_exempt 
+@csrf_exempt
 def top_freelancers_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
@@ -533,7 +521,7 @@ def top_freelancers_getdata(request):
         c = Context({'users': results})
         return HttpResponse(render_to_string('top_freelancers.json', c, context_instance=RequestContext(request)), mimetype='application/json')             
 
-@csrf_exempt
+@login_required(login_url='/accounts/login/')
 def top_employers(request):
     
     t = loader.get_template('./reports/top_employers.html')
@@ -568,7 +556,7 @@ def top_employers_getdata(request):
         
 
 
-@csrf_exempt        
+@login_required(login_url='/accounts/login/')       
 def skillsdemography_report(request):
     
     t = loader.get_template('./reports/skillsdemography_report.html')
@@ -626,7 +614,7 @@ def skillsdemographydetails_getdata(request):
         return HttpResponse(render_to_string('skillsdemographydetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
             
 
-@csrf_exempt        
+@login_required(login_url='/accounts/login/')        
 def skillsdistribution_report(request):
     
     t = loader.get_template('./reports/skillsdistribution_report.html')
@@ -679,14 +667,14 @@ def geocodes(request):
     return HttpResponse(t.render(c))
             
             
-@csrf_exempt        
+@login_required(login_url='/accounts/login/')        
 def crosscountryapps_report(request):
     
     t = loader.get_template('./reports/crosscountryapps_report.html')
     c = Context({
         'crosscountryapps_report': crosscountryapps_report,
     })
-    return HttpResponse(t.render(c))
+    return render_to_response('./reports/crosscountryapps_report.html', context_instance=RequestContext(request))
             
 @csrf_exempt
 def crosscountryapps_getdata(request):
@@ -712,14 +700,14 @@ def crosscountryapps_getdata(request):
 	    
             
                         
-@csrf_exempt        
+@login_required(login_url='/accounts/login/')         
 def proposals_report(request):
     
     t = loader.get_template('./reports/proposals_report.html')
     c = Context({
         'proposals_report': proposals_report,
     })
-    return HttpResponse(t.render(c))
+    return render_to_response('./reports/proposals_report.html', context_instance=RequestContext(request))
             
 @csrf_exempt
 def proposals_getdata(request):
@@ -744,14 +732,14 @@ def proposals_getdata(request):
 	
 
 
-@csrf_exempt        
+@login_required(login_url='/accounts/login/')        
 def invoices_report(request):
     
     t = loader.get_template('./reports/invoices_report.html')
     c = Context({
         'invoices_report': invoices_report,
     })
-    return HttpResponse(t.render(c))
+    return render_to_response('./reports/invoices_report.html', context_instance=RequestContext(request))
             
 @csrf_exempt
 def invoices_getdata(request):
@@ -776,14 +764,14 @@ def invoices_getdata(request):
 	
             
             
-@csrf_exempt        
+@login_required(login_url='/accounts/login/')
 def jobs_apps_stats_report(request):
     
     t = loader.get_template('./reports/jobs_apps_stats_report.html')
     c = Context({
         'jobs_apps_stats_report': jobs_apps_stats_report,
     })
-    return HttpResponse(t.render(c))
+    return render_to_response('./reports/jobs_apps_stats_report.html', context_instance=RequestContext(request))
             
 @csrf_exempt
 def jobs_apps_stats_getdata(request):
@@ -808,14 +796,14 @@ def jobs_apps_stats_getdata(request):
 
 
 
-@csrf_exempt        
+@login_required(login_url='/accounts/login/')       
 def signups_apps_retention_report(request):
     
     t = loader.get_template('./reports/signups_apps_retention_report.html')
     c = Context({
         'signups_apps_retention_report': signups_apps_retention_report,
     })
-    return HttpResponse(t.render(c))
+    return render_to_response('./reports/signups_apps_retention_report.html', context_instance=RequestContext(request))
             
 @csrf_exempt
 def signups_apps_retention_getdata(request):
@@ -834,14 +822,14 @@ def signups_apps_retention_getdata(request):
 	           
 
 
-@csrf_exempt        
+@login_required(login_url='/accounts/login/')        
 def signups_jobs_retention_report(request):
     
     t = loader.get_template('./reports/signups_jobs_retention_report.html')
     c = Context({
         'signups_jobs_retention_report': signups_jobs_retention_report,
     })
-    return HttpResponse(t.render(c))
+    return render_to_response('./reports/signups_jobs_retention_report.html', context_instance=RequestContext(request))
             
 @csrf_exempt
 def signups_jobs_retention_getdata(request):
@@ -867,14 +855,14 @@ def signups_jobs_retention_getdata(request):
 
 
 
-@csrf_exempt        
+@login_required(login_url='/accounts/login/')       
 def jobs_apps_retention_report(request):
     
     t = loader.get_template('./reports/jobs_apps_retention_report.html')
     c = Context({
         'jobs_apps_retention_report': jobs_apps_retention_report,
     })
-    return HttpResponse(t.render(c))
+    return render_to_response('./reports/jobs_apps_retention_report.html', context_instance=RequestContext(request))
             
 @csrf_exempt
 def jobs_apps_retention_getdata(request):
@@ -897,15 +885,14 @@ def jobs_apps_retention_getdata(request):
 
 
 
-
-@csrf_exempt        
+@login_required(login_url='/accounts/login/')         
 def activities_countries_report(request):
     
     t = loader.get_template('./reports/activities_countries_report.html')
     c = Context({
         'activities_countries_report': jobs_apps_retention_report,
     })
-    return HttpResponse(t.render(c))
+    return render_to_response('./reports/activities_countries_report.html',c, context_instance=RequestContext(request))
             
 @csrf_exempt
 def activities_countries_getdata(request):
@@ -920,9 +907,6 @@ def activities_countries_getdata(request):
         print results                           
         c = Context({'countries': results})        
 	return HttpResponse(render_to_string('activities_countries.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
-
-
-
 
 
 

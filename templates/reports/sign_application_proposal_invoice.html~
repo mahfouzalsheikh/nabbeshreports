@@ -1,4 +1,48 @@
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+{% extends 'reports/base.html' %}
+{% block reportblock %}
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>                 
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
+                   
+                   <tr><td></td><td><div id='jqxCheckBox' style='margin-left: 10px; float: left;'>Signed up as Employer</div></td></tr>
+                   <tr><td></td><td><div id='cpcCheckBox' style='margin-left: 10px; float: left;'>Only from selected sources</div></td></tr>
+                   <tr><td></td><td><div id="metricslist"></div></td></tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                    
+                </table>   
+            </div>
+        </div>
+<div style="padding: 20px 20px 20px 20px">
+ 
+<div><center><h2>Freelancers Acitvity Funnel</h2><div id='date'></div></center></div>
+<center><canvas id="cvs" width=800" height="450">[No canvas support]</canvas></center>
+<table width="95%"><tr>
+<td><div id="chart1" style="width: 230; height:450px; float: left;"></div></td>
+<td><div id="stage1" style="font-size:18px"></div></td>
+<td><div id="chart2" style="width: 230; height:450px; float: left;"></div></td>
+<td><div id="stage2" style="font-size:18px"></div></td>
+<td><div id="chart3" style="width: 230; height:450px; float: left;"></div></td>
+<td><div id="stage3" style="font-size:18px"></div></td>
+<td><div id="chart4" style="width: 230; height:450px; float: left;"></div></td><td></td>
+</tr></table>
+
+</div>
+
+
+<script type="text/javascript">
+        // Load the Visualization API and the piechart package.
+        google.load('visualization', '1', {packages: ['corechart']});
+        google.load('visualization', '1', {packages: ['table']});
+        //google.load('visualization', '1', {packages: ['geochart']});
+        //google.load('visualization', '1', {packages: ['annotatedtimeline']});
+        //google.load('visualization', '1', {packages: ['controls']});
+        //google.load('visualization', '1', {packages: ['geomap']});
+
+
+</script>
 
 <script type="text/javascript">
  var theme = 'bootstrap';
@@ -149,35 +193,3 @@
   
     drawChart(signupchecked, cpcchecked,checkedItems,fromdate,todate);
 </script>
-
- <div id='optionsExpander'>
-            <div>Options</div>
-            <div>
-                <table>                 
-                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
-                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
-                   
-                   <tr><td></td><td><div id='jqxCheckBox' style='margin-left: 10px; float: left;'>Signed up as Employer</div></td></tr>
-                   <tr><td></td><td><div id='cpcCheckBox' style='margin-left: 10px; float: left;'>Only from selected sources</div></td></tr>
-                   <tr><td></td><td><div id="metricslist"></div></td></tr>
-                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                    
-                </table>   
-            </div>
-        </div>
-<div style="padding: 20px 20px 20px 20px">
-
-<div><center><h2>Freelancers Acitvity Funnel</h2><div id='date'></div></center></div>
-<center><canvas id="cvs" width=800" height="450">[No canvas support]</canvas></center>
-<table width="95%"><tr>
-<td><div id="chart1" style="width: 230; height:450px; float: left;"></div></td>
-<td><div id="stage1" style="font-size:18px"></div></td>
-<td><div id="chart2" style="width: 230; height:450px; float: left;"></div></td>
-<td><div id="stage2" style="font-size:18px"></div></td>
-<td><div id="chart3" style="width: 230; height:450px; float: left;"></div></td>
-<td><div id="stage3" style="font-size:18px"></div></td>
-<td><div id="chart4" style="width: 230; height:450px; float: left;"></div></td><td></td>
-</tr></table>
-
-</div>
-
-

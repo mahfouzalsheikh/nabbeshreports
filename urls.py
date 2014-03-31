@@ -13,98 +13,93 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^admin/', include(admin.site.urls)),
-
+######################## home #########################
     url(r'^$', 'nabbeshreports.maps.views.home', name='home'),
-    #url(r'^userlist/(?P<day>\d{2})-(?P<month>\d{2})-(?P<year>\d{4})$', 'nabbeshreports.maps.views.userlist', name='userlist'),
-    #url(r'^skillslist/$', 'nabbeshreports.maps.views.skillslist', name='skillslist'),
-    #url(r'^skillslist/(\d{4})/$', 'nabbeshreports.maps.views.skillslistp', name='skillslistp'),
-    #url(r'^userlistparam$', 'nabbeshreports.maps.views.userlistparam', name='userlistparam'),
-    #url(r'^markerlist$', 'nabbeshreports.maps.views.markerlist', name='markerlist'),
-    #url(r'^applicationlist$', 'nabbeshreports.maps.views.applicationlist', name='applicationlist'),
-    #url(r'^skillsstatistics$', 'nabbeshreports.maps.views.skillsstatistics', name='skillsstatistics'),
-
-    url(r'^freelancerdemography_report$', 'nabbeshreports.maps.views.freelancerdemography_report', name='freelancerdemography_report'),
-    url(r'^freelancerdemography_getdata$', 'nabbeshreports.maps.views.freelancerdemography_getdata', name='freelancerdemography_getdata'),
-
-    url(r'^freelancersgender_report$', 'nabbeshreports.maps.views.freelancersgender_report', name='freelancersgender_report'),
-    url(r'^freelancersgender_getdata$', 'nabbeshreports.maps.views.freelancersgender_getdata', name='freelancersgender_getdata'),
-    
-    url(r'^freelancerseducation_report$', 'nabbeshreports.maps.views.freelancerseducation_report', name='freelancerseducation_report'),
-    url(r'^freelancerseducation_getdata$', 'nabbeshreports.maps.views.freelancerseducation_getdata', name='freelancerseducation_getdata'),
-    
-    url(r'^freelancersages_report$', 'nabbeshreports.maps.views.freelancersages_report', name='freelancersages_report'),
-    url(r'^freelancersages_getdata$', 'nabbeshreports.maps.views.freelancersages_getdata', name='freelancersages_getdata'),
-    
-
-    url(r'^dashboard$', 'nabbeshreports.maps.views.dashboard', name='dashboard'),
+ 
+######################## main metrics #################
+ 
+ 
+    url(r'^mainmetrics$', 'nabbeshreports.maps.views.dashboard'),
     url(r'^dashboard_getdata$', 'nabbeshreports.maps.views.dashboard_getdata', name='dashboard_getdata'),
     
-    url(r'^jobs_employers_statistics$', 'nabbeshreports.maps.views.jobs_employers_statistics', name='jobs_employers_statistics'),
-    url(r'^jobs_employers_statistics_getdata$', 'nabbeshreports.maps.views.jobs_employers_statistics_getdata', name='jobs_employers_statistics_getdata'),
-    
-    url(r'^jobs_applications_statistics$', 'nabbeshreports.maps.views.jobs_applications_statistics', name='jobs_applications_statistics'),
-    url(r'^jobs_applications_statistics_getdata$', 'nabbeshreports.maps.views.jobs_applications_statistics_getdata', name='jobs_applications_statistics_getdata'),
-    
-    url(r'^jobs_communications_getdata$', 'nabbeshreports.maps.views.jobs_communications_getdata', name='jobs_communications_getdata'),
-    
 
-    url(r'^sign_job_proposal_invoice_getdata$', 'nabbeshreports.maps.views.sign_job_proposal_invoice_getdata', name='sign_job_proposal_invoice_getdata'),
-    url(r'^sign_job_proposal_invoice$', 'nabbeshreports.maps.views.sign_job_proposal_invoice', name='sign_job_proposal_invoice'),
+######################## Freelancers ##################    
     
-    url(r'^sign_application_proposal_invoice_getdata$', 'nabbeshreports.maps.views.sign_application_proposal_invoice_getdata', name='sign_application_proposal_invoice_getdata'),
-    url(r'^sign_application_proposal_invoice$', 'nabbeshreports.maps.views.sign_application_proposal_invoice', name='sign_application_proposal_invoice'),
+    url(r'^freelancerdemographicprofile$', 'nabbeshreports.maps.views.freelancerdemography_report'),
+    url(r'^freelancerdemography_getdata$', 'nabbeshreports.maps.views.freelancerdemography_getdata'), 
     
-    url(r'^top_freelancers_getdata$', 'nabbeshreports.maps.views.top_freelancers_getdata', name='top_freelancers_getdata'),
-    url(r'^top_freelancers$', 'nabbeshreports.maps.views.top_freelancers', name='top_freelancers'),
+    url(r'^freelancersgender$', 'nabbeshreports.maps.views.freelancersgender_report'),
+    url(r'^freelancersgender_getdata$', 'nabbeshreports.maps.views.freelancersgender_getdata'),    
     
-    url(r'^top_employers_getdata$', 'nabbeshreports.maps.views.top_employers_getdata', name='top_employers_getdata'),
-    url(r'^top_employers$', 'nabbeshreports.maps.views.top_employers', name='top_employers'),
+    url(r'^freelancersages$', 'nabbeshreports.maps.views.freelancersages_report'),
+    url(r'^freelancersages_getdata$', 'nabbeshreports.maps.views.freelancersages_getdata'),   
     
+    url(r'^freelancerseducation$', 'nabbeshreports.maps.views.freelancerseducation_report'),
+    url(r'^freelancerseducation_getdata$', 'nabbeshreports.maps.views.freelancerseducation_getdata'),      
     
-    url(r'^skillsdemography_report$', 'nabbeshreports.maps.views.skillsdemography_report', name='skillsdemography_report'),
-    url(r'^skillsdemography_getdata$', 'nabbeshreports.maps.views.skillsdemography_getdata', name='skillsdemography_getdata'),  
-    url(r'^skillsdemographydetails_getdata$', 'nabbeshreports.maps.views.skillsdemographydetails_getdata', name='skillsdemographydetails_getdata'),   
-    
-    url(r'^skillsdistribution_report$', 'nabbeshreports.maps.views.skillsdistribution_report', name='skillsdistribution_report'),
-    url(r'^skillsdistribution_getdata$', 'nabbeshreports.maps.views.skillsdistribution_getdata', name='skillsdistribution_getdata'), 
-    
-    url(r'^crosscountryapps_getdata$', 'nabbeshreports.maps.views.crosscountryapps_getdata', name='crosscountryapps_getdata'),
-    url(r'^crosscountryapps_report$', 'nabbeshreports.maps.views.crosscountryapps_report', name='crosscountryapps_report'),    
-    url(r'^geocodes$', 'nabbeshreports.maps.views.geocodes', name='geocodes'),
-  
-    
-    url(r'^proposals_getdata$', 'nabbeshreports.maps.views.proposals_getdata', name='proposals_getdata'),
-    url(r'^proposals_report$', 'nabbeshreports.maps.views.proposals_report', name='proposals_report'),
+    url(r'^topfreelancers$', 'nabbeshreports.maps.views.top_freelancers'),  
+    url(r'^top_freelancers_getdata$', 'nabbeshreports.maps.views.top_freelancers_getdata'),
 
-    url(r'^invoices_getdata$', 'nabbeshreports.maps.views.invoices_getdata', name='invoices_getdata'),
-    url(r'^invoices_report$', 'nabbeshreports.maps.views.invoices_report', name='invoices_report'),
 
-    url(r'^jobs_apps_stats_getdata$', 'nabbeshreports.maps.views.jobs_apps_stats_getdata', name='jobs_apps_stats_getdata'),
-    url(r'^jobs_apps_stats_report$', 'nabbeshreports.maps.views.jobs_apps_stats_report', name='jobs_apps_stats_report'),
+######################## Employers ####################
+    url(r'^topemployers$', 'nabbeshreports.maps.views.top_employers'),
+    url(r'^top_employers_getdata$', 'nabbeshreports.maps.views.top_employers_getdata'),
 
-    url(r'^signups_apps_retention_getdata$', 'nabbeshreports.maps.views.signups_apps_retention_getdata', name='signups_apps_retention_getdata'),
-    url(r'^signups_apps_retention_report$', 'nabbeshreports.maps.views.signups_apps_retention_report', name='signups_apps_retention_report'),
 
-    url(r'^jobs_apps_retention_getdata$', 'nabbeshreports.maps.views.jobs_apps_retention_getdata', name='jobs_apps_retention_getdata'),
-    url(r'^jobs_apps_retention_report$', 'nabbeshreports.maps.views.jobs_apps_retention_report', name='jobs_apps_retention_report'),
 
-    url(r'^signups_jobs_retention_getdata$', 'nabbeshreports.maps.views.signups_jobs_retention_getdata', name='signups_jobs_retention_getdata'),
-    url(r'^signups_jobs_retention_report$', 'nabbeshreports.maps.views.signups_jobs_retention_report', name='signups_jobs_retention_report'),
+######################## Activity #####################
+
+    url(r'^jobsemployersstatistics$', 'nabbeshreports.maps.views.jobs_employers_statistics'),
+    url(r'^jobs_employers_statistics_getdata$', 'nabbeshreports.maps.views.jobs_employers_statistics_getdata'),
     
-    url(r'^activities_countries_getdata$', 'nabbeshreports.maps.views.activities_countries_getdata', name='activities_countries_getdata'),
-    url(r'^activities_countries_report$', 'nabbeshreports.maps.views.activities_countries_report', name='activities_countries_report'),
-#    url(r'^escrow_getdata$', 'nabbeshreports.maps.views.escrow_getdata', name='escrow_getdata'),
-#    url(r'^escrow_report$', 'nabbeshreports.maps.views.escrow_report', name='escrow_report'),
+    url(r'^jobsapplicationsstatistics$', 'nabbeshreports.maps.views.jobs_applications_statistics'),
+    url(r'^jobs_applications_statistics_getdata$', 'nabbeshreports.maps.views.jobs_applications_statistics_getdata'), 
+    url(r'^jobs_communications_getdata$', 'nabbeshreports.maps.views.jobs_communications_getdata'),  
 
+    url(r'^employersfunnel$', 'nabbeshreports.maps.views.sign_job_proposal_invoice'),     
+    url(r'^sign_job_proposal_invoice_getdata$', 'nabbeshreports.maps.views.sign_job_proposal_invoice_getdata'),
    
-
-    url(r'^miningtest_report$', 'nabbeshreports.maps.views.miningtest_report', name='miningtest_report'),
-    url(r'^miningtest_getdata$', 'nabbeshreports.maps.views.miningtest_getdata', name='miningtest_getdata'),
-
-    url(r'^vistest_report$', 'nabbeshreports.maps.views.vistest_report', name='vistest_report'),
+    url(r'^freelancersfunnel$', 'nabbeshreports.maps.views.sign_application_proposal_invoice'),
+    url(r'^sign_application_proposal_invoice_getdata$', 'nabbeshreports.maps.views.sign_application_proposal_invoice_getdata'),
     
-    url(r'^googleanalytics_report$', 'nabbeshreports.maps.views.googleanalytics_report', name='googleanalytics_report'),
+    url(r'^crosscountryapps$', 'nabbeshreports.maps.views.crosscountryapps_report'),    
+    url(r'^crosscountryapps_getdata$', 'nabbeshreports.maps.views.crosscountryapps_getdata'),    
+    url(r'^geocodes$', 'nabbeshreports.maps.views.geocodes'),    
     
+    url(r'^jobsappsstatsreport$', 'nabbeshreports.maps.views.jobs_apps_stats_report'),  
+    url(r'^jobs_apps_stats_getdata$', 'nabbeshreports.maps.views.jobs_apps_stats_getdata'),
+  
+    url(r'^signups_apps_retention_getdata$', 'nabbeshreports.maps.views.signups_apps_retention_getdata'),
+    url(r'^signupsappsretention$', 'nabbeshreports.maps.views.signups_apps_retention_report'),
+
+    url(r'^jobs_apps_retention_getdata$', 'nabbeshreports.maps.views.jobs_apps_retention_getdata'),
+    url(r'^jobsappsretention$', 'nabbeshreports.maps.views.jobs_apps_retention_report'),
+
+    url(r'^signups_jobs_retention_getdata$', 'nabbeshreports.maps.views.signups_jobs_retention_getdata'),
+    url(r'^signupsjobsretention$', 'nabbeshreports.maps.views.signups_jobs_retention_report'),
+    
+    url(r'^activities_countries_getdata$', 'nabbeshreports.maps.views.activities_countries_getdata'),
+    url(r'^activitiescountries$', 'nabbeshreports.maps.views.activities_countries_report'),
+#################### Finance ##########################    
+
+    url(r'^proposals_getdata$', 'nabbeshreports.maps.views.proposals_getdata'),
+    url(r'^proposals$', 'nabbeshreports.maps.views.proposals_report'),
+
+    url(r'^invoices_getdata$', 'nabbeshreports.maps.views.invoices_getdata'),
+    url(r'^invoices$', 'nabbeshreports.maps.views.invoices_report'),
+
+
+################## Skills #############################
+
+    url(r'^skillsdemographicprofile$', 'nabbeshreports.maps.views.skillsdemography_report'),
+    url(r'^skillsdemography_getdata$', 'nabbeshreports.maps.views.skillsdemography_getdata'),  
+    url(r'^skillsdemographydetails_getdata$', 'nabbeshreports.maps.views.skillsdemographydetails_getdata'),   
+    
+    url(r'^skillsdistribution$', 'nabbeshreports.maps.views.skillsdistribution_report'),
+    url(r'^skillsdistribution_getdata$', 'nabbeshreports.maps.views.skillsdistribution_getdata'), 
+
+#######################################################    
+
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
     url(r'^static/admin/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.ADMIN_STATIC}),
     

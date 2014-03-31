@@ -1,80 +1,11 @@
-{% include 'head.html' %}
+{% extends 'reports/base.html' %}
 
+{% block reportblock %}
 
-<body bgcolor="#F8F8F8">
-
-
-<div style="padding: 0px 0px 0px 10px; height:70px">
-<div><a href="/"><img  src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></a></div>
-<div style="padding: 0px 10px 10px 10px;font-size: 12px;float: right">
-
-
-
- {% if user.is_authenticated %}
-    <span style="color: #00B6DE">{{ user.first_name  }} {{user.last_name}} </span><a href="/accounts/logout/">Sign Out</a>
- {% endif %}
-
+<div style="width:100%;argin-left:auto; margin-right:auto;color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">
+  <h1>Main Counters and Gauges to Be Added Here</h1>
 </div>
-</div>
+{% endblock %}
 
- <div id='jqxWidget'>
-        <div style="float: center; padding: 0px 10px 10px 10px;">
-            <div id='jqxTabs' class='jqx-rc-all' style="overflow-y: auto;">
-                <ul style="margin-left: 40px;" id="unorderedList">
-                    <li>
-                        <div style="height: 40px;">
-                    	    <img style='float: left;' width='32' height='32' src="/site_media/img/charts.png" alt="" class="small-image" />
-                            <div style="float: left; margin-left: 6px; text-align: center; margin-top: 5px; font-size: 14px;">
-                                Reports
-			    </div>
-                        </div>
-                    </li>
-                    
 
-                </ul>
-                <div class="content-container">
-                    <div style=" padding: 5px 5px 5px 5px;">
-  <div id='jqxWidget'>
-        <div id="mainSplitter" style="overflow-y: auto;">
-         	          <div class="splitter-panel">
-		  <div id='jqxNavigationBar'>
-            <div>Dashboard</div>
-            <div>
-            <div><div id='dashboardslist'> </div></div>
 
-            </div>
-            <div>Freelancers</div>
-            <div><div id='freelancerslist'> </div></div>
-            
-            <div>Employers</div>
-            <div><div id='employerslist'> </div></div>
-            <div>Activity</div>
-            <div><div id='activitylist'> </div></div>
-           
-            <div>Finance</div>
-            <div><div id='financelist'> </div></div>
-            <div>Skills</div>
-            <div><div id='skillslist'> </div></div>
-        </div>
-	</div>
-        <div class="splitter-panel" style="overflow-y: auto;">
-               
-		<div class="container" id="reportcontent" style="overflow-y: auto;">
-
-		  
-		</div>
-	</div>
-      </div>
-    </div>
-     				
-                    </div>
-                </div>
-                
-           
-            </div>
-        </div>
-    </div>
-
-</div>
-</body>
-</html>

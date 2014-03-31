@@ -1,0 +1,158 @@
+<html>
+<head>
+    <title id='Description'>Nabbesh Reports</title>
+    <link rel="shortcut icon" href="https://s3.amazonaws.com/akiajtwy4p5byb7shnva_images/static/images/favicon.ico">
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+
+    
+    <link rel="stylesheet" href="/site_media/jqwid/jqwidgets/styles/jqx.base.css" type="text/css" />
+
+    <link rel="stylesheet" href="/site_media/jqwid/jqwidgets/styles/jqx.bootstrap.css" type="text/css" />
+
+
+    <script type="text/javascript" src="/site_media/jqwid/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxtabs.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxsplitter.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxnavigationbar.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxprogressbar.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdatetimeinput.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxinput.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcalendar.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxtooltip.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/globalization/globalize.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxslider.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcombobox.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxexpander.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcalendar.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxnumberinput.js"></script>
+    <script type="text/javascript" src="/site_media/js/jquery.blockUI.js"></script>
+    
+    
+    
+       
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.selection.js"></script> 
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.sort.js"></script> 
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.filter.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.aggregates.js"></script> 
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.grouping.js"></script>
+
+    
+    <script src="/site_media/js/rgraph/RGraph.common.core.js" ></script>
+    <script src="/site_media/js/rgraph/RGraph.funnel.js" ></script>
+    
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    
+    
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+
+</head>
+
+
+<body bgcolor="#F8F8F8">
+
+<div id="main" style="padding: 0px 20px 10px 20px;">
+
+<div style="padding: 0px 0px 0px 10px; height:70px">
+
+
+
+<div style="float:left; width:150px">
+  <a href="/"><img  src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></a>
+</div>
+<div style="float:left;">
+<h1 style="vertical-align:text-bottom; padding: 0px; border: 0px; outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">|Reports</h1>
+</div>
+
+
+<div style="font-size:14px;float:right;height:70px;vertical-align:text-bottom; color: rgb(102, 102, 102);">
+ {% if  user.is_authenticated %}
+    {{ user.first_name  }} {{user.last_name}}  | <a href="/accounts/logout/">Sign Out</a>
+ {% endif %}
+</div>
+
+
+</div>
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // Create a jqxMenu
+                var theme = 'bootstrap';
+                $("#mainmenu").jqxMenu({ width: '100%', height: '30px', theme: theme});
+                $("#mainmenu").css('visibility', 'visible');
+               
+             });  
+        </script>
+            <div id='mainmenu' style='visibility: hidden;'>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/mainmetrics">Main Metrics</a></li>
+                    <li>Freelancers
+                        <ul style='width: 250px;'>
+                            <li><a href="freelancerdemographicprofile">Demographic Profile</a></li>
+                            <li><a href="freelancersgender">Gender Distribution</a></li>
+                            <li><a href="freelancersages"></a>Ages Distribution</li>
+                            <li><a href="freelancerseducation">Education</a></li>
+                            <li><a href="topfreelancers"></a>Top Freelancers</li>                           
+                        </ul>
+                    </li>
+                    <li>Employers
+                        <ul>
+                            <li><a href="topemployers">Top Employers</a></li>
+                        </ul>
+                    </li>
+                    <li>Activities              
+                        <ul style='width: 200px;'>
+                            <li><a href="jobsemployersstatistics">Employers & Jobs Stats</a></li>
+                            <li><a href="jobsapplicationsstatistics">Jobs/Applications Tracking</a></li>
+                            <li><a href="employersfunnel">Employers Funnel</a></li>
+                            <li><a href="freelancersfunnel">Freelancers Funnel</a></li>
+                            <li><a href="crosscountryapps">Cross-Country Apps</a></li>
+                            <li><a href="jobsappsstatsreport">Jobs & Apps Stats</a></li>
+                            <li><a href="signupsappsretention">Signups/Apps Retention</a></li>
+                            <li><a href="signupsjobsretention">Signups/Jobs Retention</a></li>
+                            <li><a href="jobsappsretention">Jobs/Apps Retention</a></li>
+                            <li><a href="activitiescountries">Activities/Countries (new)</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li>Finance
+                        <ul style='width: 180px;'>
+                            <li><a href="proposals">Proposals</a></li>
+                            <li><a href="invoices">Invoices</a></li>
+                                   
+                        </ul>
+                    </li>
+                    <li>Skills
+                        <ul style='width: 180px;'>
+                            <li><a href="skillsdemographicprofile">Skills Demographic Profile</a></li>
+                            <li><a href="skillsdistribution">Skills Distribution</a></li>                  
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <br/>            
+ 
+{% block  reportblock %}{% endblock %}
+
+<div id = "footer" style="padding: 0px 0px 0px 10px; height:30px"></div>
+<div>
+
+</div>
+</div>
+</body>
+</html>
+

@@ -1,4 +1,68 @@
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+{% extends 'reports/base.html' %}
+{% block reportblock %}
+
+
+
+
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td></tr> 
+                   <tr><td>Search:</td><td><input type="text" id="searchkeywordsfield"/></td></tr>
+                   <tr><td></td><td><input type="text" id="contsearchkeywordsfield"/></td></tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
+                </table>   
+            </div>
+        </div>
+
+
+
+
+<div id="jqwtablearea" style="width: 100%;"></div>
+<script type="text/javascript">
+        // Load the Visualization API and the piechart package.
+        google.load('visualization', '1', {packages: ['corechart']});
+        google.load('visualization', '1', {packages: ['table']});
+        //google.load('visualization', '1', {packages: ['geochart']});
+        //google.load('visualization', '1', {packages: ['annotatedtimeline']});
+        //google.load('visualization', '1', {packages: ['controls']});
+        //google.load('visualization', '1', {packages: ['geomap']});
+
+
+</script>
+
+<style>     
+        .green {
+            color: black\9;
+            background-color: #3DAA95\9;
+        }
+        .yellow {
+            color: black\9;
+            background-color: yellow\9;
+        }
+        .red {
+            color: black\9;
+            background-color: #e83636\9;
+        }
+        .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+            color: black;
+            font-size: 16;
+            background-color: #C2E0D1;
+        }
+        .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+            color: black;
+            background-color: #FFFF80;
+        }
+        .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+            color: black;
+            background-color: 	#FFFEED;
+        }
+</style>
+
 
 <script type="text/javascript">
  var theme = 'bootstrap';
@@ -193,7 +257,7 @@
             {
                 theme: theme,
                 width: '100%',
-                height: '500',
+                height: '100%',
                 source: dataAdapter,
                 columnsresize: true,
                 sortable: true,
@@ -235,7 +299,7 @@
                   { text: 'Proposals', align: 'center', name: 'Proposals' }
                 ]
             });          
-            //$("#jqwtablearea").jqxGrid('autoresizecolumns');
+            $("#jqwtablearea").jqxGrid('autoresizecolumns');
       
             $('#jqwtablearea').on('rowselect', function (event) 
 		{
@@ -265,56 +329,5 @@
     
     
 </script>
-
-
-
- <div id='optionsExpander'>
-            <div>Options</div>
-            <div>
-                <table>
-
-                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
-                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td></tr> 
-                   <tr><td>Search:</td><td><input type="text" id="searchkeywordsfield"/></td></tr>
-                   <tr><td></td><td><input type="text" id="contsearchkeywordsfield"/></td></tr>
-                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
-                </table>   
-            </div>
-        </div>
-
-
-<div id="reportarea" style="padding: 20px 20px 20px 20px">
-<div id="output"></div>
-
-<div id="jqwtablearea" style="width: 100%; height:100%; float: left;"></div>
-</div>
-
-<style>     
-        .green {
-            color: black\9;
-            background-color: #3DAA95\9;
-        }
-        .yellow {
-            color: black\9;
-            background-color: yellow\9;
-        }
-        .red {
-            color: black\9;
-            background-color: #e83636\9;
-        }
-        .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
-            color: black;
-            font-size: 16;
-            background-color: #C2E0D1;
-        }
-        .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
-            color: black;
-            background-color: #FFFF80;
-        }
-        .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
-            color: black;
-            background-color: 	#FFFEED;
-        }
-</style>
-
+{% endblock %}
 

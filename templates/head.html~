@@ -36,7 +36,6 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxexpander.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcalendar.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdropdownlist.js"></script>
-    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxnumberinput.js"></script>
     <script type="text/javascript" src="/site_media/js/jquery.blockUI.js"></script>
     
     
@@ -230,13 +229,13 @@
             });
             
             
-            var activitysource = ["Employers & Jobs Stats", "Jobs/Applications Tracking", "Employers Funnel", "Freelancers Funnel", "Cross-Country Apps","Activities/Countries", "Jobs & Apps Stats", "Signups/Apps Retention", "Signups/Jobs Retention", "Jobs/Apps Retention"];
+            var activitysource = ["Employers & Jobs Stats", "Jobs/Applications Tracking", "Employers Funnel", "Freelancers Funnel", "Cross-Country Apps", "Jobs & Apps Stats", "Signups/Apps Retention", "Signups/Jobs Retention", "Jobs/Apps Retention"];
 
             $("#activitylist").jqxListBox({
                 
                 source: activitysource,
                 width: 176,
-                height: 255,
+                height: 230,
                 selectedIndex: -1,
                 theme: theme
             });
@@ -377,9 +376,6 @@
   		   	case "Jobs/Apps Retention":    			
   		   	      URLString = "jobs_apps_retention_report";
   		   	      break;      
-  		   	case "Activities/Countries":    			
-  		   	      URLString = "activities_countries_report";
-  		   	      break;   		   	      
 			default:
   			      URLString = "dashboard";
 		}
