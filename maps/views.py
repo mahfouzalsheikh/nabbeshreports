@@ -167,7 +167,9 @@ def freelancersgender_report(request):
     c = Context({
         'freelancersgender_report': freelancersgender_report,
     })
-    return HttpResponse(t.render(c))
+    #return HttpResponse(t.render(c))
+    return render_to_response('./reports/freelancersgender_report.html', context_instance=RequestContext(request))
+    
             
 @csrf_exempt
 def freelancersgender_getdata(request):
@@ -217,7 +219,8 @@ def freelancersages_report(request):
     c = Context({
         'freelancersages_report': freelancersgender_report,
     })
-    return HttpResponse(t.render(c))
+    #return HttpResponse(t.render(c))
+    return render_to_response('./reports/freelancersages_report.html', context_instance=RequestContext(request))
 
 @csrf_exempt            
 def freelancersages_getdata(request):
@@ -528,7 +531,8 @@ def top_employers(request):
     c = Context({
         'top_employers': dashboard,
     })
-    return HttpResponse(t.render(c))   
+    #return HttpResponse(t.render(c))   
+    return render_to_response('./reports/top_employers.html', context_instance=RequestContext(request))
 
 @csrf_exempt 
 def top_employers_getdata(request):
@@ -564,8 +568,9 @@ def skillsdemography_report(request):
         'skillsdemography_report': freelancerdemography_report,
     })
    
-    return HttpResponse(t.render(c))
-
+    #return HttpResponse(t.render(c))
+    return render_to_response('./reports/skillsdemography_report.html', context_instance=RequestContext(request))
+    
     
     
 @csrf_exempt
@@ -622,7 +627,7 @@ def skillsdistribution_report(request):
         'skillsdistribution_report': freelancerdemography_report,
     })
    
-    return HttpResponse(t.render(c))
+    return render_to_response('./reports/skillsdistribution_report.html', context_instance=RequestContext(request))
 
     
     
