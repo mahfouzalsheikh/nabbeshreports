@@ -36,6 +36,7 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxexpander.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcalendar.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxnumberinput.js"></script>
     <script type="text/javascript" src="/site_media/js/jquery.blockUI.js"></script>
     
     

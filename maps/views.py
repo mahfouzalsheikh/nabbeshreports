@@ -819,13 +819,14 @@ def signups_apps_retention_report(request):
 def signups_apps_retention_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)                              
-        n=int(objs['month'])   
+        n=int(objs['period'])
+        m=int(objs['month'])     
         dynsql1=""
         dynsql2=""
         for i in range(1,n+1):             
             dynsql1 = dynsql1 + ", round((month"+str(i)+"::float * 100.00 /totalsignup::float)::numeric,2) as applied_month"+str(i)
-            dynsql2 = dynsql2 + ",count(distinct case when timestamp >=(date_joined + INTERVAL '"+str(i-1)+" Month') and timestamp <=(date_joined + INTERVAL '"+str(i)+" Month') then id else null end) as month"+str(i)
-        sql = ("select datejoined,totalsignup "+dynsql1+" from (select substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,7) as datejoined,count(distinct id) as totalsignup "+dynsql2+"  from (select u.id,au.date_joined, ca.timestamp from users u inner join auth_user au on u.django_user_id=au.id left outer join contracts_application ca on ca.applicant_id=u.id) total group by datejoined order by datejoined desc) final ") 
+            dynsql2 = dynsql2 + ",count(distinct case when timestamp >=(date_joined + INTERVAL '"+str(m*(i-1))+" Month') and timestamp <=(date_joined + INTERVAL '"+str(m*i)+" Month') then id else null end) as month"+str(i)
+        sql = ("select datejoined,totalsignup "+dynsql1+" from (select substring(to_char(date_joined,'YYYY-MM-DD'),1,4) || '-' || to_char((cast(substring(to_char(date_joined,'YYYY-MM-DD'),6,2) as int)-1)/"+str(m)+"+1,'09') || ' pr' as datejoined,count(distinct id) as totalsignup "+dynsql2+"  from (select u.id,au.date_joined, ca.timestamp from users u inner join auth_user au on u.django_user_id=au.id left outer join contracts_application ca on ca.applicant_id=u.id) total group by datejoined order by datejoined desc) final ") 
         results = customQuery(sql,0)
         c = Context({'signups_apps_retention': results,'n' : xrange(n)})        
 	return HttpResponse(render_to_string('signups_apps_retention.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
@@ -846,14 +847,16 @@ def signups_jobs_retention_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)         
                      
-        n=int(objs['month'])    
+        n=int(objs['period'])
+        m=int(objs['month']) 
+
         dynsql1=""
         dynsql2=""
         for i in range(1,n+1):    
             dynsql1 = dynsql1 + ", round((month"+str(i)+"::float * 100.00 /totalsignup::float)::numeric,2) as applied_month"+str(i)      
-            dynsql2 = dynsql2 + ", count(distinct case when created_at >=(date_joined + INTERVAL '"+ str(i-1)+" Month') and created_at <=(date_joined + INTERVAL '"+str(i) +" Month') then id else null end) as month"+str(i)
+            dynsql2 = dynsql2 + ", count(distinct case when created_at >=(date_joined + INTERVAL '"+ str(m*(i-1))+" Month') and created_at <=(date_joined + INTERVAL '"+str(m*i) +" Month') then id else null end) as month"+str(i)
                          
-        sql = ("select datejoined,totalsignup "+dynsql1+" from ( select substring(to_char(date_joined,'YYYY-MM-DD HH24:MI:SS'),1,7) as datejoined, count(distinct id) as totalsignup "+dynsql2+"  from  ( select u.id,au.date_joined, cj.created_at from  users u  inner join auth_user au on u.django_user_id=au.id left outer join contracts_job cj on cj.employer_id=u.id) total  group by datejoined order by datejoined desc  ) final ") 
+        sql = ("select datejoined,totalsignup "+dynsql1+" from ( select substring(to_char(date_joined,'YYYY-MM-DD'),1,4) || '-' || to_char((cast(substring(to_char(date_joined,'YYYY-MM-DD'),6,2) as int)-1)/"+str(m)+"+1,'09') || ' pr' as datejoined, count(distinct id) as totalsignup "+dynsql2+"  from  ( select u.id,au.date_joined, cj.created_at from  users u  inner join auth_user au on u.django_user_id=au.id left outer join contracts_job cj on cj.employer_id=u.id) total  group by datejoined order by datejoined desc  ) final ") 
         
         
         results = customQuery(sql,0)
@@ -879,14 +882,15 @@ def jobs_apps_retention_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)         
                     
-        n=int(objs['month'])     
+        n=int(objs['period'])
+        m=int(objs['month'])      
         dynsql1=""
         dynsql2=""
         for i in range(1,n+1): 
             dynsql1 = dynsql1 + ", round((month"+str(i)+"::float * 100.00 /totaljobs::float)::numeric,2) as receivedapp_month" + str(i)
-            dynsql2 = dynsql2 + ", count(distinct case when timestamp >=(created_at + INTERVAL '"+str(i-1)+" Month') and timestamp <=(created_at + INTERVAL '"+str(i)+" Month') then id else null end) as month"+str(i)
+            dynsql2 = dynsql2 + ", count(distinct case when timestamp >=(created_at + INTERVAL '"+str(m*(i-1))+" Month') and timestamp <=(created_at + INTERVAL '"+str(m*i)+" Month') then id else null end) as month"+str(i)
 
-        sql = ("select datejoined,totaljobs " +dynsql1+ " from (select substring(to_char(created_at,'YYYY-MM-DD HH24:MI:SS'),1,7) as datejoined, count(distinct id) as totaljobs "+ dynsql2 +"  from  ( select cj.id as id, cj.created_at, ca.timestamp from contracts_job cj left outer join contracts_application ca on ca.job_id=cj.id ) total group by datejoined order by datejoined desc) final") 
+        sql = ("select datejoined,totaljobs " +dynsql1+ " from (select substring(to_char(created_at,'YYYY-MM-DD'),1,4) || '-' || to_char((cast(substring(to_char(created_at,'YYYY-MM-DD'),6,2) as int)-1)/"+str(m)+"+1,'09') || ' pr' as datejoined, count(distinct id) as totaljobs "+ dynsql2 +"  from  ( select cj.id as id, cj.created_at, ca.timestamp from contracts_job cj left outer join contracts_application ca on ca.job_id=cj.id ) total group by datejoined order by datejoined desc) final") 
         results = customQuery(sql,0)
                                    
         c = Context({'jobs_apps_retention': results,'n' : xrange(n)})        

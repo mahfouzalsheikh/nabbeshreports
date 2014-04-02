@@ -1,4 +1,4 @@
-[["Period","Total Signups" {% for i in n %} ,"Month {{forloop.counter}}" {% endfor %}],
+[["Period","Total Signups" {% for i in n %} ,"Period {{forloop.counter}}" {% endfor %}],
 {% for row in signups_jobs_retention %}[{% for col in row %}{%if forloop.first %}"{{ col }}"{% else %},{{col}}{% endif %}{% endfor %}]{% if not forloop.last %},{% endif %}{% endfor %}
 ]
 

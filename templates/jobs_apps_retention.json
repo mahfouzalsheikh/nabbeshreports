@@ -1,5 +1,4 @@
-
-[["Period","Total Jobs" {% for i in n %} ,"Month {{forloop.counter}}" {% endfor %}],
+[["Period","Total Jobs" {% for i in n %} ,"Period {{forloop.counter}}" {% endfor %}],
 {% for row in jobs_apps_retention %}[{% for col in row %}{%if forloop.first %}"{{ col }}"{% else %},{{col}}{% endif %}{% endfor %}]{% if not forloop.last %},{% endif %}{% endfor %}
 ]
 

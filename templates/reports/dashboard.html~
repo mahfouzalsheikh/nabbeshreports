@@ -190,7 +190,7 @@
     }
     
      
-     function drawChart(jsonData,metrics)
+     function drawChart(jsonData,metrics,from,to)
      {
       var metricsarray=[0];
       $.each(metrics, function (index) {                      
@@ -212,7 +212,7 @@
       var dataView2 = new google.visualization.DataView(add_total_row(data2));
       dataView2.setColumns(metricsarray);
       
-      chart.draw(dataView1, {curveType: "function",width: '100%', height: 600, is3D: true,title:"Main Dashboard"});      
+      chart.draw(dataView1, {curveType: "function",width: '100%', height: 600, is3D: true,title:"Main Dashboard    -   " + from + " to "+ to});      
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));     
       
       
@@ -230,8 +230,8 @@
      function draw(limit,from,to) {
       var jsonData= getData(limit,from,to);	
       JSONData=jsonData;
-      drawChart(jsonData,$("#metricslist").jqxDropDownList('getCheckedItems'));      
-    }
+      drawChart(jsonData,$("#metricslist").jqxDropDownList('getCheckedItems'),from,to);      
+     }
     
     
     

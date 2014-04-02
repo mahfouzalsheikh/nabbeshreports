@@ -2,9 +2,46 @@
 
 {% block reportblock %}
 
-<div style="width:100%;argin-left:auto; margin-right:auto;color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">
-  <h1>Main Counters and Gauges to Be Added Here</h1>
-</div>
+
+ <div id="docking">
+            <div>
+                <div id="window1" style="height: 220px;">
+                    <div>
+                        Counters
+                    </div>
+                    <div style="overflow: hidden;">
+                        <h1></h1>
+                    </div>
+                </div>
+                <div id="window2" style="height: 220px">
+                    <div>
+                        Gauges
+                    </div>
+                    <div style="overflow: hidden;">
+                    </div>   
+                </div>
+
+                
+            </div>
+
+        </div>
+
+
+
+           
+
+
+ <script type="text/javascript">
+
+            var theme=  'bootstrap';         
+            $('#docking').jqxDocking({ theme:theme , orientation: 'horizontal', mode: 'docked',floatingWindowOpacity: 0.5, width:'100%' });
+
+
+            $('#docking').jqxDocking('hideAllCloseButtons');
+
+            
+            
+</script>
 {% endblock %}
 
 

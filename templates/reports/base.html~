@@ -35,8 +35,10 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcalendar.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdropdownlist.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxnumberinput.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdocking.js"></script>  
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxwindow.js"></script>
     <script type="text/javascript" src="/site_media/js/jquery.blockUI.js"></script>
-    
+  
     
     
        
@@ -139,7 +141,7 @@
                     <li>Skills
                         <ul style='width: 180px;'>
                             <li><a href="skillsdemographicprofile">Skills Demographic Profile</a></li>
-                            <li><a href="#">Skills Distribution</a></li>                  
+                            <li><a href="skillsdistribution">Skills Distribution</a></li>                  
                         </ul>
                     </li>
                 </ul>
