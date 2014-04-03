@@ -204,6 +204,8 @@ def freelancerseducation_getdata(request):
         #objs = simplejson.loads(request.raw_post_data)
 
         sql = "select  case degree when 6 then 'Bachelor of Science' when 7 then 'High School' when 5 then 'Bachelor of Arts' when 4 then 'Executive MBA' when 3 then 'MBA' when 2 then 'Masters' when 1 then 'PHD' end as education, usercount from (select count(distinct u.id ) as usercount, edu.degree from education edu inner join users u on edu.id_user=u.id group by edu.degree) total"
+        
+        print sql
         results = customQuery(sql,0)
         print results
  
@@ -230,7 +232,7 @@ def freelancersages_getdata(request):
         sql = "select  sum(ucount) as usercounts,case when ageu <18 then '1) Under 18' when ageu >= 18 and ageu<=24 then '2) 18 to 24' when ageu >= 25 and ageu<=34 then '3) 25 to 34' when ageu >= 35 then '4) Over 35' END as age_range from (select count(total.id) as ucount, 2013 - total.yobn as ageu from (select t1.id, t1.yob :: integer yobn from(select id, substring(dob,length(dob)-3, length(dob)) as yob from users where dob<>'') t1 where t1.yob ~E'^\\\d+$') total group by ageu order by ageu) total group by age_range order by age_range;"
         results = customQuery(sql,0)
 
-        
+        print sql
         c = Context({'ages': results})
         return HttpResponse(render_to_string('freelancersages.json', c, context_instance=RequestContext(request)), mimetype='application/json')        
         
@@ -800,6 +802,8 @@ def jobs_apps_stats_getdata(request):
             
                   
         sql = ("select substring(to_char(created_at,'YYYY-MM-DD HH24:MI:SS'),1, "+grouper+")as createdat,count(*) as total, count(case when appscount = 0 then 1 end) as count_0, count(case when (appscount >= 1) and (appscount<=5) then 1 end) as count_1_5,  count(case when (appscount > 5) and (appscount<=10) then 1 end) as count_6_10, count(case when (appscount > 10) and (appscount<=50) then 1 end) as count_11_50, count(case when (appscount > 50) then 1 end) as count_more_50   from (select  cj.id as jobid,cj.created_at, count(distinct ca.id) as appscount from contracts_job cj left outer join contracts_application ca on ca.job_id = cj.id where created_at>='"+t1+"' and created_at<='"+t2+"' group by jobid,cj.created_at) total group by createdat order by createdat") 
+        
+        print sql
         results = customQuery(sql,0)
         c = Context({'jobs_apps_stats': results})        
 	return HttpResponse(render_to_string('jobs_apps_stats.json', c, context_instance=RequestContext(request)), mimetype='application/json')           

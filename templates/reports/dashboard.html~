@@ -26,7 +26,7 @@
         </div>
      
 
-<div id="visualization" style="width: 100%; height:600px;"></div>
+<div id="visualization" style="width: 100%; height:800px;"></div>
 <div id="tablearea" style="width: 100%;"></div>
 
 
@@ -212,7 +212,7 @@
       var dataView2 = new google.visualization.DataView(add_total_row(data2));
       dataView2.setColumns(metricsarray);
       
-      chart.draw(dataView1, {curveType: "function",width: '100%', height: 600, is3D: true,title:"Main Dashboard    -   " + from + " to "+ to});      
+      chart.draw(dataView1, {curveType: "function",width: '100%', height: 800, is3D: true,title:"Main Dashboard    -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} , vAxis: {minValue: 5}});      
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));     
       
       
