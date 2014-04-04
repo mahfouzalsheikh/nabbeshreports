@@ -113,14 +113,14 @@
 
                     var notescontainer = $('<div style="white-space: normal; margin: 5px;"><span>' + datarecord.notes + '</span></div>');
                     $(notes).append(notescontainer);
-                    $(tabsdiv).jqxTabs({ width: 600, height: 170});
+                    $(tabsdiv).jqxTabs({ width: 750, height: 170});
                 }
             }
             var dataAdapter = new $.jqx.dataAdapter(source);
 
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 height: 250,
                 source: dataAdapter,
                 rowdetails: true,
@@ -131,11 +131,11 @@
                 },
                 initrowdetails: initrowdetails,
                 columns: [
-                      { text: 'First Name', datafield: 'firstname', width: 100 },
-                      { text: 'Last Name', datafield: 'lastname', width: 100 },
+                      { text: 'First Name', datafield: 'firstname', width: 200 },
+                      { text: 'Last Name', datafield: 'lastname', width: 200 },
                       { text: 'Title', datafield: 'title', width: 180 },
                       { text: 'City', datafield: 'city', width: 100 },
-                      { text: 'Country', datafield: 'country', width: 140 }
+                      { text: 'Country', datafield: 'country'}
                   ]
             });
         });

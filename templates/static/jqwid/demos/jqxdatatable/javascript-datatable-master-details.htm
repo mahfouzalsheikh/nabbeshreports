@@ -75,12 +75,12 @@
             $("#detailsDataTable").jqxDataTable({
                 pageable: true,
                 pageSize: 5,
-                width: 550,
+                width: 850,
                 pageable: true,
                 columns: [
-                  { text: 'Employee Name', dataField: 'EmployeeName', width: 200 },
-                  { text: 'Ship Name', dataField: 'ShipName', width: 200 },
-                  { text: 'Ship Address', dataField: 'ShipAddress', width: 200 },
+                  { text: 'Employee Name', dataField: 'EmployeeName', width: 300 },
+                  { text: 'Ship Name', dataField: 'ShipName', width: 300 },
+                  { text: 'Ship Address', dataField: 'ShipAddress', width: 300 },
                   { text: 'Ship City', dataField: 'ShipCity', width: 150 },
                   { text: 'Ship Country', dataField: 'ShipCountry', width: 150 },
                   { text: 'Shipped Date', dataField: 'ShippedDate', cellsFormat: 'd', width: 200 }
@@ -132,7 +132,7 @@
             // create master DataTable.
             $("#masterDataTable").jqxDataTable(
             {
-                width: 550,
+                width: 850,
                 source: employeesAdapter,
                 pageable: true,
                 pageSize: 5,
@@ -141,8 +141,8 @@
                     $("#masterDataTable").jqxDataTable('selectRow', 0);
                 },
                 columns: [
-                      { text: 'First Name', dataField: 'FirstName', width: 100 },
-                      { text: 'Last Name', dataField: 'LastName', width: 100 },
+                      { text: 'First Name', dataField: 'FirstName', width: 250 },
+                      { text: 'Last Name', dataField: 'LastName', width: 250 },
                       { text: 'Title', dataField: 'Title' }
                   ]
             });

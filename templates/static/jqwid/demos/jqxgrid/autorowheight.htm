@@ -45,25 +45,24 @@
             $("#grid").jqxGrid(
             {
                 source: dataAdapter,
+                width: 850,
                 pageable: true,
                 autorowheight: true,
                 autoheight: true,
                 altrows: true,
                 columns: [
                   { text: 'Ship Name', datafield: 'ShipName', width: 150 },
-                  { text: 'Freight', datafield: 'Freight', width: 80, cellsformat: 'F2', cellsalign: 'right' },
+                  { text: 'Freight', datafield: 'Freight', width: 100, cellsformat: 'F2', cellsalign: 'right' },
                   { text: 'Ship Address', datafield: 'ShipAddress', width: 350 },
                   { text: 'Ship City', datafield: 'ShipCity', width: 100 },
-                  { text: 'Ship Country', datafield: 'ShipCountry', width: 101 }
+                  { text: 'Ship Country', datafield: 'ShipCountry'}
                 ]
             });
         });
     </script>
 </head>
 <body class='default'>
-    <div id='jqxWidget' style="font-size: 13px; font-family: Verdana; float: left;">
-        <div id="grid">
-        </div>
+    <div id="grid">
     </div>
 </body>
 </html>

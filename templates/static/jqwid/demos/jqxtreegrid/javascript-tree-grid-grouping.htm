@@ -51,7 +51,7 @@
             // create Tree Grid
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 680,
+                width: 850,
                 source: dataAdapter,
                 pageable: true,
                 columnsResize: true,
@@ -69,8 +69,8 @@
                     $("#treeGrid").jqxTreeGrid('expandRow', "0");
                 },
                 columns: [
-                  { text: 'City', dataField: 'City', width: 200 },
-                  { text: 'Company Name', dataField: 'CompanyName', minWidth: 100, width: 150 },
+                  { text: 'City', dataField: 'City', width: 250 },
+                  { text: 'Company Name', dataField: 'CompanyName', minWidth: 100, width: 200 },
                   { text: 'Contact Name', dataField: 'ContactName', width: 150 },
                   { text: 'Contact Title', dataField: 'ContactTitle', width: 300 },
                   { text: 'Postal Code', dataField: 'PostalCode', width: 120 }

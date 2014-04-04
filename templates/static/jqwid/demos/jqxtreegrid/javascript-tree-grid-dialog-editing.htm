@@ -52,7 +52,7 @@
 
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,
                 sortable: true,
                 altrows: true,
@@ -92,8 +92,8 @@
                     $("#dialog").css('visibility', 'visible');
                 },
                 columns: [
-                  { text: 'Employee ID', editable: false, dataField: 'EmployeeID', width: 100 },
-                  { text: 'Title', dataField: 'Title', width: 200 },
+                  { text: 'Employee ID', editable: false, dataField: 'EmployeeID', width: 150 },
+                  { text: 'Title', dataField: 'Title', width: 250 },
                   { text: 'Country', dataField: 'Country', width: 150 },
                   { text: 'Bith Date', dataField: 'BirthDate', cellsAlign: 'right', align: 'right', cellsFormat: 'd' }
                 ]

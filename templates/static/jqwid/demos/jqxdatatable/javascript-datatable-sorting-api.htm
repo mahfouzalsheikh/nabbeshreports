@@ -36,8 +36,8 @@
             var dataAdapter = new $.jqx.dataAdapter(source);
 
             var columns = [
-                  { text: 'Name', dataField: 'firstname', width: 100 },
-                  { text: 'Last Name', dataField: 'lastname', width: 100 },
+                  { text: 'Name', dataField: 'firstname', width: 200 },
+                  { text: 'Last Name', dataField: 'lastname', width: 200 },
                   { text: 'Product', editable: false, dataField: 'productname', width: 180 },
                   { text: 'Quantity', dataField: 'quantity', width: 80, align: 'right', cellsalign: 'right' },
                   { text: 'Unit Price', dataField: 'price', width: 90, align: 'right', cellsalign: 'right', cellsFormat: 'c2' },
@@ -50,7 +50,7 @@
                 sortable: true,
                 pageable: true,
                 altRows: true,
-                width: 450,
+                width: 650,
                 columns: columns
             });
 

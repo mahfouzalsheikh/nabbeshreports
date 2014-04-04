@@ -1,4 +1,4 @@
-/*Rounded Corners*/
+﻿/*Rounded Corners*/
 /*top-left rounded Corners*/
 .jqx-rc-tl-bootstrap {
     -moz-border-radius-topleft: 4px;
@@ -921,4 +921,3 @@ input[type="password"].jqx-input-bootstrap:-ms-input-placeholder, input[type="pa
     background-repeat: no-repeat;
     background-position: center;
 }
-

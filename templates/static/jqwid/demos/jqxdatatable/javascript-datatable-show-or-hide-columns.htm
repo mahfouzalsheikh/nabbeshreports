@@ -35,7 +35,6 @@
 
             $("#dataTable").jqxDataTable(
             {
-                width: 480,
                 source: dataAdapter,
                 pageable: true,
                 pagerButtonsCount: 10,
@@ -44,15 +43,13 @@
                 },
                 columnsResize: true,
                 columns: [
-                  { text: 'Name', datafield: 'name', width: 150 },
-                  { text: 'Beverage Type', dataField: 'type', width: 150 },
-                  { text: 'Calories', dataField: 'calories', width: 150 },
-                  { text: 'Total Fat', dataField: 'totalfat', width: 120 },
-                  { text: 'Protein', dataField: 'protein', minwidth: 120 }
+                  { text: 'Name', datafield: 'name', width: 200 },
+                  { text: 'Beverage Type', dataField: 'type', width: 200 },
+                  { text: 'Calories', dataField: 'calories', width: 200 }
               ]
             });
 
-            var listSource = [{ label: 'Beverage Type', value: 'type', checked: true }, { label: 'Calories', value: 'calories', checked: true }, { label: 'Total Fat', value: 'totalfat', checked: true }, { label: 'Protein', value: 'protein', checked: true}];
+            var listSource = [{ label: 'Beverage Type', value: 'type', checked: true }, { label: 'Calories', value: 'calories', checked: true }];
 
             $("#jqxlistbox").jqxListBox({ source: listSource, width: 150, height: 200,  checkboxes: true });
             $("#jqxlistbox").on('checkChange', function (event) {

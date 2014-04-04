@@ -38,19 +38,19 @@
 
             $("#dataTable").jqxDataTable(
             {
-                width: 550,
+                width: 850,
                 source: dataAdapter,                
                 pageable: true,
                 altRows: true,
                 sortable: true,
                 rtl: true,
                 columns: [
-                  { text: 'Name', dataField: 'firstname', align: 'right', cellsAlign: 'right', width: 100 },
-                  { text: 'Last Name', dataField: 'lastname', align: 'right', cellsAlign: 'right', width: 100 },
+                  { text: 'Name', dataField: 'firstname', align: 'right', cellsAlign: 'right', width: 150 },
+                  { text: 'Last Name', dataField: 'lastname', align: 'right', cellsAlign: 'right', width: 150 },
                   { text: 'Product', editable: false, dataField: 'productname', align: 'right', cellsAlign: 'right', width: 180 },
-                  { text: 'Quantity', dataField: 'quantity', width: 80, cellsAlign: 'left', align: 'left' },
-                  { text: 'Unit Price', dataField: 'price', width: 80, cellsAlign: 'left', align: 'left' },
-                  { text: 'Total', dataField: 'total', width: 80, cellsAlign: 'left', align: 'left', cellsformat: 'c2' }
+                  { text: 'Quantity', dataField: 'quantity', width: 180, cellsAlign: 'left', align: 'left' },
+                  { text: 'Unit Price', dataField: 'price', width: 180, cellsAlign: 'left', align: 'left' },
+                  { text: 'Total', dataField: 'total', width: 180, cellsAlign: 'left', align: 'left', cellsformat: 'c2' }
                 ]
             });          
         });

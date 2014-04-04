@@ -52,18 +52,18 @@
 
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 source: source,
                 sortable: true,
                 pageable: true,
                 autoheight: true,
                 columns: [
                   { text: 'Product Name', datafield: 'ProductName', width: 250, pinned: true },
-                  { text: 'Category', datafield: 'CategoryID', width: 80, cellsalign: 'right' },
+                  { text: 'Category', datafield: 'CategoryID', width: 120, cellsalign: 'right' },
                   { text: 'Quantity Per Unit', datafield: 'QuantityPerUnit', width: 200, cellsalign: 'right' },
-                  { text: 'Unit Price', datafield: 'UnitPrice', width: 100, cellsformat: 'c2', cellsalign: 'right' },
-                  { text: 'Units On Order', datafield: 'UnitsOnOrder', width: 110, cellsalign: 'right' },
-                  { text: 'Reorder Level', datafield: 'ReorderLevel', width: 100, cellsalign: 'right' }
+                  { text: 'Unit Price', datafield: 'UnitPrice', width: 120, cellsformat: 'c2', cellsalign: 'right' },
+                  { text: 'Units On Order', datafield: 'UnitsOnOrder', width: 120, cellsalign: 'right' },
+                  { text: 'Reorder Level', datafield: 'ReorderLevel', width: 120, cellsalign: 'right' }
                ]
             });
         });

@@ -58,16 +58,16 @@
       
      var source = ["Year","Month"];
        
-      $("#groupmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:1});  
+      $("#groupmenu").jqxComboBox({ theme: theme,source: source, width: '200px', height: '25px', selectedIndex:1});  
                 
-      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").jqxButton({ theme: theme,width: '200'});
       $("#filterButton").on('click', function () {
                                          
                   draw(grouper,fromdate,todate);
                  
 
                 });
-     $("#downloadButton").jqxButton({ width: '200'});            
+     $("#downloadButton").jqxButton({ theme: theme,width: '200'});            
      $("#downloadButton").on('click', function () {
                 var json = $.parseJSON(getData(grouper,fromdate,todate));
     		var csv = JSON2CSV(json);
@@ -91,8 +91,8 @@
 
      
       var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: firstDayInPreviousMonth(new Date(new Date(today).setMonth(today.getMonth()-5)))});
-     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: lastDayInPreviousMonth(today) });
+     $("#fromdate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: firstDayInPreviousMonth(new Date(new Date(today).setMonth(today.getMonth()-5)))});
+     $("#todate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: lastDayInPreviousMonth(today) });
 
      
      $("#fromdate").on('change', function (event) {

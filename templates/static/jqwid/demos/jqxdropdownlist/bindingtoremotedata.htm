@@ -23,11 +23,12 @@
                     { name: 'population', type: 'float' },
                     { name: 'continentCode' }
                 ],
-                url: "http://ws.geonames.org/searchJSON",
+                url: "http://api.geonames.org/searchJSON",
                 data: {
                     featureClass: "P",
                     style: "full",
-                    maxRows: 50
+                    maxRows: 50,
+                    username: "jqwidgets"
                 }
             };
 
@@ -35,10 +36,9 @@
 
             $("#jqxdropdownlist").jqxDropDownList(
             {
-                width: 200,
+                width: 250,
                 height: 25,
-                source: dataAdapter,
-                
+                source: dataAdapter, 
                 selectedIndex: 0,
                 displayMember: "countryName",
                 valueMember: "name"

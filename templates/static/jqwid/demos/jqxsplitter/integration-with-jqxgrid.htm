@@ -44,7 +44,6 @@
                 width: '100%',
                 height: '100%',
                 source: dataAdapter,
-                
                 columnsresize: true,
                 columns: [
                     { text: 'Company Name', datafield: 'CompanyName', width: 250 },
@@ -60,7 +59,7 @@
             $("#ContactTitle").jqxInput({ height: 23});
             $("#City").jqxInput({ height: 23});
             $("#Country").jqxInput({ height: 23});
-            $("#splitter").jqxSplitter({  width: 680, height: 400, panels: [{ min: 150, size: 330 }, {min: 250}] });
+            $("#splitter").jqxSplitter({ width: 850, height: 400, panels: [{ min: 150, size: 330 }, { min: 250 }] });
             $('#jqxgrid').on('rowselect', function (event) {
                 // event arguments.
                 var args = event.args;

@@ -13,7 +13,7 @@
     <div id='content'>
         <script type="text/javascript">
             $(document).ready(function () {
-                
+
 
                 var data = [
                 {
@@ -103,9 +103,9 @@
                 // get the treemap sectors. The first parameter is the item's id. The second parameter is the parent item's id. The 'items' parameter represents 
                 // the sub items collection name. Each jqxTreeMap item has a 'label' property, but in the JSON data, we have a 'text' field. The last parameter 
                 // specifies the mapping between the 'text' and 'label' fields.  
-                var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
+                var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label' }]);
                 $('#treemap').jqxTreeMap({
-                    width: 600,
+                    width: 850,
                     height: 600,
                     source: records,
                     baseColor: '#0afaaa',

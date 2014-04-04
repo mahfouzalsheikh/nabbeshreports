@@ -45,7 +45,7 @@
             // create Tree Grid
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 460,
+                width: 560,
                 source: dataAdapter,
                 sortable: true,
                 pageable: true,
@@ -56,8 +56,8 @@
                     $("#treeGrid").jqxTreeGrid('expandRow', '2');
                 },
                 columns: [
-                  { text: 'Order Name', dataField: "name", align: 'center', width: 200 },
-                  { text: 'Customer', dataField: "customer", align: 'center', width: 200 },
+                  { text: 'Order Name', dataField: "name", align: 'center', width: 250 },
+                  { text: 'Customer', dataField: "customer", align: 'center', width: 250 },
                   { text: 'Price', dataField: "price", cellsFormat: "c2", align: 'center', cellsAlign: 'right', width: 80 },
                   {
                       text: 'Order Date', dataField: "date", align: 'center', cellsFormat: "dd-MMMM-yyyy hh:mm", cellsRenderer: function (rowKey, column, cellValue, rowData, cellText) {

@@ -50,7 +50,7 @@
         row["total"] = price * quantity;
 
         var date = new Date();
-        date.setFullYear(2013, Math.floor(Math.random() * 11), Math.floor(Math.random() * 27));
+        date.setFullYear(2014, Math.floor(Math.random() * 11), Math.floor(Math.random() * 27));
         date.setHours(0, 0, 0, 0);
         row["date"] = date;
        
@@ -101,7 +101,7 @@ function generateordersdata(rowscount) {
         var date = new Date();
         var month = Math.floor(Math.random() * 11);
         var day = Math.floor(Math.random() * 27);
-        date.setFullYear(2013, month, day);
+        date.setFullYear(2014, month, day);
         date.setHours(0, 0, 0, 0);
         row["date"] = date;
         row["price"] = "";
@@ -117,12 +117,12 @@ function generateordersdata(rowscount) {
             var price = parseFloat(priceValues[productindex]);
             var quantity = 1;
             subRow["name"] = productNames[productindex];
-            subRow["id"] = i + "." + (1 + j);
+            subRow["id"] = "" + i + "." + (1 + j);
             subRow["parentid"] = i;
             subRow["price"] = price;
             subRow["quantity"] = 1;
             var date = new Date();
-            date.setFullYear(2013, month, day);
+            date.setFullYear(2014, month, day);
             date.setHours(Math.floor(Math.random() * 23), Math.floor(Math.random() * 59), 0, 0);
             subRow["date"] = date;
             row["firstname"] = firstNames[Math.floor(Math.random() * firstNames.length)];

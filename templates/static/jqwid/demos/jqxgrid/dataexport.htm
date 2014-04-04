@@ -44,19 +44,19 @@
             // initialize jqxGrid
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,                
                 altrows: true,
                 sortable: true,
                 selectionmode: 'multiplecellsextended',
                 columns: [
-                  { text: 'First Name', datafield: 'firstname', width: 90 },
-                  { text: 'Last Name', datafield: 'lastname', width: 90 },
-                  { text: 'Product', datafield: 'productname', width: 177 },
+                  { text: 'First Name', datafield: 'firstname', width: 130 },
+                  { text: 'Last Name', datafield: 'lastname', width: 130 },
+                  { text: 'Product', datafield: 'productname', width: 200 },
                   { text: 'Available', datafield: 'available', columntype: 'checkbox', width: 67, cellsalign: 'center', align: 'center' },
-                  { text: 'Ship Date', datafield: 'date', width: 90, align: 'right', cellsalign: 'right', cellsformat: 'd' },
+                  { text: 'Ship Date', datafield: 'date', width: 120, align: 'right', cellsalign: 'right', cellsformat: 'd' },
                   { text: 'Quantity', datafield: 'quantity', width: 70, align: 'right', cellsalign: 'right' },
-                  { text: 'Price', datafield: 'price', width: 65, cellsalign: 'right', align: 'right', cellsformat: 'c2' }
+                  { text: 'Price', datafield: 'price', cellsalign: 'right', align: 'right', cellsformat: 'c2' }
                 ]
             });
 

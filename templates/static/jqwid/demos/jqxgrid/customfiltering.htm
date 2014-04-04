@@ -42,7 +42,7 @@
             // create grid.
             $("#jqxgrid").jqxGrid(
             {
-                width: 400,
+                width: 600,
                 source: dataAdapter,
                 filterable: false,
                 sortable: true,
@@ -53,7 +53,7 @@
                   { text: 'Product', datafield: 'productname', width: 180 },
                   { text: 'Order Date', datafield: 'date', width: 100, cellsformat: 'd' },
                   { text: 'Quantity', datafield: 'quantity', width: 80, cellsalign: 'right' },
-                  { text: 'Unit Price', datafield: 'price', cellsalign: 'right', cellsformat: 'c2' }
+                  { text: 'Unit Price', datafield: 'price', width: 100, cellsalign: 'right', cellsformat: 'c2' }
                 ]
             });
 

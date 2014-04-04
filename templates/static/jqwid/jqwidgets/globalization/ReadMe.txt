@@ -1,2 +1,2 @@
-Download more cultures from: https://github.com/jquery/globalize/tree/master/lib/cultures
+Download more cultures from: http://jqwidgets.com/builds/cultures.zip
 License: https://github.com/jquery/globalize/blob/master/LICENSE

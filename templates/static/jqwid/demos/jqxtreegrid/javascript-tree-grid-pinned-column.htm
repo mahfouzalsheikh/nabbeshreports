@@ -78,16 +78,16 @@
             {
                 source: dataAdapter,
                 altRows: true,
-                width: 550,
+                width: 850,
                 showHeader: true,
                 ready: function () {
                     $("#treeGrid").jqxTreeGrid('expandRow', '1');
                     $("#treeGrid").jqxTreeGrid('expandRow', '2');
                 },
                 columns: [
-                  { text: "Name", align: "center", dataField: "name", pinned: true, width: 250 },
-                  { text: "Budget", cellsAlign: "center", align: "center", dataField: "budget", cellsFormat: "c2", width: 250 },
-                  { text: "Location", dataField: "location", cellsAlign: "center", align: "center", width: 250 }
+                  { text: "Name", align: "center", dataField: "name", pinned: true, width: 300 },
+                  { text: "Budget", cellsAlign: "center", align: "center", dataField: "budget", cellsFormat: "c2", width: 350 },
+                  { text: "Location", dataField: "location", cellsAlign: "center", align: "center", width: 350 }
                 ]
             });
         });

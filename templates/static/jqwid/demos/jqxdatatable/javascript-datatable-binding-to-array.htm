@@ -71,14 +71,14 @@
        
             $("#table").jqxDataTable(
             {
-                width: 670,
+                width: 850,
                 pageable: true,
                 pagerButtonsCount: 10,
                 source: dataAdapter,
                 columnsResize: true,
                 columns: [
-                  { text: 'Name', dataField: 'firstname', width: 100 },
-                  { text: 'Last Name', dataField: 'lastname', width: 100 },
+                  { text: 'Name', dataField: 'firstname', width: 200 },
+                  { text: 'Last Name', dataField: 'lastname', width: 200 },
                   { text: 'Product', editable: false, dataField: 'productname', width: 180 },
                   { text: 'Quantity', dataField: 'quantity', width: 80, cellsAlign: 'right', align: 'right' },
                   { text: 'Unit Price', dataField: 'price', width: 90, cellsAlign: 'right', align: 'right', cellsFormat: 'c2' },

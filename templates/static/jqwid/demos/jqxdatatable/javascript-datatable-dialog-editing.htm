@@ -70,7 +70,7 @@
 
             $("#table").jqxDataTable(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,
                 pageable: true,
                 sortable: true,
@@ -115,8 +115,8 @@
                 },
                 pagerButtonsCount: 8,
                 columns: [
-                  { text: 'Order ID', editable: false, dataField: 'OrderID', width: 100 },
-                  { text: 'Freight', dataField: 'Freight', cellsFormat: 'f2', cellsAlign: 'right', align: 'right', width: 100 },
+                  { text: 'Order ID', editable: false, dataField: 'OrderID', width: 200 },
+                  { text: 'Freight', dataField: 'Freight', cellsFormat: 'f2', cellsAlign: 'right', align: 'right', width: 200 },
                   { text: 'Ship Country', dataField: 'ShipCountry', width: 150 },
                   { text: 'Shipped Date', dataField: 'ShippedDate', cellsAlign: 'right', align: 'right', cellsFormat: 'd' }
                 ]

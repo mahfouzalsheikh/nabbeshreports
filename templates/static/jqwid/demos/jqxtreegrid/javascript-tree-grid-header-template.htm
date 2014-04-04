@@ -82,7 +82,7 @@
             // create Tree Grid
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 660,
+                width: 850,
                 source: dataAdapter,
                 sortable: true,
                 icons: true,
@@ -91,13 +91,13 @@
                 },
                 columns: [
                   {
-                      text: 'Name', dataField: 'Name', width: 180,
+                      text: 'Name', dataField: 'Name', width: 250,
                       renderer: function (text, align, height) {
                           return "<div style='margin: 5px; margin-top: 7px;'><img width='16' height='16' style='float: left;' src='../../images/card.png'/><span style='margin-left: 4px; float: left;'>Name</span><div style='clear: both;'></div></div>";
                       }
                   },
                   {
-                      text: 'Job Title', dataField: 'Title', width: 200,
+                      text: 'Job Title', dataField: 'Title', width: 250,
                       renderer: function (text, align, height) {
                           return "<div style='margin: 5px; margin-top: 7px;'><img width='16' height='16' style='float: left;' src='../../images/administrator.png'/><span style='margin-left: 4px; float: left;'>Job Title</span><div style='clear: both;'></div></div>";
                       }

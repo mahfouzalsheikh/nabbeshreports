@@ -46,7 +46,7 @@
             // create Tree Grid
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 680,
+                width: 850,
                 source: dataAdapter,
                 pageable: true,
                 columnsResize: true,
@@ -59,13 +59,13 @@
                     $("#treeGrid").jqxTreeGrid('expandRow', 112);
                 },
                 columns: [
-                  { text: 'FirstName', dataField: 'FirstName', minWidth: 100, width: 150 },
-                  { text: 'LastName', dataField: 'LastName', width: 150 },
-                  { text: 'Department Name', dataField: 'DepartmentName', width: 150 },
+                  { text: 'FirstName', dataField: 'FirstName', minWidth: 100, width: 180 },
+                  { text: 'LastName', dataField: 'LastName', width: 180 },
+                  { text: 'Department Name', dataField: 'DepartmentName', width: 180 },
                   { text: 'Title', dataField: 'Title', width: 300 },
-                  { text: 'Birth Date', dataField: 'BirthDate', cellsFormat: 'd', width: 120 },
-                  { text: 'Hire Date', dataField: 'HireDate', cellsFormat: 'd', width: 120 },
-                  { text: 'Phone', dataField: 'Phone', cellsFormat: 'd', width: 120 }
+                  { text: 'Birth Date', dataField: 'BirthDate', cellsFormat: 'd', width: 150 },
+                  { text: 'Hire Date', dataField: 'HireDate', cellsFormat: 'd', width: 150 },
+                  { text: 'Phone', dataField: 'Phone', cellsFormat: 'd', width: 150 }
                 ]
             });
         });

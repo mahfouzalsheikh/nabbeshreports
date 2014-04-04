@@ -91,7 +91,7 @@
 
                     nestedDataTable.jqxDataTable({
                         pageable: true,
-                        source: nestedDataTableAdapter, width: 520, height: 180,
+                        source: nestedDataTableAdapter, width: 820, height: 180,
                         pageable: true,
                         columns: [
                           { text: 'Ship Name', dataField: 'ShipName', width: 200 },
@@ -109,7 +109,7 @@
             // create jqxDataTable.
             $("#dataTable").jqxDataTable(
             {
-                width: 550,
+                width: 850,
                 source: source,
                 pageable: true,
                 pageSize: 3,
@@ -119,8 +119,8 @@
                     $("#dataTable").jqxDataTable('showDetails', 1);
                 },
                 columns: [
-                      { text: 'First Name', dataField: 'FirstName', width: 100 },
-                      { text: 'Last Name', dataField: 'LastName', width: 100 },
+                      { text: 'First Name', dataField: 'FirstName', width: 250 },
+                      { text: 'Last Name', dataField: 'LastName', width: 250 },
                       { text: 'Title', dataField: 'Title' }
                   ]
             });

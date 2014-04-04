@@ -63,7 +63,7 @@
 
 <script type="text/javascript">
  var theme = 'bootstrap';
- $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ $("#optionsExpander").jqxExpander({ theme: theme,width: '100%', theme: theme,  expanded: false});
  //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
  
 </script>
@@ -76,8 +76,8 @@
      
      
      var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
-     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+     $("#fromdate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
 
      
      $("#fromdate").on('change', function (event) {
@@ -87,11 +87,11 @@
                     todate= $('#todate').jqxDateTimeInput('getText'); 
                 });        
         
-      $("#searchkeywordsfield").jqxInput({placeHolder: "By Employer Keywords", height: 25, width: 200, minLength: 1});
-      $("#contsearchkeywordsfield").jqxInput({placeHolder: "By Freelancer Keywords", height: 25, width: 200, minLength: 1});   
-      $("#skillsearchkeywordsfield").jqxInput({placeHolder: "By Skills Required Keywords", height: 25, width: 200, minLength: 1});                 
+      $("#searchkeywordsfield").jqxInput({theme: theme,placeHolder: "By Employer Keywords", height: 25, width: 200, minLength: 1});
+      $("#contsearchkeywordsfield").jqxInput({theme: theme,placeHolder: "By Freelancer Keywords", height: 25, width: 200, minLength: 1});   
+      $("#skillsearchkeywordsfield").jqxInput({theme: theme,placeHolder: "By Skills Required Keywords", height: 25, width: 200, minLength: 1});                 
                 
-      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").jqxButton({theme: theme, width: '200'});
       $("#filterButton").on('click', function () {          
                   source.localdata  = getData(fromdate,todate,searchkeywords);
                   

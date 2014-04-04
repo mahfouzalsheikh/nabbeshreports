@@ -46,14 +46,14 @@
                 altRows: true,
                 sortable: true,
                 groups: ['SupplierName'],
-                width: 660,
+                width: 850,
                 groupsRenderer: function(value, rowData, level)
                 {
                     return "Supplier Name: " + value;
                 },
                 columns: [
-                  { text: 'Supplier Name', hidden: true, cellsAlign: 'left', align: 'left', dataField: 'SupplierName', width: 180},
-                  { text: 'Product Name', cellsAlign: 'left', align: 'left', dataField: 'ProductName', width: 150 },
+                  { text: 'Supplier Name', hidden: true, cellsAlign: 'left', align: 'left', dataField: 'SupplierName', width: 280},
+                  { text: 'Product Name', cellsAlign: 'left', align: 'left', dataField: 'ProductName', width: 250 },
                   { text: 'Quantity', dataField: 'Quantity', cellsformat: 'd', cellsAlign: 'right', align: 'right', width: 80 },
                   { text: 'Price', dataField: 'Price', cellsformat: 'c2', align: 'right', cellsAlign: 'right', width: 70 },
                   { text: 'Address', cellsAlign: 'center', align: 'center', dataField: 'Address', width: 250 },

@@ -18,7 +18,7 @@
         $(document).ready(function () {
             // Create jqxTree
             $('#jqxTree').jqxTree({  height: '100%', width: '100%' });
-            $("#splitter").jqxSplitter({  width: 650, height: 400, panels: [{size: 250 }] });
+            $("#splitter").jqxSplitter({ width: 850, height: 400, panels: [{ size: 250 }] });
             $('#jqxTree').on('select', function (event) {
                 $("#ContentPanel").html("<div style='margin: 10px;'>" + event.args.element.id + "</div>");
             });

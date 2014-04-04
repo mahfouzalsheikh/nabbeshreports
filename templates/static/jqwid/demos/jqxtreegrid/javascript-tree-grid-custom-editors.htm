@@ -81,7 +81,7 @@
 
            $("#treeGrid").jqxTreeGrid(
            {
-              width: 670,
+              width: 850,
               source: dataAdapter,
               altrows: true,
               autoRowHeight: false,
@@ -93,9 +93,9 @@
               },
               editable: true,
               columns: [
-               { text: 'ID', editable: false, dataField: 'id', width: 100 },
+               { text: 'ID', editable: false, dataField: 'id', width: 150 },
                {
-                   text: 'Name', dataField: 'name', width: 220, columnType: "template",
+                   text: 'Name', dataField: 'name', width: 250, columnType: "template",
                    createEditor: function (row, cellvalue, editor, cellText, width, height) {
                        // construct the editor. 
                        var source = ["Corporate Headquarters", "Finance Division", "Accounting Department", "Investment Department",

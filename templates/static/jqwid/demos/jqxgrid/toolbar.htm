@@ -30,11 +30,12 @@
                     { name: 'adminName1' }
                 ],
                 async: false,
-                url: "http://ws.geonames.org/searchJSON",
+                url: "http://api.geonames.org/searchJSON",
                 data: {
                     featureClass: "P",
                     style: "full",
-                    maxRows: 20
+                    maxRows: 20,
+                    username: "jqwidgets"
                 }
             };
 
@@ -49,7 +50,7 @@
 
             $("#jqxgrid").jqxGrid(
             {
-                width: 680,
+                width: 850,
                 source: dataAdapter,                
                 columns: [
                     { text: 'City', datafield: 'name', width: 170 },
@@ -83,6 +84,9 @@
                                 }, 1000);
                                 oldVal = input.val();
                             }
+                        }
+                        else {
+                            $("#jqxgrid").jqxGrid('updatebounddata');
                         }
                     });
                 }

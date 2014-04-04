@@ -55,7 +55,7 @@
             // initialize jqxGrid
             $("#jqxgrid").jqxGrid(
             {
-                width: 685,
+                width: 850,
                 source: dataAdapter,
                 editable: true,
                 selectionmode: 'singlerow',
@@ -72,8 +72,8 @@
                              return true;
 
                           var year = value.getFullYear();
-                          if (year >= 2014) {
-                              return { result: false, message: "Ship Date should be before 1/1/2014" };
+                          if (year >= 2015) {
+                              return { result: false, message: "Ship Date should be before 1/1/2015" };
                           }
                           return true;
                       }

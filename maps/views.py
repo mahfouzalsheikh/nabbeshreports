@@ -462,7 +462,7 @@ def sign_application_proposal_invoice(request):
     param = get_sourceliststring()
     
     c = Context({'sign_application_proposal_invoice': dashboard, 'param' : param  })
-    return render_to_response('./reports/sign_job_proposal_invoice.html',c, context_instance=RequestContext(request))        
+    return render_to_response('./reports/sign_application_proposal_invoice.html',c, context_instance=RequestContext(request))        
         
 @csrf_exempt  
 def sign_application_proposal_invoice_getdata(request):

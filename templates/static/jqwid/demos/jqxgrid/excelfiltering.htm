@@ -45,7 +45,7 @@
 
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,
                 sortable: true,
                 filterable: true,
@@ -54,8 +54,8 @@
                 autoshowfiltericon: false,
                 columns: [
                   { text: 'Ship Name', datafield: 'ShipName', width: 250 },
-                  { text: 'Ship City', datafield: 'ShipCity', width: 100 },
-                  { text: 'Ship Country', datafield: 'ShipCountry' },
+                  { text: 'Ship City', datafield: 'ShipCity', width: 250 },
+                  { text: 'Ship Country', datafield: 'ShipCountry', width: 200 },
                   { text: 'Freight', datafield: 'Freight', width: 130, cellsformat: 'F2', cellsalign: 'right' },
                   { text: 'Ship Address', datafield: 'ShipAddress', width: 350 }
                 ]

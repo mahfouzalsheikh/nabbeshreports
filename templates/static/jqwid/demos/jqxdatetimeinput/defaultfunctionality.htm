@@ -20,11 +20,13 @@ You can also enter a date by typing into the jqxDateTimeInput text input field."
     <div id='content'>
         <script type="text/javascript">
             $(document).ready(function () {               
-                // Create a jqxDateTimeInput
-                $("#jqxWidget").jqxDateTimeInput({width: '250px', height: '25px'});
+                $('#MyparentDIV').show(300);
+                $('#MyparentDIV').empty();
+                $('#MyparentDIV').append('<div id="myDateDIV"></div>');
+                $('#myDateDIV').jqxDateTimeInput({ width: '50%', height: '25px', formatString: 'yyyy-MM-dd HH:mm:ss' });
             });
         </script>
-        <div id='jqxWidget'>
+        <div style="display:none;" id='MyparentDIV'>
         </div>
     </div>
 </body>

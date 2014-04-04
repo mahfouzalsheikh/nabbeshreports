@@ -193,3 +193,5 @@
   
     drawChart(signupchecked, cpcchecked,checkedItems,fromdate,todate);
 </script>
+
+{% endblock %}

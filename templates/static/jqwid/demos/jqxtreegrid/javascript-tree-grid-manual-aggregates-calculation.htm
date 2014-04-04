@@ -79,7 +79,7 @@
             {
                 source: dataAdapter,
                 altRows: true,
-                width: 680,
+                width: 850,
                 showSubAggregates: true,
                 showAggregates: true,
                 aggregatesHeight: 55,
@@ -90,14 +90,14 @@
                     $("#treeGrid").jqxTreeGrid('expandRow', '2');
                 },
                 columns: [
-                  { text: "Name", align: "left", dataField: "name", width: 270 },
-                  { text: "Location", dataField: "location", cellsAlign: "left", align: "left", width: 200 },
+                  { text: "Name", align: "left", dataField: "name", width: 300 },
+                  { text: "Location", dataField: "location", cellsAlign: "left", align: "left", width: 250 },
                   {
                       text: "Budget", cellsAlign: "right", align: "right", dataField: "budget", cellsFormat: "c2",
                       aggregates: [{
                           'Total':
-                            function (aggregatedValue, currentValue, column, record) {
-                                if (record.checked) {
+                            function (aggregatedValue, currentValue, column, record, aggregateLevel) {
+                                if (record.checked && record.level === aggregateLevel) {
                                     return aggregatedValue + currentValue;
                                 }
                                 else {

@@ -23,7 +23,7 @@
                 dataFields: [
                     { name: "name", type: "string" },
                     { name: "quantity", type: "number" },
-                    { name: "id", type: "number" },
+                    { name: "id", type: "string" },
                     { name: "parentid", type: "number" },
                     { name: "price", type: "number" },
                     { name: "date", type: "date" },
@@ -41,7 +41,7 @@
             // create Tree Grid
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 680,
+                width: 850,
                 source: dataAdapter,
                 sortable: true,
                 pageable: true,

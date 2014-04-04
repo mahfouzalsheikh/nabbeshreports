@@ -30,14 +30,14 @@
 
             $("#table").jqxDataTable(
             {
-                width: 670,
+                width: 850,
                 pageable: true,
                 pagerButtonsCount: 10,
                 source: dataAdapter,
                 columnsResize: true,
                 columns: [
                   { text: 'Date', dataField: 'Date', cellsFormat: 'D', width: 250},
-                  { text: 'S&P 500', dataField: 'S&P 500', width: 200, cellsFormat: 'f' },
+                  { text: 'S&P 500', dataField: 'S&P 500', width: 300, cellsFormat: 'f' },
                   { text: 'NASDAQ', dataField: 'NASDAQ', cellsFormat: 'f' }
                 ]
             });

@@ -38,13 +38,12 @@
             };
 
             var columns = [
-                  { text: 'Id', datafield: 'id', width: 50, cellsalign: 'center', align: 'center' },
-                  { text: 'First Name', datafield: 'firstname', width: 100, cellsalign: 'center', align: 'center' },
-                  { text: 'Last Name', datafield: 'lastname', width: 100, cellsalign: 'center', align: 'center' },
+                  { text: 'First Name', datafield: 'firstname', width: 200, cellsalign: 'center', align: 'center' },
+                  { text: 'Last Name', datafield: 'lastname', width: 200, cellsalign: 'center', align: 'center' },
                   { text: 'Product', datafield: 'productname', width: 180, cellsalign: 'center', align: 'center' },
                   { text: 'Quantity', datafield: 'quantity', width: 80, cellsalign: 'center', align: 'center' },
                   { text: 'Unit Price', datafield: 'price', width: 90, cellsalign: 'center', align: 'center', cellsformat: 'c2' },
-                  { text: 'Total', datafield: 'total', width: 100, cellsalign: 'center', align: 'center', cellsformat: 'c2' }
+                  { text: 'Total', datafield: 'total', cellsalign: 'center', align: 'center', cellsformat: 'c2' }
                 ];
 
             var dataAdapter = new $.jqx.dataAdapter(source);
@@ -52,7 +51,7 @@
             // initialize jqxGrid
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,                
                 selectionmode: 'multiplecellsextended',
                 columns: columns

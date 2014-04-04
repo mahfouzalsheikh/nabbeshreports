@@ -40,13 +40,13 @@
                 // create jqxDataTable.
                 $("#dataTable").jqxDataTable(
                 {
-                    width: 670,
+                    width: 850,
                     source: dataAdapter,                    
                     editable: true,
                     pageable: true,
                     columns: [
-                      { text: 'Ship Name', dataField: 'ShipName', width: 250, align: 'left', cellsAlign: 'left' },
-                      { text: 'Freight', dataField: 'Freight', width: 80, align: 'right', cellsFormat: 'F2', cellsAlign: 'right' },
+                      { text: 'Ship Name', dataField: 'ShipName', width: 350, align: 'left', cellsAlign: 'left' },
+                      { text: 'Freight', dataField: 'Freight', width: 180, align: 'right', cellsFormat: 'F2', cellsAlign: 'right' },
                       { text: 'Ship Address', dataField: 'ShipAddress', align: 'left', width: 350, cellsAlign: 'left' },
                       { text: 'Ship City', dataField: 'ShipCity', width: 100, align: 'left', cellsAlign: 'left' },
                       { text: 'Ship Country', dataField: 'ShipCountry', align: 'left', cellsAlign: 'left' }

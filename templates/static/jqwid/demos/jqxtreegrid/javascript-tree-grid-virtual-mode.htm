@@ -53,7 +53,7 @@
             // create Tree Grid
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 600,
+                width: 850,
                 pageable: true,
                 altRows: true,
                 virtualModeCreateRecords: function (expandedRecord, done) {
@@ -86,8 +86,8 @@
                     }
                 },
                 columns: [
-                    { text: 'Task', dataField: "task", align: 'center', width: 250 },
-                    { text: 'Person Name', dataField: "name", cellsAlign: 'center', align: 'center', width: 200 },
+                    { text: 'Task', dataField: "task", align: 'center', width: 300 },
+                    { text: 'Person Name', dataField: "name", cellsAlign: 'center', align: 'center', width: 300 },
                     {
                         text: 'Duration', aggregates: ['sum'], dataField: "duration", cellsAlign: 'center', align: 'center', cellsRenderer: function (row, column, value) {
                             var hour = value > 1 ? " hours" : " hour";

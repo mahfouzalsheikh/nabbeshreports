@@ -8,10 +8,12 @@
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="../../jqwidgets/jqxcheckbox.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxscrollbar.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxmenu.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="../../jqwidgets/jqxgrid.sort.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.columnsresize.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxgrid.edit.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxlistbox.js"></script>
@@ -19,7 +21,7 @@
     <script type="text/javascript" src="../../scripts/demos.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#loadButton").jqxButton({ theme: theme });
+            $("#loadButton").jqxButton();
 
             $("#loadButton").click(function () {
                 // select rows.
@@ -40,28 +42,38 @@
                     data[data.length] = datarow;
                 }
 
-                var source =
-                {
+                var source = {
                     localdata: data,
-                    datatype: "array"
+                    datatype: "array",
+                    datafields:
+                    [
+                        { name: "First Name", type: "string" },
+                        { name: "Last Name", type: "string" },
+                        { name: "Product", type: "string" },
+                        { name: "Available", type: "string" },
+                        { name: "Ship Date", type: "date", format: 'MM/dd/yyyy' },
+                        { name: "Quantity", type: "number" },
+                        { name: "Price", type: "number" }
+                    ]
                 };
 
                 var dataAdapter = new $.jqx.dataAdapter(source);
 
                 $("#jqxgrid").jqxGrid(
                 {
-                    width: 680,
+                    width: 850,
                     source: dataAdapter,
                     columnsresize: true,
                     autoheight: true,
+                    sortable: true,
                     columns: [
-                      { text: 'First Name', dataField: 'First Name', align: 'center', width: 100 },
-                      { text: 'Last Name', dataField: 'Last Name', align: 'center', width: 100 },
+                      { text: 'First Name', dataField: 'First Name', align: 'center', width: 130 },
+                      { text: 'Last Name', dataField: 'Last Name', align: 'center', width: 130 },
                       { text: 'Product', dataField: 'Product', align: 'center', width: 170 },
-                      { text: 'Available', dataField: 'Available', align: 'center', width: 90 },
-                      { text: 'Ship Date', dataField: 'Ship Date', align: 'center', minwidth: 100 },
-                      { text: 'Quantity', dataField: 'Quantity', align: 'center', cellsalign: 'right', width: 65 },
-                      { text: 'Price', dataField: 'Price', align: 'center', cellsalign: 'right', cellsformat: "c2" }
+                      { text: 'Available', dataField: 'Available', columntype: 'checkbox', align: 'center', width: 90 },
+                      { text: 'Ship Date', dataField: 'Ship Date', align: 'center', cellsformat: 'd', width: 100},
+                      { text: 'Quantity', dataField: 'Quantity', align: 'center', cellsalign: 'right', width: 100 },
+                      { text: 'Price', dataField: 'Price', align: 'right', cellsalign: 'right', cellsformat: "c2" }
                     ]
                 });
             });
@@ -70,7 +82,7 @@
 </head>
 <body class='default'>
     <div id='jqxWidget'>
-        <table style="width: 680px;" id='table' cellspacing="0" cellpadding="2">
+        <table style="width: 850px;" id='table' cellspacing="0" cellpadding="2">
             <thead>
                 <tr>
                     <th>

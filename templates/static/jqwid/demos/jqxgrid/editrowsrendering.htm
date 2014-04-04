@@ -76,24 +76,24 @@
             // initialize jqxGrid
             $("#jqxgrid").jqxGrid(
             {
-                width: 685,
+                width: 850,
                 source: dataAdapter,
                 editable: true,
                 selectionmode: 'multiplecellsadvanced',
                 columns: [
-                  { text: 'First Name', columntype: 'textbox', cellclassname: cellclass, datafield: 'firstname', width: 80 },
-                  { text: 'Last Name', datafield: 'lastname', cellclassname: cellclass, columntype: 'textbox', width: 80 },
+                  { text: 'First Name', columntype: 'textbox', cellclassname: cellclass, datafield: 'firstname', width: 120 },
+                  { text: 'Last Name', datafield: 'lastname', cellclassname: cellclass, columntype: 'textbox', width: 120 },
                   { text: 'Product', columntype: 'dropdownlist', cellclassname: cellclass, datafield: 'productname', width: 195 },
                   { text: 'Available', datafield: 'available', cellclassname: cellclass, columntype: 'checkbox', width: 67 },
                   {
                       text: 'Ship Date', datafield: 'date', cellclassname: cellclass, columntype: 'datetimeinput', width: 110, align: 'right', cellsalign: 'right', cellsformat: 'd',
-                  validation: function (cell, value) {
+                     validation: function (cell, value) {
                           if (value == "")
                              return true;
 
                           var year = value.getFullYear();
-                          if (year >= 2014) {
-                              return { result: false, message: "Ship Date should be before 1/1/2014" };
+                          if (year >= 2015) {
+                              return { result: false, message: "Ship Date should be before 1/1/2015" };
                           }
                           return true;
                       }

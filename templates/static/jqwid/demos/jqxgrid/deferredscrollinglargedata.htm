@@ -35,13 +35,13 @@
 
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 source: adapter,
                 scrollmode: 'deferred',
                 deferreddatafields: ['firstname', 'lastname', 'productname'],
                 columns: [
-                  { text: 'First Name', datafield: 'firstname', width: 100 },
-                  { text: 'Last Name', datafield: 'lastname', width: 100 },
+                  { text: 'First Name', datafield: 'firstname', width: 200 },
+                  { text: 'Last Name', datafield: 'lastname', width: 200 },
                   { text: 'Product', datafield: 'productname', width: 180 },
                   { text: 'Quantity', datafield: 'quantity', width: 80, cellsalign: 'right' },
                   { text: 'Unit Price', datafield: 'price', width: 80, cellsalign: 'right', cellsformat: 'c2' },

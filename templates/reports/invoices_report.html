@@ -38,7 +38,7 @@
 
 <script type="text/javascript">
  var theme = 'bootstrap';
- $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ $("#optionsExpander").jqxExpander({ theme: theme,width: '100%', theme: theme,  expanded: false});
  //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
  
 </script>
@@ -57,9 +57,9 @@
       
      var source = ["Year","Month", "Day"];
        
-      $("#groupmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:1});  
+      $("#groupmenu").jqxComboBox({theme: theme, source: source, width: '200px', height: '25px', selectedIndex:1});  
                 
-      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").jqxButton({ theme: theme,width: '200'});
       $("#filterButton").on('click', function () {
                                          
                   draw(grouper,fromdate,todate);
@@ -72,8 +72,8 @@
 
 
       var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-3))});
-     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+     $("#fromdate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-3))});
+     $("#todate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
 
      
      $("#fromdate").on('change', function (event) {
@@ -87,7 +87,7 @@
      var todate = $('#todate').jqxDateTimeInput('getText');
      
      var invoicesmetricslistsource = ["New Amount", "New Count", "New Average","Canceled Amount", "Canceled Count", "Canceled Average","Declined Amount", "Declined Count", "Declined Average","Accepted Amount", "Accepted Count", "Accepted Average"];
-     $("#invoicesmetricslist").jqxDropDownList({width: 200,height: 25, source: invoicesmetricslistsource, checkboxes: true});
+     $("#invoicesmetricslist").jqxDropDownList({theme: theme,width: 200,height: 25, source: invoicesmetricslistsource, checkboxes: true});
      //$("#invoicesmetricslist").jqxListBox('checkIndex', 2);
      $("#invoicesmetricslist").jqxDropDownList('checkIndex', 0);
      $("#invoicesmetricslist").jqxDropDownList('checkIndex', 3);

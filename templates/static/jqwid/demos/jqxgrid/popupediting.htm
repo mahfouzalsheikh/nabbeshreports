@@ -57,8 +57,8 @@
             $("#product").width(150);
             $("#product").height(23);
 
-            $("#quantity").jqxNumberInput({ width: 150, height: 23,  decimalDigits: 0, spinButtons: true });
-            $("#price").jqxNumberInput({symbol: '$', width: 150, height: 23,  spinButtons: true });
+            $("#quantity").jqxNumberInput({spinMode: 'simple', width: 150, height: 23, min: 0, decimalDigits: 0, spinButtons: true });
+            $("#price").jqxNumberInput({ spinMode: 'simple', symbol: '$', width: 150, min: 0, height: 23, spinButtons: true });
 
             var dataAdapter = new $.jqx.dataAdapter(source);
             var editrow = -1;
@@ -66,13 +66,13 @@
             // initialize jqxGrid
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,
                 pageable: true,
                 autoheight: true,
                 columns: [
-                  { text: 'First Name', datafield: 'firstname', width: 100 },
-                  { text: 'Last Name', datafield: 'lastname', width: 100 },
+                  { text: 'First Name', datafield: 'firstname', width: 200 },
+                  { text: 'Last Name', datafield: 'lastname', width: 200 },
                   { text: 'Product', datafield: 'productname', width: 190 },
                   { text: 'Quantity', datafield: 'quantity', width: 90, cellsalign: 'right' },
                   { text: 'Price', datafield: 'price', width: 90, cellsalign: 'right', cellsformat: 'c2' },

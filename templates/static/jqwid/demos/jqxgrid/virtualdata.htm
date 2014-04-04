@@ -84,7 +84,7 @@
 
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 autoheight: true,
                 source: dataAdapter,                
                 virtualmode: true,
@@ -92,12 +92,12 @@
                 rendergridrows: rendergridrows,
                 columns: [
                     { text: 'Id', datafield: 'id', width: 50 },
-                    { text: 'First Name', datafield: 'firstname', width: 100 },
-                    { text: 'Last Name', datafield: 'lastname', width: 100 },
+                    { text: 'First Name', datafield: 'firstname', width: 120 },
+                    { text: 'Last Name', datafield: 'lastname', width: 120 },
                     { text: 'Product', datafield: 'productname', width: 180 },
-                    { text: 'Quantity', datafield: 'quantity', width: 70, cellsalign: 'right' },
-                    { text: 'Unit Price', datafield: 'price', width: 70, cellsalign: 'right', cellsformat: 'c2' },
-                    { text: 'Total', datafield: 'total', cellsrenderer: totalcolumnrenderer, width: 100, cellsalign: 'right' }
+                    { text: 'Quantity', datafield: 'quantity', width: 100, cellsalign: 'right' },
+                    { text: 'Unit Price', datafield: 'price', width: 100, cellsalign: 'right', cellsformat: 'c2' },
+                    { text: 'Total', datafield: 'total', cellsrenderer: totalcolumnrenderer, cellsalign: 'right' }
                 ]
             });
         });

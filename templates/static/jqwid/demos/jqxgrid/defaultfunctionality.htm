@@ -59,7 +59,7 @@
             // initialize jqxGrid
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,                
                 pageable: true,
                 autoheight: true,
@@ -70,8 +70,8 @@
                 selectionmode: 'multiplecellsadvanced',
                 columns: [
                   { text: 'Product Name', columngroup: 'ProductDetails', datafield: 'ProductName', width: 250 },
-                  { text: 'Quantity per Unit', columngroup: 'ProductDetails', datafield: 'QuantityPerUnit', cellsalign: 'right', align: 'right', width: 120 },
-                  { text: 'Unit Price', columngroup: 'ProductDetails', datafield: 'UnitPrice', align: 'right', cellsalign: 'right', cellsformat: 'c2', width: 100 },
+                  { text: 'Quantity per Unit', columngroup: 'ProductDetails', datafield: 'QuantityPerUnit', cellsalign: 'right', align: 'right', width: 200 },
+                  { text: 'Unit Price', columngroup: 'ProductDetails', datafield: 'UnitPrice', align: 'right', cellsalign: 'right', cellsformat: 'c2', width: 200 },
                   { text: 'Units In Stock', datafield: 'UnitsInStock', cellsalign: 'right', cellsrenderer: cellsrenderer, width: 100 },
                   { text: 'Discontinued', columntype: 'checkbox', datafield: 'Discontinued' }
                 ],

@@ -64,11 +64,11 @@
       
      var source = ["Month","Day"];
        
-     $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:1});     
+     $("#limitmenu").jqxComboBox({ theme: theme,source: source, width: '200px', height: '25px', selectedIndex:1});     
      
      var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
-     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+     $("#fromdate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
 
      
      $("#fromdate").on('change', function (event) {
@@ -82,9 +82,9 @@
      var todate = $('#todate').jqxDateTimeInput('getText');
      var limit="Day";          
                 
-      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").jqxButton({theme: theme, width: '200'});
       $("#filterButton").on('click', function () {draw(limit,fromdate,todate);});
-      $("#downloadButton").jqxButton({ width: '200'});                
+      $("#downloadButton").jqxButton({theme: theme, width: '200'});                
       $("#downloadButton").on('click', function () {
                 var json = $.parseJSON(getData(limit,fromdate,todate));
     		var csv = JSON2CSV(json);
@@ -95,7 +95,7 @@
      
      
      var metricslistsource = ["Workflow Msgs","Normal Msgs","All Signups", "Joined as Freelancer","Joined as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Proposal Paid", "Job Apps","Invitations", "Invoices Sent", "Invoices Paid", "Invitations/Job", "Applications/Job"];
-     $("#metricslist").jqxDropDownList({width: 200,height: 25, source: metricslistsource, checkboxes: true, animationType: 'fade'});
+     $("#metricslist").jqxDropDownList({theme: theme,width: 200,height: 25, source: metricslistsource, checkboxes: true, animationType: 'fade'});
      
      //$("#metricslist").jqxListBox('checkIndex', 2);
      $("#metricslist").jqxDropDownList('checkIndex', 2);

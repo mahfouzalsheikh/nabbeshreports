@@ -39,12 +39,12 @@
     </script>
 <script type="text/javascript">
  var theme = 'bootstrap';
- $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ $("#optionsExpander").jqxExpander({ theme: theme,width: '100%', theme: theme,  expanded: false});
  
 </script>
 <script type="text/javascript">
 
-     $("#downloadButton").jqxButton({ width: '200'});                
+     $("#downloadButton").jqxButton({ theme: theme,width: '200'});                
      $("#downloadButton").on('click', function () {
                 var json = $.parseJSON(getData(grouper));
     		var csv = JSON2CSV(json);
@@ -64,9 +64,9 @@
       
       var source = ["Country", "Nationality"];
        
-      $("#groupmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0});  
+      $("#groupmenu").jqxComboBox({ theme: theme,source: source, width: '200px', height: '25px', selectedIndex:0});  
                 
-      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").jqxButton({theme: theme, width: '200'});
       $("#filterButton").on('click', function () {
                                            
                   drawChart(grouper);

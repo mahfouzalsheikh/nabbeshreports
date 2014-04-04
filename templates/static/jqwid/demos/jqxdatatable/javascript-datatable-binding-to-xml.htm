@@ -37,15 +37,15 @@
             // Create jqxGrid
             $("#dataTable").jqxDataTable(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,
                 pageable: true,
                 pagerButtonsCount: 10,
                 columnsresize: true,
                 columns: [
                   { text: 'Company Name', datafield: 'CompanyName', width: 250 },
-                  { text: 'Contact Name', datafield: 'ContactName', width: 150 },
-                  { text: 'Contact Title', datafield: 'ContactTitle', width: 180 },
+                  { text: 'Contact Name', datafield: 'ContactName', width: 250 },
+                  { text: 'Contact Title', datafield: 'ContactTitle', width: 250 },
                   { text: 'City', datafield: 'City', width: 120 },
                   { text: 'Postal Code', datafield: 'PostalCode', width: 90 },
                   { text: 'Country', datafield: 'Country', width: 100 }

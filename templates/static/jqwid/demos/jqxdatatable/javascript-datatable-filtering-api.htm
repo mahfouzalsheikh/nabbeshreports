@@ -36,14 +36,14 @@
             // create grid.
             $("#dataTable").jqxDataTable(
             {
-                width: 450,
+                width: 650,
                 pagerButtonsCount: 4,
                 pageable: true,
                 source: dataAdapter,
                 sortable: true,
                 columns: [
-                  { text: 'First Name', dataField: 'firstname', width: 90 },
-                  { text: 'Last Name', dataField: 'lastname', width: 90 },
+                  { text: 'First Name', dataField: 'firstname', width: 190 },
+                  { text: 'Last Name', dataField: 'lastname', width: 190 },
                   { text: 'Product', dataField: 'productname', width: 170 },
                   { text: 'Quantity', dataField: 'quantity',  cellsAlign: 'right' }
                 ]

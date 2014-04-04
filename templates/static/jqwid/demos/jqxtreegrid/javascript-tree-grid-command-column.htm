@@ -81,7 +81,7 @@
          
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,
                 altrows: true,
                 autoRowHeight: false,
@@ -144,12 +144,12 @@
                     }
                 },
                 columns: [
-                  { text: 'ID', editable: false, dataField: 'id', width: 100 },
-                  { text: 'Name', dataField: 'name', width: 200 },
+                  { text: 'ID', editable: false, dataField: 'id', width: 150 },
+                  { text: 'Name', dataField: 'name', width: 250 },
                   {
                       text: 'Budget', align: 'right', cellsAlign: 'right', cellsFormat: 'c2', dataField: 'budget', width: 150
                   },
-                  { text: 'Location', dataField: 'location', width: 100 },
+                  { text: 'Location', dataField: 'location', width: 130 },
                   {
                       text: 'Edit', cellsAlign: 'center', align: "center", columnType: 'none', editable: false, sortable: false, dataField: null, cellsRenderer: function (row, column, value) {
                           // render custom column.

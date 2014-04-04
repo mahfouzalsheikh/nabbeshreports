@@ -25,11 +25,12 @@
                     { name: 'continentCode' },
                     { name: 'adminName1' }
                 ],
-                url: "http://ws.geonames.org/searchJSON",
+                url: "http://api.geonames.org/searchJSON",
                 data: {
                     featureClass: "P",
                     style: "full",
-                    maxRows: 12
+                    maxRows: 50,
+                    username: "jqwidgets"
                 }
             };
 
@@ -44,17 +45,16 @@
 
             $("#jqxlistbox").jqxListBox(
             {
-                width: 280,
-                height: 250,
-                source: dataAdapter,
-                
+                width: 320,
+                height: 350,
+                source: dataAdapter, 
                 selectedIndex: 0,
                 displayMember: "name",
                 valueMember: "countryName",
                 renderer: function (index, label, value) {
                     var item = dataAdapter.records[index];
                     if (item != null) {
-                        var label = item.name + ", " + item.countryName + ", " + item.adminName1;
+                        var label = item.name + "(" + item.countryName + ", " + item.adminName1 + ")";
                         return label;
                     }
                     return "";
@@ -74,8 +74,8 @@
 <body class='default'>
     <div id='jqxWidget' style="font-size: 13px; font-family: Verdana; float: left;">
         <div>
-          <span style='float: left; margin-top: 5px; margin-right: 4px;'>Search: </span>
-          <input class='jqx-input' id='searchField' type="text" style="height: 23px; float: left; width: 223px;" /> 
+          <span style='float: left; margin-top: 5px; margin-right: 4px;'>Search for a City: </span>
+          <input class='jqx-input' placeholder="Type a City name here" id='searchField' type="text" style="height: 23px; float: left; width: 197px;" /> 
         </div>
         <div style="clear: both;"></div>
         <div style="margin-top: 10px;" id="jqxlistbox"></div>

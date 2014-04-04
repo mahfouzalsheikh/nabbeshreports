@@ -31,15 +31,15 @@
 
             var dataAdapter = new $.jqx.dataAdapter(source);
             var columns = [
-                  { text: 'First Name', datafield: 'firstname', width: 100 },
-                  { text: 'Last Name', datafield: 'lastname', width: 100 },
+                  { text: 'First Name', datafield: 'firstname', width: 250 },
+                  { text: 'Last Name', datafield: 'lastname', width: 250 },
                   { text: 'Product', datafield: 'productname' }
                 ];
 
             // create data grids.
             $("#grid").jqxGrid(
             {
-                width: 400,
+                width: 850,
                 source: dataAdapter,
                 ready: function()
                 {
@@ -168,7 +168,7 @@
                 }
             });
 
-            $("#form").jqxExpander({  width: 400, toggleMode: 'none', showArrow: false });
+            $("#form").jqxExpander({  width: 850, toggleMode: 'none', showArrow: false });
          });
     </script>
 </head>

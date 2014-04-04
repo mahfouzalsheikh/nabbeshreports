@@ -44,11 +44,12 @@
                     { name: 'population', type: 'float' },
                     { name: 'continentCode', type: 'string' }
                 ],
-                url: "http://ws.geonames.org/searchJSON",
+                url: "http://api.geonames.org/searchJSON",
                 data: {
                     featureClass: "P",
                     style: "full",
-                    maxRows: 50
+                    maxRows: 50,
+                    username: "jqwidgets"
                 }
             };
 

@@ -95,7 +95,7 @@
 
             $("#jqxgrid").jqxGrid(
             {
-                width: 685,
+                width: 850,
                 source: dataAdapter,
                 showfilterrow: true,
                 filterable: true,
@@ -105,7 +105,7 @@
                 localization: getLocalization(),
                 selectionmode: 'singlecell',
                 columns: [
-                  { text: 'Name', columntype: 'textbox', filtertype: 'textbox', datafield: 'name', width: 115 },
+                  { text: 'Name', columntype: 'textbox', filtertype: 'textbox', datafield: 'name', width: 180 },
                   { text: 'Produkt', filtertype: 'textbox', datafield: 'productname', width: 220 },
                   { text: 'Datum', datafield: 'date', columntype: 'datetimeinput', filtertype: 'date', width: 210, cellsalign: 'right', cellsformat: 'd' },
                   { text: 'Qt.', datafield: 'quantity', columntype: 'numberinput', filtertype: 'textbox', cellsalign: 'right', width: 60 },

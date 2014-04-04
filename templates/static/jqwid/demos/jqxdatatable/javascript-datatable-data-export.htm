@@ -38,14 +38,14 @@
             // initialize jqxDataTable
             $("#dataTable").jqxDataTable(
             {
-                width: 670,
+                width: 850,
                 pageable: true,
                 source: dataAdapter,
                 altRows: true,
                 sortable: true,
                 columns: [
-                  { text: 'First Name', dataField: 'firstname', width: 90 },
-                  { text: 'Last Name', dataField: 'lastname', width: 90 },
+                  { text: 'First Name', dataField: 'firstname', width: 190 },
+                  { text: 'Last Name', dataField: 'lastname', width: 190 },
                   { text: 'Product', dataField: 'productname', width: 177 },
                   { text: 'Available', dataField: 'available', width: 67, cellsAlign: 'center', align: 'center' },
                   { text: 'Ship Date', dataField: 'date', width: 90, align: 'right', cellsAlign: 'right', cellsFormat: 'd' },

@@ -10,7 +10,6 @@
 /*Grid*/
 .jqx-grid-column-sortascbutton-ui-redmond{background-position:-96px -192px; background-image:url(images/redmond/ui-icons_d8e7f3_256x240.png); position: relative; max-height: 16px; height: 16px !important; top:50%; margin-top:-8px;}
 .jqx-grid-column-sortdescbutton-ui-redmond{position: relative; max-height: 16px; height: 16px !important; top:50%; margin-top:-8px; background-position:-64px -192px; background-image:url(images/redmond/ui-icons_d8e7f3_256x240.png)}
-.jqx-grid-column-menubutton-ui-redmond{position: relative; max-height: 16px; height: 16px !important; top:50%; margin-top:-8px; background-position:-65px -16px; background-image:url(images/redmond/ui-icons_f9bd01_256x240.png); border-width:0px}
 /*Tree*/
 .jqx-tree-item-arrow-expand-ui-redmond, .jqx-tree-item-arrow-expand-hover-ui-redmond{background-position:-65px -16px; background-image:url(images/redmond/ui-icons_6da8d5_256x240.png)}
 .jqx-tree-item-arrow-collapse-ui-redmond, .jqx-tree-item-arrow-collapse-hover-ui-redmond{background-position:-32px -16px; background-image:url(images/redmond/ui-icons_6da8d5_256x240.png)}
@@ -32,17 +31,6 @@
 .jqx-calendar-column-cell-ui-redmond{font-size: 11px; font-weight: bold;}
 .jqx-calendar-ui-redmond .jqx-icon-arrow-left-ui-redmond{background-image:url(images/redmond/ui-icons_d8e7f3_256x240.png); background-position: -80px -192px; width:16px; height:16px; left:5px; position:relative}
 .jqx-calendar-ui-redmond .jqx-icon-arrow-right-ui-redmond{background-image:url(images/redmond/ui-icons_d8e7f3_256x240.png); background-position: -48px -192px; width:16px; height:16px; right:5px; position:relative}
-/*Window*/
-.jqx-window-ui-redmond{padding: 2px;}
-.jqx-window-header-ui-redmond{border: 1px solid #4297d7; font-weight: bold; font-size: 11px; moz-border-radius:5px; border-radius:5px; webkit-border-radius:5px}
-.jqx-window-content-ui-redmond{border-width:0px !important}
-.jqx-window-close-button-ui-redmond{background-position:-96px -128px; background-image:url(images/redmond/ui-icons_d8e7f3_256x240.png);moz-border-radius:5px; border-radius:5px; webkit-border-radius:5px}
-.jqx-window-collapse-button-ui-redmond{background-position:0 -16px; background-image:url(images/redmond/ui-icons_d8e7f3_256x240.png)}
-.jqx-window-collapse-button-hover-ui-redmond{background-image:url(images/redmond/ui-icons_217bc0_256x240.png); background-color:#fff; border-radius:5px; moz-border-radius:5px; webkit-border-radius:5px}
-.jqx-window-collapse-button-collapsed-ui-redmond, .jqx-window-collapse-button-collapsed-hover-ui-redmond{background-position:-65px -16px}
-.jqx-window-modal-ui-redmond{background: #aaaaaa; opacity: .30;filter:Alpha(Opacity=30);}
-.jqx-window-close-button-hover-ui-redmond{background-color:#fff; background-position:-96px -128px; background-image:url(images/redmond/ui-icons_217bc0_256x240.png); cursor:pointer; width:16px; height:16px}
-
 /*Icons*/
 .jqx-icon-arrow-up-ui-redmond{background-position:0 -16px; background-image:url(images/redmond/ui-icons_6da8d5_256x240.png)}
 .jqx-icon-arrow-down-ui-redmond{background-position:-65px -16px; background-image:url(images/redmond/ui-icons_6da8d5_256x240.png)}
@@ -58,6 +46,16 @@
 .jqx-icon-arrow-down-selected-ui-redmond{background-position:-65px -16px; background-image:url(images/redmond/ui-icons_f9bd01_256x240.png)}
 .jqx-icon-close-ui-redmond{background-image:url(images/redmond/ui-icons_6da8d5_256x240.png); background-position:-80px -128px; cursor:pointer}
 .jqx-icon-close-hover-ui-redmond{background-image:url(images/redmond/ui-icons_217bc0_256x240.png); background-position:-80px -128px; cursor:pointer}
+/*Window*/
+.jqx-window-ui-redmond{padding: 2px;}
+.jqx-window-header-ui-redmond{border: 1px solid #4297d7; font-weight: bold; font-size: 11px; moz-border-radius:5px; border-radius:5px; webkit-border-radius:5px}
+.jqx-window-content-ui-redmond{border-width:0px !important}
+.jqx-window-close-button-ui-redmond{background-position:-96px -128px; background-image:url(images/redmond/ui-icons_d8e7f3_256x240.png);moz-border-radius:5px; border-radius:5px; webkit-border-radius:5px}
+.jqx-window-collapse-button-ui-redmond{background-position:0 -16px; background-image:url(images/redmond/ui-icons_d8e7f3_256x240.png)}
+.jqx-window-collapse-button-hover-ui-redmond{background-image:url(images/redmond/ui-icons_217bc0_256x240.png); background-color:#fff; border-radius:5px; moz-border-radius:5px; webkit-border-radius:5px}
+.jqx-window-collapse-button-collapsed-ui-redmond, .jqx-window-collapse-button-collapsed-hover-ui-redmond{background-position:-65px -16px}
+.jqx-window-modal-ui-redmond{background: #aaaaaa; opacity: .30;filter:Alpha(Opacity=30);}
+.jqx-window-close-button-hover-ui-redmond{background-color:#fff; background-position:-96px -128px; background-image:url(images/redmond/ui-icons_217bc0_256x240.png); cursor:pointer; width:16px; height:16px}
 /*Common Settings*/
 .jqx-widget-ui-redmond{font-family: Lucida Grande, Lucida Sans, Arial, sans-serif; font-size:13px; font-style:normal; webkit-tap-highlight-color:rgba(0,0,0,0)}
 .jqx-widget-content-ui-redmond{ font-family: Lucida Grande, Lucida Sans, Arial, sans-serif; border-color: #a6c9e2; background: #fcfdfd url(images/redmond/ui-bg_inset-hard_100_fcfdfd_1x100.png) 50% bottom repeat-x; color: #222222; font-size:13px}
@@ -72,6 +70,7 @@
 .jqx-fill-state-pressed-ui-redmond{border-color: #79b7e7; background: #f5f8f9 url(images/redmond/ui-bg_inset-hard_100_f5f8f9_1x100.png) 50% 50% repeat-x; color: #e17009; }
 .jqx-fill-state-pressed-ui-redmond a, .jqx-fill-state-pressed-ui-redmond a:link, .jqx-fill-state-pressed-ui-redmond a:visited{color:#e17009; text-decoration:none}
 .jqx-fill-state-disabled-ui-redmond {cursor: default; color: #000; opacity: .55; filter:Alpha(Opacity=45);}
+.jqx-grid-column-menubutton-ui-redmond{position: relative; max-height: 16px; height: 16px !important; top:50%; margin-top:-8px; background-position:-65px -16px; background-image:url(images/redmond/ui-icons_f9bd01_256x240.png); border-width:0px}
 
 .jqx-input-button-content-ui-redmond{font-size:10px}
 .jqx-input-icon-ui-redmond{margin-left:2px; margin-top:-1px}

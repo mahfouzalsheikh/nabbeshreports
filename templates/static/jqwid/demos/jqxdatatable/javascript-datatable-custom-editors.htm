@@ -71,7 +71,7 @@
             // initialize jqxDataTable
             $("#dataTable").jqxDataTable(
             {
-                width: 685,
+                width: 850,
                 source: dataAdapter,
                 pageable: true,
                 pagerButtonsCount: 10,
@@ -79,7 +79,7 @@
                 autoRowHeight: false,
                 columns: [
                   {
-                      text: 'First Name', columntype: 'template', datafield: 'firstname', width: 80, createEditor: function (row, cellvalue, editor, cellText, width, height) {
+                      text: 'First Name', columntype: 'template', datafield: 'firstname', width: 180, createEditor: function (row, cellvalue, editor, cellText, width, height) {
                           // construct the editor.
                           var inputElement = $("<input style='padding-left: 4px; border: none;'/>").appendTo(editor);
                           inputElement.jqxInput({ source: getEditorDataAdapter('firstname'), displayMember: "firstname", width: width, height: height });
@@ -95,7 +95,7 @@
                       }
                   },
                   {
-                      text: 'Last Name', datafield: 'lastname', columntype: 'template', width: 80, createEditor: function (row, cellvalue, editor, cellText, width, height) {
+                      text: 'Last Name', datafield: 'lastname', columntype: 'template', width: 180, createEditor: function (row, cellvalue, editor, cellText, width, height) {
                           // construct the editor.
                           var inputElement = $("<input  style='padding-left: 4px; border: none;'/>").prependTo(editor);
                           inputElement.jqxInput({ source: getEditorDataAdapter('lastname'), displayMember: "lastname", width: width, height: height });

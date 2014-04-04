@@ -82,7 +82,7 @@
 
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,
                 altrows: true,
                 autoRowHeight: false,
@@ -94,9 +94,9 @@
                 },
                 editable: true,
                 columns: [
-                 { text: 'ID', editable: false, columnType: 'none', dataField: 'id', width: 100 },
+                 { text: 'ID', editable: false, columnType: 'none', dataField: 'id', width: 150 },
                  {
-                     text: 'Name', dataField: 'name', width: 220,
+                     text: 'Name', dataField: 'name', width: 270,
                      validation: function (cell, value) {
                          if (value.toString().length < 4) {
                              return { message: "Name should be minimum 4 characters", result: false };

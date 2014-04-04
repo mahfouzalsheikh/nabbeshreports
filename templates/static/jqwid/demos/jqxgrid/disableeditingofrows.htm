@@ -66,20 +66,20 @@
             // initialize jqxGrid
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,
                 editable: true,
                 selectionmode: 'singlecell',
                 columns: [
-                  { text: 'First Name', columntype: 'textbox', datafield: 'firstname', width: 80, cellbeginedit: cellbeginedit, cellsrenderer: cellsrenderer },
-                  { text: 'Last Name', datafield: 'lastname', columntype: 'textbox', width: 80, cellbeginedit: cellbeginedit, cellsrenderer: cellsrenderer },
-                  { text: 'Product', columntype: 'dropdownlist', datafield: 'productname', width: 190, cellbeginedit: cellbeginedit, cellsrenderer: cellsrenderer },
+                  { text: 'First Name', columntype: 'textbox', datafield: 'firstname', width: 120, cellbeginedit: cellbeginedit, cellsrenderer: cellsrenderer },
+                  { text: 'Last Name', datafield: 'lastname', columntype: 'textbox', width: 120, cellbeginedit: cellbeginedit, cellsrenderer: cellsrenderer },
+                  { text: 'Product', columntype: 'dropdownlist', datafield: 'productname', width: 250, cellbeginedit: cellbeginedit, cellsrenderer: cellsrenderer },
                   { text: 'Available', datafield: 'available', columntype: 'checkbox', width: 67, cellbeginedit: cellbeginedit},
-                  { text: 'Ship Date', datafield: 'date', columntype: 'datetimeinput', width: 110, cellsalign: 'right', cellsformat: 'd', cellbeginedit: cellbeginedit, 
+                  { text: 'Ship Date', datafield: 'date', columntype: 'datetimeinput',  cellsalign: 'right', cellsformat: 'd', cellbeginedit: cellbeginedit, 
                       validation: function (cell, value) {
                           var year = value.getFullYear();
-                          if (year >= 2013) {
-                              return { result: false, message: "Ship Date should be before 1/1/2013" };
+                          if (year >= 2015) {
+                              return { result: false, message: "Ship Date should be before 1/1/2015" };
                           }
                           return true;
                       }, cellsrenderer: cellsrenderer

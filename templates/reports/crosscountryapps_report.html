@@ -54,9 +54,9 @@
       
      var source = ["Country","City"];
        
-      $("#prioritymenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0});  
+      $("#prioritymenu").jqxComboBox({ theme: theme,source: source, width: '200px', height: '25px', selectedIndex:0});  
                 
-      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").jqxButton({ theme: theme,width: '200'});
       $("#filterButton").on('click', function () {
                              
                   drawChart(priority, limit);
@@ -78,7 +78,7 @@
       
       var source = ["10","20","50", "100", "1000", "10000"]; 
       
-     $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:2}); 
+     $("#limitmenu").jqxComboBox({ theme: theme,source: source, width: '200px', height: '25px', selectedIndex:2}); 
      
      var limit = "50";
      

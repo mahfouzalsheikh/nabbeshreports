@@ -40,15 +40,15 @@
 
             $("#dataTable").jqxDataTable(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,
                 sortable: true,
                 pageable: true,
                 pagerButtonsCount: 10,
                 columnsResize: true,
                 columns: [
-                  { text: 'Ship Name', dataField: 'ShipName', pinned: true, width: 250 },
-                  { text: 'Ship City', dataField: 'ShipCity', width: 150 },
+                  { text: 'Ship Name', dataField: 'ShipName', pinned: true, width: 300 },
+                  { text: 'Ship City', dataField: 'ShipCity', width: 250 },
                   { text: 'Ship Address', dataField: 'ShipAddress', width: 350 },
                   { text: 'Ship Country', dataField: 'ShipCountry', width: 150},
                   { text: 'Shipped Date', dataField: 'ShippedDate', width: 250, cellsFormat: 'D' },

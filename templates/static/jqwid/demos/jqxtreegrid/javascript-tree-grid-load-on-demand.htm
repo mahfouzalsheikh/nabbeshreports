@@ -43,7 +43,7 @@
             // create Tree Grid
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 600,
+                width: 850,
                 virtualModeCreateRecords: function (expandedRecord, done) {
                     var dataAdapter = new $.jqx.dataAdapter(source,
                         {
@@ -72,9 +72,9 @@
                     // record is creating.
                 },
                 columns: [
-                  { text: 'FirstName', columnGroup: 'Name', dataField: 'FirstName', width: 150 },
-                  { text: 'LastName', columnGroup: 'Name', dataField: 'LastName', width: 120 },
-                  { text: 'Title', dataField: 'Title', width: 160 },
+                  { text: 'FirstName', columnGroup: 'Name', dataField: 'FirstName', width: 200 },
+                  { text: 'LastName', columnGroup: 'Name', dataField: 'LastName', width: 150 },
+                  { text: 'Title', dataField: 'Title', width: 200 },
                   { text: 'Birth Date', dataField: 'BirthDate', cellsFormat: 'd' }
                 ]
             });

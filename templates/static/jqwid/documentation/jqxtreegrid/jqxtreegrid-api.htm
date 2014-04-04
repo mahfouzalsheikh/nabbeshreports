@@ -287,12 +287,12 @@ checkboxes: function (rowKey, dataRow) {
    <li>initEditor - callback function which is called when an editor is opened. It has 5 parameters - row's key, cell's value, the editor element, cell's width and cell's height. The function can be 
    used for adding some custom parameters to the editor.
    <h4>Code Example</h4>
- <pre style='width: 600px; max-width: 600px; margin: 0px;' class='code'>initEditor: function (row, cellValue, editor, width, height) {<div/>  // your code here<div/>}<div/></pre>
+ <pre style='width: 600px; max-width: 600px; margin: 0px;' class='code'>initEditor: function (row, cellValue, editor, cellText, width, height) {<div/>  // your code here<div/>}<div/></pre>
     </li>
    <li>createEditor - callback function which is called just once when the cells editor is created. It has 5 parameters - row's key, cell's value, the editor element, cell's width and cell's height. The function can be 
    used for adding some custom parameters to the editor.
    <h4>Code Example</h4>
- <pre style='width: 600px; max-width: 600px; margin: 0px;' class='code'>createEditor: function (row, cellValue, editor, width, height) {<div/>  // your code here<div/>}<div/></pre>
+ <pre style='width: 600px; max-width: 600px; margin: 0px;' class='code'>createEditor: function (row, cellValue, editor, cellText, width, height) {<div/>  // your code here<div/>}<div/></pre>
     </li>
     <li>getEditorValue - callback function which could be used for overriding the value returned by the editor. It is useful for advanced scenarios with custom editors. It has 3 parameters - row's key, cell's value and the editor element. The result of the function is expected to be the editor's new value.
    <h4>Code Example</h4>
@@ -444,6 +444,7 @@ The function has 2 params - the aggregated value and the current value. It shoul
     <li>minWidth - numeric property which determines the column's minimum width. Default value: 25.</li>
     <li>maxWidth - numeric property which determines the column's maximum width.</li>
     <li>resizable - boolean property which determines whether the column is resizable.</li>
+    <li>draggable - boolean property which determines whether the column is draggable.</li>
     <li>editable - boolean property which determines whether the column is editable.</li>
     <li>className - string property which sets a custom CSS class for the column's header</li>
     <li>cellClassName - string or function property which sets a custom CSS class for the column's cells. The value could be a "String" or "Function".
@@ -537,6 +538,37 @@ cellClassName: function (row, column, value, data) {
                         <pre><code>var columnsResize = $('#treeGrid').jqxTreeGrid('columnsResize');</code></pre>
                                  <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/w6haY/">columnsResize is set to true</a></div>
+                     </div>
+                </td>
+            </tr>
+      <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span111'>columnsReorder</span>
+                </td>
+                <td>
+                    <span>Boolean</span>
+                </td>
+                <td>
+                   false
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Sets or gets the jqxTreeGrid's columnsReorder.</p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Set the <code>columnsReorder</code> property.
+                        </p>
+                        <pre><code>$('#treeGrid').jqxTreeGrid({columnsReorder: false});</code></pre>
+                        <p>
+                            Get the <code>columnsReorder</code> property.
+                        </p>
+                        <pre><code>var columnsReorder = $('#treeGrid').jqxTreeGrid('columnsReorder');</code></pre>
+                               <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/LQAfD/">columnsReorder is set to true</a></div>
                      </div>
                 </td>
             </tr>
@@ -971,6 +1003,37 @@ icons: function (rowKey, dataRow) {
                         <pre><code>var icons = $('#treeGrid').jqxTreeGrid('icons'); </code></pre>
                               <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/jDX6C/">icons is set to true</a></div>
+                    </div>
+                </td>
+            </tr>
+          <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span112'>incrementalSearch</span>
+                </td>
+                <td>
+                    <span>Boolean</span>
+                </td>
+                <td>
+                    true
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Determines whether the incremental search is enabled. The feature allows you to quickly find and select data records by typing when the widget is on focus.</p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Set the <code>incrementalSearch</code> property.
+                        </p>
+                        <pre><code>$('#treeGrid').jqxTreeGrid({incrementalSearch:false});</code></pre>
+                        <p>
+                            Get the <code>incrementalSearch</code> property.
+                        </p>
+                        <pre><code>var incrementalSearch = $('#treeGrid').jqxTreeGrid('incrementalSearch');</code></pre>
+                            <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/R9dmJ/">incrementalSearch is set to false</a></div>
                     </div>
                 </td>
             </tr>
@@ -2848,7 +2911,7 @@ function (event)
     // old page size.
     var oldPageSize = args.oldpagesize;
     // page size.
-    var pageSize args.pagesize;
+    var pageSize = args.pagesize;
 });
                          </code></pre>
                              <div style="padding-bottom:5px;">
@@ -2886,7 +2949,7 @@ function (event)
     // row data.
     var row = args.row;
     // row key.
-    var key args.key;
+    var key = args.key;
     // original click event.
     var clickEvent = args.originalEvent;
 });
@@ -2926,7 +2989,7 @@ function (event)
     // row data.
     var row = args.row;
     // row key.
-    var key args.key;
+    var key = args.key;
     // original double click event.
     var clickEvent = args.originalEvent;
 });
@@ -2966,7 +3029,7 @@ function (event)
     // row data.
     var row = args.row;
     // row key.
-    var key args.key;
+    var key = args.key;
 });
                          </code></pre>
                           <div style="padding-bottom:5px;">
@@ -3004,7 +3067,7 @@ function (event)
     // row data.
     var row = args.row;
     // row key.
-    var key args.key;
+    var key = args.key;
 });
                          </code></pre>
                               <div style="padding-bottom:5px;">
@@ -3042,7 +3105,7 @@ function (event)
     // row data.
     var row = args.row;
     // row key.
-    var key args.key;
+    var key = args.key;
 });
                          </code></pre>
                                    <div style="padding-bottom:5px;">
@@ -3080,11 +3143,87 @@ function (event)
     // row data.
     var row = args.row;
     // row key.
-    var key args.key;
+    var key = args.key;
 });
                          </code></pre>
                                  <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/9ded2/">  Bind to the rowEndEdit event by type: jqxTreeGrid.</a></div> 
+                    </div>
+                </td>
+            </tr>
+           <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span113'>rowExpand</span>
+                </td>
+                <td>
+                    <span>Event</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           This is triggered when a row is expanded.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Bind to the <code>rowExpand</code> event by type: jqxTreeGrid.
+                        </p>
+                        <pre><code>
+$('#treeGrid').on('rowExpand', 
+function (event)
+{
+    // event args.
+    var args = event.args;
+    // row data.
+    var row = args.row;
+    // row key.
+    var key = args.key;
+});
+                         </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/5c9h4/"> Bind to the rowExpand event by type: jqxTreeGrid.</a></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span114'>rowCollapse</span>
+                </td>
+                <td>
+                    <span>Event</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           This is triggered when a row is collapsed.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Bind to the <code>rowCollapse</code> event by type: jqxTreeGrid.
+                        </p>
+                        <pre><code>
+$('#treeGrid').on('rowCollapse', 
+function (event)
+{
+    // event args.
+    var args = event.args;
+    // row data.
+    var row = args.row;
+    // row key.
+    var key = args.key;
+});
+                         </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/DUEZ7/"> Bind to the rowCollapse event by type: jqxTreeGrid.</a></div>
                     </div>
                 </td>
             </tr>
@@ -3118,7 +3257,7 @@ function (event)
     // row data.
     var row = args.row;
     // row key.
-    var key args.key;
+    var key = args.key;
 });
                          </code></pre>
                             <div style="padding-bottom:5px;">
@@ -3156,7 +3295,7 @@ function (event)
     // row data.
     var row = args.row;
     // row key.
-    var key args.key;
+    var key = args.key;
 });
                          </code></pre>
                           <div style="padding-bottom:5px;">
@@ -3196,6 +3335,86 @@ $('#treeGrid').on('sort', function (event) {
                         </code></pre>
                            <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/7cFXL/">  Bind to the sort event by type: jqxTreeGrid.</a></div> 
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span115'>columnResized</span>
+                </td>
+                <td>
+                    <span>Event</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           This event is triggered when a column is resized.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Bind to the <code>columnResized</code> event by type: jqxTreeGrid.
+                        </p>
+                        <pre><code>
+$('#treeGrid').on('columnResized', 
+function (event)
+{
+    // event args.
+    var args = event.args;
+    // column data field.
+    var dataField = args.dataField;
+    // old width.
+    var oldWidth = args.oldWidth;
+    // new width.
+    var newWidth = args.newWidth;
+});
+                         </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/k2nAt/"> Bind to the columnResized event by type: jqxTreeGrid.</a></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span116'>columnReordered</span>
+                </td>
+                <td>
+                    <span>Event</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           This event is triggered when the column's order is changed.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Bind to the <code>columnReordered</code> event by type: jqxTreeGrid.
+                        </p>
+                        <pre><code>
+$('#treeGrid').on('columnReordered', 
+function (event)
+{
+    // event args.
+    var args = event.args;
+    // column data field.
+    var dataField = args.dataField;
+    // old index.
+    var oldIndex = args.oldIndex;
+    // new index.
+    var newIndex = args.newIndex;
+});
+                         </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/8H8ZW/"> Bind to the columnReordered event by type: jqxTreeGrid.</a></div>
                     </div>
                 </td>
             </tr>

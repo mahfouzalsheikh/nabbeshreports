@@ -43,13 +43,13 @@
 
             $("#jqxgrid").jqxGrid(
             {
-                width: 685,
+                width: 850,
                 source: dataAdapter,
                 showfilterrow: true,
                 filterable: true,
                 selectionmode: 'multiplecellsextended',
                 columns: [
-                  { text: 'Name', columntype: 'textbox', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'name', width: 115 },
+                  { text: 'Name', columntype: 'textbox', filtertype: 'textbox', filtercondition: 'starts_with', datafield: 'name', width: 215 },
                   {
                       text: 'Product', filtertype: 'checkedlist', datafield: 'productname', width: 220
                   },

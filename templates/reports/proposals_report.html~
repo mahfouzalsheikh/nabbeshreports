@@ -32,8 +32,6 @@
         //google.load('visualization', '1', {packages: ['annotatedtimeline']});
         //google.load('visualization', '1', {packages: ['controls']});
         //google.load('visualization', '1', {packages: ['geomap']});
-
-
 </script>
 
 <script type="text/javascript">

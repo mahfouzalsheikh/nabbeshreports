@@ -239,12 +239,12 @@
    <li>initEditor - callback function which is called when an editor is opened. It has 5 parameters - row's index, cell's value, the editor element, cell's width and cell's height. The function can be 
    used for adding some custom parameters to the editor.
    <h4>Code Example</h4>
- <pre style='width: 600px; max-width: 600px; margin: 0px;' class='code'>initEditor: function (row, cellValue, editor, width, height) {<div/>  // your code here<div/>}<div/></pre>
+ <pre style='width: 600px; max-width: 600px; margin: 0px;' class='code'>initEditor: function (row, cellValue, editor, cellText, width, height) {<div/>  // your code here<div/>}<div/></pre>
     </li>
    <li>createEditor - callback function which is called just once when the cells editor is created. It has 5 parameters - row's index, cell's value, the editor element, cell's width and cell's height. The function can be 
    used for adding some custom parameters to the editor.
    <h4>Code Example</h4>
- <pre style='width: 600px; max-width: 600px; margin: 0px;' class='code'>createEditor: function (row, cellValue, editor, width, height) {<div/>  // your code here<div/>}<div/></pre>
+ <pre style='width: 600px; max-width: 600px; margin: 0px;' class='code'>createEditor: function (row, cellValue, editor, cellText, width, height) {<div/>  // your code here<div/>}<div/></pre>
     </li>
     <li>getEditorValue - callback function which could be used for overriding the value returned by the editor. It is useful for advanced scenarios with custom editors. It has 3 parameters - row's index, cell's value and the editor element. The result of the function is expected to be the editor's new value.
    <h4>Code Example</h4>
@@ -404,6 +404,7 @@ The function has 2 params - the aggregated value and the current value. It shoul
     <li>minWidth - numeric property which determines the column's minimum width. Default value: 25.</li>
     <li>maxWidth - numeric property which determines the column's maximum width.</li>
     <li>resizable - boolean property which determines whether the column is resizable.</li>
+    <li>draggable - boolean property which determines whether the column is draggable.</li>
     <li>editable - boolean property which determines whether the column is editable.</li>
     <li>className - string property which sets a custom CSS class for the column's header</li>
     <li>cellClassName - string or function property which sets a custom CSS class for the column's cells. The value could be a "String" or "Function".
@@ -496,7 +497,38 @@ cellClassName: function (row, column, value, data) {
                         </p>
                         <pre><code>var columnsResize = $('#dataTable').jqxDataTable('columnsResize');</code></pre>
                                <div style="padding-bottom:5px;">
-  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/5hCR2/">columnsResize is set to false</a></div>
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/5hCR2/">columnsResize is set to true</a></div>
+                     </div>
+                </td>
+            </tr>
+         <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span100'>columnsReorder</span>
+                </td>
+                <td>
+                    <span>Boolean</span>
+                </td>
+                <td>
+                   false
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Sets or gets the jqxDataTable's columnsReorder.</p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Set the <code>columnsReorder</code> property.
+                        </p>
+                        <pre><code>$('#dataTable').jqxDataTable({columnsReorder: false});</code></pre>
+                        <p>
+                            Get the <code>columnsReorder</code> property.
+                        </p>
+                        <pre><code>var columnsReorder = $('#dataTable').jqxDataTable('columnsReorder');</code></pre>
+                               <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/9uxD2/">columnsReorder is set to true</a></div>
                      </div>
                 </td>
             </tr>
@@ -881,6 +913,37 @@ cellClassName: function (row, column, value, data) {
                         <pre><code>var initRowDetails = $('#dataTable').jqxDataTable('initRowDetails');</code></pre>
                            <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/B4yQT/">initRowDetails is set to a custom function</a></div>
+                    </div>
+                </td>
+            </tr>
+      <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span112'>incrementalSearch</span>
+                </td>
+                <td>
+                    <span>Boolean</span>
+                </td>
+                <td>
+                    true
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Determines whether the incremental search is enabled. The feature allows you to quickly find and select data records by typing when the widget is on focus.</p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Set the <code>incrementalSearch</code> property.
+                        </p>
+                        <pre><code>$('#dataTable').jqxDataTable({incrementalSearch:false});</code></pre>
+                        <p>
+                            Get the <code>incrementalSearch</code> property.
+                        </p>
+                        <pre><code>var incrementalSearch = $('#dataTable').jqxDataTable('incrementalSearch');</code></pre>
+                            <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/uLv4J//">incrementalSearch is set to false</a></div>
                     </div>
                 </td>
             </tr>
@@ -1945,7 +2008,7 @@ function (event)
     // old page num.
     var oldPageNum = args.oldpagenum;
     // page size.
-    var pageSize args.pagesize;
+    var pageSize = args.pagesize;
 });
                          </code></pre>
                           <div style="padding-bottom:5px;">
@@ -1985,7 +2048,7 @@ function (event)
     // old page size.
     var oldPageSize = args.oldpagesize;
     // page size.
-    var pageSize args.pagesize;
+    var pageSize = args.pagesize;
 });
                          </code></pre>
                            <div style="padding-bottom:5px;">
@@ -2025,7 +2088,7 @@ function (event)
     // row index.
     var index = args.index;
     // row key.
-    var key args.key;
+    var key = args.key;
     // original click event.
     var clickEvent = args.originalEvent;
 });
@@ -2067,7 +2130,7 @@ function (event)
     // row index.
     var index = args.index;
     // row key.
-    var key args.key;
+    var key = args.key;
     // original double click event.
     var clickEvent = args.originalEvent;
 });
@@ -2109,7 +2172,7 @@ function (event)
     // row index.
     var index = args.index;
     // row key.
-    var key args.key;
+    var key = args.key;
 });
                          </code></pre>
                          <div style="padding-bottom:5px;">
@@ -2149,7 +2212,7 @@ function (event)
     // row index.
     var index = args.index;
     // row key.
-    var key args.key;
+    var key = args.key;
 });
                          </code></pre>
                          <div style="padding-bottom:5px;">
@@ -2189,7 +2252,7 @@ function (event)
     // row index.
     var index = args.index;
     // row key.
-    var key args.key;
+    var key = args.key;
 });
                          </code></pre>
                           <div style="padding-bottom:5px;">
@@ -2229,11 +2292,91 @@ function (event)
     // row index.
     var index = args.index;
     // row key.
-    var key args.key;
+    var key = args.key;
 });
                          </code></pre>
                          <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/LNVWu/"> Bind to the rowEndEdit event by type: jqxDataTable.</a></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span103'>rowExpand</span>
+                </td>
+                <td>
+                    <span>Event</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           This is triggered when a row is expanded.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Bind to the <code>rowExpand</code> event by type: jqxDataTable.
+                        </p>
+                        <pre><code>
+$('#dataTable').on('rowExpand', 
+function (event)
+{
+    // event args.
+    var args = event.args;
+    // row data.
+    var row = args.row;
+    // row index.
+    var index = args.index;
+    // row key.
+    var key = args.key;
+});
+                         </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/U2pss/"> Bind to the rowExpand event by type: jqxDataTable.</a></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span104'>rowCollapse</span>
+                </td>
+                <td>
+                    <span>Event</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           This is triggered when a row is collapsed.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Bind to the <code>rowCollapse</code> event by type: jqxDataTable.
+                        </p>
+                        <pre><code>
+$('#dataTable').on('rowCollapse', 
+function (event)
+{
+    // event args.
+    var args = event.args;
+    // row data.
+    var row = args.row;
+    // row index.
+    var index = args.index;
+    // row key.
+    var key = args.key;
+});
+                         </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/y5k5T/"> Bind to the rowCollapse event by type: jqxDataTable.</a></div>
                     </div>
                 </td>
             </tr>
@@ -2273,11 +2416,91 @@ function (event)
     // row index.
     var index = args.index;
     // row key.
-    var key args.key;
+    var key = args.key;
 });
                          </code></pre>
                          <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/TmLnQ/"> Bind to the cellValueChanged event by type: jqxDataTable.</a></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span101'>columnResized</span>
+                </td>
+                <td>
+                    <span>Event</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           This event is triggered when a column is resized.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Bind to the <code>columnResized</code> event by type: jqxDataTable.
+                        </p>
+                        <pre><code>
+$('#dataTable').on('columnResized', 
+function (event)
+{
+    // event args.
+    var args = event.args;
+    // column data field.
+    var dataField = args.dataField;
+    // old width.
+    var oldWidth = args.oldWidth;
+    // new width.
+    var newWidth = args.newWidth;
+});
+                         </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/96LP7/"> Bind to the columnResized event by type: jqxDataTable.</a></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span102'>columnReordered</span>
+                </td>
+                <td>
+                    <span>Event</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           This event is triggered when the column's order is changed.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Bind to the <code>columnReordered</code> event by type: jqxDataTable.
+                        </p>
+                        <pre><code>
+$('#dataTable').on('columnReordered', 
+function (event)
+{
+    // event args.
+    var args = event.args;
+    // column data field.
+    var dataField = args.dataField;
+    // old index.
+    var oldIndex = args.oldIndex;
+    // new index.
+    var newIndex = args.newIndex;
+});
+                         </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/xmTwt/"> Bind to the columnReordered event by type: jqxDataTable.</a></div>
                     </div>
                 </td>
             </tr>

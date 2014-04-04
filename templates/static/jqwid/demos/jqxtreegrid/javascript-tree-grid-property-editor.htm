@@ -127,9 +127,9 @@
               editSettings: { saveOnPageChange: true, saveOnBlur: false, saveOnSelectionChange: true, cancelOnEsc: true, saveOnEnter: true, editOnDoubleClick: true, editOnF2: true },
               editable: true,
               columns: [
-               { text: 'Property Name', editable: false, columnType: 'none', dataField: 'property', width: 150 },
+               { text: 'Property Name', editable: false, columnType: 'none', dataField: 'property', width: 200 },
                {
-                   text: 'Value', dataField: 'value', width: 220, columnType: "custom",
+                   text: 'Value', dataField: 'value', width: 320, columnType: "custom",
                    // creates an editor depending on the "type" value.
                    createEditor: function (rowKey, cellvalue, editor, cellText, width, height) {
                        var row = $("#treeGrid").jqxTreeGrid('getRow', rowKey);

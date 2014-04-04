@@ -43,17 +43,17 @@
             // initialize jqxGrid
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,
                 editable: true,
                 columns: [
-                  { text: 'First Name', editable: false, datafield: 'firstname', width: 100 },
-                  { text: 'Last Name', editable: false, datafield: 'lastname', width: 100 },
+                  { text: 'First Name', editable: false, datafield: 'firstname', width: 120 },
+                  { text: 'Last Name', editable: false, datafield: 'lastname', width: 120 },
                   { text: 'Product', editable: false, datafield: 'productname', width: 180 },
                   { text: 'Available', datafield: 'available', threestatecheckbox: true, columntype: 'checkbox', width: 70 },
                   { text: 'Quantity', editable: false, datafield: 'quantity', width: 80, cellsalign: 'right' },
                   { text: 'Unit Price', editable: false, datafield: 'price', width: 90, cellsalign: 'right', cellsformat: 'c2' },
-                  { text: 'Total', editable: false, datafield: 'total', width: 100, cellsalign: 'right', cellsformat: 'c2' }
+                  { text: 'Total', editable: false, datafield: 'total', cellsalign: 'right', cellsformat: 'c2' }
                 ]
             });
         });

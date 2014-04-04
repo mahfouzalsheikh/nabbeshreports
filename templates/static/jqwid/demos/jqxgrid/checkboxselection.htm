@@ -45,7 +45,7 @@
             // create jqxgrid.
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 height: 450,
                 source: dataAdapter,
                 sortable: true,
@@ -59,10 +59,9 @@
                 columns: [
                   { text: 'Ship Name', datafield: 'ShipName', width: 250 },
                   { text: 'Shipped Date', datafield: 'ShippedDate', width: 100, cellsformat: 'yyyy-MM-dd' },
-                  { text: 'Freight', datafield: 'Freight', width: 80, cellsformat: 'F2', cellsalign: 'right' },
-                  { text: 'Ship City', datafield: 'ShipCity', width: 100 },
-                  { text: 'Ship Country', datafield: 'ShipCountry' },
-                  { text: 'Ship Address', datafield: 'ShipAddress', width: 350 }
+                  { text: 'Freight', datafield: 'Freight', width: 150, cellsformat: 'F2', cellsalign: 'right' },
+                  { text: 'Ship City', datafield: 'ShipCity', width: 150 },
+                  { text: 'Ship Country', datafield: 'ShipCountry'}
                ]
             });
         });

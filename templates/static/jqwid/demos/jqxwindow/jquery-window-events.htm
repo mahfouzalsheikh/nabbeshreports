@@ -51,17 +51,18 @@
             });
         }
         function createElements() {
-            $('#eventWindow').jqxWindow({ maxHeight: 150, maxWidth: 280, minHeight: 30, minWidth: 250, height: 145, width: 270,
+            $('#eventWindow').jqxWindow({
+                maxHeight: 150, maxWidth: 280, minHeight: 30, minWidth: 250, height: 145, width: 270,
                 resizable: false, isModal: true, modalOpacity: 0.3,
                 okButton: $('#ok'), cancelButton: $('#cancel'),
                 initContent: function () {
-                    $('#ok').jqxButton({  width: '65px' });
-                    $('#cancel').jqxButton({  width: '65px' });
+                    $('#ok').jqxButton({ width: '65px' });
+                    $('#cancel').jqxButton({ width: '65px' });
                     $('#ok').focus();
                 }
             });
-            $('#events').jqxPanel({  height: '250px', width: '450px' });
-            $('#showWindowButton').jqxButton({ width: '100px'});
+            $('#events').jqxPanel({ height: '250px', width: '450px' });
+            $('#showWindowButton').jqxButton({ width: '100px' });
         }
         $(document).ready(function () {
             addEventListeners();

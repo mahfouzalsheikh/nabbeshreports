@@ -152,6 +152,7 @@
             case "window":
             case "photoGallery":
             case "splitter":
+            case "rangeSelector":
                 className += "-tablet";
                 break;
         }

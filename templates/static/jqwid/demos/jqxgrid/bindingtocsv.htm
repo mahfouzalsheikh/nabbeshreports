@@ -34,13 +34,13 @@
 
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,
                 columnsresize: true,
                 columns: [
                   { text: 'Date', datafield: 'Date', cellsformat: 'D', width: 250},
-                  { text: 'S&P 500', datafield: 'S&P 500', width: 200, cellsformat: 'f' },
-                  { text: 'NASDAQ', datafield: 'NASDAQ', width: 200, cellsformat: 'f' }         
+                  { text: 'S&P 500', datafield: 'S&P 500', width: 300, cellsformat: 'f' },
+                  { text: 'NASDAQ', datafield: 'NASDAQ', cellsformat: 'f' }         
                 ]
             });
         });

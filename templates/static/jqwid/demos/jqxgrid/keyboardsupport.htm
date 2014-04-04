@@ -47,6 +47,12 @@
                     height: 300,
                     source: dataAdapter,                    
                     editable: true,
+                    ready: function()
+                    {
+                        $("#jqxgrid").jqxGrid('selectcell', 0, 'ShipName');
+                        // focus jqxgrid.
+                        $("#jqxgrid").jqxGrid('focus');
+                    },
                     selectionmode: 'multiplecellsadvanced',
                     columns: [
                       { text: 'Ship Name', datafield: 'ShipName', width: 250, align: 'left', cellsalign: 'left' },
@@ -57,8 +63,7 @@
                     ]
                 });
 
-                // focus jqxgrid.
-                $("#jqxgrid").jqxGrid('focus');
+            
             });
         </script>
         <div id='jqxWidget' v>

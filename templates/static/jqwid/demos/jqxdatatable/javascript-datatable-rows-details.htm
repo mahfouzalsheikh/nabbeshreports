@@ -118,14 +118,14 @@
 
                     var notescontainer = $('<div style="white-space: normal; margin: 5px;"><span>' + row.notes + '</span></div>');
                     $(notes).append(notescontainer);
-                    $(tabsdiv).jqxTabs({ width: 600, height: 170 });
+                    $(tabsdiv).jqxTabs({ width: 820, height: 170 });
                 }
             }
             var dataAdapter = new $.jqx.dataAdapter(source);
 
             $("#dataTable").jqxDataTable(
             {
-                width: 632,
+                width: 850,
                 source: dataAdapter,
                 pageable: true,
                 pageSize: 3,
@@ -137,9 +137,9 @@
                 },
                 initRowDetails: initRowDetails,
                 columns: [
-                      { text: 'First Name', dataField: 'firstname', width: 100 },
-                      { text: 'Last Name', dataField: 'lastname', width: 100 },
-                      { text: 'Title', dataField: 'title', width: 180 },
+                      { text: 'First Name', dataField: 'firstname', width: 200 },
+                      { text: 'Last Name', dataField: 'lastname', width: 200 },
+                      { text: 'Title', dataField: 'title', width: 200 },
                       { text: 'City', dataField: 'city', width: 100 },
                       { text: 'Country', dataField: 'country'}
                 ]

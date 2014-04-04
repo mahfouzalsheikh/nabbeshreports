@@ -38,7 +38,7 @@
             // create data grids.
             $("#grid1").jqxGrid(
             {
-                width: 450,
+                width: 850,
                 source: dataAdapter,
                 pageable: true,
                 autoheight: true,
@@ -91,15 +91,15 @@
                 },                
                 selectionmode: 'singlecell',
                 columns: [
-                  { text: 'First Name', dataField: 'firstname', width: 125 },
-                  { text: 'Last Name', dataField: 'lastname', width: 125 },
-                  { text: 'Product', dataField: 'productname', width: 200 }
+                  { text: 'First Name', dataField: 'firstname', width: 300 },
+                  { text: 'Last Name', dataField: 'lastname', width: 300 },
+                  { text: 'Product', dataField: 'productname' }
                 ]
             });
 
             $("#grid2").jqxGrid(
             {
-                width: 450,
+                width: 850,
                 selectionmode: 'singlecell',
                 autoheight: true,
                 source: { totalrecords: 10, unboundmode: true, datafields:
@@ -110,11 +110,10 @@
                 ]
                 },
                 columns: [
-                  { text: 'First Name', dataField: 'firstname', width: 125 },
-                  { text: 'Last Name', dataField: 'lastname', width: 125 },
-                  { text: 'Product', dataField: 'productname', width: 200 }
+                   { text: 'First Name', dataField: 'firstname', width: 300 },
+                   { text: 'Last Name', dataField: 'lastname', width: 300 },
+                   { text: 'Product', dataField: 'productname' }
                 ]
- 
             });       
         });
     </script>

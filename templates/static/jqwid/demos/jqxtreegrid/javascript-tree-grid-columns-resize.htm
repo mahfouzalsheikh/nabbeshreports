@@ -78,7 +78,7 @@
             {
                 source: dataAdapter,
                 altRows: true,
-                width: 680,
+                width: 850,
                 columnsResize: true,
                 ready: function () {
                     $("#treeGrid").jqxTreeGrid('expandRow', '1');
@@ -86,7 +86,7 @@
                 },
                 columns: [
                   { text: "Name", align: "center", dataField: "name", width: 300 },
-                  { text: "Budget", cellsAlign: "center", align: "center", dataField: "budget", cellsFormat: "c2", width: 250 },
+                  { text: "Budget", cellsAlign: "center", align: "center", dataField: "budget", cellsFormat: "c2", width: 300 },
                   { text: "Location", dataField: "location", cellsAlign: "center", align: "center", resizable: false }
                 ]
             });

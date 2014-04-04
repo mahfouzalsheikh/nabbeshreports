@@ -91,14 +91,14 @@
 
             $("#dataTable").jqxDataTable(
             {
-                width: 685,
+                width: 850,
                 source: dataAdapter,
                 filterable: true,
                 pageable: true,
                 editable: true,
                 localization: getLocalization(),
                 columns: [
-                  { text: 'Name', dataField: 'name', width: 115 },
+                  { text: 'Name', dataField: 'name', width: 215 },
                   { text: 'Produkt', dataField: 'productname', width: 220 },
                   { text: 'Datum', dataField: 'date', width: 210, cellsAlign: 'right', cellsFormat: 'd'},
                   { text: 'Qt.', dataField: 'quantity', cellsAlign: 'right', width: 60 },

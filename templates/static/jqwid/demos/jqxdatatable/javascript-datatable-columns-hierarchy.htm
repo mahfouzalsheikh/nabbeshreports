@@ -44,15 +44,15 @@
             // create jqxDataTable.
             $("#dataTable").jqxDataTable(
             {
-                width: 690,
+                width: 850,
                 height: 400,
                 source: dataAdapter,
                 pageable: true,
                 altRows: true,
                 columnsResize: true,
                 columns: [
-                  { text: 'Supplier Name', cellsAlign: 'center', align: 'center', dataField: 'SupplierName', width: 110 },
-                  { text: 'Name', columngroup: 'ProductDetails', cellsAlign: 'center', align: 'center', dataField: 'ProductName', width: 120 },
+                  { text: 'Supplier Name', cellsAlign: 'center', align: 'center', dataField: 'SupplierName', width: 200 },
+                  { text: 'Name', columngroup: 'ProductDetails', cellsAlign: 'center', align: 'center', dataField: 'ProductName', width: 200 },
                   { text: 'Quantity', columngroup: 'ProductDetails', dataField: 'Quantity', cellsFormat: 'd', cellsAlign: 'center', align: 'center', width: 80 },
                   { text: 'Freight', columngroup: 'OrderDetails', dataField: 'Freight', cellsFormat: 'd', cellsAlign: 'center', align: 'center', width: 100 },
                   { text: 'Order Date', columngroup: 'OrderDetails', cellsAlign: 'center', align: 'center', cellsFormat: 'd', dataField: 'OrderDate', width: 100 },

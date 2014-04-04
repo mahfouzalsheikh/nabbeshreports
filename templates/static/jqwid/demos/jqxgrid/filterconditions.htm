@@ -60,7 +60,7 @@
 
             $("#jqxgrid").jqxGrid(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,
                 filterable: true,
                 sortable: true,
@@ -118,8 +118,8 @@
                     filtertypedropdown2.jqxDropDownList({ autoDropDownHeight: true, selectedIndex: index2 });
                 },
                 columns: [
-                  { text: 'First Name', datafield: 'firstname', width: 100 },
-                  { text: 'Last Name', datafield: 'lastname', width: 100 },
+                  { text: 'First Name', datafield: 'firstname', width: 200 },
+                  { text: 'Last Name', datafield: 'lastname', width: 200 },
                   { text: 'Product', datafield: 'productname', width: 180 },
                   { text: 'Order Date', datafield: 'date', width: 160, cellsformat: 'dd-MMMM-yyyy' },
                   { text: 'Quantity', datafield: 'quantity', cellsalign: 'right' }

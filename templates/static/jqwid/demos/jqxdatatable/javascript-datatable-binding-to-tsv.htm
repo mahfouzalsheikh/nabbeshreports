@@ -32,14 +32,14 @@
 
             $("#dataTable").jqxDataTable(
             {
-                width: 670,
+                width: 850,
                 pageable: true,
                 pagerButtonsCount: 10,
                 source: dataAdapter,
                 columnsResize: true,
                 columns: [
-                  { text: 'Year', dataField: 'Year', width: 100, minWidth: 90, maxWidth: 150 },
-                  { text: 'HPI', dataField: 'HPI', cellsFormat: 'f2', width: 100 },
+                  { text: 'Year', dataField: 'Year', width: 200 },
+                  { text: 'HPI', dataField: 'HPI', cellsFormat: 'f2', width: 200 },
                   { text: 'Build Cost', dataField: 'BuildCost', cellsFormat: 'f2', width: 180 },
                   { text: 'Population', dataField: 'Population', cellsFormat: 'f2', width: 100 },
                   { text: 'Rate', dataField: 'Rate', cellsFormat: 'f5'}

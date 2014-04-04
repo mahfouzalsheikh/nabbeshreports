@@ -62,7 +62,7 @@
             });
             $("#table").jqxDataTable(
             {
-                width: 670,
+                width: 850,
                 source: dataAdapter,
                 
                 pageable: true,
@@ -209,10 +209,10 @@
                     });
                 },
                 columns: [
-                  { text: 'Order ID', editable: false, dataField: 'OrderID', width: 100 },
-                  { text: 'Freight', dataField: 'Freight', cellsFormat: 'f', cellsAlign: 'right', align: 'right', width: 100},
+                  { text: 'Order ID', editable: false, dataField: 'OrderID', width: 200 },
+                  { text: 'Freight', dataField: 'Freight', cellsFormat: 'f', cellsAlign: 'right', align: 'right', width: 200},
                   {
-                      text: 'Ship Country', dataField: 'ShipCountry', width: 150,
+                      text: 'Ship Country', dataField: 'ShipCountry', width: 250,
                       columnType: 'custom',
                       createEditor: function (row, cellValue, editor, width, height) {
                           // create jqxInput editor.

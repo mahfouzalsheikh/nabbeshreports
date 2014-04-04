@@ -37,18 +37,18 @@
 
             $("#jqxgrid").jqxGrid(
             {
-                width: 400,
+                width: 600,
                 source: dataAdapter, 
                 ready: function () {
                     // callback function which is called by jqxGrid when the widget is initialized and the binding is completed.
                 },
                 columnsresize: true,
                 columns: [
-                  { text: 'Name', datafield: 'name', hidden: true, width: 250 },
-                  { text: 'Beverage Type', datafield: 'type', width: 250 },
-                  { text: 'Calories', datafield: 'calories', width: 180 },
-                  { text: 'Total Fat', datafield: 'totalfat', width: 120 },
-                  { text: 'Protein', datafield: 'protein', minwidth: 120 }
+                  { text: 'Name', datafield: 'name', width: 100, hidden: true },
+                  { text: 'Beverage Type', datafield: 'type' },
+                  { text: 'Calories', datafield: 'calories' },
+                  { text: 'Total Fat', datafield: 'totalfat' },
+                  { text: 'Protein', datafield: 'protein'}
               ]
             });
 

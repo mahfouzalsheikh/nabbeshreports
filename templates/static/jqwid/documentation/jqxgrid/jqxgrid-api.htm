@@ -3200,6 +3200,11 @@ $("#jqxgrid").jqxGrid(
 </ul>
                               <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/ER6hn/">columns is set to a custom array</a></div>
+                              <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/6X3EZ/">columns is set dynamically</a></div>
+ 
+                                               
+
                     </div>
                 </td>
             </tr>
@@ -3661,11 +3666,12 @@ processdata - extend the default data object sent to the server.
         { name: 'population', type: 'float' },
         { name: 'continentCode' }
     ],
-    url: &quot;http://ws.geonames.org/searchJSON&quot;,
+    url: &quot;http://api.geonames.org/searchJSON&quot;,
     processdata: function (data) {
         data.featureClass = &quot;P&quot;;;
         data.style = &quot;full&quot;;
         data.maxRows = 50;
+        data.username = &quot;jqwidgets&quot;;
     }
 };
 </code></pre>
@@ -5341,7 +5347,7 @@ var value = $('#jqxGrid').jqxGrid('getcolumnproperty', 'firstname', 'width');
 $('#jqxGrid').jqxGrid('hidecolumn', 'columndatafield');
                         </code></pre>
                           <div style="padding-bottom:5px;">
-  <em>Try it:</em> <a target="_blank" href="lastname"> Hides a column in the  jqxGrid.</a></div>
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/5YtCm/"> Hides a column in the  jqxGrid.</a></div>
                     </div>
                 </td>
             </tr>
@@ -6346,7 +6352,37 @@ $('#jqxGrid').jqxGrid('scrolloffset', 10, 20);
                     </div>
                 </td>
             </tr>
-     
+     <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span11'>scrollposition</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Returns the scrollbars position.
+                        </p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Invoke the <code>scrollposition</code> method.
+                        </p>
+                        <pre><code>
+var position = $('#jqxGrid').jqxGrid('scrollposition');
+var left = position.left;
+var top = position.top;
+                        </code></pre>
+                             <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/cWADt/"> Invoke the scrollposition method of the  jqxGrid.</a></div>
+                    </div>
+                </td>
+            </tr>     
     <tr>
                 <td class="documentation-option-type-click">
                     <span id='Span72'>beginupdate</span>

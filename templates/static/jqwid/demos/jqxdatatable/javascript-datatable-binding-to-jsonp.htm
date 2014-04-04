@@ -23,7 +23,7 @@
                     { name: 'population', type: 'float' },
                     { name: 'continentCode', type: 'string' }
                 ],
-                url: "http://ws.geonames.org/searchJSON"
+                url: "http://api.geonames.org/searchJSON"
             };
 
             var dataAdapter = new $.jqx.dataAdapter(source, 
@@ -32,6 +32,7 @@
                         $.extend(data, {
                             featureClass: "P",
                             style: "full",
+                            username: "jqwidgets",
                             maxRows: 50
                         });
 
@@ -42,15 +43,15 @@
 
             $("#dataTable").jqxDataTable(
             {
-                width: 670,
+                width: 850,
                 pageable: true,
                 pagerButtonsCount: 10,
                 source: dataAdapter,
                 columnsResize: true,
                 columns: [
                     { text: 'Country Name', dataField: 'countryName', width: 200 },
-                    { text: 'City', dataField: 'name', width: 170 },
-                    { text: 'Population', dataField: 'population', cellsFormat: 'f', width: 170 },
+                    { text: 'City', dataField: 'name', width: 250 },
+                    { text: 'Population', dataField: 'population', cellsFormat: 'f', width: 250 },
                     { text: 'Continent Code', dataField: 'continentCode' }
                 ]
             });

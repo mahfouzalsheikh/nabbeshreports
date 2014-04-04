@@ -1,4 +1,84 @@
 ﻿*********************************************
+* jQWidgets v3.2.2 Release, Mar-21-2014     *
+*********************************************
+
+What's Fixed:
+
+- Fixed an issue in jqxComboBox regarding the selectItem method when multiSelect property is set to true.
+- Fixed an issue in jqxListBox regarding the widget's horizontal scrollbar layout in IE7.
+- Fixed an issue in the jQuery UI Compatible themes about the jqxWindow icons styling.
+- Fixed an issue in jqxTreeGrid regarding the cellsAlign property when grouping is enabled.
+- Fixed an issue in jqxTreeGrid regarding the export to html/excel when a column's cellClassName is set to a custom CSS class.
+- Fixed an issue in jqxTreeGrid about the height and width properties. When they are set dynamically, the widget did not automatically update its size.
+- Fixed an issue in jqxTreeGrid regarding the row editing when the data is Sorted.
+- Fixed an issue in jqxTreeGrid regarding the ensureRowVisible method.
+- Fixed an issue in jqxGrid regarding its "focus" method in Chrome.
+- Fixed an issue in jqxGrid regarding the cells selected style rendering when virtual mode and paging are enabled.
+- Fixed an issue in jqxGrid regarding the filter row's disabled state.
+- Fixed an issue in jqxComboBox regarding the dynamic setting of the "renderer", "renderSelectedItem" and "itemHeight" properties.
+- Fixed an issue in jqxDragDrop regarding the onDropTargetLeave and onDropTargetEnter callback functions.
+
+*********************************************
+* jQWidgets v3.2.1 Release, Feb-05-2014     *
+*********************************************
+
+What's Fixed: 
+
+- Fixed an issue in jqx.base.css regarding a missing CSS style for jqxButton.
+- Fixed an issue in jqxListBox Drag & Drop when there are hidden ListBox widgets on the page.
+- Fixed an issue in jqxGrid regarding the Checked List Filter when all items are unselected.
+- Fixed an issue in jqxTabs regarding its initialization from a hidden DIV tag. 
+- Fixed an issue in jqxDateTimeInput regarding its initialization from a hidden DIV tag.
+- Fixed an issue in jqxWindow regarding the Tab-key navigation, when there are two or more Modal Windows opened. 
+- Fixed an issue in jqxTreeGrid regarding the mouse selection in an Editor when there's a Pinned Column and the Editor is from a non-pinned column.
+
+*********************************************
+* jQWidgets v3.2.0 Release, Feb-01-2014     *
+*********************************************
+
+What's New:
+
+- Added help topics about using jQWidgets with Wordpress, Joomla, BreezeJS, RequireJS and Twitter Bootstrap.
+- jqxTreeGrid and jqxDataTable Columns Reorder.
+- jqxTreeGrid, jqxDataTable and jqxTree Incremental Search.
+- Theme Builder - Save/Load theme settings.
+- Theme Builder - Added new theme settings.
+- Documentation API Filtering.
+
+What's Improved:
+
+- Bootstrap Theme.
+- jqxDateTimeInput UI. 
+- jqxGrid columns auto-width behavior. If you do not set the width of a column, it will occupy the remaining space.
+- Moved the Theme Builder's Preview tab to the Settings Area.
+- jqxResponse OS and OS Version detection.
+ 
+What's Fixed:
+
+- Fixed an issue in jqxGrid regarding the full row edit feature, when a column is with different display and data fields. 
+- Fixed an issue in jqxGrid regarding the "destroy" method. Some touch event handlers were not removed.
+- Fixed an issue in jqxGrid regarding the "loadState" method. The method did not load the state of a hidden Column, if the Column is Grouped.
+- Fixed an issue in jqxGrid regarding the filtering of a Number column when the filtertype is set to "checkedlist".
+- Fixed an issue in jqxGrid regarding the virtual scrolling.
+- Fixed an issue in jqxPanel regarding the horizontal scrollbar maximum value calculation on Touch Devices.
+- Fixed an issue in jqxDragDrop regarding the dropTargetEnter and dropTargetLeave events when there are multiple drop targets situated one next to another.
+- Fixed an issue in jqxDragDrop when the plugin is used in IFrame and the parent document's domain is different.
+- Fixed an issue in jqxMenu regarding the "destroy" method. Some touch event handlers were not removed.
+- Fixed an issue in jqxRangeSelector regarding the "getRange" method's return value when the RangeSelector's margin is set in percentages. 
+- Fixed an issue in jqxComboBox regarding its selection when the input's value is an empty string.
+- Fixed an issue in jqxComboBox regarding its selection when ESC is pressed and the item's value is Integer.
+- Fixed an issue in jqxTreeGrid regarding the rendering after adding or removing records.
+- Fixed an issue in jqxTooltip regarding the autoHideDelay property behavior.
+- Fixed an issue in jqxCalendar regarding the keyboard navigation in Chrome 32.
+- Fixed an issue in jqxDateTimeInput about entering a Date with the keyboard when the minDate is in the past.
+- Fixed an issue in jqxSlider about the "change" event. The event was raised twice after calling the val method.
+
+Breaking Changes:
+
+.jqx-icon-arrow-up, .jqx-icon-arrow-left, .jqx-icon-arrow-up and .jqx-icon-arrow-right CSS classes are now used for displaying icons in all widgets. 
+That change may require the update of custom Themes. 
+
+*********************************************
 * jQWidgets v3.1.0 Release, Dec-23-2013     *
 *********************************************
 

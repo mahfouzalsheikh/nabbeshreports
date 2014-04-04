@@ -78,7 +78,7 @@
             {
                 source: dataAdapter,
                 altRows: true,
-                width: 680,
+                width: 850,
                 showSubAggregates: true,
                 columnsResize: true,
                 ready: function () {
@@ -86,16 +86,11 @@
                     $("#treeGrid").jqxTreeGrid('expandRow', '2');
                 },
                 columns: [
-                  { text: "Name", align: "center", dataField: "name", width: 270 },
-                  { text: "Location", dataField: "location", cellsAlign: "center", align: "center", width: 200 },
+                  { text: "Name", align: "center", dataField: "name", width: 300 },
+                  { text: "Location", dataField: "location", cellsAlign: "center", align: "center", width: 250 },
                   {
                       text: "Budget", cellsAlign: "center", align: "center", dataField: "budget", cellsFormat: "c2",
-                      aggregates: [{
-                          'Total':
-                            function (aggregatedValue, currentValue, column, record) {
-                                return aggregatedValue + currentValue;
-                            }
-                      }],
+                      aggregates: ['sum'],
                       aggregatesRenderer: function (aggregatesText, column, element, aggregates, type) {
                           if (type == "aggregates") {
                               var renderString = "<div style='margin: 4px; float: right;  height: 100%;'>";
@@ -103,8 +98,8 @@
                           else {
                               var renderString = "<div style='float: right;  height: 100%;'>";
                           }
-                          var euro = dataAdapter.formatNumber(0.74 * aggregates.Total, "f2");;
-                          var usd = dataAdapter.formatNumber(aggregates.Total, "f2");;
+                          var euro = dataAdapter.formatNumber(0.74 * aggregates.sum, "f2");;
+                          var usd = dataAdapter.formatNumber(aggregates.sum, "f2");;
                           renderString += "<table><tr><td rowspan='2'><strong>Total: </strong></td><td>" + usd + " USD</td><tr><td>" + euro + " EUR</td></tr></table>";
                           return renderString;
                       }

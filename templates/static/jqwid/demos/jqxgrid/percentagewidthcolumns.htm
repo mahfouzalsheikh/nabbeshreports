@@ -22,11 +22,11 @@
             {
                 datatype: "json",
                 datafields: [
-                    { name: 'name' },
-                    { name: 'type' },
+                    { name: 'name', type: 'string' },
+                    { name: 'type', type: 'string' },
                     { name: 'calories', type: 'int' },
-                    { name: 'totalfat' },
-                    { name: 'protein' },
+                    { name: 'totalfat', type: 'string' },
+                    { name: 'protein', type: 'string' },
                 ],
                 id: 'id',
                 url: url
@@ -36,6 +36,7 @@
             $("#jqxgrid").jqxGrid(
             {
                 source: dataAdapter,
+                width: 850,
                 columns: [
                   { text: 'Name', datafield: 'name', width: '30%' },
                   { text: 'Beverage Type', datafield: 'type', width: '25%' },

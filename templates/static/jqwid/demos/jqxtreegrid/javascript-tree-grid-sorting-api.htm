@@ -45,15 +45,15 @@
             var dataAdapter = new $.jqx.dataAdapter(source);
             // create Tree Grid
             var columns = [
-                  { text: 'First Name', dataField: 'FirstName', width: 150 },
-                  { text: 'Last Name', dataField: 'LastName', width: 120 },
+                  { text: 'First Name', dataField: 'FirstName', width: 200 },
+                  { text: 'Last Name', dataField: 'LastName', width: 200 },
                   { text: 'City', dataField: 'City', width: 120 },
                   { text: 'Country', dataField: 'Country' }
             ];
 
             $("#treeGrid").jqxTreeGrid(
             {
-                width: 450,
+                width: 550,
                 source: dataAdapter,
                 sortable: true,
                 ready: function () {
