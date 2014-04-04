@@ -1,0 +1,4 @@
+[["Period","Visits", "Pageviews"], 
+{% for education in educations %}["{{ education.0 }}",{{ education.1 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]
+
+

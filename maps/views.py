@@ -298,7 +298,7 @@ def dashboard_getdata(request):
         
         sql = (header_sql + workflow_messages_sql + allusers_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + proposalspaid_sql + application_sql +invited_sql+ invoicesent_sql + invoicepaid_sql +invperjob_sql +appperjob_sql+  "  order by msgdate")
         
-        
+        #ga_get_visits(objs['fromdate'], objs['todate'], grouppertext)
         
         results = customQuery(sql,0)
 
@@ -1025,6 +1025,65 @@ def miningtest_report(request):
     })
     return HttpResponse(t.render(c))
     
+    
+@csrf_exempt
+def analytics_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)        
+        t1 = objs['fromdate']
+        t2 = objs['todate']
+        limit = objs['limit']
+        data  = ga_get_visits(t1,t2,limit)
+        c = Context({'analytics': data})        
+	return HttpResponse(render_to_string('analytics_visitors.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+       
+        
+    
+    
+@csrf_exempt
+def ga_get_visits_query(service,profile_id, start, end, limit):
+    dims = ""
+    if limit=='Month':
+        dims="ga:month,ga:year"
+    else:
+        dims="ga:year,ga:month,ga:day"
+    data = service.data().ga().get(ids="ga:" + profile_id, start_date=start, end_date=end, max_results=100000, dimensions = dims,       metrics="ga:visits,ga:pageviews").execute()
+    
+    results=[]
+    if limit=='Month':
+        for row in data['rows']:
+            newrow=[row[0]+'-'+row[1], row[2], row[3]]            
+            results.append(newrow)
+            print newrow
+    else:
+        for row in data['rows']:            
+            newrow=[row[0]+'-'+row[1] + '-' + row[2], row[3], row[4]]
+            results.append(newrow)
+            print newrow    
+    return results
+
+
+def ga_get_visits(start_date, end_date, limit):      
+    
+    service = initialize_service()
+    try:   
+        profile_id = get_first_profile_id(service)
+        param = profile_id
+        print profile_id   
+        results = ga_get_visits_query(service, profile_id, start_date, end_date, limit)
+
+	return results
+	    
+	    
+    except TypeError, error:
+        param=error 
+    except HttpError, error:
+        param=error
+    except AccessTokenRefreshError:
+        param=error
+
+   
+ 
                 
 @csrf_exempt
 def get_results(service, profile_id,checkedItems):

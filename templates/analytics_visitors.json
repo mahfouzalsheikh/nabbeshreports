@@ -1,0 +1,4 @@
+[["Period","Visits", "Pageviews"], 
+{% for analytic in analytics %}["{{ analytic.0 }}",{{ analytic.1 }},{{ analytic.2 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]
+
+

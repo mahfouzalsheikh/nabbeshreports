@@ -20,7 +20,9 @@ urlpatterns = patterns('',
  
  
     url(r'^mainmetrics$', 'nabbeshreports.maps.views.dashboard'),
-    url(r'^dashboard_getdata$', 'nabbeshreports.maps.views.dashboard_getdata', name='dashboard_getdata'),
+    url(r'^dashboard_getdata$', 'nabbeshreports.maps.views.dashboard_getdata'),
+    url(r'^analytics_getdata$', 'nabbeshreports.maps.views.analytics_getdata'),
+    
     
 
 ######################## Freelancers ##################    
