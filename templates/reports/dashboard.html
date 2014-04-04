@@ -26,9 +26,9 @@
         </div>
      
 
-<div id="visualization" style="width: 100%; height:450px;"></div>
-<div id="analyticsvisualization" style="width: 100%; height:200px;"></div>
-<div></div>
+<div id="visualization" style="width: 100%; height:300px;"></div>
+<div id="analyticsvisualization" style="width: 100%; height:300px;"></div>
+
 <div id="tablearea" style="width: 100%;"></div>
 
 
@@ -224,7 +224,7 @@
       var dataView2 = new google.visualization.DataView(add_total_row(data2));
       dataView2.setColumns(metricsarray);
       
-      chart.draw(dataView1, {curveType: "function",width: '100%', height: 450, is3D: true,title:"Main Dashboard    -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });      
+      chart.draw(dataView1, {curveType: "function",width: '100%', height: 300, is3D: true,title:"Main Dashboard    -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });      
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));     
       
       
@@ -248,7 +248,7 @@
       var data = new google.visualization.arrayToDataTable(dataarray);                        
       var chart = new google.visualization.LineChart(document.getElementById('analyticsvisualization'));
      
-      chart.draw(data, {width: '100%', height: 200, is3D: true,title:"Google Analytics    -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });           
+      chart.draw(data, {width: '100%', height: 300, is3D: true,title:"Google Analytics    -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });           
       
 
      }
