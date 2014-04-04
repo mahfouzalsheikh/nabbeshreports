@@ -53,10 +53,10 @@
       
      var source = ["Jobs Count","Accepted Proposals Count"];
        
-      $("#prioritymenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0});  
+      $("#prioritymenu").jqxComboBox({theme: theme, source: source, width: '200px', height: '25px', selectedIndex:0});  
                  
                 
-      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").jqxButton({ theme: theme,width: '200'});
       $("#filterButton").on('click', function () {
                                          
                   drawChart(priority,limit);
@@ -76,7 +76,7 @@
       
       var source = ["10", "100","500", "1000"]; 
       
-     $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0}); 
+     $("#limitmenu").jqxComboBox({theme: theme, source: source, width: '200px', height: '25px', selectedIndex:0}); 
      
      var limit = "10";
      

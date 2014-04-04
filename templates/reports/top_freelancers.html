@@ -121,9 +121,9 @@
       
      var source = ["Profile Completion","Skills Count","Application Count"];
        
-      $("#prioritymenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0});  
+      $("#prioritymenu").jqxComboBox({ theme: theme,source: source, width: '200px', height: '25px', selectedIndex:0});  
                 
-      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").jqxButton({ theme: theme,width: '200'});
       $("#filterButton").on('click', function () {
                   source.localdata  = getData(priority,limit);
                   
@@ -137,7 +137,7 @@
      
      var searchkeywords= $('#searchkeywordsfield').val();
      
-     $("#searchkeywordsfield").jqxInput({placeHolder: "type a skill name", height: 25, width: 200, minLength: 1});  
+     $("#searchkeywordsfield").jqxInput({theme: theme,placeHolder: "type a skill name", height: 25, width: 200, minLength: 1});  
      $('#limitmenu').on('select', function (event) {
                     var args = event.args;
                     if (args != undefined) {
@@ -150,7 +150,7 @@
       
       var source = ["10", "100","500", "1000"]; 
       
-     $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:1}); 
+     $("#limitmenu").jqxComboBox({ theme: theme,source: source, width: '200px', height: '25px', selectedIndex:1}); 
      
      var limit = "100";
      

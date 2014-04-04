@@ -51,7 +51,7 @@
      var period=12
      $("#downloadButton").jqxButton({ width: '200'});            
      $("#downloadButton").on('click', function () {
-                var value = $('#numericInput').jqxNumberInput('val');
+                var value = $('#numericInput').jqxComboBox('val');
                 var value1 = $('#periodnumericInput').jqxNumberInput('val');
                 
                 var json = $.parseJSON(getData(value.toString(), value1.toString()));
@@ -61,7 +61,7 @@
      
      $("#filterButton").jqxButton({ width: '200'});
      $("#filterButton").on('click', function () {
-                  var value = $('#numericInput').jqxNumberInput('val');
+                  var value = $('#numericInput').jqxComboBox('val');
                   var value1 = $('#periodnumericInput').jqxNumberInput('val');                       
                   draw(value.toString(),value1.toString());
                  

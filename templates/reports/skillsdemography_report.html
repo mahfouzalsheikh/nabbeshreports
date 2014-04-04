@@ -57,9 +57,9 @@
       
      var source = ["Users Count","Users Country Count", "Jobs Count", "Jobs Country Count"];
        
-      $("#prioritymenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0});  
+      $("#prioritymenu").jqxComboBox({ theme: theme,source: source, width: '200px', height: '25px', selectedIndex:0});  
        var priority="Users Count";  
-     $("#downloadButton").jqxButton({ width: '200'});                
+     $("#downloadButton").jqxButton({theme: theme, width: '200'});                
       $("#downloadButton").on('click', function () {
                 var json = $.parseJSON(getData(priority,limit));
     		var csv = JSON2CSV(json);
@@ -79,14 +79,14 @@
       
       var source = ["10", "100","500", "1000"]; 
       
-     $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:1}); 
+     $("#limitmenu").jqxComboBox({ theme: theme,source: source, width: '200px', height: '25px', selectedIndex:1}); 
      
      var limit = "100"; 
      
      
        
        
-     $("#filterButton").jqxButton({ width: '200'});
+     $("#filterButton").jqxButton({ theme: theme,width: '200'});
      $("#filterButton").on('click', function () {
                                          
                   drawChart(priority,limit);

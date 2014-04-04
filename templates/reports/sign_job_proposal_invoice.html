@@ -76,7 +76,7 @@
      var metricslistsource = metricsstring.split(",");
      //metricslistsource.shift();
      //metricslistsource.shift();     
-     $("#metricslist").jqxDropDownList({width: 250,height: 25, source: metricslistsource, checkboxes: true, animationType: 'fade'});
+     $("#metricslist").jqxDropDownList({theme: theme,width: 250,height: 25, source: metricslistsource, checkboxes: true, animationType: 'fade'});
      var metricsss,checkedItems;
      $("#metricslist").on('checkChange', function (event) {
         metricsss = $("#metricslist").jqxDropDownList('getCheckedItems');
@@ -89,13 +89,13 @@
      }); 
       
           
-      $("#filterButton").jqxButton({ width: '250'});
+      $("#filterButton").jqxButton({ theme: theme,width: '250'});
       $("#filterButton").on('click', function () {   
                   //alert(checkedItems);                     
                   drawChart(signupchecked, cpcchecked,checkedItems,fromdate,todate);
 
                 });
-     $("#jqxCheckBox").jqxCheckBox({ width: 250, height: 25 , disabled: true});
+     $("#jqxCheckBox").jqxCheckBox({ theme: theme,width: 250, height: 25 , disabled: true});
      var signupchecked='False';
      $("#jqxCheckBox").on('change', function (event) {
                 var checked = event.args.checked;
@@ -108,7 +108,7 @@
             });   
             
             
-     $("#cpcCheckBox").jqxCheckBox({ width: 250, height: 25});       
+     $("#cpcCheckBox").jqxCheckBox({theme: theme, width: 250, height: 25});       
      var cpcchecked='False';
      $("#cpcCheckBox").on('change', function (event) {
                 var checked = event.args.checked;
