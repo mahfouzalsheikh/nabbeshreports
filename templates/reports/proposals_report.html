@@ -70,8 +70,8 @@
 
 
       var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-3))});
-     $("#todate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-3))});
+     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
 
      
      $("#fromdate").on('change', function (event) {

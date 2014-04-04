@@ -63,7 +63,7 @@
 
 <script type="text/javascript">
  var theme = 'bootstrap';
- $("#optionsExpander").jqxExpander({ theme: theme,width: '100%', theme: theme,  expanded: false});
+ $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
  //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
  
 </script>
@@ -76,8 +76,8 @@
      
      
      var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
-     $("#todate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
 
      
      $("#fromdate").on('change', function (event) {

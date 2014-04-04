@@ -35,7 +35,7 @@
 </script>
 <script type="text/javascript">
  var theme = 'bootstrap';
- $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ $("#optionsExpander").jqxExpander({theme: theme, width: '100%', theme: theme,  expanded: false});
  
 </script>
 <script type="text/javascript">
@@ -52,7 +52,7 @@
       
      var source = ["Users Count", "Jobs Count"];
        
-      $("#prioritymenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:0});  
+      $("#prioritymenu").jqxComboBox({theme: theme, source: source, width: '200px', height: '25px', selectedIndex:0});  
        var priority="Users Count";  
       
       
@@ -68,12 +68,12 @@
       
       var source = ["10","50", "100","500", "1000", "10000"]; 
       
-     $("#limitmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:1}); 
+     $("#limitmenu").jqxComboBox({theme: theme, source: source, width: '200px', height: '25px', selectedIndex:1}); 
      
      var limit = "50"; 
      var searchkeywords= $('#searchkeywordsfield').val();
      
-     $("#searchkeywordsfield").jqxInput({placeHolder: "Keywords", height: 25, width: 200, minLength: 1});  
+     $("#searchkeywordsfield").jqxInput({theme: theme,placeHolder: "Keywords", height: 25, width: 200, minLength: 1});  
        
      $("#filterButton").jqxButton({ width: '200'});
      $("#filterButton").on('click', function () {

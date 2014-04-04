@@ -55,9 +55,9 @@
       
      var source = ["Year","Month", "Day"];
        
-      $("#groupmenu").jqxComboBox({ source: source, width: '200px', height: '25px', selectedIndex:1});  
+      $("#groupmenu").jqxComboBox({ theme: theme,source: source, width: '200px', height: '25px', selectedIndex:1});  
                 
-      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").jqxButton({ theme: theme,width: '200'});
       $("#filterButton").on('click', function () {
                                          
                   draw(grouper,fromdate,todate);
@@ -70,8 +70,8 @@
 
 
       var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-3))});
-     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+     $("#fromdate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-3))});
+     $("#todate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
 
      
      $("#fromdate").on('change', function (event) {
@@ -85,7 +85,7 @@
      var todate = $('#todate').jqxDateTimeInput('getText');
      
      var proposalsmetricslistsource = ["New Amount", "New Count", "New Average","Canceled Amount", "Canceled Count", "Canceled Average","Declined Amount", "Declined Count", "Declined Average","Accepted Amount", "Accepted Count", "Accepted Average"];
-     $("#proposalsmetricslist").jqxDropDownList({width: 200,height: 25, source: proposalsmetricslistsource, checkboxes: true});
+     $("#proposalsmetricslist").jqxDropDownList({theme: theme,width: 200,height: 25, source: proposalsmetricslistsource, checkboxes: true});
      //$("#proposalsmetricslist").jqxListBox('checkIndex', 2);
      $("#proposalsmetricslist").jqxDropDownList('checkIndex', 0);
      $("#proposalsmetricslist").jqxDropDownList('checkIndex', 3);

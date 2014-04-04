@@ -34,7 +34,7 @@
 </script>
 <script type="text/javascript">
  var theme = 'bootstrap';
- $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ $("#optionsExpander").jqxExpander({ theme: theme,width: '100%', theme: theme,  expanded: false});
  //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
  
 </script>
@@ -53,7 +53,7 @@
       
      var limitsource = ["Month","Day"];
        
-     $("#limitmenu").jqxComboBox({ source: limitsource, width: '200px', height: '25px', selectedIndex:1});     
+     $("#limitmenu").jqxComboBox({theme: theme, source: limitsource, width: '200px', height: '25px', selectedIndex:1});     
      
      
            $('#periodmenu').on('select', function (event) {
@@ -67,12 +67,12 @@
                 });
      var periodsource = ["365","180","90","30","7","1"];
        
-     $("#periodmenu").jqxComboBox({ source: periodsource, width: '200px', height: '25px', selectedIndex:3});     
+     $("#periodmenu").jqxComboBox({theme: theme, source: periodsource, width: '200px', height: '25px', selectedIndex:3});     
      
      
      var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
-     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+     $("#fromdate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({theme: theme,width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
 
      
      $("#fromdate").on('change', function (event) {
@@ -84,7 +84,7 @@
         
                 
                 
-      $("#filterButton").jqxButton({ width: '200'});
+      $("#filterButton").jqxButton({ theme: theme,width: '200'});
       $("#filterButton").on('click', function () {                          
                   drawChart(limit,period,fromdate,todate);
 
