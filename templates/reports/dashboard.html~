@@ -83,7 +83,13 @@
      var limit="Day";          
                 
       $("#filterButton").jqxButton({theme: theme, width: '200'});
-      $("#filterButton").on('click', function () {draw(limit,fromdate,todate);});
+      $("#filterButton").on('click', function () { 
+         $('#visualization').block({ 
+                message: '<h1>Processing</h1>', 
+                css: { border: '3px solid #a00' } 
+            });
+         draw(limit,fromdate,todate);
+      });
       $("#downloadButton").jqxButton({theme: theme, width: '200'});                
       $("#downloadButton").on('click', function () {
                 var json = $.parseJSON(getData(limit,fromdate,todate));
@@ -254,12 +260,13 @@
      }
      
      function draw(limit,from,to) {
+      
       var jsonData= getData(limit,from,to);
       var jsonAnalyticsData= getAnalyticsData(limit,from,to);
       
       JSONData=jsonData;
       drawChart(jsonData,$("#metricslist").jqxDropDownList('getCheckedItems'),from,to);   
-      
+       $('visualization').unblock();
       
       drawAnalyticsChart(jsonAnalyticsData,from,to);          
      }

@@ -58,7 +58,7 @@
             $('#docking').jqxDocking('hideAllCloseButtons');
             $('#docking').jqxDocking('pinWindow', 'window1');
             //$('#docking').jqxDocking('disable');
-
+            
             
             
 </script>
