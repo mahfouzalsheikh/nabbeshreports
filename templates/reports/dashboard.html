@@ -248,7 +248,7 @@
      
       dataarray =   $.parseJSON(jsonData);               
      
-      var data = new google.visualization.arrayToDataTable(dataarray);                        
+      var data = new google.visualization.arrayToDataTable(dataarray);           
       var chart = new google.visualization.LineChart(document.getElementById('analyticsvisualization'));
      
       chart.draw(data, {width: '100%', height: 300, is3D: true,title:"Google Analytics    -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });           

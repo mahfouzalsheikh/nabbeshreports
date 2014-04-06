@@ -1044,7 +1044,7 @@ def analytics_getdata(request):
 def ga_get_visits_query(service,profile_id, start, end, limit):
     dims = ""
     if limit=='Month':
-        dims="ga:month,ga:year"
+        dims="ga:year,ga:month"
     else:
         dims="ga:year,ga:month,ga:day"
     data = service.data().ga().get(ids="ga:" + profile_id, start_date=start, end_date=end, max_results=100000, dimensions = dims,       metrics="ga:visits,ga:pageviews").execute()
