@@ -19,15 +19,7 @@
 
 <div><center><h2>Employers Acitvity Funnel</h2><div id='date'></div></center></div>
 <center><canvas id="cvs" width=800" height="450">[No canvas support]</canvas></center>
-<table width="95%"><tr>
-<td><div id="chart1" style="width: 230; height:450px; float: left;"></div></td>
-<td><div id="stage1" style="font-size:18px"></div></td>
-<td><div id="chart2" style="width: 230; height:450px; float: left;"></div></td>
-<td><div id="stage2" style="font-size:18px"></div></td>
-<td><div id="chart3" style="width: 230; height:450px; float: left;"></div></td>
-<td><div id="stage3" style="font-size:18px"></div></td>
-<td><div id="chart4" style="width: 230; height:450px; float: left;"></div></td><td></td>
-</tr></table>
+
 
 
 
@@ -149,9 +141,9 @@
       stage2=(parseFloat(paidproposal) / parseFloat(postedjob)*100).toFixed(2) + '%  >>>';
       stage3=(parseFloat(paidinvoice) / parseFloat(paidproposal)*100).toFixed(2) + '%  >>>';
       
-      $('#stage1').html(stage1);
-      $('#stage2').html(stage2);
-      $('#stage3').html(stage3);
+      //$('#stage1').html(stage1);
+      //$('#stage2').html(stage2);
+      //$('#stage3').html(stage3);
       
 	          
       var period = '';
@@ -162,17 +154,17 @@
       var data4 = google.visualization.arrayToDataTable([[period, 'Paid an Invoice',{ role: "style" }, { role: 'annotation' }],[period,  paidinvoice, 'color: #109618; fill-opacity: 0.7; stroke-width: 4', paidinvoice+ ' Users,' + invoicescount + ' Invs']]);
       
       
-      var chart1 = new google.visualization.ColumnChart(document.getElementById('chart1'));         
-      chart1.draw(data1, {title:"Signed Up",width: 180, height: 450, vAxis: {maxValue: 1000},legend: { position: "none" }});
+      //var chart1 = new google.visualization.ColumnChart(document.getElementById('chart1'));         
+      //chart1.draw(data1, {title:"Signed Up",width: 180, height: 450, vAxis: {maxValue: 1000},legend: { position: "none" }});
 
-      var chart2 = new google.visualization.ColumnChart(document.getElementById('chart2'));         
-      chart2.draw(data2, {title:"Posted a Job",width: 180, height: 450, vAxis: {maxValue: signedup},legend: { position: "none" }});
+      //var chart2 = new google.visualization.ColumnChart(document.getElementById('chart2'));         
+      //chart2.draw(data2, {title:"Posted a Job",width: 180, height: 450, vAxis: {maxValue: signedup},legend: { position: "none" }});
 
-      var chart3 = new google.visualization.ColumnChart(document.getElementById('chart3'));         
-      chart3.draw(data3, {title:"Paid a Proposal",width: 180, height: 450, vAxis: {maxValue: postedjob},legend: { position: "none" }});
+      //var chart3 = new google.visualization.ColumnChart(document.getElementById('chart3'));         
+      //chart3.draw(data3, {title:"Paid a Proposal",width: 180, height: 450, vAxis: {maxValue: postedjob},legend: { position: "none" }});
 
-      var chart4 = new google.visualization.ColumnChart(document.getElementById('chart4'));         
-      chart4.draw(data4, {title:"Paid an Invoice",width: 180, height: 450, vAxis: {maxValue: paidinvoice},legend: { position: "none" }});
+      //var chart4 = new google.visualization.ColumnChart(document.getElementById('chart4'));         
+      //chart4.draw(data4, {title:"Paid an Invoice",width: 180, height: 450, vAxis: {maxValue: paidinvoice},legend: { position: "none" }});
      
       $('#date').html('From (' + fromdate + ') To (' + todate +')' );
       
