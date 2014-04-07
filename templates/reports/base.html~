@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/site_media/jqwid/jqwidgets/styles/jqx.bootstrap.css" type="text/css" />
 
 
-    <script type="text/javascript" src="/site_media/jqwid/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/scripts/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxscrollbar.js"></script>
@@ -59,46 +59,7 @@
     
     
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-    
-    
-<style>
- body
- {
-  background-image:url('/site_media/img/bg.png');
-  background-repeat:repeat-y repeat-x;
- }
-</style>    
-
-</head>
-
-
-<body bgcolor="#F8F8F8">
-
-<div id="main" style="padding: 0px 20px 10px 20px;">
-
-<div style="padding: 0px 0px 0px 10px; height:70px">
-
-
-
-<div style="float:left; width:150px">
-  <a href="/"><img  src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></a>
-</div>
-<div style="float:left;">
-<h1 style="vertical-align:text-bottom; padding: 0px; border: 0px; outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">|Reports</h1>
-</div>
-
-
-<div style="font-size:14px;float:right;height:70px;vertical-align:text-bottom; color: rgb(102, 102, 102);">
- {% if  user.is_authenticated %}
-    {{ user.first_name  }} {{user.last_name}}  | <a href="/accounts/logout/">Sign Out</a>
- {% endif %}
-</div>
-
-
-</div>
-
-
-        <script type="text/javascript">
+           <script type="text/javascript">
             $(document).ready(function () {
                 // Create a jqxMenu
                 var theme = 'bootstrap';
@@ -168,7 +129,40 @@
 		    eventFire(link, "click");
 		}
         </script>
-            <div id='mainmenu' style='visibility: hidden;'>
+    
+<style>
+ body
+ {
+  background-image:url('/site_media/img/bg.png');
+  background-repeat:repeat-y repeat-x;
+ }
+</style>    
+
+</head>
+
+
+<body >
+
+
+
+
+<div style="float:left; width:150px">
+  <a href="/"><img  src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></a>
+</div>
+<div style="float:left;">
+<h1 style="vertical-align:text-bottom; padding: 0px; border: 0px; outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">|Reports</h1>
+</div>
+
+
+<div style="font-size:14px;float:right;height:70px;vertical-align:text-bottom; color: rgb(102, 102, 102);">
+ {% if  user.is_authenticated %}
+    {{ user.first_name  }} {{user.last_name}}  | <a href="/accounts/logout/">Sign Out</a>
+ {% endif %}
+</div>
+
+
+
+<div id="mainmenu">
                 <ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/mainmetrics">Main Metrics</a></li>
@@ -215,18 +209,17 @@
                         </ul>
                     </li>
                 </ul>
-            </div>
-            <br/>            
+</div>           
 
 <div id="report">
 {% block  reportblock %}{% endblock %}
 </div>
 
-<div id = "footer" style="padding: 0px 0px 0px 10px; height:30px"></div>
-<div>
+<div id = "footer" style="padding: 0px 0px 0px 10px; height:30px">
+</div>
 
-</div>
-</div>
+
+
 </body>
 </html>
 
