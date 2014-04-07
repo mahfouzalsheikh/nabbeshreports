@@ -298,7 +298,7 @@
          
           for (row_i = 0; row_i < row_count; row_i++) {
             
-             data.setFormattedValue(row_i,col_i, (Math.round(data.getValue(row_i,col_i)*1000000/data.getValue(row_i,17))/10000).toString());
+             data.setFormattedValue(row_i,col_i, (Math.round(data.getValue(row_i,col_i)*1000000/data.getValue(row_i,17))/10000).toString() + '%');
              data.setValue(row_i,col_i, Math.round(data.getValue(row_i,col_i)*1000000/data.getValue(row_i,17))/10000);
             //console.log(data.getValue(row_i,col_i));
           }
