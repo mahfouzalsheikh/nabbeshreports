@@ -1052,7 +1052,7 @@ def ga_get_visits_query(service,profile_id, start, end, limit):
     results=[]
     if limit=='Month':
         for row in data['rows']:
-            newrow=[row[1]+'-'+row[0], row[2], row[3]]            
+            newrow=[row[0]+'-'+row[1], row[2], row[3]]            
             results.append(newrow)
             print newrow
     else:

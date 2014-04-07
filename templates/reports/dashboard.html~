@@ -26,10 +26,11 @@
         </div>
      
 
-<div id="visualization" style="width: 100%; height:300px;"></div>
+<div id="visualization" style="width: 100%; height:400px;"></div>
 <div id="analyticsvisualization" style="width: 100%; height:300px;"></div>
-
+<div id="ratestablearea" style="width: 100%;height:300px;"></div>
 <div id="tablearea" style="width: 100%;"></div>
+
 
 
     <script type="text/javascript">
@@ -108,10 +109,12 @@
 
      
      var JSONData;
+     var JSONAnalyticsData;
      $("#metricslist").on('checkChange', function (event) {
        var metricsss = $("#metricslist").jqxDropDownList('getCheckedItems');
        
-       drawChart(JSONData,metricsss);             
+       drawChart(JSONData, metricsss,fromdate, todate); 
+       drawRatesChart(JSONData, JSONAnalyticsData,  metricsss, fromdate, todate)            
      });
     
     
@@ -227,7 +230,7 @@
       var dataView2 = new google.visualization.DataView(add_total_row(data2));
       dataView2.setColumns(metricsarray);
       
-      chart.draw(dataView1, {curveType: "function",width: '100%', height: 300, is3D: true,title:"Main Dashboard    -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });      
+      chart.draw(dataView1, {curveType: "function",width: '100%', height: 400, is3D: true,title:"Main Dashboard    -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });      
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));     
       
       
@@ -249,9 +252,7 @@
       dataarray =   $.parseJSON(jsonData);               
      
       var data = new google.visualization.arrayToDataTable(dataarray);  
-      console.log(data);  
-      data.sort[{column: 1}]; 
-      console.log(data);             
+         
       var chart = new google.visualization.LineChart(document.getElementById('analyticsvisualization'));
      
       chart.draw(data, {width: '100%', height: 300, is3D: true,title:"Google Analytics    -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });           
@@ -261,18 +262,66 @@
      
      function draw(limit,from,to) {
       
-      var jsonData= getData(limit,from,to);
-      var jsonAnalyticsData= getAnalyticsData(limit,from,to);
+      var jsonData= getData(limit,from,to);                        
       
       JSONData=jsonData;
+     
       drawChart(jsonData,$("#metricslist").jqxDropDownList('getCheckedItems'),from,to);   
        $('visualization').unblock();
-      
-      drawAnalyticsChart(jsonAnalyticsData,from,to);          
+            
+      var jsonAnalyticsData= getAnalyticsData(limit,from,to);
+      JSONAnalyticsData = jsonAnalyticsData;
+      drawAnalyticsChart(jsonAnalyticsData,from,to);       
+      drawRatesChart(jsonData,jsonAnalyticsData,  $("#metricslist").jqxDropDownList('getCheckedItems') , from, to);
+         
      }
     
     
-    
+    function drawRatesChart(jsonData,jsonAnalyticsData, metrics, from , to){
+      var dataTable = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+      var anayticsdataTable= new google.visualization.arrayToDataTable($.parseJSON(jsonAnalyticsData));
+      
+      var data = google.visualization.data.join(dataTable, anayticsdataTable, 'inner', [[0,0]], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],[1,2]);
+      
+      
+   
+      var row_count = data.getNumberOfRows();
+      var column_count = data.getNumberOfColumns();
+
+      for (col_i = 0; col_i < column_count-2; col_i++) { 
+
+      if (data.getColumnType(col_i) == 'string') {
+
+      }
+      else if (data.getColumnType(col_i) == 'number') {
+        
+         
+          for (row_i = 0; row_i < row_count; row_i++) {
+            
+             data.setFormattedValue(row_i,col_i, (Math.round(data.getValue(row_i,col_i)*1000000/data.getValue(row_i,17))/10000).toString());
+             data.setValue(row_i,col_i, Math.round(data.getValue(row_i,col_i)*1000000/data.getValue(row_i,17))/10000);
+            //console.log(data.getValue(row_i,col_i));
+          }
+
+      }     
+      
+    }  
+
+            
+      var metricsarray=[0];
+      $.each(metrics, function (index) {                      
+                            metricsarray.push(this.index+1);                                               
+                    });  
+                    
+      console.log(data);
+                    
+      var dataView = new google.visualization.DataView(data);
+      dataView.setColumns(metricsarray);             
+      var chart = new google.visualization.LineChart(document.getElementById('ratestablearea'));                
+      
+      chart.draw(dataView, {width: '100%', height: 300, is3D: true,title:"Metrics vs Pageviews  -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });   
+                     
+    }
       
   
     draw(limit,fromdate,todate);
