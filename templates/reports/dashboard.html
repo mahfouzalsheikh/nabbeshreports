@@ -216,9 +216,9 @@
                     });   
       
       
-      
+      console.log(jsonData);
       dataarray =   $.parseJSON(jsonData);               
-     
+        
       var data1 = new google.visualization.arrayToDataTable(dataarray);
       var data2 = new google.visualization.arrayToDataTable(dataarray);
       
@@ -267,8 +267,8 @@
       JSONData=jsonData;
      
       drawChart(jsonData,$("#metricslist").jqxDropDownList('getCheckedItems'),from,to);   
-       $('visualization').unblock();
-            
+
+         
       var jsonAnalyticsData= getAnalyticsData(limit,from,to);
       JSONAnalyticsData = jsonAnalyticsData;
       drawAnalyticsChart(jsonAnalyticsData,from,to);       
