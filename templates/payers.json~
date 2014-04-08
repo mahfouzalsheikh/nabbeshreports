@@ -1,0 +1,2 @@
+[["Payer ID","Payer Name", "Payer Email", "Payer Country", "Job ID", "Job Created At", "Job Title", "Paid Amount"], 
+{% for payer in payers %}[{{ payer.0 }},"{{ payer.1 }}","{{ payer.2 }}","{{ payer.3 }}",{{ payer.4 }},"{{ payer.5 }}","{{ payer.6 }}",{{ payer.7 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]

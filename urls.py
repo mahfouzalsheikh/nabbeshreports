@@ -67,7 +67,7 @@ urlpatterns = patterns('',
     url(r'^crosscountryapps$', 'nabbeshreports.maps.views.crosscountryapps_report'),    
     url(r'^crosscountryapps_getdata$', 'nabbeshreports.maps.views.crosscountryapps_getdata'),    
     url(r'^geocodes$', 'nabbeshreports.maps.views.geocodes'),    
-    
+     
     url(r'^jobsappsstatsreport$', 'nabbeshreports.maps.views.jobs_apps_stats_report'),  
     url(r'^jobs_apps_stats_getdata$', 'nabbeshreports.maps.views.jobs_apps_stats_getdata'),
   
@@ -89,6 +89,12 @@ urlpatterns = patterns('',
 
     url(r'^invoices_getdata$', 'nabbeshreports.maps.views.invoices_getdata'),
     url(r'^invoices$', 'nabbeshreports.maps.views.invoices_report'),
+    
+    url(r'^payers_getdata$', 'nabbeshreports.maps.views.payers_getdata'),
+    url(r'^payers$', 'nabbeshreports.maps.views.payers_report'),
+
+    url(r'^payees_getdata$', 'nabbeshreports.maps.views.payees_getdata'),
+    url(r'^payees$', 'nabbeshreports.maps.views.payees_report'),
 
 
 ################## Skills #############################

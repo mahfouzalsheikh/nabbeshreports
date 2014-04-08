@@ -135,6 +135,7 @@
  {
   background-image:url('/site_media/img/bg.png');
   background-repeat:repeat-y repeat-x;
+  padding: 20px 20px 20px 20px;
  }
 </style>    
 
@@ -195,11 +196,12 @@
                         </ul>
                     </li>
                     
-                    <li>Finance
+                    <li>Finance (New)
                         <ul style='width: 180px;'>
                             <li><a href="proposals">Proposals</a></li>
                             <li><a href="invoices">Invoices</a></li>
-                                   
+                            <li><a href="payers">Payers (New)</a></li>
+                            <li><a href="payees">Payees (New)</a></li>                                   
                         </ul>
                     </li>
                     <li>Skills

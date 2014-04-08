@@ -930,6 +930,59 @@ def activities_countries_getdata(request):
 
 
 
+@login_required(login_url='/accounts/login/')
+def payers_report(request):
+    
+    t = loader.get_template('./reports/payers_report.html')
+    c = Context({
+        'payers_report': payers_report,
+    })
+    return render_to_response('./reports/payers_report.html', context_instance=RequestContext(request))
+            
+@csrf_exempt
+def payers_getdata(request):
+    if request.method == 'POST':
+        #objs = simplejson.loads(request.raw_post_data)
+
+        sql = "select distinct u.id,au.first_name || ' ' || au.last_name as fullname, au.email, u.country,cj.id,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16), cj.title, cii.quantity*cii.unit_price as amount from users u  inner join auth_user au on au.id=u.django_user_id inner join contracts_job cj on cj.employer_id=u.id  inner join contracts_application ca on ca.job_id = cj.id inner join contracts_message cm on cm.application_id=ca.id inner join contracts_invoice ci on ci.message_ptr_id=cm.id inner join contracts_invoiceitem  cii on cii.invoice_id=ci.message_ptr_id where ci.status=4 "
+        
+        print sql
+        results = customQuery(sql,0)
+        print results
+ 
+        c = Context({'payers': results})
+   
+        return HttpResponse(render_to_string('payers.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+
+
+
+@login_required(login_url='/accounts/login/')
+def payees_report(request):
+    
+    t = loader.get_template('./reports/payees_report.html')
+    c = Context({
+        'payees_report': payers_report,
+    })
+    return render_to_response('./reports/payees_report.html', context_instance=RequestContext(request))
+            
+@csrf_exempt
+def payees_getdata(request):
+    if request.method == 'POST':
+        #objs = simplejson.loads(request.raw_post_data)
+
+        sql = "select  distinct u.id,  au.first_name || ' ' || au.last_name as fullname,  au.email, u.country,cj.id, substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16),   cj.title, cii.quantity*cii.unit_price as amount   from users u    inner join auth_user au on au.id=u.django_user_id   inner join contracts_application ca on ca.applicant_id = u.id  inner join contracts_job cj on cj.id=ca.job_id  inner join contracts_message cm on cm.application_id=ca.id   inner join contracts_invoice ci on ci.message_ptr_id=cm.id   inner join contracts_invoiceitem  cii on cii.invoice_id=ci.message_ptr_id where ci.status=4  "
+        
+        print sql
+        results = customQuery(sql,0)
+        print results
+ 
+        c = Context({'payees': results})
+   
+        return HttpResponse(render_to_string('payees.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+
+
+
+
 @csrf_exempt     
 def vistest_report(request):
     
