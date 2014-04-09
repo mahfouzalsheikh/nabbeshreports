@@ -10,9 +10,14 @@
                       <tr><td>Metrics</td><td><div id="metricslist"></div></td></tr>
                    </tr>
                    <tr>
-                    <td>Group By:</td><td><div id="limitmenu"></div><td rowspan=3></div></td></td>
-                   </tr> 
-                   
+                     <td></td>Group By:<td><div id='groupbybuttons'>
+                                  <button style="padding:4px 16px;" id="Day">Day</button>
+                                  <button style="padding:4px 16px;" id="Week">Week</button>
+                                  <button style="padding:4px 16px;" id="Month">Month</button>
+                                  </div>
+                              </td>
+                   </tr>
+                 
                    <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
                    <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
                    
@@ -53,19 +58,16 @@
 
 <script type="text/javascript">
 
-      $('#limitmenu').on('select', function (event) {
-                    var args = event.args;
-                    if (args != undefined) {
-                        var item = event.args.item;
-                        if (item != null) {                            
-                            limit=item.label
-                        }
-                    }
+
+            
+     
+     $("#groupbybuttons").jqxButtonGroup({ mode: 'radio' });
+     $('#groupbybuttons').jqxButtonGroup('setSelection', 0);
+     $("#groupbybuttons").on('buttonclick', function (event) {
+                    var clickedButton = event.args.button;
+                    limit = clickedButton[0].id;
                 });
-      
-     var source = ["Month","Day"];
-       
-     $("#limitmenu").jqxComboBox({ theme: theme,source: source, width: '200px', height: '25px', selectedIndex:1});     
+     
      
      var today = new Date(Date.now());
      $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
