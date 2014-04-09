@@ -35,8 +35,10 @@
                 datatype: "array"
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
+            var theme = 'bootstrap';
             $("#jqwtablearea").jqxGrid(
             {
+                theme: theme,
                 width: '100%',
                 height: '100%',
                 source: dataAdapter,
