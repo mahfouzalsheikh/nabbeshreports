@@ -1,0 +1,2 @@
+[["Payer ID","Payer Name", "Payer Email", "Payer Country", "Job ID", "Job Created At", "Job Title", "Paid Amount", "Payee ID", "Payee Name", "Payee Email", "Payee Country"], 
+{% for payment in payments %}[{{ payment.0 }},"{{ payment.1 }}","{{ payment.2 }}","{{ payment.3 }}",{{ payment.4 }},"{{ payment.5 }}","{{ payment.6 }}",{{ payment.7 }},{{ payment.8 }},"{{ payment.9 }}","{{ payment.10 }}","{{ payment.11 }}"]{% if not forloop.last %} , {% endif %}{% endfor %}]

@@ -1,0 +1,86 @@
+{% extends 'reports/base.html' %}
+{% block reportblock %}
+<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Payers</h2><div id='date'></div></center></div>
+<div id="jqwtablearea" style="width: 100%;"></div>
+
+
+
+<script type="text/javascript">
+
+	
+     function drawChart() {
+      var jsonData = $.ajax({
+          url: "payments_getdata",
+          dataType:"json",
+          type: "POST",
+          async: false
+          }).responseText;
+          
+          //console.log(jsonData);
+          jqwdata = JSON.parse(jsonData);
+          jqwdata.shift();
+         
+	  var source =
+            { localdata : jqwdata,
+              datafields: [
+                    { name: 'PayerID', type: 'int', map: '0'},
+                    { name: 'PayerName', type: 'string', map: '1'},
+                    { name: 'PayerEmail', type: 'string', map: '2'},
+                    { name: 'PayerCountry', type: 'string', map: '3'},                    
+                    { name: 'JobID', type: 'int', map: '4'},
+                    { name: 'JobCreatedAt', type: 'date', map: '5'},                    
+                    { name: 'JobTitle', type: 'string', map: '6'},                    
+                    { name: 'PaidAmount', type: 'int', map: '7'},
+                    { name: 'PayeeID', type: 'int', map: '8'},
+                    { name: 'PayeeName', type: 'string', map: '9'},
+                    { name: 'PayeeEmail', type: 'string', map: '10'},
+                    { name: 'PayeeCountry', type: 'string', map: '11'},                                                            
+                    ],
+                datatype: "array"
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            var theme = 'bootstrap';
+            $("#jqwtablearea").jqxGrid(
+            {
+                theme: theme,
+                width: '100%',
+                height: '100%',
+                source: dataAdapter,
+                columnsresize: true,
+                sortable: true,
+                showfilterrow: true,
+                filterable: true,
+                altrows: true,
+                columns: [
+                  { text: 'ID', datafield: 'PayerID', filtertype: 'textbox', columngroup: 'PayerDetails'},
+                  { text: 'Name', datafield: 'PayerName', filtertype: 'textbox', columngroup: 'PayerDetails'},
+                  { text: 'Email', datafield: 'PayerEmail', filtertype: 'textbox', columngroup: 'PayerDetails'},
+                  { text: 'Country', datafield: 'PayerCountry', filtertype: 'textbox', columngroup: 'PayerDetails'},
+                  { text: 'ID', datafield: 'JobID', filtertype: 'number', columngroup: 'JobDetails'},
+                  { text: 'Created At', datafield: 'JobCreatedAt', filtertype: 'date',cellsformat: 'dd-MM-yy HH:m', columngroup: 'JobDetails'},
+                  { text: 'Title', datafield: 'JobTitle', filtertype: 'textbox', columngroup: 'JobDetails'},                  
+                  { text: 'Paid Amount', datafield: 'PaidAmount', filtertype: 'number'},
+                  { text: 'ID', datafield: 'PayeeID', filtertype: 'textbox', columngroup: 'PayeeDetails'},
+                  { text: 'Name', datafield: 'PayeeName', filtertype: 'textbox', columngroup: 'PayeeDetails'},
+                  { text: 'Email', datafield: 'PayeeEmail', filtertype: 'textbox', columngroup: 'PayeeDetails'},
+                  { text: 'Country', datafield: 'PayeeCountry', filtertype: 'textbox', columngroup: 'PayeeDetails'},                                                                        
+                ],
+                columngroups: 
+                [
+                  { text: 'Payer Details', align: 'center', name: 'PayerDetails' },
+                  { text: 'Job Details', align: 'center', name: 'JobDetails' },
+                  { text: 'Payee Details', align: 'center', name: 'PayeeDetails' },
+
+                ]
+            });    
+
+
+
+
+    }
+	
+		
+    drawChart();
+</script>          
+
+{% endblock %}  

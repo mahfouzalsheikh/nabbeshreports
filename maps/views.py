@@ -981,6 +981,32 @@ def payees_getdata(request):
         return HttpResponse(render_to_string('payees.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 
+@login_required(login_url='/accounts/login/')
+def payments_report(request):
+    
+    t = loader.get_template('./reports/payments_report.html')
+    c = Context({
+        'payments_report': payments_report,
+    })
+    return render_to_response('./reports/payments_report.html', context_instance=RequestContext(request))
+            
+@csrf_exempt
+def payments_getdata(request):
+    if request.method == 'POST':
+        #objs = simplejson.loads(request.raw_post_data)
+
+        sql = " select distinct  payer.id, aupayer.first_name || ' ' || aupayer.last_name as payerfullname, aupayer.email,  payer.country,   cj.id,  cj.created_at,  cj.title, sum( cii.quantity*cii.unit_price )as amount ,  payee.id, aupayee.first_name || ' ' || aupayee.last_name as payeefullname, aupayee.email,  payee.country       from users payee   inner join auth_user aupayee on aupayee.id=payee.django_user_id    inner join contracts_application ca on ca.applicant_id = payee.id    inner join contracts_job cj on cj.id=ca.job_id    inner join users payer on payer.id=cj.employer_id  inner join auth_user aupayer on aupayer.id=payer.django_user_id  inner join contracts_message cm on cm.application_id=ca.id  inner join contracts_invoice ci on ci.message_ptr_id=cm.id  inner join contracts_invoiceitem  cii on cii.invoice_id=ci.message_ptr_id  where ci.status=4   group by payer.id,payerfullname, aupayer.email, payer.country, cj.id, cj.created_at, payee.id, payeefullname, aupayee.email, payee.country  "
+        
+        print sql
+        results = customQuery(sql,0)
+        print results
+ 
+        c = Context({'payments': results})
+   
+        return HttpResponse(render_to_string('payments.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+
+
+
 
 
 @csrf_exempt     
