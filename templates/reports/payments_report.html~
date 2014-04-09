@@ -82,7 +82,7 @@
                 filterable: true,
                 altrows: true,
                 showstatusbar: true,
-                statusbarheight: 90,
+                statusbarheight: 105,
                 showaggregates: true,
                 columns: [
                   { text: 'ID', datafield: 'PayerID', filtertype: 'textbox', columngroup: 'PayerDetails'},
@@ -92,7 +92,7 @@
                   { text: 'ID', datafield: 'JobID', filtertype: 'number', columngroup: 'JobDetails'},
                   { text: 'Created At', datafield: 'JobCreatedAt', filtertype: 'date',cellsformat: 'dd-MM-yy HH:m', columngroup: 'JobDetails'},
                   { text: 'Title', datafield: 'JobTitle', filtertype: 'textbox', columngroup: 'JobDetails'},                  
-                  { text: 'Paid Amount', datafield: 'PaidAmount', filtertype: 'number', aggregates: ['min', 'max','sum','avg'], columngroup: 'JobDetails'},
+                  { text: 'Paid Amount', datafield: 'PaidAmount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'JobDetails'},
                   { text: 'ID', datafield: 'PayeeID', filtertype: 'textbox', columngroup: 'PayeeDetails'},
                   { text: 'Name', datafield: 'PayeeName', filtertype: 'textbox', columngroup: 'PayeeDetails'},
                   { text: 'Email', datafield: 'PayeeEmail', filtertype: 'textbox', columngroup: 'PayeeDetails'},
