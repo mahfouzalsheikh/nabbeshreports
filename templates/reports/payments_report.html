@@ -1,15 +1,38 @@
 {% extends 'reports/base.html' %}
 {% block reportblock %}
 <div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Payers/Payees</h2><div id='date'></div></center></div>
+
+
+<div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>                  
+                </table>  
+                  
+               
+            </div>
+        </div>
+
+
 <div id="jqwtablearea" style="width: 100%;"></div>
 
 
 
 <script type="text/javascript">
-
+     var theme = 'bootstrap';
+     $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+      $("#downloadButton").jqxButton({theme: theme, width: '200'});                
+      $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData());
+    		var csv = JSON2CSV(json);
+//	        window.open("data:text/csv;charset=utf-8," + escape(csv))
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "payments_data.csv");
+      }); 
 	
-     function drawChart() {
-      var jsonData = $.ajax({
+     function getData()
+     {
+         var jsonData =  $.ajax({
           url: "payments_getdata",
           dataType:"json",
           type: "POST",
@@ -17,9 +40,15 @@
           }).responseText;
           
           //console.log(jsonData);
-          jqwdata = JSON.parse(jsonData);
+
+          
+          return jsonData;
+     }
+	
+     function drawChart() {
+      
+          var jqwdata = JSON.parse(getData());
           jqwdata.shift();
-         
 	  var source =
             { localdata : jqwdata,
               datafields: [
