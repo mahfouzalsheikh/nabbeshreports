@@ -165,7 +165,7 @@
 
 
 <div style="font-size:14px;float:right;vertical-align:text-bottom; color: rgb(102, 102, 102);">
- {% if  user.is_authenticated %}d
+ {% if  user.is_authenticated %}
     {{ user.first_name  }} {{user.last_name}}  | <a href="/accounts/logout/">Sign Out</a>
  {% endif %}
 </div>
