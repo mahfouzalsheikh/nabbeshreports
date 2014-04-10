@@ -19,7 +19,7 @@
         </div>
 
 
-<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Payees</h2><div id='date'></div></center></div>
+<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Top Freelancers</h2><div id='date'></div></center></div>
 <div id="jqwtablearea" style="width: 100%;"></div>
 
 
@@ -213,7 +213,7 @@
             {
                 theme: theme,
                 width: '100%',
-                height: '100%',
+                height: '600px',
                 source: dataAdapter,
                 columnsresize: true,
                 sortable: true,

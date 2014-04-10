@@ -15,6 +15,9 @@
     <script type="text/javascript" src="/site_media/jqwid/scripts/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxbuttons.js"></script>
+    
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxbuttongroup.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxradiobutton.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxscrollbar.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxlistbox.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxcheckbox.js"></script>
@@ -50,6 +53,8 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.filter.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.aggregates.js"></script> 
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.grouping.js"></script>
+    
+    
 
     
     <script src="/site_media/js/rgraph/RGraph.common.core.js" ></script>
@@ -133,9 +138,10 @@
 <style>
  body
  {
+  margin: 0px;
+  padding:0px 0px 0px 0px;
   background-image:url('/site_media/img/bg.png');
   background-repeat:repeat-y repeat-x;
-  padding: 20px 20px 20px 20px;
  }
 </style>    
 
@@ -145,7 +151,10 @@
 <body >
 
 
+<div style=" width:100%; height:3px; margin: 0px;  padding:0px 0px 0px 0px;background-color:rgb(0, 182, 222); z-index:10;">
+</div>
 
+<div style= "padding: 5px 20px 0px 20px; background-color:rgb(248, 248, 248);">
 
 <div style="float:left; width:150px">
   <a href="/"><img  src="http://www.nabbesh.com/static/images/nabbesh_logo.png"></a>
@@ -155,8 +164,8 @@
 </div>
 
 
-<div style="font-size:14px;float:right;height:70px;vertical-align:text-bottom; color: rgb(102, 102, 102);">
- {% if  user.is_authenticated %}
+<div style="font-size:14px;float:right;vertical-align:text-bottom; color: rgb(102, 102, 102);">
+ {% if  user.is_authenticated %}d
     {{ user.first_name  }} {{user.last_name}}  | <a href="/accounts/logout/">Sign Out</a>
  {% endif %}
 </div>
@@ -211,6 +220,11 @@
                     </li>
                 </ul>
 </div>           
+</div>
+
+<div style=" width:100%; height:10px; margin: 0px;  padding:0px 0px 0px 0px;  background-image:url('/site_media/img/bgline.png');  background-repeat:repeat-y repeat-x;">
+<div>
+<div style= "padding: 20px 20px 20px 20px; ">
 
 <div id="report">
 {% block  reportblock %}{% endblock %}
@@ -219,8 +233,7 @@
 <div id = "footer" style="padding: 0px 0px 0px 10px; height:30px">
 </div>
 
-
-
+</div>
 </body>
 </html>
 
