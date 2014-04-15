@@ -61,8 +61,8 @@
       console.log(stage5);
       
 
-      var funnel = new RGraph.Funnel('cvs', [signedup,appliedforjob,sentproposal,sentinvoice])
-                .Set('labels', [signedup + ' Signed Up',stage3 + ' ' + appliedforjob + ' Users Applied For  ' + jobscount + ' Jobs',stage4 + ' ' + sentproposal + ' Users Sent '+ proposalscount +' Proposal',stage5 + ' ' + sentinvoice + ' Users Sent '+ invoicescount +' Invoices'])
+      var funnel = new RGraph.Funnel('cvs', [sent,opened,signedup,appliedforjob,sentproposal,sentinvoice])
+                .Set('labels', [sent,opened, signedup + ' Signed Up', appliedforjob + ' Users Applied For  ' + jobscount + ' Jobs', sentproposal + ' Users Sent '+ proposalscount +' Proposal',sentinvoice + ' Users Sent '+ invoicescount +' Invoices'])
 		.Set('gutter.left', 180)
                 .Set('labels.sticks', true)
                 .Set('strokestyle', 'rgba(255,0,0,0)')
@@ -89,9 +89,7 @@
           type: "GET",
           async: false
           }).responseText;
-         
-    
-        console.log(jsonData);
+
           jqwdata = JSON.parse(jsonData); 
 
                 var source = 
@@ -108,7 +106,7 @@
      $("#filterButton").jqxButton({ theme: theme,width: '300'});
      $("#filterButton").on('click', function () {                             
                    var item = $("#campaignslist").jqxDropDownList('getSelectedItem'); 
-                   console.log(drawChart(item.value));                  
+                   drawChart(item.value);                 
                 });
      
      function getData(campaignid){
