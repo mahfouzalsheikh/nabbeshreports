@@ -62,7 +62,7 @@
       
 
       var funnel = new RGraph.Funnel('cvs', [sent,opened,signedup,appliedforjob,sentproposal,sentinvoice])
-                .Set('labels', [sent,opened, signedup + ' Signed Up', appliedforjob + ' Users Applied For  ' + jobscount + ' Jobs', sentproposal + ' Users Sent '+ proposalscount +' Proposal',sentinvoice + ' Users Sent '+ invoicescount +' Invoices'])
+                .Set('labels', [sent + ' sent',opened +  ' opened', signedup + ' Signed Up', appliedforjob + ' Users Applied For  ' + jobscount + ' Jobs', sentproposal + ' Users Sent '+ proposalscount +' Proposal',sentinvoice + ' Users Sent '+ invoicescount +' Invoices'])
 		.Set('gutter.left', 180)
                 .Set('labels.sticks', true)
                 .Set('strokestyle', 'rgba(255,0,0,0)')
