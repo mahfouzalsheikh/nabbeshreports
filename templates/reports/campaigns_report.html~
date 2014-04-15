@@ -1,0 +1,128 @@
+{% extends 'reports/base.html' %}
+{% block reportblock %}
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+                   <tr><td>Campaign:</td><td><div style='margin-top: 3px;' id='campaignslist'></td><td></td></tr>                                
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td><td></td></tr> 
+                </table>   
+            </div>
+        </div>
+
+<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Email Campaigns</h2><div id='date'></div></center></div>
+
+
+<center><canvas id="cvs" width=800" height="650">[No canvas support]</canvas></center>
+
+
+
+
+<script type="text/javascript">
+      
+      
+    function drawChart(campaignid) {
+      
+      jsonData=getData(campaignid);
+     	
+      console.log(jsonData); 
+      obj= $.parseJSON(jsonData);
+      
+      sent=obj[0];
+      opened=obj[1];
+      signedup=obj[2];
+      appliedforjob=obj[3];
+      sentproposal=obj[4];
+      sentinvoice=obj[5];    
+      
+      jobscount = obj[6];
+      proposalscount = obj[7];
+      invoicescount = obj[8];
+      
+
+      stage3=(parseFloat(appliedforjob) / parseFloat(signedup)*100).toFixed(2) + '%  >>>';
+      stage4=(parseFloat(sentproposal) / parseFloat(appliedforjob)*100).toFixed(2) + '%  >>>';
+      stage5=(parseFloat(sentinvoice) / parseFloat(sentproposal)*100).toFixed(2) + '%  >>>';      
+     
+     
+      console.log(sent);
+      console.log(opened);
+      console.log(signedup);
+      console.log(appliedforjob);
+      console.log(sentproposal);
+      console.log(sentinvoice);
+      console.log(jobscount);
+      console.log(proposalscount);
+      console.log(invoicescount);
+      
+      console.log(stage3);
+      console.log(stage4);
+      console.log(stage5);
+      
+
+      var funnel = new RGraph.Funnel('cvs', [signedup,appliedforjob,sentproposal,sentinvoice])
+                .Set('labels', [signedup + ' Signed Up',stage3 + ' ' + appliedforjob + ' Users Applied For  ' + jobscount + ' Jobs',stage4 + ' ' + sentproposal + ' Users Sent '+ proposalscount +' Proposal',stage5 + ' ' + sentinvoice + ' Users Sent '+ invoicescount +' Invoices'])
+		.Set('gutter.left', 180)
+                .Set('labels.sticks', true)
+                .Set('strokestyle', 'rgba(255,0,0,0)')
+                .Set('text.boxed', true).Set('text.size',12)
+                .Set('labels.x', 10)
+                .Set('shadow', true)
+                .Set('shadow.offsetx', 0)
+                .Set('shadow.offsety', 0)
+                .Set('shadow.blur', 35)
+                .Set('shadow.color', 'gray')
+                .Draw();    
+ 
+      // Apply formatter to second column
+    }
+      
+      var theme = 'bootstrap';
+      $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});           
+            
+ 
+      var params = {};
+      var jsonData = $.ajax({
+          url: "../../campaigns_list_getdata",
+          dataType:"json",
+          type: "GET",
+          async: false
+          }).responseText;
+         
+    
+        console.log(jsonData);
+          jqwdata = JSON.parse(jsonData); 
+
+                var source = 
+                {
+                    localdata: jqwdata,
+                    datafields: [
+                        { name: 'ID', type: 'int', map: '0'},
+                        { name: 'Name', type: 'string', map: '1' }
+                    ],
+                    datatype: "array"
+                };
+     var dataAdapter = new $.jqx.dataAdapter(source);                                
+     $("#campaignslist").jqxDropDownList({theme: theme,selectedIndex: 0, source: dataAdapter, displayMember: "Name", valueMember: "ID", width: 300, height: 25});
+     $("#filterButton").jqxButton({ theme: theme,width: '300'});
+     $("#filterButton").on('click', function () {                             
+                   var item = $("#campaignslist").jqxDropDownList('getSelectedItem'); 
+                   console.log(drawChart(item.value));                  
+                });
+     
+     function getData(campaignid){
+         var params = {"id" : campaignid};
+         var jsonData = $.ajax({
+          url: "emailcampaign_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+          return jsonData;
+        }       	
+
+</script>          
+
+{% endblock %}  

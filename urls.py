@@ -110,6 +110,12 @@ urlpatterns = patterns('',
 
 #######################################################    
 
+   
+    url(r'^emailcampaigns$', 'nabbeshreports.maps.views.campaigns_report'),
+    url(r'^campaigns_list_getdata$', 'nabbeshreports.maps.views.campaigns_list_getdata'),    
+   url(r'^emailcampaign_getdata$', 'nabbeshreports.maps.views.emailcampaign_getdata'),
+    
+    
     url(r'^vistest_report$', 'nabbeshreports.maps.views.vistest_report'),
 
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),

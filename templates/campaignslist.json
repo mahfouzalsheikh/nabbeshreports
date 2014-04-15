@@ -1,0 +1,1 @@
+[{% for campaign in campaigns %}["{{ campaign.0 }}","{{ campaign.1 }}"]{% if not forloop.last %},{% endif %}{% endfor %}]

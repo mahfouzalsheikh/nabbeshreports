@@ -134,7 +134,7 @@
 		    eventFire(link, "click");
 		}
         </script>
-    
+      
 <style>
  body
  {
@@ -144,6 +144,8 @@
   background-repeat:repeat-y repeat-x;
  }
 </style>    
+
+{% block  customheadscripts %}{% endblock %}
 
 </head>
 

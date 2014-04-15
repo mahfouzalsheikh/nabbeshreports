@@ -16,7 +16,7 @@
         <div class="InnerDivs">
             <div id="window1" style="height:300px">
                 <div>Totals</div>
-                <div></div>
+                <div id="analyticscontent" style="color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window2">
                 <div>Counter 2</div>
@@ -28,9 +28,11 @@
                 <div>Counter 2</div>
                 <div></div>
             </div>
-            <div id="window4" style="height:100px">
-                <div>Counter 2</div>
-                <div></div>
+            <div id="window4" style="height:120px">
+                <div>Counter</div>
+                
+                <div>
+                </div>
             </div>
         </div>
         <div class="InnerDivsSmall">
@@ -50,16 +52,48 @@
 
 
  <script type="text/javascript">
-
-            var theme=  'bootstrap';         
-            $('#docking').jqxDocking({ theme:theme , orientation: 'horizontal', mode: 'docked',floatingWindowOpacity: 0.5, width:'100%' });
-
-	    //$('#jqxDocking').jqxDocking({ cookies: true }); 
-            $('#docking').jqxDocking('hideAllCloseButtons');
-            $('#docking').jqxDocking('pinWindow', 'window1');
-            //$('#docking').jqxDocking('disable');
+            
+     function getVisitsData(){
+      var today = new Date(Date.now());
+      Date.prototype.yyyymmdd = function() {
+      var yyyy = this.getFullYear().toString();
+      var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+      var dd  = this.getDate().toString();
+      return yyyy +'-'+ (mm[1]?mm:"0"+mm[0]) +'-'+ (dd[1]?dd:"0"+dd[0]); // padding
+      };
+      
+      todayshort=today.yyyymmdd();
+      
+      limit = "Day";
+      var params = {"limit": limit, "fromdate": todayshort, "todate": todayshort};
+      var jsonData = $.ajax({
+          url: "../../analytics_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+     }
             
             
+     var theme=  'bootstrap';         
+     $('#docking').jqxDocking({ theme:theme , orientation: 'horizontal', mode: 'docked',floatingWindowOpacity: 0.5, width:'100%' });
+
+     $('#docking').jqxDocking('hideAllCloseButtons');
+     $('#docking').jqxDocking('pinWindow', 'window1');
+     
+     $("#analyticscontent").html('Loading..');
+     result= $.parseJSON(getVisitsData());
+     console.log(result[1][2]);
+     $("#analyticscontent").html(result[1][2].toString() + ' Pageviews </br>' + result[1][1].toString() + ' Visits'); 
+  
+            function doTimeout() {
+                 //console.log(getVisitsData());
+                 setTimeout(doTimeout, 10000); 
+            }
+
+            setTimeout(doTimeout, 1000);
             
 </script>
 {% endblock %}

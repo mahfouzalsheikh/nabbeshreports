@@ -94,9 +94,12 @@ def customQuery(sql, db):
         result=customQueryLive(sql)
         #print result
         return result
-    else: 
+    elif db==2: 
         result=customQueryOld(sql)
         #print result
+        return result    
+    elif db==3:
+        result=customQuerySendy(sql)
         return result    
     
     
@@ -130,6 +133,16 @@ def customQueryOld(sql):
         result_list.append(row) 
     return result_list 
 
+
+def customQuerySendy(sql): 
+    
+    cursor = connections['sendy'].cursor()
+    cursor.execute(sql,[])
+    #transaction.commit_unless_managed(using='live')
+    result_list = [] 
+    for row in cursor.fetchall(): 
+        result_list.append(row) 
+    return result_list 
     
        
 @login_required(login_url='/accounts/login/')       
@@ -1184,13 +1197,90 @@ def analytics_getdata(request):
         objs = simplejson.loads(request.raw_post_data)        
         t1 = objs['fromdate']
         t2 = objs['todate']
+        
+        print t1,t2
         limit = objs['limit']
+        print limit
         data  = ga_get_visits(t1,t2,limit)
-        c = Context({'analytics': data})        
+        print data
+        c = Context({'analytics': data})     
+        
+           
 	return HttpResponse(render_to_string('analytics_visitors.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
        
         
+ 
+@csrf_exempt     
+def campaigns_report(request):
     
+   
+    t = loader.get_template('./reports/campaigns_report.html')
+    c = Context({
+        'campaigns_report': campaigns_report,
+    })
+
+    return HttpResponse(t.render(c)) 
+    
+    
+    
+@csrf_exempt
+def campaigns_list_getdata(request):
+    listsql = "select id,  replace(replace(title,',',''), '''','') from campaigns order by id desc"   
+            
+    campaigns = customQuery(listsql,3)
+   
+    campaignstring = ""
+    for campaign in campaigns:
+        campaignstring=campaignstring+","+str(campaign[1]) 
+      
+    #return campaignstring[1:]    
+    
+    c = Context({'campaigns': campaigns})     
+    return HttpResponse(render_to_string('campaignslist.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+ 
+@csrf_exempt
+def campaign_opens_getdata(id):
+    totalsentsql = "select recipients,  substring(cast(FROM_UNIXTIME(sent) as char),1,10) from campaigns where id="+ str(id)
+    
+    totalsent = customQuery(totalsentsql,3)
+    openssql = "select opens from campaigns where id="+str(id)            
+    openstring = customQuery(openssql,3)[0][0]             
+    ids = openstring.split(',')    
+    idsstring=""
+    
+    for id in ids:
+        idsstring=idsstring+","+id[:id.index(':')]
+        
+    openemailssql = "select email from subscribers where id in ("  +   idsstring[1:]   + ");"   
+    emails = customQuery(openemailssql,3)
+    emailsstring = ""
+    opencount=0
+    for email in emails:
+        opencount=opencount+1
+        emailsstring=emailsstring+ ",'" + email[0] + "'"        
+        
+      
+    return totalsent[0], opencount,emailsstring[1:]
+    
+@csrf_exempt  
+def emailcampaign_getdata(request):
+    if request.method == 'POST':       
+        objs = simplejson.loads(request.raw_post_data)
+                 
+        campaignid = objs['id']      
+         
+        campaigninfo = campaign_opens_getdata(campaignid)
+        
+        
+        wheresql = " where au.email in ("+ campaigninfo[2] + ")  and au.date_joined>='" +  campaigninfo[0][1] +"'"
+        
+        sql = ("select count(distinct u.id) as user_count, count(distinct applicants.id) as applicants_count, count(distinct proposals.applicant_id) as proposal_count, count(distinct invoices.applicant_id) as invoice_count, count(distinct applicants.applicationid) as applicationscount, count(distinct proposals.proposalid) as proposalscount, count(distinct invoiceid) as invoicescount from users u inner join auth_user au on u.django_user_id=au.id left outer join (select u1.id,ca.id as applicationid from users u1 inner join contracts_application ca on ca.applicant_id=u1.id) applicants on applicants.id=u.id left outer join (select ca1.applicant_id,ca1.id,cp.message_ptr_id  as proposalid from contracts_application ca1 inner join contracts_message cm on cm.application_id=ca1.id inner join contracts_proposal cp on cp.message_ptr_id=cm.id) proposals on proposals.applicant_id=u.id left outer join (select ca2.applicant_id,ci.message_ptr_id as invoiceid from contracts_message cm1 inner join contracts_invoice ci on ci.message_ptr_id=cm1.id inner join contracts_application ca2 on ca2.id=cm1.application_id) invoices on invoices.applicant_id=u.id " + wheresql)
+        
+        results = customQuery(sql,0)
+ 	
+ 	
+        c = Context({'statistics': results, 'totalsent': campaigninfo[0][0], 'opens': campaigninfo[1] })
+        return HttpResponse(render_to_string('emailcampaign.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
     
 @csrf_exempt
 def ga_get_visits_query(service,profile_id, start, end, limit):
@@ -1219,7 +1309,7 @@ def ga_get_visits_query(service,profile_id, start, end, limit):
             results.append(newrow)          
     return results
 
-
+@csrf_exempt
 def ga_get_visits(start_date, end_date, limit):      
     
     service = initialize_service()

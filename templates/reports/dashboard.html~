@@ -1,4 +1,7 @@
 {% extends 'reports/base.html' %}
+
+{% block  customheadscripts %}{% endblock %}
+
 {% block reportblock %}
 
 
