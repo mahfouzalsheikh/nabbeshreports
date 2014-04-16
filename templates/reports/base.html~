@@ -75,7 +75,7 @@
              
              
              
-                     function JSON2CSV(objArray) {
+             function JSON2CSV(objArray) {
     		var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
 
    		 var str = '';
@@ -192,7 +192,7 @@
                             <li><a href="topemployers">Top Employers</a></li>
                         </ul>
                     </li>
-                    <li>Activities              
+                    <li>Activities (New)             
                         <ul style='width: 200px;'>
                             <li><a href="jobsemployersstatistics">Employers & Jobs Stats</a></li>
                             <li><a href="jobsapplicationsstatistics">Jobs/Applications Tracking</a></li>
@@ -204,14 +204,15 @@
                             <li><a href="signupsjobsretention">Signups/Jobs Retention</a></li>
                             <li><a href="jobsappsretention">Jobs/Apps Retention</a></li>
                             <li><a href="activitiescountries">Activities/Countries</a></li>
+                            <li><a href="emailcampaigns">Email Campaigns (New)</a></li>
                         </ul>
                     </li>
                     
-                    <li>Finance (New)
+                    <li>Finance
                         <ul style='width: 180px;'>
                             <li><a href="proposals">Proposals</a></li>
                             <li><a href="invoices">Invoices</a></li>
-                            <li><a href="payments">Payments (New)</a></li>                                                                      
+                            <li><a href="payments">Payments</a></li>                                                                      
                         </ul>
                     </li>
                     <li>Skills
