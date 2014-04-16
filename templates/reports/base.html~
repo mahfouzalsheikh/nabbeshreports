@@ -204,7 +204,7 @@
                             <li><a href="signupsjobsretention">Signups/Jobs Retention</a></li>
                             <li><a href="jobsappsretention">Jobs/Apps Retention</a></li>
                             <li><a href="activitiescountries">Activities/Countries</a></li>
-                            <li><a href="emailcampaigns">Email Campaigns (New)</a></li>
+                            <li><a href="emailcampaigns">Email Campaigns <b>(New)</b></a></li>
                         </ul>
                     </li>
                     
