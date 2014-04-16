@@ -163,7 +163,8 @@
       //var chart4 = new google.visualization.ColumnChart(document.getElementById('chart4'));         
       //chart4.draw(data4, {title:"Sent an Invoice",width: 180, height: 450, vAxis: {maxValue: sentinvoice},legend: { position: "none" }});
       $('#date').html('From (' + fromdate + ') To (' + todate +')' );     
-     
+      var canvas = document.getElementById('cvs');
+      RGraph.Clear(canvas);     
       var funnel = new RGraph.Funnel('cvs', [signedup,appliedforjob,sentproposal,sentinvoice])
                 .Set('labels', [signedup + ' Signed Up', stage1 + ' ' + appliedforjob + ' Users Applied on ' + applicationscount + ' Jobs',stage2 + ' ' + sentproposal + ' Users Sent '+ proposalscount +' Proposal',stage3 + ' ' +  sentinvoice + ' Users Sent '+ invoicescount +' Invoices'])
                 .Set('gutter.left', 180)

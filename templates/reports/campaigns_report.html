@@ -46,24 +46,12 @@
       stage4=(parseFloat(sentproposal) / parseFloat(appliedforjob)*100).toFixed(2) + '%  >>>';
       stage5=(parseFloat(sentinvoice) / parseFloat(sentproposal)*100).toFixed(2) + '%  >>>';      
      
-     
-      console.log(sent);
-      console.log(opened);
-      console.log(signedup);
-      console.log(appliedforjob);
-      console.log(sentproposal);
-      console.log(sentinvoice);
-      console.log(jobscount);
-      console.log(proposalscount);
-      console.log(invoicescount);
-      
-      console.log(stage3);
-      console.log(stage4);
-      console.log(stage5);
-      
+
 
       var funnel = new RGraph.Funnel('cvs', [sent,opened,signedup,appliedforjob,sentproposal,sentinvoice]);
-          RGraph.ObjectRegistry.Clear(funnel);
+//          RGraph.ObjectRegistry.Clear(funnel);
+          var canvas = document.getElementById('cvs');
+          RGraph.Clear(canvas);
           funnel.Set('labels', [sent + ' sent',opened +  ' opened', signedup + ' Signed Up', appliedforjob + ' Users Applied For  ' + jobscount + ' Jobs', sentproposal + ' Users Sent '+ proposalscount +' Proposal',sentinvoice + ' Users Sent '+ invoicescount +' Invoices'])
 		.Set('gutter.left', 180)
                 .Set('labels.sticks', true)
