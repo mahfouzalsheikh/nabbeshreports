@@ -192,7 +192,7 @@
                             <li><a href="topemployers">Top Employers</a></li>
                         </ul>
                     </li>
-                    <li>Activities (New)             
+                    <li>Activities <b>(New)</b>             
                         <ul style='width: 200px;'>
                             <li><a href="jobsemployersstatistics">Employers & Jobs Stats</a></li>
                             <li><a href="jobsapplicationsstatistics">Jobs/Applications Tracking</a></li>

@@ -5,7 +5,8 @@
             <div>Options</div>
             <div>
                 <table>
-                   <tr><td>Campaign:</td><td><div style='margin-top: 3px;' id='campaignslist'></td><td></td></tr>                                
+                   <tr><td>Campaign:</td><td><div style='margin-top: 3px;' id='campaignslist'></td><td></td></tr>
+                   <tr><td>Goal:</td><td><div style='margin-top: 3px;' id='goalslist'></td><td></td></tr>                                                                
                    <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td><td></td></tr> 
                 </table>   
             </div>
@@ -104,6 +105,10 @@
                 };
      var dataAdapter = new $.jqx.dataAdapter(source);                                
      $("#campaignslist").jqxDropDownList({theme: theme,selectedIndex: 0, source: dataAdapter, displayMember: "Name", valueMember: "ID", width: 300, height: 25});
+     
+     var goalssource = ["Invitation to Join Nabbesh as Freelancer"];
+     $("#goalslist").jqxComboBox({ theme: theme,source: goalssource, width: '300px', height: '25px', selectedIndex:0, dropDownHeight: 30});
+     
      $("#filterButton").jqxButton({ theme: theme,width: '300'});
      $("#filterButton").on('click', function () {                             
                    var item = $("#campaignslist").jqxDropDownList('getSelectedItem'); 
