@@ -262,7 +262,7 @@ def dashboard(request):
 @csrf_exempt 
 def datefieldtostring(datefieldname, segment):
     day = " Trim(' ' from to_char(date_part('day' , "+datefieldname+"),'09'))  "    
-    week = " Trim(' ' from to_char(date_part('week' , "+datefieldname+"),'09'))  "
+    week = " Trim(' ' from to_char(date_part('week' , "+datefieldname+" + interval '1 DAY'),'09'))  "
     month = " Trim(' ' from to_char(date_part('month' , "+datefieldname+"),'09'))  "
     year = " date_part('year' , "+datefieldname+") "  
 
