@@ -1,128 +1,19 @@
 {% extends 'reports/base.html' %}
 
-{% block  customheadscripts %}{% endblock %}
+{% block  customheadscripts %}
 
-{% block reportblock %}
-
-
-<div id='optionsExpander'>
-            <div>Options</div>
-            <div>
-                <table>
-                   <tr>
-                      <tr><td>Metrics</td><td><div id="metricslist"></div></td></tr>
-                   </tr>
-                   <tr>
-                     <td></td>Group By:<td><div id='groupbybuttons'>
-                                  <button style="padding:4px 16px;" id="Day">Day</button>
-                                  <button style="padding:4px 16px;" id="Week">Week</button>
-                                  <button style="padding:4px 16px;" id="Month">Month</button>
-                                  </div>
-                              </td>
-                   </tr>
-                 
-                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
-                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
-                   
-                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>
-                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>
-                  
-                </table>  
-                  
-               
-            </div>
-        </div>
-     
-
-<div id="visualization" style="width: 100%; height:300px;"></div>
-<div id="analyticsvisualization" style="width: 100%; height:300px;"></div>
-<div id="ratestablearea" style="width: 100%;height:300px;"></div>
-<div id="tablearea" style="width: 100%;"></div>
-
-
-
-    <script type="text/javascript">
-        // Load the Visualization API and the piechart package.
+<script type="text/javascript"> 
         google.load('visualization', '1', {packages: ['corechart']});
         google.load('visualization', '1', {packages: ['table']});
-        //google.load('visualization', '1', {packages: ['geochart']});
-        //google.load('visualization', '1', {packages: ['annotatedtimeline']});
-        //google.load('visualization', '1', {packages: ['controls']});
-        //google.load('visualization', '1', {packages: ['geomap']});
-
-
-    </script>
-<script type="text/javascript">
- var theme = 'bootstrap';
- $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
- //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
- 
 </script>
 
 <script type="text/javascript">
 
 
-            
-     
-     $("#groupbybuttons").jqxButtonGroup({ mode: 'radio' });
-     $('#groupbybuttons').jqxButtonGroup('setSelection', 0);
-     $("#groupbybuttons").on('buttonclick', function (event) {
-                    var clickedButton = event.args.button;
-                    limit = clickedButton[0].id;
-                });
-     
-     
-     var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
-     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+ 
+</script>
 
-     
-     $("#fromdate").on('change', function (event) {
-                    fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
-                });
-     $("#todate").on('change', function (event) {
-                    todate= $('#todate').jqxDateTimeInput('getText'); 
-                });        
-        
-     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
-     var todate = $('#todate').jqxDateTimeInput('getText');
-     var limit="Day";          
-                
-      $("#filterButton").jqxButton({theme: theme, width: '200'});
-      $("#filterButton").on('click', function () { 
-         
-         draw(limit,fromdate,todate);
-      });
-      $("#downloadButton").jqxButton({theme: theme, width: '200'});                
-      $("#downloadButton").on('click', function () {
-                var json = $.parseJSON(getData(limit,fromdate,todate));
-    		var csv = JSON2CSV(json);
-//	        window.open("data:text/csv;charset=utf-8," + escape(csv))
-	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "dashboard_data.csv");
-      }); 
-
-     
-     
-     var metricslistsource = ["Workflow Msgs","Normal Msgs","All Signups", "Joined as Freelancer","Joined as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Proposal Paid", "Job Apps","Invitations", "Invoices Sent", "Invoices Paid", "Invitations/Job", "Applications/Job"];
-     $("#metricslist").jqxDropDownList({theme: theme,width: 200,height: 25, source: metricslistsource, checkboxes: true, animationType: 'fade'});
-     
-     //$("#metricslist").jqxListBox('checkIndex', 2);
-     $("#metricslist").jqxDropDownList('checkIndex', 2);
-     $("#metricslist").jqxDropDownList('checkIndex', 6);     
-     $("#metricslist").jqxDropDownList('checkIndex', 7);
-     $("#metricslist").jqxDropDownList('checkIndex', 8);
-
-     
-     var JSONData;
-     var JSONAnalyticsData;
-     $("#metricslist").on('checkChange', function (event) {
-       var metricsss = $("#metricslist").jqxDropDownList('getCheckedItems');
-       
-       drawChart(JSONData, metricsss,fromdate, todate); 
-       drawRatesChart(JSONData, JSONAnalyticsData,  metricsss, fromdate, todate)            
-     });
-    
-    
+<script type="text/javascript">
      function getData(limit,from,to){
       var params = {"limit": limit, "fromdate": from, "todate": to};
       var jsonData = $.ajax({
@@ -211,7 +102,8 @@
       return data;
 
     }
-    
+
+  
      
      function drawChart(jsonData,metrics,from,to)
      {
@@ -327,10 +219,129 @@
       chart.draw(dataView, {curveType: "function",width: '100%', height: 300, is3D: true,title:"Metrics vs Pageviews Rates  -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });   
                      
     }
-      
-  
+
+
+
+
+$(document).ready(function () {
+
+     var theme = 'bootstrap';
+     $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+
+     $("#groupbybuttons").jqxButtonGroup({ mode: 'radio' });
+     $('#groupbybuttons').jqxButtonGroup('setSelection', 0);
+     $("#groupbybuttons").on('buttonclick', function (event) {
+                    var clickedButton = event.args.button;
+                    limit = clickedButton[0].id;
+                });
+     
+     
+     var today = new Date(Date.now());
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+
+     
+     $("#fromdate").on('change', function (event) {
+                    fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
+                });
+     $("#todate").on('change', function (event) {
+                    todate= $('#todate').jqxDateTimeInput('getText'); 
+                });        
+        
+     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
+     var todate = $('#todate').jqxDateTimeInput('getText');
+     var limit="Day";          
+                
+      $("#filterButton").jqxButton({theme: theme, width: '200'});
+      $("#filterButton").on('click', function () { 
+         
+         draw(limit,fromdate,todate);
+      });
+      $("#downloadButton").jqxButton({theme: theme, width: '200'});                
+      $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData(limit,fromdate,todate));
+    		var csv = JSON2CSV(json);
+//	        window.open("data:text/csv;charset=utf-8," + escape(csv))
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "dashboard_data.csv");
+      }); 
+
+     
+     
+     var metricslistsource = ["Workflow Msgs","Normal Msgs","All Signups", "Joined as Freelancer","Joined as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Proposal Paid", "Job Apps","Invitations", "Invoices Sent", "Invoices Paid", "Invitations/Job", "Applications/Job"];
+     $("#metricslist").jqxDropDownList({theme: theme,width: 200,height: 25, source: metricslistsource, checkboxes: true, animationType: 'fade'});
+     
+     //$("#metricslist").jqxListBox('checkIndex', 2);
+     $("#metricslist").jqxDropDownList('checkIndex', 2);
+     $("#metricslist").jqxDropDownList('checkIndex', 6);     
+     $("#metricslist").jqxDropDownList('checkIndex', 7);
+     $("#metricslist").jqxDropDownList('checkIndex', 8);
+
+     
+     var JSONData;
+     var JSONAnalyticsData;
+     $("#metricslist").on('checkChange', function (event) {
+       var metricsss = $("#metricslist").jqxDropDownList('getCheckedItems');
+       
+       drawChart(JSONData, metricsss,fromdate, todate); 
+       drawRatesChart(JSONData, JSONAnalyticsData,  metricsss, fromdate, todate)            
+     });
+               
     draw(limit,fromdate,todate);
-</script>
+
+
+               
+});  
+
+
+
+
+</script>  
+
+{% endblock %}
+
+
+{% block reportblock %}
+
+
+<div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+                   <tr>
+                      <tr><td>Metrics</td><td><div id="metricslist"></div></td></tr>
+                   </tr>
+                   <tr>
+                     <td></td>Group By:<td><div id='groupbybuttons'>
+                                  <button style="padding:4px 16px;" id="Day">Day</button>
+                                  <button style="padding:4px 16px;" id="Week">Week</button>
+                                  <button style="padding:4px 16px;" id="Month">Month</button>
+                                  </div>
+                              </td>
+                   </tr>
+                 
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
+                   
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>
+                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>
+                  
+                </table>  
+                  
+               
+            </div>
+        </div>
+     
+
+<div id="visualization" style="width: 100%; height:300px;"></div>
+<div id="analyticsvisualization" style="width: 100%; height:300px;"></div>
+<div id="ratestablearea" style="width: 100%;height:300px;"></div>
+<div id="tablearea" style="width: 100%;"></div>
+
+
+
+
+
+
 
 
 {% endblock %}
