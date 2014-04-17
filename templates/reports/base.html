@@ -41,9 +41,7 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxdocking.js"></script>  
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxwindow.js"></script>
     <script type="text/javascript" src="/site_media/js/jquery.blockUI.js"></script>
-  
-    
-    
+          
        
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxmenu.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.js"></script>
@@ -67,9 +65,8 @@
            <script type="text/javascript">
             $(document).ready(function () {
                 // Create a jqxMenu
-                var theme = 'bootstrap';
-                $("#mainmenu").jqxMenu({ width: '100%', height: '30px', theme: theme});
-                //$("#mainmenu").css('visibility', 'visible');
+                //var theme = 'bootstrap';
+                //$("#mainmenu").jqxMenu({ width: '100%', height: '30px', theme: theme});
                
              });  
              
@@ -228,7 +225,11 @@
 <div style=" width:100%; height:10px; margin: 0px;  padding:0px 0px 0px 0px;  background-image:url('/site_media/img/bgline.png');  background-repeat:repeat-y repeat-x;">
 <div>
 <div style= "padding: 20px 20px 20px 20px; ">
- 
+
+<script type="text/javascript">
+       var theme = 'bootstrap';
+       $("#mainmenu").jqxMenu({ width: '100%', height: '30px', theme: theme});               
+</script> 
 
 <div id="report">
 {% block  reportblock %}{% endblock %}
