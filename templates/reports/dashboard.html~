@@ -8,12 +8,12 @@
 </script>
 
 <script type="text/javascript">
-
-
- 
+     var JSONData;
+     var JSONAnalyticsData; 
 </script>
 
 <script type="text/javascript">
+     
      function getData(limit,from,to){
       var params = {"limit": limit, "fromdate": from, "todate": to};
       var jsonData = $.ajax({
@@ -113,7 +113,7 @@
                     });   
       
       
-      console.log(jsonData);
+
       dataarray =   $.parseJSON(jsonData);               
         
       var data1 = new google.visualization.arrayToDataTable(dataarray);
@@ -197,7 +197,7 @@
             
              data.setFormattedValue(row_i,col_i, (Math.round(data.getValue(row_i,col_i)*1000000/data.getValue(row_i,17))/10000).toString());
              data.setValue(row_i,col_i, Math.round(data.getValue(row_i,col_i)*1000000/data.getValue(row_i,17))/10000);
-            //console.log(data.getValue(row_i,col_i));
+
           }
 
       }     
@@ -210,7 +210,7 @@
                             metricsarray.push(this.index+1);                                               
                     });  
                     
-      console.log(data);
+
                     
       var dataView = new google.visualization.DataView(data);
       dataView.setColumns(metricsarray);             
@@ -220,7 +220,7 @@
                      
     }
 
-
+    
 
 
 $(document).ready(function () {
@@ -277,16 +277,16 @@ $(document).ready(function () {
      $("#metricslist").jqxDropDownList('checkIndex', 8);
 
      
-     var JSONData;
-     var JSONAnalyticsData;
+ 
+     
      $("#metricslist").on('checkChange', function (event) {
        var metricsss = $("#metricslist").jqxDropDownList('getCheckedItems');
-       
+       console.log(JSONData);
        drawChart(JSONData, metricsss,fromdate, todate); 
+       
        drawRatesChart(JSONData, JSONAnalyticsData,  metricsss, fromdate, todate)            
-     });
-               
-    draw(limit,fromdate,todate);
+     });          
+     draw(limit,fromdate,todate);
 
 
                
@@ -311,7 +311,7 @@ $(document).ready(function () {
                       <tr><td>Metrics</td><td><div id="metricslist"></div></td></tr>
                    </tr>
                    <tr>
-                     <td></td>Group By:<td><div id='groupbybuttons'>
+                     <td>Group By:<td><div id='groupbybuttons'>
                                   <button style="padding:4px 16px;" id="Day">Day</button>
                                   <button style="padding:4px 16px;" id="Week">Week</button>
                                   <button style="padding:4px 16px;" id="Month">Month</button>
@@ -336,12 +336,6 @@ $(document).ready(function () {
 <div id="analyticsvisualization" style="width: 100%; height:300px;"></div>
 <div id="ratestablearea" style="width: 100%;height:300px;"></div>
 <div id="tablearea" style="width: 100%;"></div>
-
-
-
-
-
-
 
 
 {% endblock %}
