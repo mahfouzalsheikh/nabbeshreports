@@ -1,6 +1,15 @@
 {% extends 'reports/base.html' %}
 {% block reportblock %}
+{% block  customheadscripts %}
 
+<script type="text/javascript">
+
+        google.load('visualization', '1', {packages: ['corechart']});
+        google.load('visualization', '1', {packages: ['table']});
+
+</script>
+
+{% endblock %}
  <div id='optionsExpander'>
             <div>Options</div>
             <div>
@@ -22,17 +31,7 @@
 <div id="jqwtablearea" style="width: 100%;" ></div>
 
 
-<script type="text/javascript">
-        // Load the Visualization API and the piechart package.
-        google.load('visualization', '1', {packages: ['corechart']});
-        google.load('visualization', '1', {packages: ['table']});
-        //google.load('visualization', '1', {packages: ['geochart']});
-        //google.load('visualization', '1', {packages: ['annotatedtimeline']});
-        //google.load('visualization', '1', {packages: ['controls']});
-        //google.load('visualization', '1', {packages: ['geomap']});
 
-
-</script>
 
 <style>     
         .green {
