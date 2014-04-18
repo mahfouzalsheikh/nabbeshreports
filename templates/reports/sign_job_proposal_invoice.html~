@@ -167,7 +167,8 @@
       //chart4.draw(data4, {title:"Paid an Invoice",width: 180, height: 450, vAxis: {maxValue: paidinvoice},legend: { position: "none" }});
      
       $('#date').html('From (' + fromdate + ') To (' + todate +')' );
-      
+      var canvas = document.getElementById('cvs');
+      RGraph.Clear(canvas);
       var funnel = new RGraph.Funnel('cvs', [signedup,postedjob,paidproposal,paidinvoice])
                 .Set('labels', [signedup + ' Signed Up',stage1 + ' ' + postedjob + ' Users Posted ' + jobscount + ' Jobs',stage2 + ' ' + paidproposal + ' Users Paid '+ proposalscount +' Proposal',stage3 + ' ' + paidinvoice + ' Users Paid '+ invoicescount +' Invoices'])
 		.Set('gutter.left', 180)
