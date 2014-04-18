@@ -1,7 +1,14 @@
 {% extends 'reports/base.html' %}
 {% block reportblock %}
 
+{% block  customheadscripts %}
 
+<script type="text/javascript">
+        google.load('visualization', '1', {packages: ['corechart']});
+        google.load('visualization', '1', {packages: ['table']});
+</script>
+
+{% endblock %}
 
  <div id='optionsExpander'>
             <div>Options</div>
@@ -24,15 +31,7 @@
 <div id="output"></div>
 
 
-<script type="text/javascript">
-        // Load the Visualization API and the piechart package.
-        google.load('visualization', '1', {packages: ['corechart']});
-        google.load('visualization', '1', {packages: ['table']});
-        //google.load('visualization', '1', {packages: ['geochart']});
-        //google.load('visualization', '1', {packages: ['annotatedtimeline']});
-        //google.load('visualization', '1', {packages: ['controls']});
-        //google.load('visualization', '1', {packages: ['geomap']});
-</script>
+
 <script type="text/javascript">
  var theme = 'bootstrap';
  $("#optionsExpander").jqxExpander({width: '100%', theme: theme,  expanded: false});
