@@ -2,6 +2,13 @@
 {% block reportblock %}
 {% block  customheadscripts %}
 
+<script type="text/javascript">
+
+        google.load('visualization', '1', {packages: ['corechart']});
+        google.load('visualization', '1', {packages: ['table']});
+
+</script>
+
 {% endblock %}
  <div id='optionsExpander'>
             <div>Options</div>
@@ -24,12 +31,7 @@
 <div id="jqwtablearea" style="width: 100%;" ></div>
 
 
-<script type="text/javascript">
 
-        google.load('visualization', '1', {packages: ['corechart']});
-        google.load('visualization', '1', {packages: ['table']});
-
-</script>
 
 <style>     
         .green {
