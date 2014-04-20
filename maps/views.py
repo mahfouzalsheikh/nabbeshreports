@@ -1225,7 +1225,7 @@ def campaigns_report(request):
     
 @csrf_exempt
 def campaigns_list_getdata(request):
-    listsql = "select id, concat(concat(cast(id as char), ' - ') , substring(replace(replace(title,',',''), '''',''),1,30))  from campaigns order by id desc"   
+    listsql = "select id, concat(cast(recipients as char), ' - ' ,substring(replace(replace(title,',',''), '''',''),1,30))  from campaigns order by id desc;"   
             
     campaigns = customQuery(listsql,3)
    
