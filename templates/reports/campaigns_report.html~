@@ -95,10 +95,10 @@
                     datatype: "array"
                 };
      var dataAdapter = new $.jqx.dataAdapter(source);                                
-     $("#campaignslist").jqxDropDownList({theme: theme,selectedIndex: 0, source: dataAdapter, itemHeight: 60, displayMember: "Name", valueMember: "ID",dropDownHeight: '250px', width: 400, height: '25px',
+     $("#campaignslist").jqxDropDownList({theme: theme,selectedIndex: 0, source: dataAdapter, itemHeight: 50, displayMember: "Name", valueMember: "ID",dropDownHeight: '250px', width: 400, height: '25px',
          renderer: function (index, label, value) {
                     var datarecord = jqwdata[index];
-                    var table = "<table style='font-size:12px;'><tr><td colspan=2>" + datarecord[1] + "</td></tr><tr><td>"+ datarecord[3]  +"</td><td>"+ datarecord[2]  +"</td></tr></table>";
+                    var table = "<table style='font-size:12px;'><tr><td colspan=2>" + datarecord[1] + "</td></tr><tr><td>"+ datarecord[3]  +" recepients</td><td>"+ datarecord[2]  +"</td></tr></table>";
                     return table;
                 }
      
