@@ -1225,13 +1225,13 @@ def campaigns_report(request):
     
 @csrf_exempt
 def campaigns_list_getdata(request):
-    listsql = "select id, concat(substring(cast(FROM_UNIXTIME(sent) as char),1,16),' - ',cast(recipients as char), ' - ' ,substring(replace(replace(title,',',''), '''',''),1,35))  from campaigns order by id desc limit 25;"   
+    listsql = "select id, concat(substring(replace(replace(title,',',''), '''',''),1,45)) , substring(cast(FROM_UNIXTIME(sent) as char),1,16), cast(recipients as char)  from campaigns order by id desc limit 25;"   
             
     campaigns = customQuery(listsql,3)
    
-    campaignstring = ""
-    for campaign in campaigns:
-        campaignstring=campaignstring+","+str(campaign[1]) 
+    #campaignstring = ""
+    #for campaign in campaigns:
+        #campaignstring=campaignstring+","+str(campaign[1]) 
       
     #return campaignstring[1:]    
     

@@ -48,7 +48,7 @@
      
 
 
-      var funnel = new RGraph.Funnel('cvs', [sent,opened,signedup,appliedforjob,sentproposal,sentinvoice]);
+          var funnel = new RGraph.Funnel('cvs', [sent,opened,signedup,appliedforjob,sentproposal,sentinvoice]);
 //          RGraph.ObjectRegistry.Clear(funnel);
           var canvas = document.getElementById('cvs');
           RGraph.Clear(canvas);
@@ -79,7 +79,8 @@
           type: "GET",
           async: false
           }).responseText;
-
+      
+      
           jqwdata = JSON.parse(jsonData); 
 
                 var source = 
@@ -87,12 +88,21 @@
                     localdata: jqwdata,
                     datafields: [
                         { name: 'ID', type: 'int', map: '0'},
-                        { name: 'Name', type: 'string', map: '1' }
+                        { name: 'Name', type: 'string', map: '1' },
+                        { name: 'Sent', type: 'string', map: '2' },
+                        { name: 'Recipients', type: 'int', map: '3' },                        
                     ],
                     datatype: "array"
                 };
      var dataAdapter = new $.jqx.dataAdapter(source);                                
-     $("#campaignslist").jqxDropDownList({theme: theme,selectedIndex: 0, source: dataAdapter, displayMember: "Name", valueMember: "ID",dropDownHeight: '250px', width: 400, height: '25px'});
+     $("#campaignslist").jqxDropDownList({theme: theme,selectedIndex: 0, source: dataAdapter, itemHeight: 60, displayMember: "Name", valueMember: "ID",dropDownHeight: '250px', width: 400, height: '25px',
+         renderer: function (index, label, value) {
+                    var datarecord = jqwdata[index];
+                    var table = "<table style='font-size:12px;'><tr><td colspan=2>" + datarecord[1] + "</td></tr><tr><td>"+ datarecord[3]  +" recepients</td><td>"+ datarecord[2]  +"</td></tr></table>";
+                    return table;
+                }
+     
+     });
      
      var goalssource = ["Invitation to Join Nabbesh as Freelancer"];
      $("#goalslist").jqxComboBox({ theme: theme,source: goalssource, width: '400px', height: '25px', selectedIndex:0, dropDownHeight: '30px'});
