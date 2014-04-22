@@ -281,7 +281,6 @@ $(document).ready(function () {
      
      $("#metricslist").on('checkChange', function (event) {
        var metricsss = $("#metricslist").jqxDropDownList('getCheckedItems');
-       console.log(JSONData);
        drawChart(JSONData, metricsss,fromdate, todate); 
        
        drawRatesChart(JSONData, JSONAnalyticsData,  metricsss, fromdate, todate)            

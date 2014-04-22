@@ -63,12 +63,7 @@
     
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
            <script type="text/javascript">
-            $(document).ready(function () {
-                // Create a jqxMenu
-                //var theme = 'bootstrap';
-                //$("#mainmenu").jqxMenu({ width: '100%', height: '30px', theme: theme});
-               
-             });  
+
              
              
              
@@ -189,7 +184,7 @@
                             <li><a href="topemployers">Top Employers</a></li>
                         </ul>
                     </li>
-                    <li>Activities <b>(New)</b>             
+                    <li>Activities <span style="color: Red; font-size:10px">(New)</span>             
                         <ul style='width: 200px;'>
                             <li><a href="jobsemployersstatistics">Employers & Jobs Stats</a></li>
                             <li><a href="jobsapplicationsstatistics">Jobs/Applications Tracking</a></li>
@@ -201,15 +196,16 @@
                             <li><a href="signupsjobsretention">Signups/Jobs Retention</a></li>
                             <li><a href="jobsappsretention">Jobs/Apps Retention</a></li>
                             <li><a href="activitiescountries">Activities/Countries</a></li>
-                            <li><a href="emailcampaigns">Email Campaigns <b>(New)</b></a></li>
+                            <li><a href="emailcampaigns">Email Campaigns <span style="color: Red; font-size:10px">(New)</span></a></li>
                         </ul>
                     </li>
                     
-                    <li>Finance
+                    <li>Finance <span style="color: Red; font-size:10px">(New)</span>
                         <ul style='width: 180px;'>
                             <li><a href="proposals">Proposals</a></li>
                             <li><a href="invoices">Invoices</a></li>
-                            <li><a href="payments">Payments</a></li>                                                                      
+                            <li><a href="payments">Payments</a></li>  
+                            <li><a href="revenue">Revenue <span style="color: Red; font-size:10px">(New)</span></a></li>                                                                     
                         </ul>
                     </li>
                     <li>Skills
