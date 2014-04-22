@@ -1094,6 +1094,39 @@ def payments_getdata(request):
 
 
 
+@login_required(login_url='/accounts/login/')
+def revenue_report(request):
+    
+    t = loader.get_template('./reports/revenue_report.html')
+    c = Context({
+        'revenue_report': revenue_report,
+    })
+    return render_to_response('./reports/revenue_report.html', context_instance=RequestContext(request))
+            
+@csrf_exempt
+def revenue_getdata(request):
+    if request.method == 'POST':
+
+        objs = simplejson.loads(request.raw_post_data)
+        #print objs
+        
+        t1 = objs['fromdate'] + ' 00:00:00+00'
+        t2 = objs['todate']  + ' 23:59:59+00'
+        
+        grouppertext= objs['limit']
+        sql = "select "+datefieldtostring("cm.timestamp", grouppertext) + " as msgdate, count(distinct cp.message_ptr_id) as proposals, count(distinct case when cp.status=4 then cp.message_ptr_id else null end) as acceptedproposals, sum(distinct case when cp.status=4 then cp.deposit_amount else 0 end) as escrow, count(distinct ci.message_ptr_id) as invoices, count(distinct case when ci.status=4 then ci.message_ptr_id else null end) as paidinvoices, sum(distinct case when ci.status=4 then cii.unit_price * cii.quantity else 0 end) as invoiceamounts, sum(distinct case when ci.status=4 then cii.unit_price * quantity * 9 /100 else 0 end) as revenue from contracts_message cm left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id left outer join contracts_invoiceitem cii on cii.invoice_id=ci.message_ptr_id where cm.timestamp >= '"+t1+"' and cm.timestamp <= '"+t2+"' group by msgdate order by msgdate desc"
+        
+        print sql
+        results = customQuery(sql,0)
+        print results
+ 
+        c = Context({'revenue': results})
+   
+        return HttpResponse(render_to_string('revenue.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+
+
+
+
 @csrf_exempt     
 def vistest_report(request):
     

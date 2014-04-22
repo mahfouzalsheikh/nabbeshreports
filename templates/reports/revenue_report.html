@@ -1,0 +1,158 @@
+{% extends 'reports/base.html' %}
+{% block reportblock %}
+<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Revenue</h2><div id='date'></div></center></div>
+
+
+<div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+                   <tr>
+                     <td>Group By:<td><div id='groupbybuttons'>
+                                  <button style="padding:4px 16px;" id="Day">Day</button>
+                                  <button style="padding:4px 16px;" id="Week">Week</button>
+                                  <button style="padding:4px 16px;" id="Month">Month</button>
+                                  </div>
+                              </td>
+                   </tr>
+                 
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
+                   
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>
+                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>
+                  
+                </table>  
+                  
+               
+            </div>
+        </div>
+
+
+<div id="jqwtablearea" style="width: 100%;"></div>
+
+
+
+<script type="text/javascript">
+     var theme = 'bootstrap';
+     $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+      $("#downloadButton").jqxButton({theme: theme, width: '200'});                
+      $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData(fromdate, todate, limit));
+    		var csv = JSON2CSV(json);
+//	        window.open("data:text/csv;charset=utf-8," + escape(csv))
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "revenue_data.csv");
+      }); 
+	
+     $("#groupbybuttons").jqxButtonGroup({ mode: 'radio' });
+     $('#groupbybuttons').jqxButtonGroup('setSelection', 0);
+     $("#groupbybuttons").on('buttonclick', function (event) {
+                    var clickedButton = event.args.button;
+                    limit = clickedButton[0].id;
+                });
+     
+     
+     var today = new Date(Date.now());
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+
+     
+     $("#fromdate").on('change', function (event) {
+                    fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
+                });
+     $("#todate").on('change', function (event) {
+                    todate= $('#todate').jqxDateTimeInput('getText'); 
+                });        
+        
+     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
+     var todate = $('#todate').jqxDateTimeInput('getText');
+     var limit="Day";          
+                
+      $("#filterButton").jqxButton({theme: theme, width: '200'});
+      $("#filterButton").on('click', function () { 
+         
+         drawChart(fromdate, todate, limit);
+      });
+
+     function getData(fromdate, todate, limit)
+     {
+         var params = {"limit": limit, "fromdate": fromdate, "todate": todate};
+         var jsonData =  $.ajax({
+          url: "revenue_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+          
+          //console.log(jsonData);
+
+          
+          return jsonData;
+     }
+	
+     function drawChart(fromdate, todate, limit) {
+      
+          var jqwdata = JSON.parse(getData(fromdate, todate, limit));
+          jqwdata.shift();
+	  var source =
+            { localdata : jqwdata,
+              datafields: [
+              
+
+                    { name: 'Period', type: 'string', map: '0'},
+                    { name: 'AllProposalsCount', type: 'int', map: '1'},
+                    { name: 'AcceptedProposalsCount', type: 'int', map: '2'},
+                    { name: 'InEscrowAmount', type: 'float', map: '3'},                    
+                    { name: 'AllInvoicesCount', type: 'int', map: '4'},
+                    { name: 'PaidInvoicesCount', type: 'int', map: '5'},                    
+                    { name: 'PaidInvoicesAmount', type: 'float', map: '6'},                    
+                    { name: 'RevenueAmount', type: 'float', map: '7'},                                                          
+                    ],
+                datatype: "array"
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            var theme = 'bootstrap';
+            $("#jqwtablearea").jqxGrid(
+            {
+                theme: theme,
+                width: '100%',
+                height: '550px',
+                source: dataAdapter,
+                columnsresize: true,
+                sortable: true,
+                showfilterrow: true,
+                filterable: true,
+                altrows: true,
+                showstatusbar: true,
+                statusbarheight: 105,
+                showaggregates: true,
+                columns: [
+                  { text: 'Period', datafield: 'Period'},
+                  { text: 'All Count', datafield: 'AllProposalsCount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Proposals'},
+                  { text: 'Accepted Count', datafield: 'AcceptedProposalsCount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Proposals'},
+                  { text: 'In Escrow Amount', datafield: 'InEscrowAmount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Proposals'},
+                  { text: 'All Count', datafield: 'AllInvoicesCount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Invoices'},
+                  { text: 'Paid Count', datafield: 'PaidInvoicesCount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'],cellsformat: 'dd-MM-yy HH:m', columngroup: 'Invoices'},
+                  { text: 'Paid Amount', datafield: 'PaidInvoicesAmount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Invoices'},                  
+                  { text: 'Revenue Amount', datafield: 'RevenueAmount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'JobDetails'},
+                                                                                          
+                ],
+                columngroups: 
+                [
+                  { text: 'Proposals', align: 'center', name: 'Proposals' },
+                  { text: 'Invoices', align: 'center', name: 'Invoices' },
+
+                ]
+            });    
+
+
+
+
+    }
+	
+		
+    drawChart(fromdate, todate, limit);
+</script>          
+
+{% endblock %}  

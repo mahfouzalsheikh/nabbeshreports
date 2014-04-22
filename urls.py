@@ -98,6 +98,9 @@ urlpatterns = patterns('',
 
     url(r'^payments_getdata$', 'nabbeshreports.maps.views.payments_getdata'),
     url(r'^payments$', 'nabbeshreports.maps.views.payments_report'),
+    
+    url(r'^revenue_getdata$', 'nabbeshreports.maps.views.revenue_getdata'),
+    url(r'^revenue$', 'nabbeshreports.maps.views.revenue_report'),
 
 ################## Skills #############################
 

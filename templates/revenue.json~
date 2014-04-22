@@ -1,0 +1,2 @@
+[["Payer ID","Payer Name", "Payer Email", "Payer Country", "Job ID", "Job Created At", "Job Title", "Paid Amount", "Payee ID", "Payee Name", "Payee Email", "Payee Country"], 
+{% for rev in revenue %}["{{ rev.0 }}",{{ rev.1 }},{{ rev.2 }},{{ rev.3 }},{{ rev.4 }},{{ rev.5 }},{{ rev.6 }},{{ rev.7 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]
