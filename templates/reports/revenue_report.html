@@ -34,7 +34,7 @@
           var chart = new google.visualization.LineChart(document.getElementById('visualization'));
           var dataView = new google.visualization.DataView(data);
           dataView.setColumns([0,7]);
-          chart.draw(dataView, {width: '100%', height: 300, is3D: true,title:"Main Dashboard    -   " + fromdate + " to "+ todate ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });      
+          chart.draw(dataView, {width: '100%', height: 300, is3D: true,title:"Revenue    -   " + fromdate + " to "+ todate ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });      
           
           jqwdata.shift();
 	  var source =
