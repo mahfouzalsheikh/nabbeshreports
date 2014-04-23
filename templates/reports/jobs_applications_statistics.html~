@@ -4,8 +4,8 @@
 
 <script type="text/javascript">
 
-        google.load('visualization', '1', {packages: ['corechart']});
-        google.load('visualization', '1', {packages: ['table']});
+       // google.load('visualization', '1', {packages: ['corechart']});
+       // google.load('visualization', '1', {packages: ['table']});
 
 </script>
 
@@ -128,6 +128,7 @@
           data: JSON.stringify(params),
           async: false
           }).responseText;
+          console.log(jsonData);
           //alert(jsonData.length);
           if(jsonData.length<241){
               alert("No Results! try to change search criterias!");
@@ -150,14 +151,15 @@
                     { name: 'Job ID', type: 'int', map: '4'},
                     { name: 'Job Title', type: 'string', map: '5'},
                     { name: 'Job Posted At', type: 'date', map: '6'},
-                    { name: 'Budget', type: 'float', map: '7'},
-                    { name: 'Application Count', type: 'int', map: '8'},
-                    { name: 'Shortlisted Applications', type: 'int', map: '9'},
-                    { name: 'Applicants Msgs', type: 'int', map: '10'},
-                    { name: 'Employers Responses', type: 'int', map: '11'},
-                    { name: 'Proposal Count', type: 'int', map: '12'},
-                    { name: 'Accepted Proposals', type: 'int', map: '13'},
-                    { name: 'Status', type: 'bool', map: '14'}                   
+                    { name: 'Fixed Budget', type: 'int', map: '7'},
+                    { name: 'Budget Range', type: 'string', map: '8'},
+                    { name: 'Application Count', type: 'int', map: '9'},
+                    { name: 'Shortlisted Applications', type: 'int', map: '10'},
+                    { name: 'Applicants Msgs', type: 'int', map: '11'},
+                    { name: 'Employers Responses', type: 'int', map: '12'},
+                    { name: 'Proposal Count', type: 'int', map: '13'},
+                    { name: 'Accepted Proposals', type: 'int', map: '14'},
+                    { name: 'Status', type: 'bool', map: '15'}                   
                     ],
                 datatype: "array"
             };
@@ -283,7 +285,8 @@
                   { text: 'ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer, columngroup: 'JobDetails'},
                   { text: 'Title', datafield: 'Job Title', filtertype: 'textbox', columngroup: 'JobDetails', width: 300},
                   { text: 'Created At', datafield: 'Job Posted At', filtertype: 'date',cellsformat: 'dd-MM-yy HH:m', columngroup: 'JobDetails'},
-                  { text: 'Budget', datafield: 'Budget', filtertype: 'number',cellsformat: 'c2', aggregates: ['min', 'max','sum','avg'], columngroup: 'JobDetails'},
+                  { text: 'Fixed Budget', datafield: 'Fixed Budget', filtertype: 'number', columngroup: 'JobDetails'},
+                  { text: 'Range Budget', datafield: 'Budget Range', filtertype: 'checkedlist', columngroup: 'JobDetails'},
                   { text: 'Status', datafield: 'Status', threestatecheckbox: true, columntype: 'checkbox', filtertype: 'bool', columngroup: 'JobDetails'},
                   { text: 'Count', datafield: 'Application Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'ApplicantsInformation'},
                   { text: 'Shortlisted', datafield: 'Shortlisted Applications', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'ApplicantsInformation'},
