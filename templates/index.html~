@@ -50,7 +50,7 @@ $(document).ready(function () {
      getTotalUsers();
      $('#docking').jqxDocking('hideAllCloseButtons');
      $('#docking').jqxDocking('pinWindow', 'window1');
-     $('#docking').jqxDocking('pinWindow', 'window1');
+     $('#docking').jqxDocking('pinWindow', 'window2');
 
      
      
@@ -95,7 +95,7 @@ $(document).ready(function () {
         <div class="InnerDivs">
             <div id="window1" style="height:70px">
                 <div>Google Analytics Traffic Today</div>
-                <div id="analyticscontent" style="color: rgb(152, 152, 152); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+                <div id="analyticscontent" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window2" style="height:150px">
                 <div>All Users</div>
