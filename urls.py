@@ -111,6 +111,11 @@ urlpatterns = patterns('',
     url(r'^skillsdistribution$', 'nabbeshreports.maps.views.skillsdistribution_report'),
     url(r'^skillsdistribution_getdata$', 'nabbeshreports.maps.views.skillsdistribution_getdata'), 
 
+
+################## Totals #############################
+
+    url(r'^totalusers_getdata$', 'nabbeshreports.maps.views.total_users_getdata'), 
+
 #######################################################    
 
    

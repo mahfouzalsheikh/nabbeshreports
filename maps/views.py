@@ -1127,7 +1127,16 @@ def revenue_getdata(request):
         return HttpResponse(render_to_string('revenue.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 
-
+@csrf_exempt 
+def total_users_getdata(request):
+    if request.method == 'GET':
+        
+        sql = ("select count(id), count(case when is_active=true then 1 else null end)  from auth_user")
+        
+        print sql
+        results = customQuery(sql,0)
+        return HttpResponse(json.dumps(results), mimetype='application/json') 
+ 	
 
 @csrf_exempt     
 def vistest_report(request):

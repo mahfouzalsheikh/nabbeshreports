@@ -1,0 +1,4 @@
+[
+{% for row in totals %}[{% for col in row %}{%if forloop.first %}"{{ col }}"{% else %},{{col}}{% endif %}{% endfor %}]{% if not forloop.last %},{% endif %}{% endfor %}
+]
+

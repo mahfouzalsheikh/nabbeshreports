@@ -1,11 +1,89 @@
 {% extends 'reports/base.html' %}
 
-{% block reportblock %}
+{% block  customheadscripts %}
 
+
+
+
+<script type="text/javascript">
+function getVisitsData(){
+      var today = new Date(Date.now());
+      Date.prototype.yyyymmdd = function() {
+      var yyyy = this.getFullYear().toString();
+      var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+      var dd  = this.getDate().toString();
+      return yyyy +'-'+ (mm[1]?mm:"0"+mm[0]) +'-'+ (dd[1]?dd:"0"+dd[0]); // padding
+      };
+      
+      todayshort=today.yyyymmdd();
+      
+      limit = "Day";
+      var params = {"limit": limit, "fromdate": todayshort, "todate": todayshort};
+      var jsonData = $.ajax({
+          url: "../../analytics_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+     }
+
+
+function getTotalUsers(){
+      
+
+      var jsonData = $.ajax({
+          url: "../../totalusers_getdata",
+          dataType:"json",
+          type: "GET",
+          async: false
+          }).responseText;
+       return jsonData; 
+       alert(jsonData);   
+     }
+     
+$(document).ready(function () {
+
+     var theme=  'bootstrap';         
+     $('#docking').jqxDocking({ theme:theme , orientation: 'horizontal', mode: 'docked',floatingWindowOpacity: 0.5, width:'100%' });
+     getTotalUsers();
+     $('#docking').jqxDocking('hideAllCloseButtons');
+     $('#docking').jqxDocking('pinWindow', 'window1');
+
+     
+     
+     
+     
+     
+
+     analyticsresult= $.parseJSON(getVisitsData());
+     $("#analyticscontent").html('<span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][2].toString() + '</span> Pageviews  <span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][1].toString() + '</span> Visits'); 
+
+     
+     totalusersresult= $.parseJSON(getTotalUsers());
+     $("#allusers").html('<span style="font-size:64px;">' + totalusersresult[0][0].toString() + '</span> Users  <span style="font-size:24px;">' + totalusersresult[0][1].toString() + '</span> Active'); 
+
+     
+  
+            function doTimeout() {
+                 //console.log(getVisitsData());
+                 setTimeout(doTimeout, 10000); 
+            }
+
+            setTimeout(doTimeout, 1000);
+
+});     
+     
+</script>
+
+{% endblock %}
+
+{% block reportblock %}
     <style type="text/css">
         .InnerDivs
         {
-            width: 33%;
+            width: 250px;
         }
         .InnerDivsSmall
         {
@@ -14,13 +92,13 @@
     </style>
    <div id="docking">
         <div class="InnerDivs">
-            <div id="window1" style="height:300px">
-                <div>Totals</div>
-                <div id="analyticscontent" style="color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            <div id="window1" style="height:70px">
+                <div>Google Analytics Traffic Today</div>
+                <div id="analyticscontent" style="color: rgb(152, 152, 152); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
-            <div id="window2">
-                <div>Counter 2</div>
-                <div></div>
+            <div id="window2" style="height:150px">
+                <div>All Users</div>
+                <div id="allusers" style="color: rgb(152, 152, 152); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
         </div>
         <div class="InnerDivsSmall">
@@ -53,47 +131,10 @@
 
  <script type="text/javascript">
             
-     function getVisitsData(){
-      var today = new Date(Date.now());
-      Date.prototype.yyyymmdd = function() {
-      var yyyy = this.getFullYear().toString();
-      var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
-      var dd  = this.getDate().toString();
-      return yyyy +'-'+ (mm[1]?mm:"0"+mm[0]) +'-'+ (dd[1]?dd:"0"+dd[0]); // padding
-      };
-      
-      todayshort=today.yyyymmdd();
-      
-      limit = "Day";
-      var params = {"limit": limit, "fromdate": todayshort, "todate": todayshort};
-      var jsonData = $.ajax({
-          url: "../../analytics_getdata",
-          dataType:"json",
-          type: "POST",
-          data: JSON.stringify(params),
-          async: false
-          }).responseText;
-       return jsonData;    
-     }
-            
-            
-     var theme=  'bootstrap';         
-     $('#docking').jqxDocking({ theme:theme , orientation: 'horizontal', mode: 'docked',floatingWindowOpacity: 0.5, width:'100%' });
-
-     $('#docking').jqxDocking('hideAllCloseButtons');
-     $('#docking').jqxDocking('pinWindow', 'window1');
      
-     $("#analyticscontent").html('Loading..');
-     result= $.parseJSON(getVisitsData());
-     console.log(result[1][2]);
-     $("#analyticscontent").html(result[1][2].toString() + ' Pageviews </br>' + result[1][1].toString() + ' Visits'); 
-  
-            function doTimeout() {
-                 //console.log(getVisitsData());
-                 setTimeout(doTimeout, 10000); 
-            }
+            
+            
 
-            setTimeout(doTimeout, 1000);
             
 </script>
 {% endblock %}
