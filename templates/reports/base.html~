@@ -168,7 +168,7 @@
 
 <div id="mainmenu">
                 <ul>
-                    <li><a href="/">Home</a></li>
+                    <li><a href="/">Home</a> <span style="color: Red; font-size:10px">(New)</span></li>
                     <li><a href="/mainmetrics">Main Metrics</a></li>
                     <li>Freelancers
                         <ul style='width: 250px;'>
@@ -184,7 +184,7 @@
                             <li><a href="topemployers">Top Employers</a></li>
                         </ul>
                     </li>
-                    <li>Activities <span style="color: Red; font-size:10px">(New)</span>             
+                    <li>Activities             
                         <ul style='width: 200px;'>
                             <li><a href="jobsemployersstatistics">Employers & Jobs Stats</a></li>
                             <li><a href="jobsapplicationsstatistics">Jobs/Applications Tracking</a></li>
@@ -196,7 +196,7 @@
                             <li><a href="signupsjobsretention">Signups/Jobs Retention</a></li>
                             <li><a href="jobsappsretention">Jobs/Apps Retention</a></li>
                             <li><a href="activitiescountries">Activities/Countries</a></li>
-                            <li><a href="emailcampaigns">Email Campaigns <span style="color: Red; font-size:10px">(New)</span></a></li>
+                            <li><a href="emailcampaigns">Email Campaigns</a></li>
                         </ul>
                     </li>
                     
