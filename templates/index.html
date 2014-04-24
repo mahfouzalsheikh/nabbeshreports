@@ -43,6 +43,19 @@ function getTotalUsers(){
        alert(jsonData);   
      }
      
+function getTotalJobs(){
+      
+
+      var jsonData = $.ajax({
+          url: "../../totaljobs_getdata",
+          dataType:"json",
+          type: "GET",
+          async: false
+          }).responseText;
+       return jsonData; 
+       alert(jsonData);   
+     }     
+     
 $(document).ready(function () {
 
      var theme=  'bootstrap';         
@@ -51,6 +64,7 @@ $(document).ready(function () {
      $('#docking').jqxDocking('hideAllCloseButtons');
      $('#docking').jqxDocking('pinWindow', 'window1');
      $('#docking').jqxDocking('pinWindow', 'window2');
+     $('#docking').jqxDocking('pinWindow', 'window7');     
 
      
      
@@ -65,7 +79,8 @@ $(document).ready(function () {
      totalusersresult= $.parseJSON(getTotalUsers());
      $("#allusers").html('<span style="font-size:64px;">' + totalusersresult[0][0].toString() + '</span> Users  <span style="font-size:24px;">' + totalusersresult[0][1].toString() + '</span> Active'); 
 
-     
+     totaljobsresult= $.parseJSON(getTotalJobs());
+     $("#alljobs").html('<span style="font-size:48px;">' + totaljobsresult[0][0].toString() + '</span> Jobs  </br><span style="font-size:24px;">' + totaljobsresult[0][1].toString() + '</span> Open'); 
   
             function doTimeout() {
                  //console.log(getVisitsData());
@@ -100,6 +115,10 @@ $(document).ready(function () {
             <div id="window2" style="height:150px">
                 <div>All Users</div>
                 <div id="allusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div>
+            <div id="window7" style="height:125px">
+                <div>All Jobs</div>
+                <div id="alljobs" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
         </div>
         <div class="InnerDivsSmall">

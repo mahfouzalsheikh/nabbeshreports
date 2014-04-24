@@ -1136,6 +1136,16 @@ def total_users_getdata(request):
         print sql
         results = customQuery(sql,0)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
+        
+@csrf_exempt 
+def total_jobs_getdata(request):
+    if request.method == 'GET':
+        
+        sql = ("select count(id), count(case when status=1 then 1 else null end) from contracts_job")
+        
+        print sql
+        results = customQuery(sql,0)
+        return HttpResponse(json.dumps(results), mimetype='application/json') 
  	
 
 @csrf_exempt     
