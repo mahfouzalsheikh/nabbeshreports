@@ -50,6 +50,7 @@ $(document).ready(function () {
      getTotalUsers();
      $('#docking').jqxDocking('hideAllCloseButtons');
      $('#docking').jqxDocking('pinWindow', 'window1');
+     $('#docking').jqxDocking('pinWindow', 'window1');
 
      
      
@@ -62,7 +63,7 @@ $(document).ready(function () {
 
      
      totalusersresult= $.parseJSON(getTotalUsers());
-     $("#allusers").html('<span style="font-size:48px;">' + totalusersresult[0][0].toString() + '</span> Users  <span style="font-size:24px;">' + totalusersresult[0][1].toString() + '</span> Active'); 
+     $("#allusers").html('<span style="font-size:64px;">' + totalusersresult[0][0].toString() + '</span> Users  <span style="font-size:24px;">' + totalusersresult[0][1].toString() + '</span> Active'); 
 
      
   
