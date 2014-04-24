@@ -97,7 +97,7 @@ function doTimeout() {
      totalinvoicesresult= $.parseJSON(getTotal('totalinvoices_getdata'));
      $("#allinvoices").html('<span style="font-size:48px;">' + totalinvoicesresult[0][0].toString() + '</span>/ <span style="font-size:24px;">' + totalinvoicesresult[0][1].toString() + '</span> paid');                          
                  
-                 setTimeout(doTimeout, 60000); 
+                 setTimeout(doTimeout, 30000); 
             }
 
             setTimeout(doTimeout, 1000);
