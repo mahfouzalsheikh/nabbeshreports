@@ -117,6 +117,10 @@ urlpatterns = patterns('',
     url(r'^totalusers_getdata$', 'nabbeshreports.maps.views.total_users_getdata'), 
     url(r'^totaljobs_getdata$', 'nabbeshreports.maps.views.total_jobs_getdata'),
     url(r'^totalskills_getdata$', 'nabbeshreports.maps.views.total_skills_getdata'),          
+    url(r'^totalproposals_getdata$', 'nabbeshreports.maps.views.total_proposals_getdata'),    
+    url(r'^totalapplications_getdata$', 'nabbeshreports.maps.views.total_applications_getdata'), 
+    url(r'^totalmessages_getdata$', 'nabbeshreports.maps.views.total_messages_getdata'),   
+    url(r'^totalinvoices_getdata$', 'nabbeshreports.maps.views.total_invoices_getdata'),            
 
 #######################################################    
 

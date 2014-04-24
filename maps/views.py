@@ -1156,7 +1156,47 @@ def total_skills_getdata(request):
         print sql
         results = customQuery(sql,0)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
- 	 	
+
+
+@csrf_exempt 
+def total_proposals_getdata(request):
+    if request.method == 'GET':
+        
+        sql = ("select count(*), count(case when status=4 then 1 else null end)  from contracts_proposal")
+        
+        print sql
+        results = customQuery(sql,0)
+        return HttpResponse(json.dumps(results), mimetype='application/json') 
+
+@csrf_exempt 
+def total_applications_getdata(request):
+    if request.method == 'GET':
+        
+        sql = ("select count(*), count(distinct job_id)   from contracts_application")
+        
+        print sql
+        results = customQuery(sql,0)
+        return HttpResponse(json.dumps(results), mimetype='application/json') 
+        
+@csrf_exempt 
+def total_invoices_getdata(request):
+    if request.method == 'GET':
+        
+        sql = ("select count(*), count(case when status=4 then 1 else null end)  from contracts_invoice")
+        
+        print sql
+        results = customQuery(sql,0)
+        return HttpResponse(json.dumps(results), mimetype='application/json') 
+
+@csrf_exempt 
+def total_messages_getdata(request):
+    if request.method == 'GET':
+        
+        sql = ("select count(*)  from contracts_message")
+        
+        print sql
+        results = customQuery(sql,0)
+        return HttpResponse(json.dumps(results), mimetype='application/json')         	 	
 
 @csrf_exempt     
 def vistest_report(request):
