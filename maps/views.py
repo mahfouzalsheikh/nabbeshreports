@@ -1134,7 +1134,7 @@ def total_users_getdata(request):
         sql = ("select count(id), count(case when is_active=true then 1 else null end)  from auth_user")
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
         
 @csrf_exempt 
@@ -1144,7 +1144,7 @@ def total_jobs_getdata(request):
         sql = ("select count(id), count(case when status=1 then 1 else null end) from contracts_job")
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
 
 @csrf_exempt 
@@ -1154,7 +1154,7 @@ def total_skills_getdata(request):
         sql = ("select count(*), count(case when published=true and merge_to_id is null then 1 else null end) from skills_skill")
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
 
 
@@ -1165,7 +1165,7 @@ def total_proposals_getdata(request):
         sql = ("select count(*), count(case when status=4 then 1 else null end)  from contracts_proposal")
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
 
 @csrf_exempt 
@@ -1175,7 +1175,7 @@ def total_applications_getdata(request):
         sql = ("select count(*), count(distinct job_id)   from contracts_application")
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
         
 @csrf_exempt 
@@ -1185,7 +1185,7 @@ def total_invoices_getdata(request):
         sql = ("select count(*), count(case when status=4 then 1 else null end)  from contracts_invoice")
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
 
 @csrf_exempt 
@@ -1195,7 +1195,7 @@ def total_messages_getdata(request):
         sql = ("select count(*)  from contracts_message")
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json')         	 	
 
 @csrf_exempt     
