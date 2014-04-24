@@ -55,6 +55,20 @@ function getTotalJobs(){
        return jsonData; 
        alert(jsonData);   
      }     
+
+function getTotalSkills(){
+      
+
+      var jsonData = $.ajax({
+          url: "../../totalskills_getdata",
+          dataType:"json",
+          type: "GET",
+          async: false
+          }).responseText;
+       return jsonData; 
+       alert(jsonData);   
+     }     
+     
      
 $(document).ready(function () {
 
@@ -64,7 +78,8 @@ $(document).ready(function () {
      $('#docking').jqxDocking('hideAllCloseButtons');
      $('#docking').jqxDocking('pinWindow', 'window1');
      $('#docking').jqxDocking('pinWindow', 'window2');
-     $('#docking').jqxDocking('pinWindow', 'window7');     
+     $('#docking').jqxDocking('pinWindow', 'window7');   
+     $('#docking').jqxDocking('pinWindow', 'window8');
 
      
      
@@ -81,6 +96,9 @@ $(document).ready(function () {
 
      totaljobsresult= $.parseJSON(getTotalJobs());
      $("#alljobs").html('<span style="font-size:48px;">' + totaljobsresult[0][0].toString() + '</span> Jobs  </br><span style="font-size:24px;">' + totaljobsresult[0][1].toString() + '</span> Open'); 
+  
+     totalskillsresult= $.parseJSON(getTotalSkills());
+     $("#allskills").html('<span style="font-size:48px;">' + totalskillsresult[0][1].toString() + '</span> Published  </br><span style="font-size:24px;">' + totalskillsresult[0][0].toString() + '</span> Added'); 
   
             function doTimeout() {
                  //console.log(getVisitsData());
@@ -113,12 +131,16 @@ $(document).ready(function () {
                 <div id="analyticscontent" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window2" style="height:150px">
-                <div>All Users</div>
+                <div>All Accounts</div>
                 <div id="allusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window7" style="height:125px">
                 <div>All Jobs</div>
                 <div id="alljobs" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div>
+            <div id="window8" style="height:125px">
+                <div>All Skills</div>
+                <div id="allskills" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
         </div>
         <div class="InnerDivsSmall">

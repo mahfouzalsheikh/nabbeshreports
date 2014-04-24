@@ -1146,7 +1146,17 @@ def total_jobs_getdata(request):
         print sql
         results = customQuery(sql,0)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
- 	
+
+@csrf_exempt 
+def total_skills_getdata(request):
+    if request.method == 'GET':
+        
+        sql = ("select count(*), count(case when published=true and merge_to_id is null then 1 else null end) from skills_skill")
+        
+        print sql
+        results = customQuery(sql,0)
+        return HttpResponse(json.dumps(results), mimetype='application/json') 
+ 	 	
 
 @csrf_exempt     
 def vistest_report(request):
