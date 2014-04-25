@@ -39,13 +39,99 @@ function getTotal(link){
           type: "GET",
           async: false
           }).responseText;
-       return jsonData; 
-       alert(jsonData);   
+       return jsonData;  
      }
 
 
 
+function doTimeout() {
      
+     analyticsresult= $.parseJSON(getVisitsData());
+     $("#analyticscontent").html('<span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][2].toString() + '</span> Pageviews  <span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][1].toString() + '</span> Visits');
+      
+
+     
+    $.when( $.ajax({
+          url: "../../totalusers_getdata",
+          dataType:"json",
+          type: "GET",
+          async: false
+          }) ).then(function( data, textStatus, jqXHR ) {                 
+          $("#allusers").block({ message : '', css: { border: '0px solid #a00' } });    
+          setTimeout(function (){$("#allusers").html('<span style="font-size:64px;">' + data[0][0].toString() + '</span> Users  <span style="font-size:24px;">' + data[0][1].toString() + '</span> Active');       }, 500);     });
+
+
+    $.when( $.ajax({
+          url: "../../totaljobs_getdata",
+          dataType:"json",
+          type: "GET",
+          async: false
+          }) ).then(function( data, textStatus, jqXHR ) {                 
+          $("#alljobs").block({ message : '', css: { border: '0px solid #a00' } }); 
+          setTimeout(function (){$("#alljobs").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span> Jobs  </br><span style="font-size:24px;">' + data[0][1].toString() + '</span> Open');       }, 500);     });
+
+        
+    $.when( $.ajax({
+          url: "../../totalskills_getdata",
+          dataType:"json",
+          type: "GET",
+          async: false
+          }) ).then(function( data, textStatus, jqXHR ) {                 
+          $("#allskills").block({ message : '', css: { border: '0px solid #a00' } }); 
+          setTimeout(function (){$("#allskills").html('<span style="font-size:48px;">' + data[0][1].toString() + '</span> Published  </br><span style="font-size:24px;">' + data[0][0].toString() + '</span> Added');      }, 500);     });
+
+
+    $.when( $.ajax({
+          url: "../../totalmessages_getdata",
+          dataType:"json",
+          type: "GET",
+          async: false
+          }) ).then(function( data, textStatus, jqXHR ) {                 
+          $("#allmessages").block({ message : '', css: { border: '0px solid #a00' } }); 
+          setTimeout(function (){$("#allmessages").html('<span style="font-size:48px;">' + data[0].toString() + '</span> Exchanged');     }, 500);     });                  
+                 
+                 
+
+    $.when( $.ajax({
+          url: "../../totalapplications_getdata",
+          dataType:"json",
+          type: "GET",
+          async: false
+          }) ).then(function( data, textStatus, jqXHR ) {                 
+          $("#allapplications").block({ message : '', css: { border: '0px solid #a00' } }); 
+          setTimeout(function (){$("#allapplications").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span>apps on </br><span style="font-size:24px;">' + data[0][1].toString() + '</span> Jobs');     }, 500);     });  
+     
+
+    $.when( $.ajax({
+          url: "../../totalinvoices_getdata",
+          dataType:"json",
+          type: "GET",
+          async: false
+          }) ).then(function( data, textStatus, jqXHR ) {
+     
+          $("#allinvoices").block({ message : '', css: { border: '0px solid #a00' } }); 
+          setTimeout(function (){$("#allinvoices").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> paid');    }, 500);     });                      
+               
+        
+    
+                       
+    $.when( $.ajax({
+          url: "../../totalproposals_getdata",
+          dataType:"json",
+          type: "GET",
+          async: false
+          }) ).then(function( data, textStatus, jqXHR ) {
+
+        $("#allproposals").block({ message : '', css: { border: '0px solid #a00' } }); 
+        setTimeout(function (){$("#allproposals").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> Accepted');  }, 500); });
+       
+     
+                 
+                 setTimeout(doTimeout, 10000); 
+            }
+            
+            
+                 
      
 $(document).ready(function () {
 
@@ -57,50 +143,10 @@ $(document).ready(function () {
      $('#docking').jqxDocking('pinWindow', 'window2');
      $('#docking').jqxDocking('pinWindow', 'window3');   
      $('#docking').jqxDocking('pinWindow', 'window4');
-  
-      
-
         
-     
-function doTimeout() {
-     analyticsresult= $.parseJSON(getVisitsData());
-     $("#analyticscontent").html('<span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][2].toString() + '</span> Pageviews  <span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][1].toString() + '</span> Visits');
-      
-
-     
-
-     totalusersresult= $.parseJSON(getTotal('totalusers_getdata'));
-     $("#allusers").html('<span style="font-size:64px;">' + totalusersresult[0][0].toString() + '</span> Users  <span style="font-size:24px;">' + totalusersresult[0][1].toString() + '</span> Active'); 
+     setTimeout(doTimeout, 1000);
 
 
-
-     totaljobsresult= $.parseJSON(getTotal('totaljobs_getdata'));
-     $("#alljobs").html('<span style="font-size:48px;">' + totaljobsresult[0][0].toString() + '</span> Jobs  </br><span style="font-size:24px;">' + totaljobsresult[0][1].toString() + '</span> Open'); 
-
-        
-
-     totalskillsresult= $.parseJSON(getTotal('totalskills_getdata'));
-     $("#allskills").html('<span style="font-size:48px;">' + totalskillsresult[0][1].toString() + '</span> Published  </br><span style="font-size:24px;">' + totalskillsresult[0][0].toString() + '</span> Added'); 
-
-     totalmessagesresult= $.parseJSON(getTotal('totalmessages_getdata'));
-     $("#allmessages").html('<span style="font-size:48px;">' + totalmessagesresult[0].toString() + '</span> Exchanged');                  
-                 
-                 
-                 
-     totalapplicationsresult= $.parseJSON(getTotal('totalapplications_getdata'));
-     $("#allapplications").html('<span style="font-size:48px;">' + totalapplicationsresult[0][0].toString() + '</span>apps on </br><span style="font-size:24px;">' + totalapplicationsresult[0][1].toString() + '</span> Jobs');    
-     
-     
-     totalproposalsresult= $.parseJSON(getTotal('totalproposals_getdata'));
-     $("#allproposals").html('<span style="font-size:48px;">' + totalproposalsresult[0][0].toString() + '</span>/ <span style="font-size:24px;">' + totalproposalsresult[0][1].toString() + '</span> Accepted');  
-     
-     totalinvoicesresult= $.parseJSON(getTotal('totalinvoices_getdata'));
-     $("#allinvoices").html('<span style="font-size:48px;">' + totalinvoicesresult[0][0].toString() + '</span>/ <span style="font-size:24px;">' + totalinvoicesresult[0][1].toString() + '</span> paid');                          
-                 
-                 setTimeout(doTimeout, 30000); 
-            }
-
-            setTimeout(doTimeout, 1000);
 
 });     
      
@@ -123,37 +169,37 @@ function doTimeout() {
         <div class="InnerDivs">
             <div id="window1" style="height:70px">
                 <div>Google Analytics Traffic Today</div>
-                <div id="analyticscontent" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Loading..</div>
+                <div id="analyticscontent" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window2" style="height:150px">
                 <div>All Accounts</div>
-                <div id="allusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Loading..</div>
+                <div id="allusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window3" style="height:125px">
                 <div>All Jobs</div>
-                <div id="alljobs" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Loading..</div>
+                <div id="alljobs" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window4" style="height:125px">
                 <div>All Skills</div>
-                <div id="allskills" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Loading..</div>
+                <div id="allskills" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
         </div>
         <div class="InnerDivsSmall">
             <div id="window5" style="height:100px">
                 <div>All Workstream Messages</div>
-                <div id="allmessages" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Loading..</div>
+                <div id="allmessages" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window6" style="height:140px">
                 <div>All Applications</div>
-                <div id="allapplications" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Loading..</div>
+                <div id="allapplications" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window7" style="height:100px">
                 <div>All Proposals</div>
-                <div id="allproposals" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Loading..</div>
+                <div id="allproposals" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window8" style="height:100px">
                 <div>All Invoices</div>
-                <div id="allinvoices" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Loading..</div>
+                <div id="allinvoices" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>                                    
 
         </div>
