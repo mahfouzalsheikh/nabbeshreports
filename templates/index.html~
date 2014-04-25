@@ -47,6 +47,7 @@ function getTotal(link){
 function doTimeout() {
      
      analyticsresult= $.parseJSON(getVisitsData());
+     $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
      $("#analyticscontent").html('<span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][2].toString() + '</span> Pageviews  <span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][1].toString() + '</span> Visits');
       
 
@@ -127,7 +128,7 @@ function doTimeout() {
        
      
                  
-                 setTimeout(doTimeout, 10000); 
+                 setTimeout(doTimeout, 60000); 
             }
             
             
@@ -143,7 +144,16 @@ $(document).ready(function () {
      $('#docking').jqxDocking('pinWindow', 'window2');
      $('#docking').jqxDocking('pinWindow', 'window3');   
      $('#docking').jqxDocking('pinWindow', 'window4');
-        
+     
+     $("#allusers").block({ message : '', css: { border: '0px solid #a00' } }); 
+     $("#alljobs").block({ message : '', css: { border: '0px solid #a00' } });
+     $("#allskills").block({ message : '', css: { border: '0px solid #a00' } }); 
+     $("#allmessages").block({ message : '', css: { border: '0px solid #a00' } }); 
+     $("#allapplications").block({ message : '', css: { border: '0px solid #a00' } });
+     $("#allinvoices").block({ message : '', css: { border: '0px solid #a00' } }); 
+     $("#allproposals").block({ message : '', css: { border: '0px solid #a00' } });
+     
+     
      setTimeout(doTimeout, 1000);
 
 
