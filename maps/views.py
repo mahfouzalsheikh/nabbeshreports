@@ -1144,7 +1144,7 @@ def total_users_getdata(request):
 def total_jobs_getdata(request):
     if request.method == 'GET':
         
-        sql = ("select count(id), count(case when status=1 then 1 else null end) from contracts_job")
+        sql = ("select count(id), count(case when status=1 then 1 else null end), count(case when created_at>='"+time.strftime("%Y-%m-%d")+"' then 1 else null end) from contracts_job")
         
         print sql
         results = customQuery(sql,1)

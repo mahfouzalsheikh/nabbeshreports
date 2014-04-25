@@ -69,7 +69,7 @@ function doTimeout() {
           async: false
           }) ).then(function( data, textStatus, jqXHR ) {                 
           $("#alljobs").block({ message : '', css: { border: '0px solid #a00' } }); 
-          setTimeout(function (){$("#alljobs").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span> Jobs  </br><span style="font-size:24px;">' + data[0][1].toString() + '</span> Open');       }, 500);     });
+          setTimeout(function (){$("#alljobs").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span> Jobs  </br><span style="font-size:24px;">' + data[0][1].toString() + '</span> Open <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Today');       }, 500);     });
 
         
     $.when( $.ajax({
@@ -179,7 +179,7 @@ $(document).ready(function () {
    <div id="docking">
         <div class="InnerDivs">
             <div id="window2" style="height:150px">
-                <div>All Accounts</div>
+                <div>All Signups</div>
                 <div id="allusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>        
             <div id="window1" style="height:70px">
