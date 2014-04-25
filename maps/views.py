@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.contrib.auth.decorators import permission_required
 import datetime
+import time
 import dateutil.parser
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
@@ -1132,8 +1133,8 @@ def revenue_getdata(request):
 @csrf_exempt 
 def total_users_getdata(request):
     if request.method == 'GET':
-        
-        sql = ("select count(id), count(case when is_active=true then 1 else null end)  from auth_user")
+        #print (time.strftime("%Y-%m-%d"))
+        sql = ("select count(id), count(case when is_active=true then 1 else null end), count(case when date_joined>='"+time.strftime("%Y-%m-%d")+"' then id else null end)  from auth_user")
         
         print sql
         results = customQuery(sql,1)
