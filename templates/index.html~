@@ -152,6 +152,7 @@ $(document).ready(function () {
      $("#allapplications").block({ message : '', css: { border: '0px solid #a00' } });
      $("#allinvoices").block({ message : '', css: { border: '0px solid #a00' } }); 
      $("#allproposals").block({ message : '', css: { border: '0px solid #a00' } });
+     $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
      
      
      setTimeout(doTimeout, 1000);
