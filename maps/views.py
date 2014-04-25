@@ -1108,7 +1108,7 @@ def revenue_report(request):
     })
     return render_to_response('./reports/revenue_report.html', context_instance=RequestContext(request))
             
-@csrf_exempt
+@login_required(login_url='/accounts/login/')
 def revenue_getdata(request):
     if request.method == 'POST':
 
@@ -1130,7 +1130,7 @@ def revenue_getdata(request):
         return HttpResponse(render_to_string('revenue.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 
-@csrf_exempt 
+@login_required(login_url='/accounts/login/') 
 def total_users_getdata(request):
     if request.method == 'GET':
         #print (time.strftime("%Y-%m-%d"))
@@ -1140,7 +1140,7 @@ def total_users_getdata(request):
         results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
         
-@csrf_exempt 
+@login_required(login_url='/accounts/login/') 
 def total_jobs_getdata(request):
     if request.method == 'GET':
         
@@ -1150,7 +1150,7 @@ def total_jobs_getdata(request):
         results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
 
-@csrf_exempt 
+@login_required(login_url='/accounts/login/')
 def total_skills_getdata(request):
     if request.method == 'GET':
         
@@ -1161,7 +1161,7 @@ def total_skills_getdata(request):
         return HttpResponse(json.dumps(results), mimetype='application/json') 
 
 
-@csrf_exempt 
+@login_required(login_url='/accounts/login/') 
 def total_proposals_getdata(request):
     if request.method == 'GET':
         
@@ -1171,7 +1171,7 @@ def total_proposals_getdata(request):
         results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
 
-@csrf_exempt 
+@login_required(login_url='/accounts/login/') 
 def total_applications_getdata(request):
     if request.method == 'GET':
         
@@ -1181,17 +1181,17 @@ def total_applications_getdata(request):
         results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
         
-@csrf_exempt 
+@login_required(login_url='/accounts/login/') 
 def total_invoices_getdata(request):
     if request.method == 'GET':
         
         sql = ("select count(distinct ci.message_ptr_id), count(case when ci.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+time.strftime("%Y-%m-%d")+"' then cm.id else null end)   from contracts_invoice ci inner join contracts_message cm on cm.id=ci.message_ptr_id")
         
-        print sql
+        
         results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
 
-@csrf_exempt 
+@login_required(login_url='/accounts/login/') 
 def total_messages_getdata(request):
     if request.method == 'GET':
         
@@ -1202,12 +1202,13 @@ def total_messages_getdata(request):
         return HttpResponse(json.dumps(results), mimetype='application/json')    
    
    
-@csrf_exempt 
+@login_required(login_url='/accounts/login/') 
 def tracking_messages_getdata(request):
     if request.method == 'GET':
         
-        sql = ("select fr.id, aufr.first_name || ' ' || aufr.last_name, case when (fr.photo <>'' and fr.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto ,  cm.from_applicant,  substring(cm.message,1,15), cm.timestamp, ca.public_id, em.id , auem.first_name || ' ' || auem.last_name,  case when (em.photo <>'' and em.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as emphoto  from  contracts_message cm inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on ca.job_id=cj.id inner join users em on em.id=cj.employer_id inner join auth_user auem on auem.id=em.django_user_id inner join users fr on fr.id=ca.applicant_id inner join auth_user aufr on aufr.id=fr.django_user_id where cm.timestamp>='"+time.strftime("%Y-%m-%d")+"'  order by cm.timestamp desc;")
+        sql = ("select fr.id, aufr.first_name || ' ' || aufr.last_name, case when (fr.photo <>'' and fr.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto ,  cm.from_applicant,  substring(cm.message,1,15), substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,16) , ca.id, em.id , auem.first_name || ' ' || auem.last_name,  case when (em.photo <>'' and em.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as emphoto  from  contracts_message cm inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on ca.job_id=cj.id inner join users em on em.id=cj.employer_id inner join auth_user auem on auem.id=em.django_user_id inner join users fr on fr.id=ca.applicant_id inner join auth_user aufr on aufr.id=fr.django_user_id where cm.timestamp>='"+time.strftime("%Y-%m-%d")+"' order by cm.timestamp desc;")
         
+        print sql
         results = customQuery(sql,1)
         print results
  

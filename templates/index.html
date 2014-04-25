@@ -42,7 +42,43 @@ function getTotal(link){
        return jsonData;  
      }
 
+function circularimage(url)
+{
+   return "<div style='width: 50px;height: 50px; border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;background: url("+url+") no-repeat;background-size: cover;background-position: center center; border-radius: 99em; border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
+}
 
+function formatname(id, name, direction)
+{
+   html='<td style="text-align:'+direction+'"><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/profile/'+id+'">'+name+'</a></td>';   
+   return html;
+}
+
+function formatworkstream(id, direction, time)
+{
+   if(direction=='True')
+   { 
+      dir='>>>>>>>';
+   }else
+   {
+      dir='<<<<<<<';
+   }
+   html='<td style="text-align:center;"><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(60,60,60); font-size:16px" href="http://www.nabbesh.com/contracts/workstream/'+id+'">'+dir+'</a></br><span style="font-size:10px">'+time+'</span> </td>'
+   return html;
+}
+function formatemessages(data)
+{
+   
+   if(data.length!=0)
+   {
+      html='<table style="width:100%">'
+      for(i=0; i<data.length;i++)
+      {         
+         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left')+formatworkstream(data[i][5], data[i][3], data[i][4]) +formatname(data[i][6], data[i][7], 'right')+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
+      }
+       html+='</table>'
+      return html;
+   }
+}
 
 function doTimeout() {
      
@@ -56,7 +92,7 @@ function doTimeout() {
           url: "../../totalusers_getdata",
           dataType:"json",
           type: "GET",
-          async: false
+          async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
           $("#allusers").block({ message : '', css: { border: '0px solid #a00' } });    
           setTimeout(function (){$("#allusers").html('<span style="font-size:64px;">' + data[0][0].toString() + '</span> Users  <span style="font-size:24px;">' + data[0][1].toString() + '</span> Active /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Today');       }, 500);     });
@@ -66,7 +102,7 @@ function doTimeout() {
           url: "../../totaljobs_getdata",
           dataType:"json",
           type: "GET",
-          async: false
+          async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
           $("#alljobs").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#alljobs").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span> Jobs  </br><span style="font-size:24px;">' + data[0][1].toString() + '</span> Open /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Today');       }, 500);     });
@@ -76,7 +112,7 @@ function doTimeout() {
           url: "../../totalskills_getdata",
           dataType:"json",
           type: "GET",
-          async: false
+          async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
           $("#allskills").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#allskills").html('<span style="font-size:48px;">' + data[0][1].toString() + '</span> Published  </br><span style="font-size:24px;">' + data[0][0].toString() + '</span> Added');      }, 500);     });
@@ -86,7 +122,7 @@ function doTimeout() {
           url: "../../totalmessages_getdata",
           dataType:"json",
           type: "GET",
-          async: false
+          async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
           $("#allmessages").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#allmessages").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span> Sent /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][1].toString() + '</span> Today');     }, 500);     });                  
@@ -97,7 +133,7 @@ function doTimeout() {
           url: "../../totalapplications_getdata",
           dataType:"json",
           type: "GET",
-          async: false
+          async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
           $("#allapplications").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#allapplications").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span> Applications on </br><span style="font-size:24px;">' + data[0][1].toString() + '</span> Jobs /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Today');     }, 500);     });  
@@ -107,7 +143,7 @@ function doTimeout() {
           url: "../../totalinvoices_getdata",
           dataType:"json",
           type: "GET",
-          async: false
+          async: true
           }) ).then(function( data, textStatus, jqXHR ) {
      
           $("#allinvoices").block({ message : '', css: { border: '0px solid #a00' } }); 
@@ -120,12 +156,23 @@ function doTimeout() {
           url: "../../totalproposals_getdata",
           dataType:"json",
           type: "GET",
-          async: false
+          async: true
           }) ).then(function( data, textStatus, jqXHR ) {
 
         $("#allproposals").block({ message : '', css: { border: '0px solid #a00' } }); 
         setTimeout(function (){$("#allproposals").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> Accepted /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Today');  }, 500); });
        
+     
+
+    $.when( $.ajax({
+          url: "../../trackingmessages_getdata",
+          type: "GET",
+          async: false
+          })).then(function( data, textStatus, jqXHR ) {
+         
+          $("#messages").html(formatemessages(data));
+
+           });       
      
                  
                  setTimeout(doTimeout, 60000); 
@@ -215,7 +262,10 @@ $(document).ready(function () {
 
         </div>
         <div class="InnerDivsSmall">
-
+            <div id="window9" style="height:500px">
+                <div>Messages</div>
+                <div id="messages" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;"></div>
+            </div>     
         </div>
     </div>
 
