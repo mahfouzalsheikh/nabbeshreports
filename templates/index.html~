@@ -100,7 +100,7 @@ function doTimeout() {
           async: false
           }) ).then(function( data, textStatus, jqXHR ) {                 
           $("#allapplications").block({ message : '', css: { border: '0px solid #a00' } }); 
-          setTimeout(function (){$("#allapplications").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span>apps on </br><span style="font-size:24px;">' + data[0][1].toString() + '</span> Jobs');     }, 500);     });  
+          setTimeout(function (){$("#allapplications").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span> Applications on </br><span style="font-size:24px;">' + data[0][1].toString() + '</span> Jobs');     }, 500);     });  
      
 
     $.when( $.ajax({
@@ -111,7 +111,7 @@ function doTimeout() {
           }) ).then(function( data, textStatus, jqXHR ) {
      
           $("#allinvoices").block({ message : '', css: { border: '0px solid #a00' } }); 
-          setTimeout(function (){$("#allinvoices").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> paid');    }, 500);     });                      
+          setTimeout(function (){$("#allinvoices").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> Paid');    }, 500);     });                      
                
         
     
