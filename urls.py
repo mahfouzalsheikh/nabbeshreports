@@ -121,6 +121,8 @@ urlpatterns = patterns('',
     url(r'^totalapplications_getdata$', 'nabbeshreports.maps.views.total_applications_getdata'), 
     url(r'^totalmessages_getdata$', 'nabbeshreports.maps.views.total_messages_getdata'),   
     url(r'^totalinvoices_getdata$', 'nabbeshreports.maps.views.total_invoices_getdata'),            
+    
+    url(r'^trackingmessages_getdata$', 'nabbeshreports.maps.views.tracking_messages_getdata'),
 
 #######################################################    
 

@@ -1199,8 +1199,20 @@ def total_messages_getdata(request):
         
         print sql
         results = customQuery(sql,1)
-        return HttpResponse(json.dumps(results), mimetype='application/json')         	 	
-
+        return HttpResponse(json.dumps(results), mimetype='application/json')    
+   
+   
+@csrf_exempt 
+def tracking_messages_getdata(request):
+    if request.method == 'GET':
+        
+        sql = ("select fr.id, aufr.first_name || ' ' || aufr.last_name, case when (fr.photo <>'' and fr.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto ,  cm.from_applicant,  substring(cm.message,1,15), cm.timestamp, ca.public_id, em.id , auem.first_name || ' ' || auem.last_name,  case when (em.photo <>'' and em.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as emphoto  from  contracts_message cm inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on ca.job_id=cj.id inner join users em on em.id=cj.employer_id inner join auth_user auem on auem.id=em.django_user_id inner join users fr on fr.id=ca.applicant_id inner join auth_user aufr on aufr.id=fr.django_user_id where cm.timestamp>='"+time.strftime("%Y-%m-%d")+"'  order by cm.timestamp desc;")
+        
+        print sql
+        results = customQuery(sql,1)
+        return HttpResponse(json.dumps(results), mimetype='application/json')          
+             	 	
+ 
 @csrf_exempt     
 def vistest_report(request):
     
