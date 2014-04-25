@@ -1165,7 +1165,7 @@ def total_skills_getdata(request):
 def total_proposals_getdata(request):
     if request.method == 'GET':
         
-        sql = ("select count(*), count(case when status=4 then 1 else null end)  from contracts_proposal")
+        sql = ("select count(distinct cp.message_ptr_id), count(case when cp.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+time.strftime("%Y-%m-%d")+"' then cm.id else null end)   from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id")
         
         print sql
         results = customQuery(sql,1)
@@ -1175,7 +1175,7 @@ def total_proposals_getdata(request):
 def total_applications_getdata(request):
     if request.method == 'GET':
         
-        sql = ("select count(*), count(distinct job_id)   from contracts_application")
+        sql = ("select count(*), count(distinct job_id), count(case when timestamp>='"+time.strftime("%Y-%m-%d")+"' then 1 else null end)   from contracts_application")
         
         print sql
         results = customQuery(sql,1)
@@ -1185,7 +1185,7 @@ def total_applications_getdata(request):
 def total_invoices_getdata(request):
     if request.method == 'GET':
         
-        sql = ("select count(*), count(case when status=4 then 1 else null end)  from contracts_invoice")
+        sql = ("select count(distinct ci.message_ptr_id), count(case when ci.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+time.strftime("%Y-%m-%d")+"' then cm.id else null end)   from contracts_invoice ci inner join contracts_message cm on cm.id=ci.message_ptr_id")
         
         print sql
         results = customQuery(sql,1)
@@ -1195,7 +1195,7 @@ def total_invoices_getdata(request):
 def total_messages_getdata(request):
     if request.method == 'GET':
         
-        sql = ("select count(*)  from contracts_message")
+        sql = ("select count(*), count(case when timestamp>='"+time.strftime("%Y-%m-%d")+"' then 1 else null end)  from contracts_message")
         
         print sql
         results = customQuery(sql,1)
