@@ -1210,7 +1210,7 @@ def tracking_messages_getdata(request):
         
         print sql
         results = customQuery(sql,1)
-        print results
+     
  
         c = Context({'messages': results})
    
