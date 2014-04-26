@@ -19,7 +19,7 @@
           async: false
           }).responseText;
           
-          //console.log(jsonData);
+          console.log(jsonData);
 
           
           return jsonData;
@@ -50,6 +50,7 @@
                     { name: 'PaidInvoicesCount', type: 'int', map: '5'},                    
                     { name: 'PaidInvoicesAmount', type: 'float', map: '6'},                    
                     { name: 'RevenueAmount', type: 'float', map: '7'},                                                          
+                    { name: 'AllProposalsAmount', type: 'float', map: '8'},  
                     ],
                 datatype: "array"
             };
@@ -72,6 +73,7 @@
                 columns: [
                   { text: 'Period', datafield: 'Period'},
                   { text: 'All Count', datafield: 'AllProposalsCount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Proposals'},
+                  { text: 'All Amount', datafield: 'AllProposalsAmount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Proposals'},
                   { text: 'Accepted Count', datafield: 'AcceptedProposalsCount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Proposals'},
                   { text: 'In Escrow Amount', datafield: 'InEscrowAmount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Proposals'},
                   { text: 'All Count', datafield: 'AllInvoicesCount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Invoices'},

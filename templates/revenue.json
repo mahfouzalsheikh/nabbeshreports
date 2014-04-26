@@ -1,2 +1,2 @@
-[["Period", "All Proposals Count", "Accepted Proposals Count", "In Escrow Amount", "All Invoices Count", "Paid Invoices Count", "Paid Invoices Amount", "Revenue Amount"], 
-{% for rev in revenue %}["{{ rev.0 }}",{{ rev.1 }},{{ rev.2 }},{{ rev.3 }},{{ rev.4 }},{{ rev.5 }},{{ rev.6 }},{{ rev.7 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]
+[["Period", "All Proposals Count", "Accepted Proposals Count", "In Escrow Amount", "All Invoices Count", "Paid Invoices Count", "Paid Invoices Amount", "Revenue Amount", "All Proposals Amount"], 
+{% for rev in revenue %}["{{ rev.0 }}",{{ rev.1 }},{{ rev.2 }},{{ rev.3 }},{{ rev.4 }},{{ rev.5 }},{{ rev.6 }},{{ rev.7 }},{{ rev.8 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]

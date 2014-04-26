@@ -1120,11 +1120,11 @@ def revenue_getdata(request):
         t2 = objs['todate']  + ' 23:59:59+00'
         
         grouppertext= objs['limit']
-        sql = "select "+datefieldtostring("cm.timestamp", grouppertext) + " as msgdate, count(distinct cp.message_ptr_id) as proposals, count(distinct case when cp.status=4 then cp.message_ptr_id else null end) as acceptedproposals, sum(distinct case when cp.status=4 then cp.deposit_amount else 0 end) as escrow, count(distinct ci.message_ptr_id) as invoices, count(distinct case when ci.status=4 then ci.message_ptr_id else null end) as paidinvoices, sum(distinct case when ci.status=4 then cii.unit_price * cii.quantity else 0 end) as invoiceamounts, sum(distinct case when ci.status=4 then cii.unit_price * quantity * 9 /100 else 0 end) as revenue from contracts_message cm left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id left outer join contracts_invoiceitem cii on cii.invoice_id=ci.message_ptr_id where cm.timestamp >= '"+t1+"' and cm.timestamp <= '"+t2+"' group by msgdate order by msgdate desc"
+        sql = "select "+datefieldtostring("cm.timestamp", grouppertext) + " as msgdate, count(distinct cp.message_ptr_id) as proposals, count(distinct case when cp.status=4 then cp.message_ptr_id else null end) as acceptedproposals, sum(distinct case when cp.status=4 then cp.deposit_amount else 0 end) as escrow, count(distinct ci.message_ptr_id) as invoices, count(distinct case when ci.status=4 then ci.message_ptr_id else null end) as paidinvoices, sum(distinct case when ci.status=4 then cii.unit_price * cii.quantity else 0 end) as invoiceamounts, sum(distinct case when ci.status=4 then cii.unit_price * quantity * 9 /100 else 0 end) as revenue, COALESCE(sum(cp.deposit_amount),0) as allproposals from contracts_message cm left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id left outer join contracts_invoiceitem cii on cii.invoice_id=ci.message_ptr_id where cm.timestamp >= '"+t1+"' and cm.timestamp <= '"+t2+"' group by msgdate order by msgdate desc"
         
         print sql
         results = customQuery(sql,0)
-        print results
+        #print results
  
         c = Context({'revenue': results})
    
