@@ -53,8 +53,9 @@ function formatname(id, name, direction)
    return html;
 }
 
-function formatworkstream(id, direction, time)
+function formatworkstream(id, direction, time, invoice, proposal)
 {
+   typeword='';
    if(direction=='True')
    { 
       dir='>>>>>>>';
@@ -64,7 +65,18 @@ function formatworkstream(id, direction, time)
       dir='<<<<<<<';
       color = 'rgb(60,60,60)';
    }
-   html='<td style="text-align:center;"><a target="_blank" style="TEXT-DECORATION: NONE;color: '+color+'; font-size:16px" href="http://www.nabbesh.com/contracts/workstream/'+id+'">'+dir+'</a></br><span style="font-size:10px">'+time+'</span> </td>'
+   if(invoice != 'None')
+   {
+     typeword='Invoice  ';
+   }else typeword='';
+   if(proposal != 'None')
+   {
+      typeword='Proposal ';
+     
+   }else typeword='';
+   
+   
+   html='<td style="text-align:center;"><a target="_blank" style="TEXT-DECORATION: NONE;color: '+color+'; font-size:16px" href="http://www.nabbesh.com/contracts/workstream/'+id+'">'+typeword+dir+'</a></br><span style="font-size:10px">'+time+'</span> </td>'
    return html;
 }
 function formatemessages(data)
@@ -75,7 +87,7 @@ function formatemessages(data)
       html='<table style="width:100%">'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left')+formatworkstream(data[i][5], data[i][3], data[i][4]) +formatname(data[i][6], data[i][7], 'right')+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left')+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10]) +formatname(data[i][6], data[i][7], 'right')+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
       }
        html+='</table>'
       return html;
