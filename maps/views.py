@@ -1102,19 +1102,20 @@ def payments_getdata(request):
 @login_required(login_url='/accounts/login/')
 def revenue_report(request):
     
+    
     t = loader.get_template('./reports/revenue_report.html')
     c = Context({
         'revenue_report': revenue_report,
     })
     return render_to_response('./reports/revenue_report.html', context_instance=RequestContext(request))
             
-@login_required(login_url='/accounts/login/')
+@csrf_exempt
 def revenue_getdata(request):
     if request.method == 'POST':
-
-        objs = simplejson.loads(request.raw_post_data)
-        #print objs
         
+        objs = simplejson.loads(request.raw_post_data)
+        print objs
+        print 'done till here'
         t1 = objs['fromdate'] + ' 00:00:00+00'
         t2 = objs['todate']  + ' 23:59:59+00'
         
