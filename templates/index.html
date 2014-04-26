@@ -187,10 +187,10 @@ function doTimeout() {
           type: "GET",
           async: false
           })).then(function( data, textStatus, jqXHR ) {
-         
-          $("#messages").html(formatemessages(data));
+          $("#messages").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
+          setTimeout(function (){$("#messages").html(formatemessages(data));  }, 500); });
 
-           });       
+            
      
                  
                  setTimeout(doTimeout, 120000); 
