@@ -188,7 +188,10 @@ function doTimeout() {
           async: false
           })).then(function( data, textStatus, jqXHR ) {
           $("#messages").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
-          setTimeout(function (){$("#messages").html(formatemessages(data));  }, 500); });
+          setTimeout(function (){
+              $("#messages").html(formatemessages(data));  
+              $("#messages").unblock(); 
+          }, 500); });
 
             
      
