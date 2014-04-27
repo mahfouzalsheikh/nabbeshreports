@@ -223,7 +223,7 @@ function doTimeout() {
           }, 500); });
 
              
-                 setTimeout(doTimeout, 120000); 
+                 setTimeout(doTimeout, 320000); 
             }
             
             
