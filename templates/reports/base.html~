@@ -168,7 +168,7 @@
 
 <div id="mainmenu">
                 <ul>
-                    <li><a href="/">Home</a> <span style="color: Red; font-size:10px">(New)</span></li>
+                    <li><a href="/">Home</a> <span style="color: Red; font-size:10px"> Live</span></li>
                     <li><a href="/mainmetrics">Main Metrics</a></li>
                     <li>Freelancers
                         <ul style='width: 250px;'>
@@ -187,7 +187,7 @@
                     <li>Activities             
                         <ul style='width: 200px;'>
                             <li><a href="jobsemployersstatistics">Employers & Jobs Stats</a></li>
-                            <li><a href="jobsapplicationsstatistics">Jobs/Applications Tracking</a></li>
+                            <li><a href="jobsapplicationsstatistics">Jobs/Applications Tracking</a><span style="color: Red; font-size:10px"> Live</span></li>
                             <li><a href="employersfunnel">Employers Funnel</a></li>
                             <li><a href="freelancersfunnel">Freelancers Funnel</a></li>
                             <li><a href="crosscountryapps">Cross-Country Apps</a></li>
@@ -200,12 +200,12 @@
                         </ul>
                     </li>
                     
-                    <li>Finance <span style="color: Red; font-size:10px">(New)</span>
+                    <li>Finance
                         <ul style='width: 180px;'>
                             <li><a href="proposals">Proposals</a></li>
                             <li><a href="invoices">Invoices</a></li>
                             <li><a href="payments">Payments</a></li>  
-                            <li><a href="revenue">Revenue <span style="color: Red; font-size:10px">(New)</span></a></li>                                                                     
+                            <li><a href="revenue">Revenue</a></li>                                                                     
                         </ul>
                     </li>
                     <li>Skills
