@@ -1135,8 +1135,9 @@ def revenue_getdata(request):
 def total_users_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
+        fromdate= objs['fromdate']
         print objs['fromdate']
-        sql = ("select count(id), count(case when is_active=true then 1 else null end), count(case when date_joined>='"+time.strftime("%Y-%m-%d")+"' then id else null end)  from auth_user")
+        sql = ("select count(id), count(case when is_active=true then 1 else null end), count(case when date_joined>='"+fromdate+"' then id else null end)  from auth_user")
         
         print sql
         results = customQuery(sql,1)
@@ -1146,8 +1147,9 @@ def total_users_getdata(request):
 def total_jobs_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
+        fromdate= objs['fromdate']
         print objs['fromdate']     
-        sql = ("select count(id), count(case when status=1 then 1 else null end), count(case when created_at>='"+time.strftime("%Y-%m-%d")+"' then 1 else null end) from contracts_job")
+        sql = ("select count(id), count(case when status=1 then 1 else null end), count(case when created_at>='"+fromdate+"' then 1 else null end) from contracts_job")
         
         print sql
         results = customQuery(sql,1)
@@ -1157,6 +1159,7 @@ def total_jobs_getdata(request):
 def total_skills_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
+        fromdate= objs['fromdate']
         print objs['fromdate']     
         sql = ("select count(*), count(case when published=true and merge_to_id is null then 1 else null end) from skills_skill")
         
@@ -1169,8 +1172,9 @@ def total_skills_getdata(request):
 def total_proposals_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
+        fromdate= objs['fromdate']
         print objs['fromdate']   
-        sql = ("select count(distinct cp.message_ptr_id), count(case when cp.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+time.strftime("%Y-%m-%d")+"' then cm.id else null end)   from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id")
+        sql = ("select count(distinct cp.message_ptr_id), count(case when cp.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+fromdate+"' then cm.id else null end)   from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id")
         
         print sql
         results = customQuery(sql,1)
@@ -1180,8 +1184,9 @@ def total_proposals_getdata(request):
 def total_applications_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
+        fromdate= objs['fromdate']
         print objs['fromdate'] 
-        sql = ("select count(*), count(distinct job_id), count(case when timestamp>='"+time.strftime("%Y-%m-%d")+"' then 1 else null end)   from contracts_application")
+        sql = ("select count(*), count(distinct job_id), count(case when timestamp>='"+fromdate+"' then 1 else null end)   from contracts_application")
         
         print sql
         results = customQuery(sql,1)
@@ -1191,8 +1196,9 @@ def total_applications_getdata(request):
 def total_invoices_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
+        fromdate= objs['fromdate']
         print objs['fromdate'] 
-        sql = ("select count(distinct ci.message_ptr_id), count(case when ci.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+time.strftime("%Y-%m-%d")+"' then cm.id else null end)   from contracts_invoice ci inner join contracts_message cm on cm.id=ci.message_ptr_id")
+        sql = ("select count(distinct ci.message_ptr_id), count(case when ci.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+fromdate+"' then cm.id else null end)   from contracts_invoice ci inner join contracts_message cm on cm.id=ci.message_ptr_id")
         
         
         results = customQuery(sql,1)
@@ -1202,8 +1208,9 @@ def total_invoices_getdata(request):
 def total_messages_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
+        fromdate= objs['fromdate']
         print objs['fromdate']
-        sql = ("select count(*), count(case when timestamp>='"+time.strftime("%Y-%m-%d")+"' then 1 else null end)  from contracts_message")
+        sql = ("select count(*), count(case when timestamp>='"+fromdate+"' then 1 else null end)  from contracts_message")
         
         print sql
         results = customQuery(sql,1)
