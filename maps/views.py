@@ -1131,30 +1131,33 @@ def revenue_getdata(request):
         return HttpResponse(render_to_string('revenue.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 
-@login_required(login_url='/accounts/login/') 
+@csrf_exempt
 def total_users_getdata(request):
-    if request.method == 'GET':
-        #print (time.strftime("%Y-%m-%d"))
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        print objs['fromdate']
         sql = ("select count(id), count(case when is_active=true then 1 else null end), count(case when date_joined>='"+time.strftime("%Y-%m-%d")+"' then id else null end)  from auth_user")
         
         print sql
         results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
         
-@login_required(login_url='/accounts/login/') 
+@csrf_exempt
 def total_jobs_getdata(request):
-    if request.method == 'GET':
-        
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        print objs['fromdate']     
         sql = ("select count(id), count(case when status=1 then 1 else null end), count(case when created_at>='"+time.strftime("%Y-%m-%d")+"' then 1 else null end) from contracts_job")
         
         print sql
         results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
 
-@login_required(login_url='/accounts/login/')
+@csrf_exempt
 def total_skills_getdata(request):
-    if request.method == 'GET':
-        
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        print objs['fromdate']     
         sql = ("select count(*), count(case when published=true and merge_to_id is null then 1 else null end) from skills_skill")
         
         print sql
@@ -1162,40 +1165,44 @@ def total_skills_getdata(request):
         return HttpResponse(json.dumps(results), mimetype='application/json') 
 
 
-@login_required(login_url='/accounts/login/') 
+@csrf_exempt
 def total_proposals_getdata(request):
-    if request.method == 'GET':
-        
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        print objs['fromdate']   
         sql = ("select count(distinct cp.message_ptr_id), count(case when cp.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+time.strftime("%Y-%m-%d")+"' then cm.id else null end)   from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id")
         
         print sql
         results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
 
-@login_required(login_url='/accounts/login/') 
+@csrf_exempt
 def total_applications_getdata(request):
-    if request.method == 'GET':
-        
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        print objs['fromdate'] 
         sql = ("select count(*), count(distinct job_id), count(case when timestamp>='"+time.strftime("%Y-%m-%d")+"' then 1 else null end)   from contracts_application")
         
         print sql
         results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
         
-@login_required(login_url='/accounts/login/') 
+@csrf_exempt
 def total_invoices_getdata(request):
-    if request.method == 'GET':
-        
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        print objs['fromdate'] 
         sql = ("select count(distinct ci.message_ptr_id), count(case when ci.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+time.strftime("%Y-%m-%d")+"' then cm.id else null end)   from contracts_invoice ci inner join contracts_message cm on cm.id=ci.message_ptr_id")
         
         
         results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
 
-@login_required(login_url='/accounts/login/') 
+@csrf_exempt 
 def total_messages_getdata(request):
-    if request.method == 'GET':
-        
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        print objs['fromdate']
         sql = ("select count(*), count(case when timestamp>='"+time.strftime("%Y-%m-%d")+"' then 1 else null end)  from contracts_message")
         
         print sql
@@ -1203,13 +1210,16 @@ def total_messages_getdata(request):
         return HttpResponse(json.dumps(results), mimetype='application/json')    
    
    
-@login_required(login_url='/accounts/login/') 
+@csrf_exempt 
 def tracking_messages_getdata(request):
-    if request.method == 'GET':
-        
-        sql = ("select fr.id, aufr.first_name || ' ' || aufr.last_name, case when (fr.photo <>'' and fr.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto ,  cm.from_applicant,  substring(cm.message,1,15), substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,16) , ca.id, em.id , auem.first_name || ' ' || auem.last_name,  case when (em.photo <>'' and em.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as emphoto, ci.message_ptr_id,cp.message_ptr_id, substring(cj.title,1,20),cj.id,case when cm.message ~ E'[A-Za-z0-9._%%-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,4}' then true else false end from  contracts_message cm inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on ca.job_id=cj.id inner join users em on em.id=cj.employer_id inner join auth_user auem on auem.id=em.django_user_id inner join users fr on fr.id=ca.applicant_id inner join auth_user aufr on aufr.id=fr.django_user_id  left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id where cm.timestamp>='"+time.strftime("%Y-%m-%d")+"' order by cm.timestamp desc;")
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        fromdate= objs['fromdate']
+        sql = ("select fr.id, aufr.first_name || ' ' || aufr.last_name, case when (fr.photo <>'' and fr.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto ,  cm.from_applicant,  substring(cm.message,1,15), substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,16) , ca.id, em.id , auem.first_name || ' ' || auem.last_name,  case when (em.photo <>'' and em.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as emphoto, ci.message_ptr_id as invoicenumber,cp.message_ptr_id, substring(cj.title,1,20),cj.id,case when cm.message ~ E'[A-Za-z0-9._%%-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,4}' then true else false end from  contracts_message cm inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on ca.job_id=cj.id inner join users em on em.id=cj.employer_id inner join auth_user auem on auem.id=em.django_user_id inner join users fr on fr.id=ca.applicant_id inner join auth_user aufr on aufr.id=fr.django_user_id  left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id where cm.timestamp>='"+fromdate+"' and ci.message_ptr_id is not null order by cm.timestamp desc;")
         
         print sql
+        
+        print time.strftime("%Y-%m-%d");
         results = customQuery(sql,1)
      
  

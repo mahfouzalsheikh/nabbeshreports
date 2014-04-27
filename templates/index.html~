@@ -67,14 +67,16 @@ function formatworkstream(id, direction, time, invoice, proposal,job,jobid, emai
    }
    if(invoice != 'None')
    {
-     typeword='Invoice  ';
-   }else typeword='';
+      alert('invoice');
+      typeword='Invoice  ';
+   }else 
    if(proposal != 'None')
    {
       typeword='Proposal ';
      
    }else typeword='';
    
+   //console.log(invoice);
    emailtext='';
    if(email=='True')
      emailtext='Includes Email Address'
@@ -100,16 +102,33 @@ function formatemessages(data)
 
 function doTimeout() {
      
+     try{     
      analyticsresult= $.parseJSON(getVisitsData());
      $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
      $("#analyticscontent").html('<span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][2].toString() + '</span> Pageviews  <span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][1].toString() + '</span> Visits');
+     }
+     catch(err)
+     { 
+        $("#analyticscontent").html("Couldn't loading analytics data");
+     }
       
+
+     Date.prototype.yyyymmdd = function() {
+       var yyyy = this.getFullYear().toString();
+       var mm = (this.getMonth()+1).toString(); 
+       var dd  = this.getDate().toString();
+       return yyyy +'-'+ (mm[1]?mm:"0"+mm[0]) +'-'+ (dd[1]?dd:"0"+dd[0]);
+     };
+
+    d = new Date();
+    fromdate= d.yyyymmdd();
 
      
     $.when( $.ajax({
           url: "../../totalusers_getdata",
           dataType:"json",
-          type: "GET",
+          type: "POST",
+          data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
           $("#allusers").block({ message : '', css: { border: '0px solid #a00' } });    
@@ -119,7 +138,8 @@ function doTimeout() {
     $.when( $.ajax({
           url: "../../totaljobs_getdata",
           dataType:"json",
-          type: "GET",
+          type: "POST",
+          data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
           $("#alljobs").block({ message : '', css: { border: '0px solid #a00' } }); 
@@ -129,7 +149,8 @@ function doTimeout() {
     $.when( $.ajax({
           url: "../../totalskills_getdata",
           dataType:"json",
-          type: "GET",
+          type: "POST",
+          data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
           $("#allskills").block({ message : '', css: { border: '0px solid #a00' } }); 
@@ -139,7 +160,8 @@ function doTimeout() {
     $.when( $.ajax({
           url: "../../totalmessages_getdata",
           dataType:"json",
-          type: "GET",
+          type: "POST",
+          data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
           $("#allmessages").block({ message : '', css: { border: '0px solid #a00' } }); 
@@ -150,7 +172,8 @@ function doTimeout() {
     $.when( $.ajax({
           url: "../../totalapplications_getdata",
           dataType:"json",
-          type: "GET",
+          type: "POST",
+          data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
           $("#allapplications").block({ message : '', css: { border: '0px solid #a00' } }); 
@@ -160,7 +183,8 @@ function doTimeout() {
     $.when( $.ajax({
           url: "../../totalinvoices_getdata",
           dataType:"json",
-          type: "GET",
+          type: "POST",
+          data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {
      
@@ -173,7 +197,8 @@ function doTimeout() {
     $.when( $.ajax({
           url: "../../totalproposals_getdata",
           dataType:"json",
-          type: "GET",
+          type: "POST",
+          data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {
 
@@ -184,11 +209,15 @@ function doTimeout() {
 
     $.when( $.ajax({
           url: "../../trackingmessages_getdata",
-          type: "GET",
+          type: "POST",
+          data: JSON.stringify( {"fromdate": fromdate}),
           async: false
           })).then(function( data, textStatus, jqXHR ) {
           $("#messages").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
-          setTimeout(function (){$("#messages").html(formatemessages(data));  }, 500); });
+          setTimeout(function (){              
+              $("#messages").html(formatemessages(data));  
+              $("#messages").unblock(); 
+          }, 500); });
 
             
      
