@@ -219,9 +219,7 @@ function doTimeout() {
               $("#messages").unblock(); 
           }, 500); });
 
-            
-     
-                 
+             
                  setTimeout(doTimeout, 120000); 
             }
             
