@@ -214,6 +214,17 @@ function doTimeout() {
               $("#messages").unblock(); 
           }, 500); });
 
+
+try{     
+     analyticsresult= $.parseJSON(getVisitsData());
+     $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
+     $("#analyticscontent").html('<span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][2].toString() + '</span> Pageviews  <span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][1].toString() + '</span> Visits');
+     }
+     catch(err)
+     { 
+        $("#analyticscontent").html("Couldn't loading analytics data");
+     }
+
              
                  setTimeout(doTimeout, 320000); 
             }
@@ -242,15 +253,7 @@ $(document).ready(function () {
      $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
      
      
-     try{     
-     analyticsresult= $.parseJSON(getVisitsData());
-     $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
-     $("#analyticscontent").html('<span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][2].toString() + '</span> Pageviews  <span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][1].toString() + '</span> Visits');
-     }
-     catch(err)
-     { 
-        $("#analyticscontent").html("Couldn't loading analytics data");
-     }
+     
      
      setTimeout(doTimeout, 1000);
 
