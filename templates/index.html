@@ -105,15 +105,7 @@ function formatemessages(data)
 
 function doTimeout() {
      
-     try{     
-     analyticsresult= $.parseJSON(getVisitsData());
-     $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
-     $("#analyticscontent").html('<span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][2].toString() + '</span> Pageviews  <span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][1].toString() + '</span> Visits');
-     }
-     catch(err)
-     { 
-        $("#analyticscontent").html("Couldn't loading analytics data");
-     }
+     
       
 
      Date.prototype.yyyymmdd = function() {
@@ -249,6 +241,16 @@ $(document).ready(function () {
      $("#allproposals").block({ message : '', css: { border: '0px solid #a00' } });
      $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
      
+     
+     try{     
+     analyticsresult= $.parseJSON(getVisitsData());
+     $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
+     $("#analyticscontent").html('<span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][2].toString() + '</span> Pageviews  <span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][1].toString() + '</span> Visits');
+     }
+     catch(err)
+     { 
+        $("#analyticscontent").html("Couldn't loading analytics data");
+     }
      
      setTimeout(doTimeout, 1000);
 
