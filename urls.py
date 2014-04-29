@@ -21,6 +21,10 @@ urlpatterns = patterns('',
  
     url(r'^mainmetrics$', 'nabbeshreports.maps.views.dashboard'),
     url(r'^dashboard_getdata$', 'nabbeshreports.maps.views.dashboard_getdata'),
+    
+    url(r'^growthdashboard$', 'nabbeshreports.maps.views.growth_dashboard'),
+    url(r'^growthdashboard_getdata$', 'nabbeshreports.maps.views.growthdashboard_getdata'),
+    
     url(r'^analytics_getdata$', 'nabbeshreports.maps.views.analytics_getdata'),
     
     

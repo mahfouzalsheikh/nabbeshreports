@@ -1,0 +1,342 @@
+{% extends 'reports/base.html' %}
+
+{% block  customheadscripts %}
+
+<script type="text/javascript"> 
+        google.load('visualization', '1', {packages: ['corechart']});
+        google.load('visualization', '1', {packages: ['table']});
+</script>
+
+<script type="text/javascript">
+     var JSONData;
+     var JSONAnalyticsData; 
+</script>
+
+<script type="text/javascript">
+     
+     function getData(limit,from,to){
+      var params = {"limit": limit, "fromdate": from, "todate": to};
+      var jsonData = $.ajax({
+          url: "../../growthdashboard_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+     }
+    
+     function getAnalyticsData(limit,from,to){
+      var params = {"limit": limit, "fromdate": from, "todate": to};
+      var jsonData = $.ajax({
+          url: "../../analytics_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+     }
+    
+ function add_total_row(data) { 
+    var row_count = data.getNumberOfRows();
+    var column_count = data.getNumberOfColumns();
+    var new_row = new Array();
+    var max_row = new Array();
+    var min_row = new Array();
+    var avg_row = new Array();
+
+    for (col_i = 0; col_i < column_count; col_i++) { 
+      var cell_value = 0;
+      var max_value = 0;
+      var min_value = 10000000000;
+      var avg_value = 0; 
+      if (data.getColumnType(col_i) == 'string') {
+        new_row[col_i] = 'Total';
+        max_row[col_i] = 'Max';
+        min_row[col_i] = 'Min';
+        avg_row[col_i] = 'Avg';
+        
+      }
+      else if (data.getColumnType(col_i) == 'number') {
+        
+         
+          for (row_i = 0; row_i < row_count; row_i++) {
+            cell_value = cell_value + data.getValue(row_i, col_i);
+            if(max_value<data.getValue(row_i, col_i)){max_value=data.getValue(row_i, col_i); }
+            if(min_value>data.getValue(row_i, col_i)){min_value=data.getValue(row_i, col_i);}                                                          
+          }
+         
+
+         cell_formatted = Math.round(cell_value*100)/100;
+	 new_row[col_i] = {v: cell_value, f: '' + cell_formatted};
+                           
+         max_formatted = Math.round(max_value*100)/100;
+	 max_row[col_i] = {v: max_value, f: '' + max_formatted};
+
+         min_formatted = Math.round(min_value*100)/100;
+	 min_row[col_i] = {v: min_value, f: '' + min_formatted};
+          
+          
+         avg_value = cell_value/row_count; 
+         avg_formatted = Math.round(avg_value*100)/100;
+	 avg_row[col_i] = {v: avg_value, f: '' + avg_formatted};
+
+
+      }
+      else { 
+        new_row[col_i] = null;
+      }
+      
+    }  
+      data.addRows([new_row]);
+      data.addRows([max_row]);
+      data.addRows([min_row]);
+      data.addRows([avg_row]);
+         
+      for (col_i = 0; col_i < column_count; col_i++) {
+          for (row_i = row_count; row_i < row_count+4; row_i++) {
+               data.setProperty(row_i, col_i, 'style', 'background-color: rgb(180,180,255); font-size: 14px');
+          }
+      }      
+      return data;
+
+    }
+
+  
+     
+     function drawChart(jsonData,metrics,from,to)
+     {
+      var metricsarray=[0];
+      $.each(metrics, function (index) {                      
+                            metricsarray.push(this.index+1);                                               
+                    });   
+      
+      
+
+      dataarray =   $.parseJSON(jsonData);               
+        
+      var data1 = new google.visualization.arrayToDataTable(dataarray);
+      var data2 = new google.visualization.arrayToDataTable(dataarray);
+      
+            
+      var chart = new google.visualization.LineChart(document.getElementById('visualization'));
+      var dataView1 = new google.visualization.DataView(data1);
+      dataView1.setColumns(metricsarray);
+      
+      var dataView2 = new google.visualization.DataView(add_total_row(data2));
+      dataView2.setColumns(metricsarray);
+      
+      chart.draw(dataView1, {curveType: "function",width: '100%', height: 300, is3D: true,title:"Main Dashboard    -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });      
+      var tablearea = new google.visualization.Table(document.getElementById('tablearea'));     
+      
+      
+      var options = {'showRowNumber': true, 'allowHtml': true};
+      
+      
+      
+      
+      
+      tablearea.draw(dataView2,options); 
+      
+
+     }
+     
+     
+     function drawAnalyticsChart(jsonData,from,to)
+     {
+     
+      dataarray =   $.parseJSON(jsonData);               
+     
+      var data = new google.visualization.arrayToDataTable(dataarray);  
+         
+      var chart = new google.visualization.LineChart(document.getElementById('analyticsvisualization'));
+     
+      chart.draw(data, {width: '100%', height: 300, is3D: true,title:"Google Analytics    -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });           
+      
+
+     }
+     
+     function draw(limit,from,to) {
+      
+      var jsonData= getData(limit,from,to);                        
+      
+      JSONData=jsonData;
+     
+      drawChart(jsonData,$("#metricslist").jqxDropDownList('getCheckedItems'),from,to);   
+
+         
+      var jsonAnalyticsData= getAnalyticsData(limit,from,to);
+      JSONAnalyticsData = jsonAnalyticsData;
+      drawAnalyticsChart(jsonAnalyticsData,from,to);       
+      drawRatesChart(jsonData,jsonAnalyticsData,  $("#metricslist").jqxDropDownList('getCheckedItems') , from, to);
+         
+     }
+    
+    
+    function drawRatesChart(jsonData,jsonAnalyticsData, metrics, from , to){
+      var dataTable = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+      var anayticsdataTable= new google.visualization.arrayToDataTable($.parseJSON(jsonAnalyticsData));
+      
+      var data = google.visualization.data.join(dataTable, anayticsdataTable, 'inner', [[0,0]], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],[1,2]);
+      
+      
+   
+      var row_count = data.getNumberOfRows();
+      var column_count = data.getNumberOfColumns();
+
+      for (col_i = 0; col_i < column_count-2; col_i++) { 
+
+      if (data.getColumnType(col_i) == 'string') {
+
+      }
+      else if (data.getColumnType(col_i) == 'number') {
+        
+         
+          for (row_i = 0; row_i < row_count; row_i++) {
+            
+             data.setFormattedValue(row_i,col_i, (Math.round(data.getValue(row_i,col_i)*1000000/data.getValue(row_i,17))/10000).toString());
+             data.setValue(row_i,col_i, Math.round(data.getValue(row_i,col_i)*1000000/data.getValue(row_i,17))/10000);
+
+          }
+
+      }     
+      
+    }  
+
+            
+      var metricsarray=[0];
+      $.each(metrics, function (index) {                      
+                            metricsarray.push(this.index+1);                                               
+                    });  
+                    
+
+                    
+      var dataView = new google.visualization.DataView(data);
+      dataView.setColumns(metricsarray);             
+      var chart = new google.visualization.LineChart(document.getElementById('ratestablearea'));                
+      
+      chart.draw(dataView, {curveType: "function",width: '100%', height: 300, is3D: true,title:"Metrics vs Pageviews Rates  -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });   
+                     
+    }
+
+    
+
+
+$(document).ready(function () {
+
+     var theme = 'bootstrap';
+     $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+
+     $("#groupbybuttons").jqxButtonGroup({ mode: 'radio' });
+     $('#groupbybuttons').jqxButtonGroup('setSelection', 0);
+     $("#groupbybuttons").on('buttonclick', function (event) {
+                    var clickedButton = event.args.button;
+                    limit = clickedButton[0].id;
+                });
+     
+     
+     var today = new Date(Date.now());
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+
+     
+     $("#fromdate").on('change', function (event) {
+                    fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
+                });
+     $("#todate").on('change', function (event) {
+                    todate= $('#todate').jqxDateTimeInput('getText'); 
+                });        
+        
+     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
+     var todate = $('#todate').jqxDateTimeInput('getText');
+     var limit="Day";          
+                
+      $("#filterButton").jqxButton({theme: theme, width: '200'});
+      $("#filterButton").on('click', function () { 
+         
+         draw(limit,fromdate,todate);
+      });
+      $("#downloadButton").jqxButton({theme: theme, width: '200'});                
+      $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData(limit,fromdate,todate));
+    		var csv = JSON2CSV(json);
+//	        window.open("data:text/csv;charset=utf-8," + escape(csv))
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "dashboard_data.csv");
+      }); 
+
+     
+     
+     var metricslistsource = ["Workflow Msgs","Normal Msgs","All Signups", "Joined as Freelancer","Joined as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Proposal Paid", "Job Apps","Invitations", "Invoices Sent", "Invoices Paid", "Invitations/Job", "Applications/Job"];
+     $("#metricslist").jqxDropDownList({theme: theme,width: 200,height: 25, source: metricslistsource, checkboxes: true, animationType: 'fade'});
+     
+     //$("#metricslist").jqxListBox('checkIndex', 2);
+     $("#metricslist").jqxDropDownList('checkIndex', 2);
+     $("#metricslist").jqxDropDownList('checkIndex', 6);     
+     $("#metricslist").jqxDropDownList('checkIndex', 7);
+     $("#metricslist").jqxDropDownList('checkIndex', 8);
+
+     
+ 
+     
+     $("#metricslist").on('checkChange', function (event) {
+       var metricsss = $("#metricslist").jqxDropDownList('getCheckedItems');
+       drawChart(JSONData, metricsss,fromdate, todate); 
+       
+       drawRatesChart(JSONData, JSONAnalyticsData,  metricsss, fromdate, todate)            
+     });          
+     draw(limit,fromdate,todate);
+
+
+               
+});  
+
+
+
+
+</script>  
+
+{% endblock %}
+
+
+{% block reportblock %}
+
+
+<div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+                   <tr>
+                      <tr><td>Metrics</td><td><div id="metricslist"></div></td></tr>
+                   </tr>
+                   <tr>
+                     <td>Group By:<td><div id='groupbybuttons'>
+                                  <button style="padding:4px 16px;" id="Day">Day</button>
+                                  <button style="padding:4px 16px;" id="Week">Week</button>
+                                  <button style="padding:4px 16px;" id="Month">Month</button>
+                                  </div>
+                              </td>
+                   </tr>
+                 
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
+                   
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>
+                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>
+                  
+                </table>  
+                  
+               
+            </div>
+        </div>
+     
+
+<div id="visualization" style="width: 100%; height:300px;"></div>
+<div id="analyticsvisualization" style="width: 100%; height:300px;"></div>
+<div id="ratestablearea" style="width: 100%;height:300px;"></div>
+<div id="tablearea" style="width: 100%;"></div>
+
+
+{% endblock %}
+
+

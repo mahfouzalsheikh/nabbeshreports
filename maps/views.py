@@ -337,6 +337,75 @@ def dashboard_getdata(request):
         return HttpResponse(render_to_string('dashboard.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
     
 
+
+@login_required(login_url='/accounts/login/')	
+def growth_dashboard(request):
+    
+    t = loader.get_template('./reports/growth_dashboard.html')
+    return render_to_response('./reports/growth_dashboard.html', context_instance=RequestContext(request))
+    
+
+
+
+    
+
+   
+@csrf_exempt 
+def growthdashboard_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        #print objs
+        
+        t1 = objs['fromdate'] + ' 00:00:00+00'
+        t2 = objs['todate']  + ' 23:59:59+00'
+        
+        grouppertext= objs['limit']
+ 
+        print grouppertext
+               
+        header_sql = ("select msgdate,COALESCE(message_count,0) as message_count,COALESCE(nmessage_count,0) as nmessage_count,COALESCE(allusers_count,0) as allusers_count,COALESCE(freelancer_count,0) as freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count ,COALESCE(job_count,0) as job_count, COALESCE(proposal_count,0) as proposal_count, COALESCE(paidproposal_count,0) as paidproposal_count, COALESCE(application_count,0) as application_count,COALESCE(invitation_count,0) as invitation_count , COALESCE(invoice_count,0) as invoice_count,COALESCE(invoicepaid_count,0) as invoicepaid_count,round(COALESCE(invperjobavg,0),2) as invperjobavg, round(COALESCE(appperjobavg::numeric,0),2) as appperjobavg  from ")
+        
+        workflow_messages_sql = ("(select count(distinct id)/ (sum(count(distinct id)) over (order by "+datefieldtostring("timestamp", grouppertext) + ") -count(distinct id) +0.0001) as message_count,"+datefieldtostring("timestamp", grouppertext) + " as msgdate from contracts_message where timestamp>='"+t1+"' and timestamp<='"+t2+"' group by msgdate) contractsmessages left outer join ")
+        
+        allusers_sql = ("(select count(distinct u.id) as allusers_count, "+datefieldtostring("date_joined", grouppertext) + " as datejoined from users u inner join auth_user au on au.id=u.django_user_id where date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) allusers on contractsmessages.msgdate=allusers.datejoined left outer join")
+        
+        freelancers_sql = ("(select count(distinct u.id) as freelancer_count, "+datefieldtostring("date_joined", grouppertext) + " as datejoined from users u inner join auth_user au on au.id=u.django_user_id where u.is_freelancer=true and date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) freelancers on contractsmessages.msgdate=freelancers.datejoined left outer join")
+        
+        employers_sql = ("(select count(distinct u.id) as employers_count, "+datefieldtostring("date_joined", grouppertext) + " as datejoined from users u inner join auth_user au on au.id=u.django_user_id where u.is_employer=true and date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) employers on freelancers.datejoined=employers.datejoined left outer join")
+        
+        realemployers_sql = ("(select count(distinct u.id) as realemployers_count, "+datefieldtostring("date_joined", grouppertext) + " as datejoined from users u inner join auth_user au on au.id=u.django_user_id inner join contracts_job cj on cj.employer_id=u.id where  date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) realemployers on contractsmessages.msgdate=realemployers.datejoined left outer join")
+        
+        jobs_sql =("(select count(id) as job_count,  "+datefieldtostring("created_at", grouppertext) + " as createdat from contracts_job  where created_at>='"+t1+"' and created_at<='"+t2+"' group by createdat) jobs on jobs.createdat=contractsmessages.msgdate  left outer join")
+        
+        contractsmessages_sql = ("(select count(distinct id) as nmessage_count, "+datefieldtostring("sent_at", grouppertext) + " as sentat from messages_message where sent_at>='"+t1+"' and sent_at<='"+t2+"' group by sentat) messages on messages.sentat=contractsmessages.msgdate   left outer join")
+        
+        porposals_sql  = ("(select "+datefieldtostring("timestamp", grouppertext) + " as proposalsent,count(*) as proposal_count from contracts_proposal cp inner join contracts_message cm on cp.message_ptr_id=cm.id where timestamp>='"+t1+"' and timestamp<='"+t2+"'  group by proposalsent) proposals on proposals.proposalsent=contractsmessages.msgdate left outer join ")
+                
+        proposalspaid_sql = ("(select "+datefieldtostring("timestamp", grouppertext) + " as proposalpaid,sum(case when cp.status=4 then 1 else 0 end) as paidproposal_count from contracts_proposal cp inner join contracts_message cm on cp.message_ptr_id=cm.id where timestamp>='"+t1+"' and timestamp<='"+t2+"'  group by proposalpaid) paidproposals on paidproposals.proposalpaid=contractsmessages.msgdate left outer join ")  
+                     
+        
+        application_sql = ("(select count(distinct id) as application_count,"+datefieldtostring("timestamp", grouppertext) + " as appliedat from contracts_application   where timestamp>='"+t1+"' and timestamp<='"+t2+"' group by appliedat) applications on applications.appliedat=contractsmessages.msgdate left outer join ")
+                
+        invited_sql = ("(select count(*) as invitation_count, "+datefieldtostring("cj.created_at", grouppertext) + " as invited_at  from contracts_job_invited cji inner join contracts_job cj on cj.id=cji.job_id where cj.created_at>='"+t1+"' and cj.created_at<='"+t2+"' group by invited_at) invitations on invitations.invited_at=contractsmessages.msgdate left outer join")
+        
+        invoicesent_sql = ("(select count(distinct ci.message_ptr_id) as invoice_count,"+datefieldtostring("timestamp", grouppertext) + " as invoicesent from contracts_invoice ci inner join contracts_message cm on ci.message_ptr_id=cm.id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' group by invoicesent) invoicessent on invoicessent.invoicesent=contractsmessages.msgdate left outer join ")
+        
+        invoicepaid_sql = ("(select count(distinct ci.message_ptr_id) as invoicepaid_count,"+datefieldtostring("cm.timestamp", grouppertext) + " as invoicepaid from contracts_invoice ci inner join contracts_message cm on ci.message_ptr_id=cm.id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' and ci.status=4 group by invoicepaid) invoicespaid on invoicespaid.invoicepaid=contractsmessages.msgdate left outer join ")
+        
+        invperjob_sql = ("(select avg(inv.jobinv) as invperjobavg, "+datefieldtostring("cj.created_at", grouppertext) + " as invsentat from contracts_job cj inner join (select count(cji.id) as jobinv,cji.job_id from contracts_job_invited cji  group by cji.job_id) inv on inv.job_id=cj.id group by invsentat) invitationsperjob on invitationsperjob.invsentat=contractsmessages.msgdate left outer join ")
+        
+        appperjob_sql = ("(select count(ca.id)::float/count(distinct ca.job_id)::float as appperjobavg,"+datefieldtostring("ca.timestamp", grouppertext) + " as appliedat  from contracts_application ca  group by appliedat) applicationperjob on applicationperjob.appliedat=contractsmessages.msgdate ")
+        
+        sql = (header_sql + workflow_messages_sql + allusers_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + proposalspaid_sql + application_sql +invited_sql+ invoicesent_sql + invoicepaid_sql +invperjob_sql +appperjob_sql+  "  order by msgdate")
+        
+        
+        print sql
+        
+        results = customQuery(sql,0)                                     
+        c = Context({'statistics': results})   
+        return HttpResponse(render_to_string('dashboard.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
+    
+
         
         
 @login_required(login_url='/accounts/login/')
