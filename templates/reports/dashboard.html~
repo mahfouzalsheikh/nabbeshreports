@@ -218,7 +218,7 @@
       var dataView = new google.visualization.DataView(data);
       dataView.setColumns(metricsarray);                   
       
-      rateschart.draw(dataView, {animation:{ duration: 500, easing: 'out' },curveType: "function",width: '100%', height: 300, is3D: true,title:"Metrics vs Pageviews Rates  -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });   
+      rateschart.draw(dataView, {animation:{ duration: 1000, easing: 'inAndOut' },curveType: "function",width: '100%', height: 300, is3D: true,title:"Metrics vs Pageviews Rates  -   " + from + " to "+ to ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });   
                      
     }
 
