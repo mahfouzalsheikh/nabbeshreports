@@ -5,6 +5,8 @@
 <script type="text/javascript"> 
         google.load('visualization', '1', {packages: ['corechart']});
         google.load('visualization', '1', {packages: ['table']});
+        var chart;
+
 </script>
 
 <script type="text/javascript">
@@ -40,7 +42,7 @@
       var data2 = new google.visualization.arrayToDataTable(dataarray);
       
             
-      var chart = new google.visualization.LineChart(document.getElementById('visualization'));
+//      var chart = new google.visualization.LineChart(document.getElementById('visualization'));
       var dataView1 = new google.visualization.DataView(data1);
       
       
@@ -48,7 +50,10 @@
       var dataView2 = new google.visualization.DataView(data2);
      
       
-      chart.draw(dataView1, { width: '100%', height: 300, is3D: true,title:metric+" Growth -   " + from + " to "+ to ,  legend: {position: 'none'} });    
+      chart.draw(dataView1, { width: '100%', height: 300, is3D: true,title:metric+" Growth -   " + from + " to "+ to ,  legend: {position: 'none'}, animation:{
+        duration: 500,
+        easing: 'out'
+      } });    
       
       var formatter = new google.visualization.NumberFormat(
       {suffix: " %", negativeColor: 'red', negativeParens: true});
@@ -137,7 +142,7 @@ $(document).ready(function () {
                         var item = event.args.item;
                         if (item != null) {                            
                             metric = item.label;
-                            drawChart(JSONData, item.index,fromdate, todate); 
+                            //drawChart(JSONData, item.index,fromdate, todate); 
                         }
                     }
       
@@ -145,7 +150,7 @@ $(document).ready(function () {
        
        
      });          
-     
+     chart = new google.visualization.LineChart(document.getElementById('visualization'));
      draw(limit,fromdate,todate, metric);
 
                
