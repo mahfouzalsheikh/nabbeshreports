@@ -1,0 +1,7 @@
+[
+["Date","{{ metricname}}"],
+{% for metric in statistics %}["{{ metric.0 }}",{{ metric.1 }}]
+{% if not forloop.last %},{% endif %}{% endfor %}
+]
+
+
