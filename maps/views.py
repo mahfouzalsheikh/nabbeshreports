@@ -359,11 +359,13 @@ def growthdashboard_getdata(request):
         metric = objs['metric']
         
         print metric
-               
-        sql = ("select sp.periodjoined, round(100*joined/(runningtotal-joined+0.00001),3) from (select "+datefieldtostring("date_joined", grouppertext) + " as periodjoined, count(*) as joined from auth_user where date_joined >='"+t1+"' and date_joined <='"+t2+"' group by periodjoined) sp inner join (select "+datefieldtostring("date_joined", grouppertext) + " as periodjoined, sum(count(*)) over (order by "+datefieldtostring("date_joined", grouppertext) + ") as runningtotal from auth_user  group by periodjoined) al on sp.periodjoined=al.periodjoined ")
+        if metric== 'All Signups':               
+            sql = ("select sp.periodjoined, round(100*joined/(runningtotal-joined+0.00001),3) from (select "+datefieldtostring("date_joined", grouppertext) + " as periodjoined, count(*) as joined from auth_user where date_joined >='"+t1+"' and date_joined <='"+t2+"' group by periodjoined) sp inner join (select "+datefieldtostring("date_joined", grouppertext) + " as periodjoined, sum(count(*)) over (order by "+datefieldtostring("date_joined", grouppertext) + ") as runningtotal from auth_user  group by periodjoined) al on sp.periodjoined=al.periodjoined ")
         
+        elif metric== 'Jobs Posted':
+            sql = ("select sp.periodcreated, round(100*created/(runningtotal-created+0.00001),3) from  (select  "+datefieldtostring("created_at", grouppertext) +"  as periodcreated, count(*) as created from contracts_job where created_at >='"+t1+"' and created_at <='"+t2+"' group by periodcreated) sp  inner join  (select  "+datefieldtostring("created_at", grouppertext) +" as periodcreated, sum(count(*)) over (order by  "+datefieldtostring("created_at", grouppertext) +"  ) as runningtotal from contracts_job  group by periodcreated) al on sp.periodcreated=al.periodcreated  ")
         
-        
+        print sql
         results = customQuery(sql,0)                                     
         c = Context({'statistics': results, 'metricname': metric})   
         return HttpResponse(render_to_string('growthdashboard.json', c, context_instance=RequestContext(request)), mimetype='application/json')  

@@ -124,8 +124,8 @@ $(document).ready(function () {
 
      
      
-     var metricslistsource = ["All Signups"];
-     $("#metricslist").jqxDropDownList({theme: theme,width: 200,height: 25, source: metricslistsource , animationType: 'fade', selectedIndex:0});
+     var metricslistsource = ["All Signups", "Jobs Posted"];
+     $("#metricslist").jqxDropDownList({theme: theme,width: 200,height: 25,dropDownHeight: 150, source: metricslistsource , animationType: 'fade', selectedIndex:0});
      
 
      
