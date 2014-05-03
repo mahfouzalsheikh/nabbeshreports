@@ -1212,6 +1212,16 @@ def tracking_messages_getdata(request):
    
         return HttpResponse(render_to_string('trackingmessages.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
+
+@login_required(login_url='/accounts/login/')
+def leakagedetection_report(request):
+        
+    t = loader.get_template('./reports/leakagedetection_report.html')
+    c = Context({
+        'leakagedetection_report': leakagedetection_report,
+    })
+    return render_to_response('./reports/leakagedetection_report.html', context_instance=RequestContext(request))
+    
  
 @csrf_exempt     
 def vistest_report(request):
