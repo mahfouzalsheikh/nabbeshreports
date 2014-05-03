@@ -53,8 +53,9 @@ function formatname(id, name, direction)
    return html;
 }
 
-function formatworkstream(id, direction, time, invoice, proposal,job,jobid, email, phone,skype)
+function formatworkstream(id, direction, time, invoice, proposal,job,jobid, email, phone,skype, odesk, elance)
 {
+   console.log(elance);
    typeword='';
    if(direction=='True')
    { 
@@ -83,7 +84,11 @@ function formatworkstream(id, direction, time, invoice, proposal,job,jobid, emai
    if(phone=='True')
      emailtext+=' Phone ';     
    if(skype=='True')
-     emailtext+=' Skype ';    
+     emailtext+=' Skype '; 
+   if(odesk=='True')
+     emailtext+=' Odesk '; 
+   if(elance=='True')
+     emailtext+=' Elance ';              
    
    html='<td style="text-align:center;"><a target="_blank" style="TEXT-DECORATION: NONE;color: '+color+'; font-size:16px" href="http://www.nabbesh.com/contracts/workstream/'+id+'">'+typeword+dir+'</a></br><span style="font-size:10px">'+time+'</span></br><a  target="_blank" href="http://www.nabbesh.com/jobs/location/title/'+jobid+'" style="TEXT-DECORATION: NONE;font-size:10px;color: rgb(60,60,60)">'+job+'</a></br><span style="color: rgb(255,0,0); font-size:10px">'+emailtext+'</span></td>'
    return html;
@@ -96,7 +101,7 @@ function formatemessages(data)
       html='<table style="width:100%">'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left')+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15] ) +formatname(data[i][6], data[i][7], 'right')+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left')+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16], data[i][17] ) +formatname(data[i][6], data[i][7], 'right')+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
       }
        html+='</table>'
       return html;
@@ -204,7 +209,7 @@ function doTimeout() {
 
     $.when( $.ajax({
           url: "../../trackingmessages_getdata",
-          type: "POST",
+          type: "GET",
           data: JSON.stringify( {"fromdate": fromdate}),
           async: false
           })).then(function( data, textStatus, jqXHR ) {
@@ -279,44 +284,44 @@ $(document).ready(function () {
    <div id="docking">
         <div class="InnerDivs">
             <div id="window2" style="height:150px">
-                <div>All Signups</div>
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Signups </span></div>
                 <div id="allusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>        
             <div id="window1" style="height:70px">
-                <div>Google Analytics Traffic Today</div>
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Google Analytics Traffic Today</span></div>
                 <div id="analyticscontent" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window3" style="height:125px">
-                <div>All Jobs</div>
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Jobs</span></div>
                 <div id="alljobs" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window4" style="height:125px">
-                <div>All Skills</div>
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Skills</span></div>
                 <div id="allskills" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
         </div>
         <div class="InnerDivsSmall">
             <div id="window5" style="height:100px">
-                <div>All Workstream Messages</div>
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Workstream Messages</span></div>
                 <div id="allmessages" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window6" style="height:140px">
-                <div>All Applications</div>
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Applications</span></div>
                 <div id="allapplications" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window7" style="height:100px">
-                <div>All Proposals</div>
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Proposals</span></div>
                 <div id="allproposals" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window8" style="height:100px">
-                <div>All Invoices</div>
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Invoices</span></div>
                 <div id="allinvoices" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>                                    
 
         </div>
         <div class="InnerDivsSmall">
             <div id="window9" style="height:500px">
-                <div>Live Messages Today</div>
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Live Messages Today</span></div>
                 <div id="messages" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;"></div>
             </div>     
         </div>
