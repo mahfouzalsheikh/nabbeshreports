@@ -1200,7 +1200,7 @@ def tracking_messages_getdata(request):
         objs = simplejson.loads(request.raw_post_data)
         fromdate= objs['fromdate']
         print fromdate
-        sql = ("select fr.id, aufr.first_name || ' ' || aufr.last_name, case when (fr.photo <>'' and fr.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto ,  cm.from_applicant,  substring(cm.message,1,15), substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,16) , ca.id, em.id , auem.first_name || ' ' || auem.last_name,  case when (em.photo <>'' and em.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as emphoto, ci.message_ptr_id as invoicenumber,cp.message_ptr_id, substring(cj.title,1,20),cj.id,case when cm.message ~ E'[A-Za-z0-9._%%-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,4}' then true else false end, case when cm.message ~ E'([0-9]{3}\?[0-9]{3}\-?[0-9]{4})' then true else false end, case when lower(cm.message) like '%%skype%%' then true else false end as skype, case when lower(cm.message) like '%%odesk%%' then true else false end as odesk, case when lower(cm.message) like '%%elance.com%%' then true else false end as elance  from  contracts_message cm inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on ca.job_id=cj.id inner join users em on em.id=cj.employer_id inner join auth_user auem on auem.id=em.django_user_id inner join users fr on fr.id=ca.applicant_id inner join auth_user aufr on aufr.id=fr.django_user_id  left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id where cm.timestamp>='"+fromdate+"'  order by cm.timestamp desc;")
+        sql = ("select fr.id, aufr.first_name || ' ' || aufr.last_name, case when (fr.photo <>'' and fr.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto ,  cm.from_applicant,  '' as msg, substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,16) , ca.id, em.id , auem.first_name || ' ' || auem.last_name,  case when (em.photo <>'' and em.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as emphoto, ci.message_ptr_id as invoicenumber,cp.message_ptr_id, substring(cj.title,1,20),cj.id,case when cm.message ~ E'[A-Za-z0-9._%%-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,4}' then true else false end, case when cm.message ~ E'([0-9]{3}\?[0-9]{3}\-?[0-9]{4})' then true else false end, case when lower(cm.message) like '%%skype%%' then true else false end as skype, case when lower(cm.message) like '%%odesk%%' then true else false end as odesk, case when lower(cm.message) like '%%elance.com%%' then true else false end as elance  from  contracts_message cm inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on ca.job_id=cj.id inner join users em on em.id=cj.employer_id inner join auth_user auem on auem.id=em.django_user_id inner join users fr on fr.id=ca.applicant_id inner join auth_user aufr on aufr.id=fr.django_user_id  left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id where cm.timestamp>='"+fromdate+"'  order by cm.timestamp desc;")
         
         print sql
         
@@ -1211,6 +1211,25 @@ def tracking_messages_getdata(request):
         c = Context({'messages': results})
    
         return HttpResponse(render_to_string('trackingmessages.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+
+@csrf_exempt 
+def leakagedetection_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        t1 = objs['fromdate']  + ' 00:00:00+00'
+        t2 = objs['todate'] + ' 23:59:59+00'        
+        keywords = objs['searchkeywords']
+        sql = ("select fr.id, aufr.first_name || ' ' || aufr.last_name, case when (fr.photo <>'' and fr.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto ,  cm.from_applicant, '' as msg, substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,16) , ca.id, em.id , auem.first_name || ' ' || auem.last_name,  case when (em.photo <>'' and em.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as emphoto, ci.message_ptr_id as invoicenumber,cp.message_ptr_id, substring(cj.title,1,20),cj.id,case when cm.message ~ E'[A-Za-z0-9._%%-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,4}' then true else false end, case when cm.message ~ E'([0-9]{3}\?[0-9]{3}\-?[0-9]{4})' then true else false end, case when lower(cm.message) like '%%skype%%' then true else false end as skype, case when lower(cm.message) like '%%"+keywords+"%%' then true else false end as searchkeyword from  contracts_message cm inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on ca.job_id=cj.id inner join users em on em.id=cj.employer_id inner join auth_user auem on auem.id=em.django_user_id inner join users fr on fr.id=ca.applicant_id inner join auth_user aufr on aufr.id=fr.django_user_id  left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' and lower(cm.message) like '%%"+keywords.lower()+"%%'  order by cm.timestamp desc limit 500;")
+        
+        print sql
+        
+    
+        results = customQuery(sql,1)
+     
+ 
+        c = Context({'messages': results})
+   
+        return HttpResponse(render_to_string('leakagedetection.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 
 @login_required(login_url='/accounts/login/')

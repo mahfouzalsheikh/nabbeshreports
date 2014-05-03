@@ -19,9 +19,9 @@ function formatname(id, name, direction)
    return html;
 }
 
-function formatworkstream(id, direction, time, invoice, proposal,job,jobid, email, phone,skype, odesk, elance)
+function formatworkstream(id, direction, time, invoice, proposal,job,jobid, email, phone,skype, searchkeyword)
 {
-   console.log(elance);
+  
    typeword='';
    if(direction=='True')
    { 
@@ -51,15 +51,16 @@ function formatworkstream(id, direction, time, invoice, proposal,job,jobid, emai
      emailtext+=' Phone ';     
    if(skype=='True')
      emailtext+=' Skype '; 
-   if(odesk=='True')
-     emailtext+=' Odesk '; 
-   if(elance=='True')
-     emailtext+=' Elance ';              
+   
+   //if(searchkeyword=='True')
+   var searchkeywords= $('#searchkeywordsfield').val();
+     emailtext+= ' ' + searchkeywords + ' '; 
+             
    
    html='<td style="text-align:center;"><a target="_blank" style="TEXT-DECORATION: NONE;color: '+color+'; font-size:16px" href="http://www.nabbesh.com/contracts/workstream/'+id+'">'+typeword+dir+'</a></br><span style="font-size:10px">'+time+'</span></br><a  target="_blank" href="http://www.nabbesh.com/jobs/location/title/'+jobid+'" style="TEXT-DECORATION: NONE;font-size:10px;color: rgb(60,60,60)">'+job+'</a></br><span style="color: rgb(255,0,0); font-size:10px">'+emailtext+'</span></td>'
    return html;
 }
-function formatemessages(data)
+function formatmessages(data)
 {
    
    if(data.length!=0)
@@ -67,47 +68,40 @@ function formatemessages(data)
       html='<table style="width:100%">'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left')+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16], data[i][17] ) +formatname(data[i][6], data[i][7], 'right')+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left')+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16] ) +formatname(data[i][6], data[i][7], 'right')+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
       }
        html+='</table>'
       return html;
+   }else
+   {
+      html='<center><span style="TEXT-DECORATION: NONE;color: rgb(100 ,100 ,100); font-size:32px">No Results!</span></center>';
+      return html;
    }
+   
 }
 
-function doTimeout() {
-     
-     
-      
 
-     Date.prototype.yyyymmdd = function() {
-       var yyyy = this.getFullYear().toString();
-       var mm = (this.getMonth()+1).toString(); 
-       var dd  = this.getDate().toString();
-       return yyyy +'-'+ (mm[1]?mm:"0"+mm[0]) +'-'+ (dd[1]?dd:"0"+dd[0]);
-     };
-
-    d = new Date();
-    fromdate= d.yyyymmdd();
-
-     
- 
-    $.when( $.ajax({
-          url: "../../trackingmessages_getdata",
+function getData(from,to, searchkeywords){
+      var params = {"searchkeywords": searchkeywords, "fromdate": from, "todate": to};
+      var jsonData = $.ajax({
+          url: "../../leakagedetection_getdata",
+          dataType:"json",
           type: "POST",
-          data: JSON.stringify( {"fromdate": fromdate}),
+          data: JSON.stringify(params),
           async: false
-          })).then(function( data, textStatus, jqXHR ) {
-          $("#messages").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
-          setTimeout(function (){              
-              $("#messages").html(formatemessages(data));  
-              $("#messages").unblock(); 
-          }, 500); });
-
+          }).responseText;
+       return jsonData;    
+}
 
 
 
              
-  }
+function draw(fromdate, todate){
+   var searchkeywords= $('#searchkeywordsfield').val();
+   data=getData(fromdate,todate, searchkeywords)
+   $("#messages").html(formatmessages($.parseJSON(data)));
+  // console.log(data);
+}
             
             
                  
@@ -115,11 +109,46 @@ function doTimeout() {
 $(document).ready(function () {
 
      var theme=  'bootstrap';         
-     $('#docking').jqxDocking({ theme:theme , orientation: 'horizontal', mode: 'docked',floatingWindowOpacity: 0.5, width:'100%' });
 
-     $('#docking').jqxDocking('hideAllCloseButtons');            
+     $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+
+    var today = new Date(Date.now());
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+
      
-     setTimeout(doTimeout, 1000);
+     $("#fromdate").on('change', function (event) {
+     fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
+                });
+     $("#todate").on('change', function (event) {
+                    todate= $('#todate').jqxDateTimeInput('getText'); 
+                });        
+        
+     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
+     var todate = $('#todate').jqxDateTimeInput('getText');
+         
+     
+     
+      $("#filterButton").jqxButton({theme: theme, width: '200'});
+      $("#filterButton").on('click', function () { 
+         
+         draw(fromdate,todate);
+      });
+      var searchkeywords= $('#searchkeywordsfield').val();
+     
+     $("#searchkeywordsfield").jqxInput({theme: theme,placeHolder: "Keywords", height: 25, width: 200, minLength: 1}); 
+      $("#downloadButton").jqxButton({theme: theme, width: '200'});                
+      $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData(fromdate,todate, searchkeywords));
+    		var csv = JSON2CSV(json);
+
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "messages_data.csv");
+      }); 
+     
+
+         
+     draw(fromdate, todate);
+    
 
 
 
@@ -140,14 +169,28 @@ $(document).ready(function () {
             width: 300px;
         }        
     </style>
-   <div id="docking">        
-        <div class="InnerDivsSmall">
-            <div id="window9" style="height:500px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Live Messages Today</span></div>
-                <div id="messages" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;"></div>
-            </div>     
+    
+<div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+                 
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
+                   <tr><td>Search:</td><td><input type="text" id="searchkeywordsfield"/></td></tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>
+                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>
+                  
+                </table>  
+                  
+               
+            </div>
         </div>
-    </div>
+
+    
+   <div id="messages">        
+     
+   </div>
 
 
 {% endblock %}
