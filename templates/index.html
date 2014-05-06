@@ -189,7 +189,7 @@ function doTimeout() {
           }) ).then(function( data, textStatus, jqXHR ) {
      
           $("#allinvoices").block({ message : '', css: { border: '0px solid #a00' } }); 
-          setTimeout(function (){$("#allinvoices").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> Paid /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Today');    }, 500);     });                      
+          setTimeout(function (){$("#allinvoices").html('<span style="font-size:32px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> Paid </br>Today <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Paid <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][3].toString() + '</span>');    }, 500);     });                      
                
         
     
@@ -203,7 +203,7 @@ function doTimeout() {
           }) ).then(function( data, textStatus, jqXHR ) {
 
         $("#allproposals").block({ message : '', css: { border: '0px solid #a00' } }); 
-        setTimeout(function (){$("#allproposals").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> Accepted /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Today');  }, 500); });
+        setTimeout(function (){$("#allproposals").html('<span style="font-size:32px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> Paid </br>Today <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Paid <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][3].toString() + '</span>');  }, 500); });
        
      
 
@@ -309,11 +309,11 @@ $(document).ready(function () {
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Applications</span></div>
                 <div id="allapplications" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
-            <div id="window7" style="height:100px">
+            <div id="window7" style="height:110px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Proposals</span></div>
                 <div id="allproposals" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
-            <div id="window8" style="height:100px">
+            <div id="window8" style="height:110px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Invoices</span></div>
                 <div id="allinvoices" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>                                    

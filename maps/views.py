@@ -306,7 +306,7 @@ def dashboard_getdata(request):
         
         realemployers_sql = ("(select count(distinct u.id) as realemployers_count, "+datefieldtostring("date_joined", grouppertext) + " as datejoined from users u inner join auth_user au on au.id=u.django_user_id inner join contracts_job cj on cj.employer_id=u.id where  date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) realemployers on contractsmessages.msgdate=realemployers.datejoined left outer join")
         
-        jobs_sql =("(select count(id) as job_count,  "+datefieldtostring("created_at", grouppertext) + " as createdat from contracts_job  where created_at>='"+t1+"' and created_at<='"+t2+"' group by createdat) jobs on jobs.createdat=contractsmessages.msgdate  left outer join")
+        jobs_sql =("(select count(id) as job_count,  "+datefieldtostring("created_at", grouppertext) + " as createdat from contracts_job  where approved=true and created_at>='"+t1+"' and created_at<='"+t2+"' group by createdat) jobs on jobs.createdat=contractsmessages.msgdate  left outer join")
         
         contractsmessages_sql = ("(select count(distinct id) as nmessage_count, "+datefieldtostring("sent_at", grouppertext) + " as sentat from messages_message where sent_at>='"+t1+"' and sent_at<='"+t2+"' group by sentat) messages on messages.sentat=contractsmessages.msgdate   left outer join")
         
@@ -456,7 +456,7 @@ def jobs_applications_statistics_getdata(request):
        
         budgetsql = "COALESCE(case when effort_unit=1 then budget  else 0 end, 0) as fixedbudget, COALESCE(case when effort_unit=5 then case  when budget_range=1 then '1-100'  when budget_range=2 then '101-250'  when budget_range=3 then '251-1000'  when budget_range=4 then '1001-2000' when budget_range=5 then '2001-5000' when budget_range=6 then '5000+'  when budget_range=7 then null  else null end else null end,'0') as budgetrange "
         
-        sql = ("select u.id,au.first_name || ' ' || au.last_name as employer_name,au.email as Employer_Email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile as phone, cj.id as job_id,substring(cj.title,1,200) as job_title,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16) as created_at, "+budgetsql+" ,count(distinct ca.id) as application_count, count( distinct case when ca.shortlisted=true then ca.id else null end) as shortlisted, count(distinct case when cm.from_applicant=true then cm.id else null end) as applicant_messages, count(distinct case when cm.from_applicant=false then cm.id else null end) as employer_responses,count(distinct cp.message_ptr_id) as proposal_count, count(distinct case when cp.status=4 then cp.message_ptr_id else null end) as acceptedproposal_count, case when cj.status=1 then True when cj.status=2 then False end as JobStatus from contracts_job cj left outer join contracts_application ca   on cj.id=ca.job_id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id left outer join contracts_requiredskill cr on cr.job_id=cj.id left outer join skills_skill ss on ss.id=cr.skill_id where created_at>='"+t1+"' and created_at<='"+t2+"' "+searchsql+ contsearchsql+ skillsearchsql +" group by employer_name,cj.id,job_title,cj.created_at,au.email,phone,u.id order by cj.created_at desc;")
+        sql = ("select u.id,au.first_name || ' ' || au.last_name as employer_name,au.email as Employer_Email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile as phone, cj.id as job_id,substring(cj.title,1,200) as job_title,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16) as created_at, "+budgetsql+" ,count(distinct ca.id) as application_count, count( distinct case when ca.shortlisted=true then ca.id else null end) as shortlisted, count(distinct case when cm.from_applicant=true then cm.id else null end) as applicant_messages, count(distinct case when cm.from_applicant=false then cm.id else null end) as employer_responses,count(distinct cp.message_ptr_id) as proposal_count, count(distinct case when cp.status=4 then cp.message_ptr_id else null end) as acceptedproposal_count, case when cj.status=1 then True when cj.status=2 then False end as JobStatus from contracts_job cj left outer join contracts_application ca   on cj.id=ca.job_id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id left outer join contracts_requiredskill cr on cr.job_id=cj.id left outer join skills_skill ss on ss.id=cr.skill_id where approved=true and created_at>='"+t1+"' and created_at<='"+t2+"' "+searchsql+ contsearchsql+ skillsearchsql +" group by employer_name,cj.id,job_title,cj.created_at,au.email,phone,u.id order by cj.created_at desc;")
         
         print sql
         results = customQuery(sql,1)
@@ -512,7 +512,7 @@ def sign_job_proposal_invoice_getdata(request):
             wheresql = "Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"'"
            
      
-        sql = ("select * from (select count(distinct au.email) as signed_up, count(distinct jobsposted.id) as posted_jobs, count(distinct paidproposal.id) as paid_proposal, count(distinct invoices.applicant_id) as invoices_paid, count(distinct jobsposted.jobid) as jobscount, count(distinct paidproposal.proposalid) as proposalscount, count(distinct invoices.invoiceid) as invoicescount  from users u inner join auth_user au on u.django_user_id=au.id  left outer join (select u1.id,cj.id as jobid from users u1 inner join contracts_job cj on cj.employer_id= u1.id) jobsposted on jobsposted.id=u.id left outer join (select u2.id,cp2.message_ptr_id as proposalid from users u2 inner join contracts_application ca2 on ca2.applicant_id=u2.id inner join contracts_message cm2 on cm2.application_id=ca2.id inner join contracts_proposal cp2 on cp2.message_ptr_id=cm2.id where cp2.status=4) paidproposal on paidproposal.id=u.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id  as invoiceid,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.status=4) invoices on invoices.applicant_id=u.id " + wheresql +") total ")
+        sql = ("select * from (select count(distinct au.email) as signed_up, count(distinct jobsposted.id) as posted_jobs, count(distinct paidproposal.id) as paid_proposal, count(distinct invoices.applicant_id) as invoices_paid, count(distinct jobsposted.jobid) as jobscount, count(distinct paidproposal.proposalid) as proposalscount, count(distinct invoices.invoiceid) as invoicescount  from users u inner join auth_user au on u.django_user_id=au.id  left outer join (select u1.id,cj.id as jobid from users u1 inner join contracts_job cj on cj.employer_id= u1.id where cj.approved=true) jobsposted on jobsposted.id=u.id left outer join (select u2.id,cp2.message_ptr_id as proposalid from users u2 inner join contracts_application ca2 on ca2.applicant_id=u2.id inner join contracts_message cm2 on cm2.application_id=ca2.id inner join contracts_proposal cp2 on cp2.message_ptr_id=cm2.id where cp2.status=4) paidproposal on paidproposal.id=u.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id  as invoiceid,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.status=4) invoices on invoices.applicant_id=u.id " + wheresql +") total ")
         
         print sql              
         #print getcpcGroupNewAndOld()
@@ -769,7 +769,7 @@ def crosscountryapps_getdata(request):
         sql = ("select *, count(*) as appcount from  (select "+ colsql +" from users applicants  inner join contracts_application ca on ca.applicant_id=applicants.id  inner join contracts_job cj on cj.id=ca.job_id  inner join users employers on employers.id=cj.employer_id where employers.country<>applicants.country) total  where empcountry<>'' and appcountry<>'' " + groupsql + " order by appcount desc limit "+ limit)
  
         results = customQuery(sql,0)
-
+        print sql
         c = Context({'lines': results})
         if grouplevel=='Country':
 	    return HttpResponse(render_to_string('crosscountryapps.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
@@ -1151,7 +1151,7 @@ def total_proposals_getdata(request):
         objs = simplejson.loads(request.raw_post_data)
         fromdate= objs['fromdate']
         print objs['fromdate']   
-        sql = ("select count(distinct cp.message_ptr_id), count(case when cp.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+fromdate+"' then cm.id else null end)   from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id")
+        sql = ("select count(distinct cp.message_ptr_id), count(case when cp.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+fromdate+"' then cm.id else null end), count(distinct case when cm.timestamp>='2014-05-06' and cp.status=4 then cm.id else null end)   from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id")
         
         print sql
         results = customQuery(sql,1)
@@ -1165,7 +1165,7 @@ def total_applications_getdata(request):
         print objs['fromdate'] 
         sql = ("select count(*), count(distinct job_id), count(case when timestamp>='"+fromdate+"' then 1 else null end)   from contracts_application")
         
-        print sql
+        #print sql
         results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
         
@@ -1175,8 +1175,9 @@ def total_invoices_getdata(request):
         objs = simplejson.loads(request.raw_post_data)
         fromdate= objs['fromdate']
         print objs['fromdate'] 
-        sql = ("select count(distinct ci.message_ptr_id), count(case when ci.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+fromdate+"' then cm.id else null end)   from contracts_invoice ci inner join contracts_message cm on cm.id=ci.message_ptr_id")
+        sql = ("select count(distinct ci.message_ptr_id), count(case when ci.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+fromdate+"' then cm.id else null end), count(distinct case when cm.timestamp>='2014-05-06' and ci.status=4 then cm.id else null end)   from contracts_invoice ci inner join contracts_message cm on cm.id=ci.message_ptr_id")
         
+        print sql
         
         results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json') 
