@@ -1126,7 +1126,7 @@ def total_jobs_getdata(request):
         objs = simplejson.loads(request.raw_post_data)
         fromdate= objs['fromdate']
         print objs['fromdate']     
-        sql = ("select count(id), count(case when status=1 then 1 else null end), count(case when created_at>='"+fromdate+"' then 1 else null end) from contracts_job")
+        sql = ("select count(id), count(case when status=1  then 1 else null end), count(case when created_at>='"+fromdate+"' then 1 else null end) from contracts_job where approved=true")
         
         print sql
         results = customQuery(sql,1)
