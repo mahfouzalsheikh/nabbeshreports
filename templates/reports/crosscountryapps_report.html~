@@ -1,33 +1,10 @@
 {% extends 'reports/base.html' %}
-{% block reportblock %}
-
- <div id='optionsExpander'>
-            <div>Options</div>
-            <div>
-                <table>
-                   <tr>
-                    <td>Priority: </td><td><div id="prioritymenu"></div><td></td></td>
-                   </tr> 
-                   <tr>
-                    <td>Limit: </td><td><div id="limitmenu"></div><td></td></td>
-                   </tr>
-                   
-                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
-                </table>   
-            </div>
-        </div>
-
-
-<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Cross Country Applications</h2><div id='date'></div></center></div>
-<div id="map-canvas" style="width: 100%; height:500px; float: left;"></div>
-<div id="tablearea" style="width: 100%;"></div>
-
-
+{% block  customheadscripts %}
 <script type="text/javascript">
         // Load the Visualization API and the piechart package.
         google.load('visualization', '1', {packages: ['corechart']});
         google.load('visualization', '1', {packages: ['table']});
-        //google.load('visualization', '1', {packages: ['geochart']});
+        google.load('visualization', '1', {packages: ['geochart']});
         //google.load('visualization', '1', {packages: ['annotatedtimeline']});
         //google.load('visualization', '1', {packages: ['controls']});
         //google.load('visualization', '1', {packages: ['geomap']});
@@ -36,14 +13,86 @@
 </script>
 
 <script type="text/javascript">
- var theme = 'bootstrap';
+    function get_random_color() {
+    var letters = '0123456789ABCD'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.round(Math.random() * 15)];
+    }
+    return color;
+}
+    
+    function initialize() {
+        
+  	geocoder = new google.maps.Geocoder();  	
+ 	 var latlng = new google.maps.LatLng(34.397, 34.644); 	 
+  	 var mapOptions = {
+  	  zoom: 4,
+  	  center: latlng
+  	}  	 
+ 	 map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);	 
+	} 
+   function drawLine(begin, end, weight, map, geocodes){     
+        
+        //alert();
+        var beginLoc= new google.maps.LatLng(geocodes[begin]['lat'], geocodes[begin]['lon']);
+        var endLoc= new google.maps.LatLng(geocodes[end]['lat'], geocodes[end]['lon']);
+        var lineSymbol = { path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW};
+        new google.maps.Polyline({
+             			 path: [
+                			beginLoc,
+               				endLoc               				
+            			  ],
+            			  icons: [{icon: lineSymbol,offset: '100%', repeat: '200px'}],
+             			 strokeColor: get_random_color(),
+             			 geodesic: true,
+             			 strokeOpacity: 0.8,
+				 strokeWeight: weight,
+             			 map: map
+            			});
+       
+    } 
+    
+    
+     function drawChart(priority, limit) {
+
+      var params = {"grouplevel": priority, "limit": limit};
+      var jsonData = $.ajax({
+          url: "crosscountryapps_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;	         
+      var jsondata = $.parseJSON(jsonData);
+      var data = new google.visualization.arrayToDataTable(jsondata);	                      
+      var dataView = new google.visualization.DataView(data);                              
+      var tablearea = new google.visualization.Table(document.getElementById('tablearea'));      
+      tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});       
+      
+      
+      initialize();       
+      var geoparams = {};
+        var geojsonData = $.ajax({
+          url: "geocodes",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(geoparams),
+          async: false
+          }).responseText;	         
+      var geojsondata = $.parseJSON(geojsonData);
+      //alert(geojsondata['LB']['lat'] + geojsondata['LB']['lon']);
+      
+      for (var i=1; i< jsondata.length; i++){                      
+         drawLine(jsondata[i][0].toString(), jsondata[i][1].toString(), jsondata[i][2]/300+1, map, geojsondata);                  
+      } 
+      //alert($.parseJSON(jsonData)[1][0]);
+      
+    }
+    
+    $(document).ready(function () {
+         var theme = 'bootstrap';
  $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
- //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
- 
-</script>
-
-<script type="text/javascript">
-
        $('#prioritymenu').on('select', function (event) {
                     var args = event.args;
                     if (args != undefined) {
@@ -83,90 +132,40 @@
      $("#limitmenu").jqxComboBox({ theme: theme,source: source, width: '200px', height: '25px', selectedIndex:2}); 
      
      var limit = "50";
-     
-     function drawChart(priority, limit) {
 
-      var params = {"grouplevel": priority, "limit": limit};
-      var jsonData = $.ajax({
-          url: "crosscountryapps_getdata",
-          dataType:"json",
-          type: "POST",
-          data: JSON.stringify(params),
-          async: false
-          }).responseText;	         
-      var jsondata = $.parseJSON(jsonData);
-      var data = new google.visualization.arrayToDataTable(jsondata);	                      
-      var dataView = new google.visualization.DataView(data);                              
-      var tablearea = new google.visualization.Table(document.getElementById('tablearea'));      
-      tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});       
-      
-      
-      initialize();       
-      var geoparams = {};
-        var geojsonData = $.ajax({
-          url: "geocodes",
-          dataType:"json",
-          type: "POST",
-          data: JSON.stringify(geoparams),
-          async: false
-          }).responseText;	         
-      var geojsondata = $.parseJSON(geojsonData);
-      //alert(geojsondata['LB']['lat'] + geojsondata['LB']['lon']);
-      
-      for (var i=1; i< jsondata.length; i++){                      
-         drawLine(jsondata[i][0].toString(), jsondata[i][1].toString(), jsondata[i][2]/300+1, map, geojsondata);                  
-      } 
-      //alert($.parseJSON(jsonData)[1][0]);
-      
-    }
-    
                 
     var geocoder;
     var map;
     
-    function get_random_color() {
-    var letters = '0123456789ABCD'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.round(Math.random() * 15)];
-    }
-    return color;
-}
-    
-    function initialize() {
-        
-  	geocoder = new google.maps.Geocoder();  	
- 	 var latlng = new google.maps.LatLng(34.397, 34.644); 	 
-  	 var mapOptions = {
-  	  zoom: 4,
-  	  center: latlng
-  	}  	 
- 	 map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);	 
-	} 
-    
-   
-    
-    function drawLine(begin, end, weight, map, geocodes){     
-        
-        //alert();
-        var beginLoc= new google.maps.LatLng(geocodes[begin]['lat'], geocodes[begin]['lon']);
-        var endLoc= new google.maps.LatLng(geocodes[end]['lat'], geocodes[end]['lon']);
-        var lineSymbol = { path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW};
-        new google.maps.Polyline({
-             			 path: [
-                			beginLoc,
-               				endLoc               				
-            			  ],
-            			  icons: [{icon: lineSymbol,offset: '100%', repeat: '200px'}],
-             			 strokeColor: get_random_color(),
-             			 geodesic: true,
-             			 strokeOpacity: 0.8,
-				 strokeWeight: weight,
-             			 map: map
-            			});
-       
-    } 
-           
+
     drawChart(priority, limit);
-</script>
+}); 
+</script>    
+
+{% endblock %}
+
+{% block reportblock %}
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+                   <tr>
+                    <td>Priority: </td><td><div id="prioritymenu"></div><td></td></td>
+                   </tr> 
+                   <tr>
+                    <td>Limit: </td><td><div id="limitmenu"></div><td></td></td>
+                   </tr>
+                   
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
+                </table>   
+            </div>
+        </div>
+
+
+<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Cross Country Applications</h2></center></div>
+<div id="map-canvas" style="width: 100%; height:500px;"></div>
+<div id="tablearea" style="width: 100%;"></div>
+
+
 {% endblock %}
