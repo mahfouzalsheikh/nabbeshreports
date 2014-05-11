@@ -207,6 +207,7 @@
                  source: dataAdapter,
                  columnsresize: true,
                  sortable: true,
+                 editable: true,
                  //showfilterrow: true,
                  filterable: true,
 
