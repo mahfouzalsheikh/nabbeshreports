@@ -159,7 +159,8 @@
                     { name: 'Employers Responses', type: 'int', map: '12'},
                     { name: 'Proposal Count', type: 'int', map: '13'},
                     { name: 'Accepted Proposals', type: 'int', map: '14'},
-                    { name: 'Status', type: 'bool', map: '15'}                   
+                    { name: 'Status', type: 'bool', map: '15'},  
+                    { name: 'Approved', type: 'bool', map: '16'}                   
                     ],
                 datatype: "array"
             };
@@ -207,7 +208,8 @@
                  source: dataAdapter,
                  columnsresize: true,
                  sortable: true,
-                 //editable: true,
+                 editable: true,
+                 editmode: 'dblclick',
                  //showfilterrow: true,
                  filterable: true,
 
@@ -273,7 +275,8 @@
                 showstatusbar: true,
                 statusbarheight: 90,
                 showaggregates: true,
-                //editable: true,
+                editable: true,
+                editmode: 'dblclick',
                 selectionmode: 'checkbox',
                 
                 rowdetailstemplate: { rowdetails: "<div id='jqwtableareadetailed' style='background-color:#CCD6E0;width: 100%; padding: 10px 10px 10px 10px; float: left;'><div id='detailstable'></div></div>", rowdetailsheight: 200 },
@@ -290,6 +293,7 @@
                   { text: 'Fixed Budget', datafield: 'Fixed Budget', filtertype: 'number', columngroup: 'JobDetails',width:50},
                   { text: 'Range Budget', datafield: 'Budget Range', filtertype: 'checkedlist', columngroup: 'JobDetails'},
                   { text: 'Status', datafield: 'Status', threestatecheckbox: true, columntype: 'checkbox', filtertype: 'bool', columngroup: 'JobDetails'},
+                  { text: 'Approved', datafield: 'Approved', threestatecheckbox: true, columntype: 'checkbox', filtertype: 'bool', columngroup: 'JobDetails'},                  
                   { text: 'Count', datafield: 'Application Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'ApplicantsInformation'},
                   { text: 'Shortlisted', datafield: 'Shortlisted Applications', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'ApplicantsInformation',width:75},
                   //{ text: 'Msgs', datafield: 'Applicants Msgs', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'ApplicantsInformation'},
