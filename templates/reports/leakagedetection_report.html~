@@ -15,7 +15,7 @@ function circularimage(url)
 
 function formatname(id, name, direction)
 {
-   html='<td style="text-align:'+direction+'"><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/profile/'+id+'">'+name+'</a></td>';   
+   html='<td style="text-align:'+direction+'"><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/profile/'+id+'">'+name+'</a></br><a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');"><abbr title="See full profile on backend">contact info</abbr></a></td>';     
    return html;
 }
 
@@ -94,6 +94,30 @@ function getData(from,to, searchkeywords){
 }
 
 
+function getUserData(userid){
+      var params = {"userid": userid};
+      var jsonData = $.ajax({
+          url: "../../userprofileinfo_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+}
+
+
+showcontactdetails= function (userid) {
+   array= $.parseJSON(getUserData(userid));
+   html='<table><tr><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:16px" href="http://www.nabbesh.com/profile/'+userid+'">'+array[0][0]+'</a></td></tr><tr><td>'+array[0][1]+'</td></tr></tr><tr><td>'+array[0][2]+'</td></tr><tr><td>'+array[0][3]+ ',' + array[0][4]+'</td></tr><tr><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/admin/legacy/users/'+userid+'">Full Info</a></td></tr></table>';
+   
+   $('#windowContent').html(html);   
+   $('#window').jqxWindow({ position: { x: 200, y: 100 }})
+   $('#window').jqxWindow('open');
+
+
+}
+
 
              
 function draw(fromdate, todate){
@@ -146,7 +170,18 @@ $(document).ready(function () {
       }); 
      
 
-         
+
+     $('#window').jqxWindow({ modalOpacity: 0.5, theme: theme, zIndex: 99999,
+                    showCollapseButton: true, maxHeight: 200, maxWidth: 300, minHeight: 200, minWidth: 300, height: 200, width: 300,
+                    initContent: function () {
+
+                        $('#window').jqxWindow('focus');
+                    }
+                });
+     $('#window').jqxWindow('close');
+
+
+
      draw(fromdate, todate);
     
 
@@ -191,6 +226,18 @@ $(document).ready(function () {
    <div id="messages">        
      
    </div>
+   
+   
+           <div id="window" style="position: fixed;">
+                <div id="windowHeader">
+                    <span>
+                        Contact Details
+                    </span>
+                </div>
+                <div style="overflow: hidden;" id="windowContent">
+
+                </div>
+            </div>    
 
 
 {% endblock %}
