@@ -164,6 +164,7 @@
                     ],
                 datatype: "array"
             };
+   
      function drawChart(from,to,searchkeywords) {
      
 
@@ -257,6 +258,20 @@
                   var html = "<a href='http://www.nabbesh.com/profile/"+value+"' target=_blank>"+ value+ "</a>";
                   return html;
                 } 
+                
+             var addfilter = function () {
+                var filtergroup = new $.jqx.filter();
+              
+                var filtervalue = 'true';
+                var filtercondition = 'equal';
+                var filter = filtergroup.createfilter('booleanfilter', filtervalue, filtercondition);
+		var filter_or_operator = 1;
+                filtergroup.addfilter(filter_or_operator, filter);
+
+                $("#jqwtablearea").jqxGrid('addfilter', 'Approved', filtergroup);
+                // apply the filters.
+                $("#jqwtablearea").jqxGrid('applyfilters');
+            }       
            var dataAdapter = new $.jqx.dataAdapter(source);
             var theme = 'bootstrap';
                         
@@ -276,6 +291,9 @@
                 statusbarheight: 90,
                 showaggregates: true,
                 editable: true,
+                ready: function () {
+                    addfilter();
+                },
                 editmode: 'dblclick',
                 selectionmode: 'checkbox',
                 
