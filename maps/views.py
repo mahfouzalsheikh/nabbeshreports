@@ -164,7 +164,7 @@ def freelancerdemography_getdata(request):
         grouper = objs['grouper']
         sql = ("select "+grouper+", count(id) as usercount from users where "+grouper+" is not null and "+grouper+" <>''  group by "+grouper+" order by usercount desc")
  
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
 
         c = Context({'countries': results})
    
@@ -194,7 +194,7 @@ def freelancersgender_getdata(request):
         
         sql = "select usercount, case gender when 0 then 'Male' when 1 then 'Female' end from \
          (select count(*) as usercount, gender from users where gender < 2 group by gender) total;"
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         print results
  
         c = Context({'genders': results})
@@ -220,7 +220,7 @@ def freelancerseducation_getdata(request):
         sql = "select  case degree when 6 then 'Bachelor of Science' when 7 then 'High School' when 5 then 'Bachelor of Arts' when 4 then 'Executive MBA' when 3 then 'MBA' when 2 then 'Masters' when 1 then 'PHD' end as education, usercount from (select count(distinct u.id ) as usercount, edu.degree from education edu inner join users u on edu.id_user=u.id group by edu.degree) total"
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         print results
  
         c = Context({'educations': results})
@@ -244,7 +244,7 @@ def freelancersages_getdata(request):
         #objs = simplejson.loads(request.raw_post_data)
 
         sql = "select  sum(ucount) as usercounts,case when ageu <18 then '1) Under 18' when ageu >= 18 and ageu<=24 then '2) 18 to 24' when ageu >= 25 and ageu<=34 then '3) 25 to 34' when ageu >= 35 then '4) Over 35' END as age_range from (select count(total.id) as ucount, 2013 - total.yobn as ageu from (select t1.id, t1.yob :: integer yobn from(select id, substring(dob,length(dob)-3, length(dob)) as yob from users where dob<>'') t1 where t1.yob ~E'^\\\d+$') total group by ageu order by ageu) total group by age_range order by age_range;"
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
 
         print sql
         c = Context({'ages': results})
@@ -332,7 +332,7 @@ def dashboard_getdata(request):
         
         
         
-        results = customQuery(sql,0)                                     
+        results = customQuery(sql,1)                                     
         c = Context({'statistics': results})   
         return HttpResponse(render_to_string('dashboard.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
     
@@ -366,7 +366,7 @@ def growthdashboard_getdata(request):
             sql = ("select sp.periodcreated, round(100*created/(runningtotal-created+0.00001),3) from  (select  "+datefieldtostring("created_at", grouppertext) +"  as periodcreated, count(*) as created from contracts_job where created_at >='"+t1+"' and created_at <='"+t2+"' group by periodcreated) sp  inner join  (select  "+datefieldtostring("created_at", grouppertext) +" as periodcreated, sum(count(*)) over (order by  "+datefieldtostring("created_at", grouppertext) +"  ) as runningtotal from contracts_job  group by periodcreated) al on sp.periodcreated=al.periodcreated  ")
         
         print sql
-        results = customQuery(sql,0)                                     
+        results = customQuery(sql,1)                                     
         c = Context({'statistics': results, 'metricname': metric})   
         return HttpResponse(render_to_string('growthdashboard.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
     
@@ -406,7 +406,7 @@ def jobs_employers_statistics_getdata(request):
         sql = (header_sql + from_sql)
         
 
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
 
         #print results
  
@@ -516,7 +516,7 @@ def sign_job_proposal_invoice_getdata(request):
         
         print sql              
         #print getcpcGroupNewAndOld()
-        results = customQuery(sql,0)	
+        results = customQuery(sql,1)	
         c = Context({'statistics': results})
         return HttpResponse(render_to_string('sign_job_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
         
@@ -550,7 +550,7 @@ def sign_application_proposal_invoice_getdata(request):
            
         sql = ("select count(distinct u.id) as user_count, count(distinct applicants.id) as applicants_count, count(distinct proposals.applicant_id) as proposal_count, count(distinct invoices.applicant_id) as invoice_count, count(distinct applicants.applicationid) as applicationscount, count(distinct proposals.proposalid) as proposalscount, count(distinct invoiceid) as invoicescount from users u inner join auth_user au on u.django_user_id=au.id left outer join (select u1.id,ca.id as applicationid from users u1 inner join contracts_application ca on ca.applicant_id=u1.id) applicants on applicants.id=u.id left outer join (select ca1.applicant_id,ca1.id,cp.message_ptr_id  as proposalid from contracts_application ca1 inner join contracts_message cm on cm.application_id=ca1.id inner join contracts_proposal cp on cp.message_ptr_id=cm.id) proposals on proposals.applicant_id=u.id left outer join (select ca2.applicant_id,ci.message_ptr_id as invoiceid from contracts_message cm1 inner join contracts_invoice ci on ci.message_ptr_id=cm1.id inner join contracts_application ca2 on ca2.id=cm1.application_id) invoices on invoices.applicant_id=u.id " + wheresql)
         
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
  	print sql	
         c = Context({'statistics': results})
         return HttpResponse(render_to_string('sign_application_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
@@ -592,7 +592,7 @@ def top_freelancers_getdata(request):
         
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
  	#print results	
         c = Context({'users': results})
         return HttpResponse(render_to_string('top_freelancers.json', c, context_instance=RequestContext(request)), mimetype='application/json')             
@@ -625,7 +625,7 @@ def top_employers_getdata(request):
         sql = ("select u.id, au.first_name || ' ' || au.last_name as fullname , au.email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile, 'http://www.nabbesh.com/profile/' || u.id as homepage, case when (u.photo <>'' and u.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as photo, u.country, count(distinct cj.id) as jobs_count, count(distinct applications.proposal_id) as accepted_proposals_count from users u inner join auth_user au on u.django_user_id=au.id  left outer join contracts_job cj on cj.employer_id=u.id   left outer join ( select distinct cj1.employer_id,cm1.id as proposal_id from contracts_job cj1 inner join contracts_application ca1 on ca1.job_id=cj1.id inner join contracts_message cm1 on cm1.application_id=ca1.id  inner join contracts_proposal cp1 on cp1.message_ptr_id=cm1.id where cp1.status=4) applications on applications.employer_id=u.id group  by u.id,au.email,fullname,photo,homepage  "+sortsql+"  desc limit " + limit)
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
  	#print results	
         c = Context({'users': results})
         return HttpResponse(render_to_string('top_employers.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
@@ -667,7 +667,7 @@ def skillsdemography_getdata(request):
         sql = ("select skills.name, calc.*, case when calc.jobs_require_it<>0 then cast(calc.users_have_it as real)/cast(calc.jobs_require_it as real) else 0 end as availability_rate from skills_skill skills inner join (select ss.id, count(distinct su.id_user)  as users_have_it, count(distinct u1.country) as countries_users, count(distinct crs.job_id) as jobs_require_it, count(distinct u2.country) as countries_jobs from skills_skill ss left outer join skills_users su on su.skill_id=ss.id inner join users u1 on su.id_user=u1.id left outer join contracts_requiredskill crs on crs.skill_id=ss.id inner join contracts_job cj on cj.id=crs.job_id inner join users u2 on u2.id=cj.employer_id where ss.deleted=false group by ss.id) calc on calc.id=skills.id order by "+sortsql+" desc limit "+ limit)
         
         print sql 
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
     
         c = Context({'countries': results})
    
@@ -685,7 +685,7 @@ def skillsdemographydetails_getdata(request):
         skill_id= objs['skill_id']
         sql = ("select country, jobs_count,users_count, case when jobs_count<>0 then cast(users_count as real)/cast(jobs_count as real) else 0 end as availability_rate from  (select case when total1.country is not null then total1.country else total2.country end as country, case when total1.jobs_count is not null then total1.jobs_count else 0 end as jobs_count, case when total2.users_count is not null then total2.users_count else 0 end as users_count from ( select count(*) as jobs_count,u.country  from contracts_job cj  inner join users u on cj.employer_id=u.id  inner join contracts_requiredskill crs on crs.job_id=cj.id where crs.skill_id= "+skill_id +" group by u.country) total1 full outer join  (select count(*) as users_count, u.country  from users u  inner join skills_users su on su.id_user=u.id where su.skill_id="+skill_id+" group by u.country) total2 on total1.country=total2.country ) total")
  
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
 
         c = Context({'countries': results})
    
@@ -729,7 +729,7 @@ def skillsdistribution_getdata(request):
         
         
         print sql
-        results = customQuery(sql,0)     
+        results = customQuery(sql,1)     
         c = Context({'countries': results})
         
         return HttpResponse(render_to_string('skillsdistribution.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
@@ -768,7 +768,7 @@ def crosscountryapps_getdata(request):
             
         sql = ("select *, count(*) as appcount from  (select "+ colsql +" from users applicants  inner join contracts_application ca on ca.applicant_id=applicants.id  inner join contracts_job cj on cj.id=ca.job_id  inner join users employers on employers.id=cj.employer_id where employers.country<>applicants.country) total  where empcountry<>'' and appcountry<>'' " + groupsql + " order by appcount desc limit "+ limit)
  
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         print sql
         c = Context({'lines': results})
         if grouplevel=='Country':
@@ -804,7 +804,7 @@ def proposals_getdata(request):
             
                   
         sql = ("select substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1, "+grouper+") as sentat, COALESCE(sum(case when cp.status=1 then cp.deposit_amount end),0) as New, count(distinct case when cp.status=1 then cp.message_ptr_id else null end) as NewCount, round(COALESCE(avg(case when cp.status=1 then cp.deposit_amount end),0),2) as NewAvg, COALESCE(sum(case when cp.status=2 then cp.deposit_amount end),0) as Canceled, count(distinct case when cp.status=2 then cp.message_ptr_id else null end) as CanceledCount, round(COALESCE(avg(case when cp.status=2 then cp.deposit_amount end),0),2) as CanceledAvg, COALESCE(sum(case when cp.status=3 then cp.deposit_amount end),0) as Declined, count(distinct case when cp.status=3 then cp.message_ptr_id else null end) as DeclinedCount, round(COALESCE(avg(case when cp.status=3 then cp.deposit_amount end),0),2) as Avg, COALESCE(sum(case when cp.status=4 then cp.deposit_amount end),0) as Accepted, count(distinct case when cp.status=4 then cp.message_ptr_id else null end) as AcceptedCount, round(COALESCE(avg(case when cp.status=4 then cp.deposit_amount end),0),2) as AcceptedAvg from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"'  group  by sentat order by sentat ") 
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         c = Context({'proposals': results})        
 	return HttpResponse(render_to_string('proposals.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
 	
@@ -838,7 +838,7 @@ def invoices_getdata(request):
         sql = ("select  substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1, "+grouper+") as sentat, round(COALESCE(sum(case when ci.status=1 then quantity * unit_price end),0,2)) as NewAmount, count(distinct case when ci.status=1 then ci.message_ptr_id else null end) as NewCount, round(COALESCE(avg(case when ci.status=1 then quantity * unit_price end),0,2)) as NewAverage, round(COALESCE(sum(case when ci.status=2 then quantity * unit_price end),0,2)) as CancelledAmount, count(distinct case when ci.status=2 then ci.message_ptr_id else null end) as CancelledCount, round(COALESCE(avg(case when ci.status=2 then quantity * unit_price end),0,2)) as CancelledAverage, round(COALESCE(sum(case when ci.status=3 then quantity * unit_price end),0,2)) as DeclinedAmount, count(distinct case when ci.status=3 then ci.message_ptr_id else null end) as DeclinedCount, round(COALESCE(avg(case when ci.status=3 then quantity * unit_price end),0,2)) as DeclinedAverage, round(COALESCE(sum(case when ci.status=4 then quantity * unit_price end),0,2)) as PaidAmount, count(distinct case when ci.status=4 then ci.message_ptr_id else null end) as PaidCount, round(COALESCE(avg(case when ci.status=4 then quantity * unit_price end),0,2)) as PaidAverage  from contracts_invoice ci  inner join contracts_invoiceitem cii on cii.invoice_id=ci.message_ptr_id  inner join contracts_message cm on cm.id=ci.message_ptr_id  where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' group by sentat  order by sentat ") 
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         c = Context({'invoices': results})        
 	return HttpResponse(render_to_string('invoices.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
 	
@@ -872,7 +872,7 @@ def jobs_apps_stats_getdata(request):
         sql = ("select substring(to_char(created_at,'YYYY-MM-DD HH24:MI:SS'),1, "+grouper+")as createdat,count(*) as total, count(case when appscount = 0 then 1 end) as count_0, count(case when (appscount >= 1) and (appscount<=5) then 1 end) as count_1_5,  count(case when (appscount > 5) and (appscount<=10) then 1 end) as count_6_10, count(case when (appscount > 10) and (appscount<=50) then 1 end) as count_11_50, count(case when (appscount > 50) then 1 end) as count_more_50   from (select  cj.id as jobid,cj.created_at, count(distinct ca.id) as appscount from contracts_job cj left outer join contracts_application ca on ca.job_id = cj.id where created_at>='"+t1+"' and created_at<='"+t2+"' group by jobid,cj.created_at) total group by createdat order by createdat") 
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         c = Context({'jobs_apps_stats': results})        
 	return HttpResponse(render_to_string('jobs_apps_stats.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
 
@@ -899,7 +899,7 @@ def signups_apps_retention_getdata(request):
             dynsql1 = dynsql1 + ", round((month"+str(i)+"::float * 100.00 /totalsignup::float)::numeric,2) as applied_month"+str(i)
             dynsql2 = dynsql2 + ",count(distinct case when timestamp >=(date_joined + INTERVAL '"+str(m*(i-1))+" Month') and timestamp <=(date_joined + INTERVAL '"+str(m*i)+" Month') then id else null end) as month"+str(i)
         sql = ("select datejoined,totalsignup "+dynsql1+" from (select substring(to_char(date_joined,'YYYY-MM-DD'),1,4) || '-' || to_char((cast(substring(to_char(date_joined,'YYYY-MM-DD'),6,2) as int)-1)/"+str(m)+"+1,'09') || ' pr' as datejoined,count(distinct id) as totalsignup "+dynsql2+"  from (select u.id,au.date_joined, ca.timestamp from users u inner join auth_user au on u.django_user_id=au.id left outer join contracts_application ca on ca.applicant_id=u.id) total group by datejoined order by datejoined desc) final ") 
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         c = Context({'signups_apps_retention': results,'n' : xrange(n)})        
 	return HttpResponse(render_to_string('signups_apps_retention.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
 	           
@@ -931,7 +931,7 @@ def signups_jobs_retention_getdata(request):
         sql = ("select datejoined,totalsignup "+dynsql1+" from ( select substring(to_char(date_joined,'YYYY-MM-DD'),1,4) || '-' || to_char((cast(substring(to_char(date_joined,'YYYY-MM-DD'),6,2) as int)-1)/"+str(m)+"+1,'09') || ' pr' as datejoined, count(distinct id) as totalsignup "+dynsql2+"  from  ( select u.id,au.date_joined, cj.created_at from  users u  inner join auth_user au on u.django_user_id=au.id left outer join contracts_job cj on cj.employer_id=u.id) total  group by datejoined order by datejoined desc  ) final ") 
         
         
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         print sql
         print results
         c = Context({'signups_jobs_retention': results,'n' : xrange(n)})        
@@ -963,7 +963,7 @@ def jobs_apps_retention_getdata(request):
             dynsql2 = dynsql2 + ", count(distinct case when timestamp >=(created_at + INTERVAL '"+str(m*(i-1))+" Month') and timestamp <=(created_at + INTERVAL '"+str(m*i)+" Month') then id else null end) as month"+str(i)
 
         sql = ("select datejoined,totaljobs " +dynsql1+ " from (select substring(to_char(created_at,'YYYY-MM-DD'),1,4) || '-' || to_char((cast(substring(to_char(created_at,'YYYY-MM-DD'),6,2) as int)-1)/"+str(m)+"+1,'09') || ' pr' as datejoined, count(distinct id) as totaljobs "+ dynsql2 +"  from  ( select cj.id as id, cj.created_at, ca.timestamp from contracts_job cj left outer join contracts_application ca on ca.job_id=cj.id ) total group by datejoined order by datejoined desc) final") 
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
                                    
         c = Context({'jobs_apps_retention': results,'n' : xrange(n)})        
 	return HttpResponse(render_to_string('jobs_apps_retention.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
@@ -987,7 +987,7 @@ def activities_countries_getdata(request):
 
         sql = ("select distinct u.country, COALESCE(usercount,0) as usercount, COALESCE(jobscount,0) as jobscount, COALESCE(appscount,0) as appscount, COALESCE(proposalcount,0) as proposalcount, COALESCE(invoicecount,0) as invoicecount from users u left outer join (select count(distinct u.id) as usercount, u.country from users u inner join auth_user au on u.django_user_id=au.id group by u.country ) signups on signups.country=u.country left outer join (select count(distinct cj.id) as jobscount,u.country  from contracts_job cj inner join users u on u.id=cj.employer_id  group by u.country) jobs on jobs.country=u.country left outer join (select count(distinct ca.id) as appscount, u.country from contracts_application ca inner join users u on u.id=ca.applicant_id  group by u.country) apps on apps.country=u.country left outer join (select count(distinct cm.id) as proposalcount, u.country from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id inner join contracts_application ca on ca.id=cm.application_id inner join users u on u.id=ca.applicant_id group by u.country) proposals on proposals.country=u.country left outer join (select count(distinct cm.id) as invoicecount, u.country from contracts_invoice ci inner join contracts_message cm on cm.id=ci.message_ptr_id inner join contracts_application ca on ca.id=cm.application_id inner join users u on u.id=ca.applicant_id  group by u.country) invoices on invoices.country=u.country where u.country is not null and u.country<>'' order by usercount desc") 
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         
        
         print results                           
@@ -1014,7 +1014,7 @@ def payers_getdata(request):
         sql = "select distinct u.id,au.first_name || ' ' || au.last_name as fullname, au.email, u.country,cj.id,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16), cj.title, cii.quantity*cii.unit_price as amount from users u  inner join auth_user au on au.id=u.django_user_id inner join contracts_job cj on cj.employer_id=u.id  inner join contracts_application ca on ca.job_id = cj.id inner join contracts_message cm on cm.application_id=ca.id inner join contracts_invoice ci on ci.message_ptr_id=cm.id inner join contracts_invoiceitem  cii on cii.invoice_id=ci.message_ptr_id where ci.status=4 "
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         print results
  
         c = Context({'payers': results})
@@ -1040,7 +1040,7 @@ def payees_getdata(request):
         sql = "select  distinct u.id,  au.first_name || ' ' || au.last_name as fullname,  au.email, u.country,cj.id, substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16),   cj.title, cii.quantity*cii.unit_price as amount   from users u    inner join auth_user au on au.id=u.django_user_id   inner join contracts_application ca on ca.applicant_id = u.id  inner join contracts_job cj on cj.id=ca.job_id  inner join contracts_message cm on cm.application_id=ca.id   inner join contracts_invoice ci on ci.message_ptr_id=cm.id   inner join contracts_invoiceitem  cii on cii.invoice_id=ci.message_ptr_id where ci.status=4  "
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         print results
  
         c = Context({'payees': results})
@@ -1065,7 +1065,7 @@ def payments_getdata(request):
         sql = " select distinct  payer.id, aupayer.first_name || ' ' || aupayer.last_name as payerfullname, aupayer.email,  payer.country,   cj.id, substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16),  cj.title, sum( cii.quantity*cii.unit_price )as amount ,  payee.id, aupayee.first_name || ' ' || aupayee.last_name as payeefullname, aupayee.email,  payee.country       from users payee   inner join auth_user aupayee on aupayee.id=payee.django_user_id    inner join contracts_application ca on ca.applicant_id = payee.id    inner join contracts_job cj on cj.id=ca.job_id    inner join users payer on payer.id=cj.employer_id  inner join auth_user aupayer on aupayer.id=payer.django_user_id  inner join contracts_message cm on cm.application_id=ca.id  inner join contracts_invoice ci on ci.message_ptr_id=cm.id  inner join contracts_invoiceitem  cii on cii.invoice_id=ci.message_ptr_id  where ci.status=4   group by payer.id,payerfullname, aupayer.email, payer.country, cj.id, cj.created_at, payee.id, payeefullname, aupayee.email, payee.country  "
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         print results
  
         c = Context({'payments': results})
@@ -1100,7 +1100,7 @@ def revenue_getdata(request):
         sql = "select "+datefieldtostring("cm.timestamp", grouppertext) + " as msgdate, count(distinct cp.message_ptr_id) as proposals, count(distinct case when cp.status=4 then cp.message_ptr_id else null end) as acceptedproposals, sum(distinct case when cp.status=4 then cp.deposit_amount else 0 end) as escrow, count(distinct ci.message_ptr_id) as invoices, count(distinct case when ci.status=4 then ci.message_ptr_id else null end) as paidinvoices, sum(distinct case when ci.status=4 then cii.unit_price * cii.quantity else 0 end) as invoiceamounts, sum(distinct case when ci.status=4 then cii.unit_price * quantity * 9 /100 else 0 end) as revenue, COALESCE(sum(cp.deposit_amount),0) as allproposals from contracts_message cm left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id left outer join contracts_invoiceitem cii on cii.invoice_id=ci.message_ptr_id where cm.timestamp >= '"+t1+"' and cm.timestamp <= '"+t2+"' group by msgdate order by msgdate desc"
         
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
         #print results
  
         c = Context({'revenue': results})
@@ -1298,7 +1298,7 @@ def getskillsgrouppower(listofskills):
         
     sql = sql + headers + " from (select count(id_user) as "  + headers + " from (select  distinct su1.id_user " +  skillids + " from skills_users su1 " + joins + " where " + wheresql[4:] + "  )  total group by " + headers[12:] + " order by occurrence desc) final" 
     #print sql   
-    result =  customQuery(sql,0)
+    result =  customQuery(sql,1)
     #print result
     return result
     
@@ -1315,7 +1315,7 @@ def preparetoappend(element):
         return True
 def skillsmining(level,topskills):
     sql = "select skill_id from (select count(distinct id_user) as usercount, skill_id from skills_users group by skill_id order by usercount desc limit "+str(topskills)+" ) total"    
-    skills = customQuery(sql,0)    
+    skills = customQuery(sql,1)    
     params = list()
     for i in range(1,level+1):    
         params.append(skills)        
@@ -1437,7 +1437,7 @@ def emailcampaign_getdata(request):
         
         sql = ("select count(distinct u.id) as user_count, count(distinct applicants.id) as applicants_count, count(distinct proposals.applicant_id) as proposal_count, count(distinct invoices.applicant_id) as invoice_count, count(distinct applicants.applicationid) as applicationscount, count(distinct proposals.proposalid) as proposalscount, count(distinct invoiceid) as invoicescount from users u inner join auth_user au on u.django_user_id=au.id left outer join (select u1.id,ca.id as applicationid from users u1 inner join contracts_application ca on ca.applicant_id=u1.id) applicants on applicants.id=u.id left outer join (select ca1.applicant_id,ca1.id,cp.message_ptr_id  as proposalid from contracts_application ca1 inner join contracts_message cm on cm.application_id=ca1.id inner join contracts_proposal cp on cp.message_ptr_id=cm.id) proposals on proposals.applicant_id=u.id left outer join (select ca2.applicant_id,ci.message_ptr_id as invoiceid from contracts_message cm1 inner join contracts_invoice ci on ci.message_ptr_id=cm1.id inner join contracts_application ca2 on ca2.id=cm1.application_id) invoices on invoices.applicant_id=u.id " + wheresql)
         
-        results = customQuery(sql,0)
+        results = customQuery(sql,1)
  	
  	
         c = Context({'statistics': results, 'totalsent': campaigninfo[0][0], 'opens': campaigninfo[1] })
