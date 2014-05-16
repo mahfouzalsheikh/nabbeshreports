@@ -1248,7 +1248,7 @@ def userprofileinfo_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
         userid= objs['userid']
-        sql = ("select au.first_name || ' ' || au.last_name, au.email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile, u.country, u.city from users u inner join auth_user au on u.django_user_id=au.id where u.id="+str(userid))        
+        sql = ("select au.first_name || ' ' || au.last_name, au.email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile, u.country, u.city,case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as cphoto from users u inner join auth_user au on u.django_user_id=au.id where u.id="+str(userid))        
         print sql            
         results = customQuery(sql,1)      
         return HttpResponse(json.dumps(results), mimetype='application/json')    

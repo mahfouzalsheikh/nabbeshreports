@@ -12,6 +12,10 @@ function circularimage(url)
 {
    return "<div style='width: 50px;height: 50px; border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;background: url("+url+") no-repeat;background-size: cover;background-position: center center; border-radius: 99em; border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
 }
+function circularimagecontact(url)
+{
+   return "<div style='width: 75px;height: 75px; border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;background: url("+url+") no-repeat;background-size: cover;background-position: center center; border-radius: 10em; border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
+}
 
 function formatname(id, name, direction)
 {
@@ -109,7 +113,7 @@ function getUserData(userid){
 
 showcontactdetails= function (userid) {
    array= $.parseJSON(getUserData(userid));
-   html='<table><tr><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:16px" href="http://www.nabbesh.com/profile/'+userid+'">'+array[0][0]+'</a></td></tr><tr><td>'+array[0][1]+'</td></tr></tr><tr><td>'+array[0][2]+'</td></tr><tr><td>'+array[0][3]+ ',' + array[0][4]+'</td></tr><tr><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/admin/legacy/users/'+userid+'">Full Info</a></td></tr></table>';
+   html='<table><tr><td rowspan=5>'+circularimagecontact(array[0][5])+'</td><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:16px" href="http://www.nabbesh.com/profile/'+userid+'">'+array[0][0]+'</a></td></tr><tr><td>'+array[0][1]+'</td></tr></tr><tr><td>'+array[0][2]+'</td></tr><tr><td>'+array[0][3]+ ',' + array[0][4]+'</td></tr><tr><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/admin/legacy/users/'+userid+'">Full Info</a></td></tr></table>';
    
    $('#windowContent').html(html);   
    $('#window').jqxWindow({ position: { x: 200, y: 100 }})
@@ -172,7 +176,7 @@ $(document).ready(function () {
 
 
      $('#window').jqxWindow({ modalOpacity: 0.5, theme: theme, zIndex: 99999,
-                    showCollapseButton: true, maxHeight: 200, maxWidth: 300, minHeight: 200, minWidth: 300, height: 200, width: 300
+                    showCollapseButton: true, maxHeight: 170, maxWidth: 300, minHeight: 170, minWidth: 300, height: 170, width: 300
                 });
      $('#window').jqxWindow('close');
 
