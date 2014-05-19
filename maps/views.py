@@ -1254,7 +1254,31 @@ def userprofileinfo_getdata(request):
         return HttpResponse(json.dumps(results), mimetype='application/json')    
 
     
- 
+
+@login_required(login_url='/accounts/login/')
+def crmclients_report(request):
+    
+    t = loader.get_template('./reports/crmclients_report.html')
+    c = Context({
+        'payees_report': payers_report,
+    })
+    return render_to_response('./reports/crmclients_report.html', context_instance=RequestContext(request))
+            
+@csrf_exempt
+def crmclients_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        t1 = objs['fromdate']  + ' 00:00:00+00'
+        t2 = objs['todate'] + ' 23:59:59+00'   
+        sql = "select distinct u.id, '' as title, au.first_name, au.last_name, '' as jobtitle, '' as sitename, u.countrycode || ' ' || u.areacode || ' ' || u.mobile as phone, '' as mobile, '' as fax, au.email from users u  inner join auth_user au on u.django_user_id=au.id inner join contracts_job cj on cj.employer_id=u.id where cj.created_at >= '"+t1+"'  and cj.created_at <= '"+t2+"'"         
+        print sql
+        results = customQuery(sql,1)
+
+        c = Context({'crmclients': results})   
+        return HttpResponse(render_to_string('crmclients.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+
+
+
 @csrf_exempt     
 def vistest_report(request):
     

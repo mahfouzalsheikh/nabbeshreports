@@ -1,0 +1,109 @@
+{% extends 'reports/base.html' %}
+
+{% block  customheadscripts %}
+<script type="text/javascript">
+        // Load the Visualization API and the piechart package.
+        google.load('visualization', '1', {packages: ['corechart']});
+        google.load('visualization', '1', {packages: ['table']});
+        //google.load('visualization', '1', {packages: ['geochart']});
+        //google.load('visualization', '1', {packages: ['annotatedtimeline']});
+        //google.load('visualization', '1', {packages: ['controls']});
+        //google.load('visualization', '1', {packages: ['geomap']});
+
+
+</script>
+<script type="text/javascript">    
+    var piechart;
+    function getData(fromdate, todate){
+      var params = {"fromdate": fromdate , "todate": todate};
+      var jsonData = $.ajax({
+          url: "crmclients_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+     }	
+     function drawChart(fromdate, todate) {
+      
+      var jsonData = getData(fromdate, todate);
+
+
+      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+  
+      
+	
+      
+      var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
+      tablearea.draw(data,null);
+      
+
+    }
+    
+    $(document).ready(function () {
+        var theme = 'bootstrap';
+        $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+        $("#downloadButton").jqxButton({ theme: theme,width: '200'});                
+        $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData(fromdate, todate));
+    		var csv = JSON2CSV(json);
+
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "clients_data.csv");
+        }); 
+
+     var today = new Date(Date.now());
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+
+     
+     $("#fromdate").on('change', function (event) {
+     fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
+                });
+     $("#todate").on('change', function (event) {
+                    todate= $('#todate').jqxDateTimeInput('getText'); 
+                });        
+        
+     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
+     var todate = $('#todate').jqxDateTimeInput('getText');
+      
+  
+                
+      $("#filterButton").jqxButton({theme: theme, width: '200'});
+      $("#filterButton").on('click', function () {
+                                           
+                  drawChart(fromdate, todate);
+                 
+                });
+     
+
+	    
+    });
+    
+</script>    
+{% endblock %} 
+
+{% block reportblock %}
+
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+		<table>
+		   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>
+                   <tr><td></td><td><div><input type="button" value="Download CSV" id='downloadButton' /></div></td></tr>
+                                                        
+                </table>               
+              
+            </div>
+        </div>
+
+
+<div id="tablearea" style="width: 100%;  float: left;"></div>
+
+
+
+{% endblock %}              
+

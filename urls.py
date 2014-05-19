@@ -50,8 +50,9 @@ urlpatterns = patterns('',
 ######################## Employers ####################
     url(r'^topemployers$', 'nabbeshreports.maps.views.top_employers'),
     url(r'^top_employers_getdata$', 'nabbeshreports.maps.views.top_employers_getdata'),
-
-
+    
+    url(r'^crmclients$', 'nabbeshreports.maps.views.crmclients_report'),
+    url(r'^crmclients_getdata$', 'nabbeshreports.maps.views.crmclients_getdata'),    
 
 ######################## Activity #####################
 

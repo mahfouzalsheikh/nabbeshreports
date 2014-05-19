@@ -1,0 +1,3 @@
+[["Client", "Title","Forename", "Surname", "Job Title", "Site", "Phone", "Mobile", "Fax", "Email"],
+{% for client in crmclients %}[{{ client.0 }},"{{ client.1 }}", "{{ client.2 }}", "{{ client.3 }}", "{{ client.4 }}", "{{ client.5 }}", "{{ client.6 }}", "{{ client.7 }}", "{{ client.8 }}", "{{ client.9 }}" ]{% if not forloop.last %},{% endif %}{% endfor %}
+]
