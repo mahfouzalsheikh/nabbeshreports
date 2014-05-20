@@ -397,8 +397,10 @@ def jobs_employers_statistics_getdata(request):
         #grouppertext = "Month"
         if grouppertext=="Month":
             grouper="7"
+        elif grouppertext=="Day":
+             grouper="10"
         else:
-            grouper="10"
+             grouper="4"    
         
         header_sql = ("select datejoined,max(jobs_per_employer),min(jobs_per_employer), round(avg(jobs_per_employer),3), round(median(jobs_per_employer),3)")
         

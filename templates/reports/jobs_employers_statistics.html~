@@ -51,9 +51,9 @@
                     }
                 });
       
-     var limitsource = ["Month","Day"];
+     var limitsource = ["Year","Month","Day"];
        
-     $("#limitmenu").jqxComboBox({theme: theme, source: limitsource, width: '200px', height: '25px', selectedIndex:1});     
+     $("#limitmenu").jqxComboBox({theme: theme, source: limitsource, width: '200px', height: '25px', selectedIndex:2});     
      
      
            $('#periodmenu').on('select', function (event) {
