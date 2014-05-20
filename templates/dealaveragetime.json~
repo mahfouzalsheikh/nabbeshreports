@@ -1,0 +1,3 @@
+[["Job Title", "Event","Time1", "Time2"],
+{% for event in dealaveragetime %}["{{ event.0 }}","{{ event.1 }}", "{{ event.2 }}", "{{ event.3 }}"]{% if not forloop.last %},{% endif %}{% endfor %}
+]

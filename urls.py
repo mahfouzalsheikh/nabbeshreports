@@ -52,7 +52,7 @@ urlpatterns = patterns('',
     url(r'^top_employers_getdata$', 'nabbeshreports.maps.views.top_employers_getdata'),
     
     url(r'^crmclients$', 'nabbeshreports.maps.views.crmclients_report'),
-    url(r'^crmclients_getdata$', 'nabbeshreports.maps.views.crmclients_getdata'),    
+    url(r'^crmclients_getdata$', 'nabbeshreports.maps.views.crmclients_getdata'),
 
 ######################## Activity #####################
 
@@ -87,6 +87,13 @@ urlpatterns = patterns('',
     
     url(r'^activities_countries_getdata$', 'nabbeshreports.maps.views.activities_countries_getdata'),
     url(r'^activitiescountries$', 'nabbeshreports.maps.views.activities_countries_report'),
+    
+    
+    url(r'^dealaveragetime_getdata$', 'nabbeshreports.maps.views.dealaveragetime_getdata'),
+    url(r'^dealsaveragetimegeneral_getdata$', 'nabbeshreports.maps.views.dealsaveragetimegeneral_getdata'),      
+    url(r'^dealaveragetime$', 'nabbeshreports.maps.views.dealaveragetime_report'),
+  
+    
 #################### Finance ##########################    
 
     url(r'^proposals_getdata$', 'nabbeshreports.maps.views.proposals_getdata'),

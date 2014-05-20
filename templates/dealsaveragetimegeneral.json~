@@ -1,0 +1,3 @@
+[["Period", "Jobs Count","Average Time to Proposal", "Average Time to Invoice"],
+{% for event in dealsaveragetimegeneral %}["{{ event.0 }}",{{ event.1 }}, "{{ event.2 }}", "{{ event.3 }}"]{% if not forloop.last %},{% endif %}{% endfor %}
+]

@@ -77,7 +77,7 @@
                 });
      
 
-	    
+      drawChart(fromdate, todate);	    
     });
     
 </script>    

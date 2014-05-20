@@ -1262,7 +1262,7 @@ def crmclients_report(request):
     
     t = loader.get_template('./reports/crmclients_report.html')
     c = Context({
-        'payees_report': payers_report,
+        'crmclients': crmclients_report,
     })
     return render_to_response('./reports/crmclients_report.html', context_instance=RequestContext(request))
             
@@ -1280,6 +1280,54 @@ def crmclients_getdata(request):
         return HttpResponse(render_to_string('crmclients.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 
+
+@login_required(login_url='/accounts/login/')
+def dealaveragetime_report(request):
+    
+    t = loader.get_template('./reports/dealaveragetime_report.html')
+    c = Context({
+        'dealaveragetime_report': payers_report,
+    })
+    return render_to_response('./reports/dealaveragetime_report.html', context_instance=RequestContext(request))
+            
+@csrf_exempt
+def dealaveragetime_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        t1 = objs['fromdate']  + ' 00:00:00+00'
+        t2 = objs['todate'] + ' 23:59:59+00' 
+        sql = "select jobtitle  || ' - AppID - ' || id, event, substring(to_char(time1,'YYYY-MM-DD HH24:MI:SS'),1, 19) as time1, substring(to_char(time2,'YYYY-MM-DD HH24:MI:SS'),1, 19) as time2 from ( select substring(cj.title,1, 25) as jobtitle, cj.created_at, ca.id,'Till Proposal' as event, cj.created_at as time1, min(pcm.timestamp) as time2 from  contracts_job cj inner join contracts_application ca on ca.job_id=cj.id inner join contracts_message pcm on pcm.application_id=ca.id inner join contracts_proposal cp on cp.message_ptr_id=pcm.id inner join contracts_message icm on icm.application_id=ca.id inner join contracts_invoice ci on ci.message_ptr_id=icm.id where cp.status=4 and ci.status=4 group by cj.id,ca.id,cj.created_at  union select substring(cj.title,1, 25) as jobtitle, cj.created_at , ca.id,'Till Invoice' as event, min(pcm.timestamp) as time1, min(icm.timestamp) as time2 from  contracts_job cj inner join contracts_application ca on ca.job_id=cj.id inner join contracts_message pcm on pcm.application_id=ca.id inner join contracts_proposal cp on cp.message_ptr_id=pcm.id inner join contracts_message icm on icm.application_id=ca.id inner join contracts_invoice ci on ci.message_ptr_id=icm.id where cp.status=4 and ci.status=4 group by cj.id,ca.id,cj.created_at) total where created_at >='"+t1+"' and  created_at<='"+t2+"' "         
+        
+        results = customQuery(sql,1)
+
+        c = Context({'dealaveragetime': results})   
+        return HttpResponse(render_to_string('dealaveragetime.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+
+@csrf_exempt
+def dealsaveragetimegeneral_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        t1 = objs['fromdate']  + ' 00:00:00+00'
+        t2 = objs['todate'] + ' 23:59:59+00' 
+ 
+        grouppertext= objs['grouper']
+        #grouppertext = "Month"
+        if grouppertext=="Month":
+            grouper="7"
+        elif grouppertext=="Day":
+             grouper="10"
+        elif grouppertext=="Year":
+             grouper="4"
+        else:
+             grouper="2"    
+        
+        print grouper
+        sql = "select substring(to_char(created_at,'YYYY-MM-DD HH24:MI:SS'),1, "+grouper+") as period, count(distinct job_id) ,avg(firstproposaldelay), avg(firstinvoicedelay) from (select cj.id as job_id ,ca.id,cj.created_at,  min(pcm.timestamp) as proposaltime,  min(icm.timestamp) as invoicetime,  min(pcm.timestamp)-cj.created_at as firstproposaldelay, min(icm.timestamp)-cj.created_at  as firstinvoicedelay from  contracts_job cj inner join contracts_application ca on ca.job_id=cj.id inner join contracts_message pcm on pcm.application_id=ca.id inner join contracts_proposal cp on cp.message_ptr_id=pcm.id inner join contracts_message icm on icm.application_id=ca.id inner join contracts_invoice ci on ci.message_ptr_id=icm.id where cp.status=4 and ci.status=4 and cj.created_at >='"+t1+"' and  cj.created_at<='"+t2+"' group by cj.id,ca.id,cj.created_at) total group by period"         
+        
+        results = customQuery(sql,1)
+
+        c = Context({'dealsaveragetimegeneral': results})   
+        return HttpResponse(render_to_string('dealsaveragetimegeneral.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 @csrf_exempt     
 def vistest_report(request):

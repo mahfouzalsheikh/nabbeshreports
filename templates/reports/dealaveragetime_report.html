@@ -5,7 +5,7 @@
         // Load the Visualization API and the piechart package.
         google.load('visualization', '1', {packages: ['corechart']});
         google.load('visualization', '1', {packages: ['table']});
-        //google.load('visualization', '1', {packages: ['geochart']});
+        google.load('visualization', '1', {packages: ['timeline']});
         //google.load('visualization', '1', {packages: ['annotatedtimeline']});
         //google.load('visualization', '1', {packages: ['controls']});
         //google.load('visualization', '1', {packages: ['geomap']});
@@ -13,11 +13,11 @@
 
 </script>
 <script type="text/javascript">    
-    var piechart;
+  
     function getData(fromdate, todate){
       var params = {"fromdate": fromdate , "todate": todate};
       var jsonData = $.ajax({
-          url: "crmclients_getdata",
+          url: "dealaveragetime_getdata",
           dataType:"json",
           type: "POST",
           data: JSON.stringify(params),
@@ -25,19 +25,42 @@
           }).responseText;
        return jsonData;    
      }	
-     function drawChart(fromdate, todate) {
-      
-      var jsonData = getData(fromdate, todate);
-
-
-      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+     function getAverageData(fromdate, todate, grouper){
+      var params = {"fromdate": fromdate , "todate": todate, "grouper": grouper};
+      var jsonData = $.ajax({
+          url: "dealsaveragetimegeneral_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+     }	
+     function drawChart(fromdate, todate, grouper) {
   
+      var jsonAvgData= getAverageData(fromdate, todate, grouper);
+      avgdataarray = $.parseJSON(jsonAvgData); 
+      var avgDataTable = new google.visualization.arrayToDataTable(avgdataarray);
+      var table = new google.visualization.Table(document.getElementById('averagestable'));
+      table.draw(avgDataTable,null);
+     
       
-	
-      
-      var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
-      tablearea.draw(data,null);
-      
+      var jsonData = getData(fromdate, todate);     
+      dataarray = $.parseJSON(jsonData);      
+      var data = new google.visualization.arrayToDataTable(dataarray);           
+      var dataTable = new google.visualization.DataTable();
+      dataTable.addColumn({ type: 'string', id: 'Position' });
+      dataTable.addColumn({ type: 'string', id: 'Name' });
+      dataTable.addColumn({ type: 'date', id: 'Start' });
+      dataTable.addColumn({ type: 'date', id: 'End' });
+      //console.log(jsonData);      
+      for(var col_i =1; col_i<dataarray.length; col_i++)
+      {
+         dataTable.addRows([[dataarray[col_i][0], dataarray[col_i][1], new Date(dataarray[col_i][2]),new Date(dataarray[col_i][3]) ]]);         
+      }      
+      var timeline = new google.visualization.Timeline(document.getElementById('tablearea'));
+      timeline.draw(dataTable,null);
+        
 
     }
     
@@ -51,7 +74,7 @@
 
 	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "clients_data.csv");
         }); 
-
+      
      var today = new Date(Date.now());
      $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
      $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
@@ -67,17 +90,28 @@
      var fromdate = $('#fromdate').jqxDateTimeInput('getText');
      var todate = $('#todate').jqxDateTimeInput('getText');
       
-  
-                
+      var source = ["No Group","Year","Month", "Day"];
+       
+      $("#groupmenu").jqxComboBox({ theme: theme,source: source, width: '200px', height: '25px', selectedIndex:2});  
+      var grouper="Month";
+            $('#groupmenu').on('select', function (event) {
+                    var args = event.args;
+                    if (args != undefined) {
+                        var item = event.args.item;
+                        if (item != null) {                            
+                            grouper=item.label
+                        }
+                    }
+                });          
       $("#filterButton").jqxButton({theme: theme, width: '200'});
       $("#filterButton").on('click', function () {
                                            
-                  drawChart(fromdate, todate);
+                  drawChart(fromdate, todate,grouper);
                  
                 });
      
 
-      drawChart(fromdate, todate);	    
+      drawChart(fromdate, todate, grouper);	    
     });
     
 </script>    
@@ -90,6 +124,7 @@
             <div>Options</div>
             <div>
 		<table>
+		   <tr><td>Group By:</td><td><div id="groupmenu"></div><td rowspan=4></td></td></tr>  
 		   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
                    <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
                    <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>
@@ -100,8 +135,9 @@
             </div>
         </div>
 
-
-<div id="tablearea" style="width: 100%;  float: left;"></div>
+<div id="averagestable" style="width: 100%;  float: left;"></div>
+<div></br></div>
+<div id="tablearea" style="width: 100%; height:400px;  float: left;"></div>
 
 
 
