@@ -262,18 +262,7 @@ function doTimeout() {
               $("#messages").unblock(); 
           }, 500); });
           
-    $.when( $.ajax({
-          url: "../../trackingvisitors_getdata",
-          type: "POST",
-          data: JSON.stringify( {"fromdate": fromdate}),
-          async: false
-          })).then(function( data, textStatus, jqXHR ) {
-          $("#onlineusers").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
-          setTimeout(function (){              
-              $("#onlineusers").html(formatonlineuser(data)); 
-              //console.log(data);
-              $("#onlineusers").unblock(); 
-          }, 500); });          
+        
 
 
 try{     
@@ -287,10 +276,25 @@ try{
      }
 
              
-                 setTimeout(doTimeout, 320000); 
-            }
+      setTimeout(doTimeout, 320000); 
+ }
             
-            
+function doTimeoutQuick() {   
+
+          $.when( $.ajax({
+          url: "../../trackingvisitors_getdata",
+          type: "POST",
+          data: JSON.stringify( {"fromdate": fromdate}),
+          async: false
+          })).then(function( data, textStatus, jqXHR ) {
+          $("#onlineusers").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
+          setTimeout(function (){              
+              $("#onlineusers").html(formatonlineuser(data)); 
+              //console.log(data);
+              $("#onlineusers").unblock(); 
+          }, 500); });  
+      setTimeout(doTimeoutQuick, 30000);
+}         
                  
      
 $(document).ready(function () {
@@ -317,6 +321,8 @@ $(document).ready(function () {
      
      
      setTimeout(doTimeout, 1000);
+     
+     setTimeout(doTimeoutQuick, 1000);
      
        $('#window').jqxWindow({ modalOpacity: 0.5, theme: theme, zIndex: 99999,
                     showCollapseButton: true, maxHeight: 170, maxWidth: 300, minHeight: 170, minWidth: 300, height: 170, width: 300
@@ -383,14 +389,14 @@ $(document).ready(function () {
 
         </div>
         <div class="InnerDivsSmall">
-            <div id="window9" style="height:500px">
+            <div id="window9" style="height:400px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Live Messages Today</span><a style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:10px" href="leakagedetection"> See More</a></div>
                 <div id="messages" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;">
                 </div> 
                 
             </div>
             
-            <div id="window10" style="height:400px">
+            <div id="window10" style="height:300px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Online Users</span></div>
                 <div id="onlineusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;"></div> 
                 
