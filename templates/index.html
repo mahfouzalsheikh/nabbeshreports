@@ -98,15 +98,28 @@ function formatworkstream(id, direction, time, invoice, proposal,job,jobid, emai
    html='<td style="text-align:center;"><a target="_blank" style="TEXT-DECORATION: NONE;color: '+color+'; font-size:16px" href="http://www.nabbesh.com/contracts/workstream/'+id+'">'+typeword+dir+'</a></br><span style="font-size:10px">'+time+'</span></br><a  target="_blank" href="http://www.nabbesh.com/jobs/location/title/'+jobid+'" style="TEXT-DECORATION: NONE;font-size:10px;color: rgb(60,60,60)">'+job+'</a></br><span style="color: rgb(255,0,0); font-size:10px">'+emailtext+'</span></td>'
    return html;
 }
-function formatemessages(data)
-{
-   
+function formatmessages(data)
+{   
    if(data.length!=0)
    {
       html='<table style="width:100%">'
       for(i=0; i<data.length;i++)
       {         
          html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left')+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16], data[i][17] ) +formatname(data[i][6], data[i][7], 'right')+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
+      }
+       html+='</table>'
+      return html;
+   }
+}
+
+function formatonlineuser(data)
+{   
+   if(data.length!=0)
+   {
+      html='<table style="width:100%">'
+      for(i=0; i<data.length;i++)
+      {         
+         html+= '<tr><td width="50px">'+circularimage(data[i][3])+'</td>'+formatname(data[i][0], data[i][1], 'left')+'<td> <span style="color: rgb(100,100,100); font-size:12px"> is browsing:  </span> <a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:16px" href="http://www.nabbesh.com'+data[i][4]+'">'+data[i][4]+'</td></tr>';        
       }
        html+='</table>'
       return html;
@@ -245,9 +258,22 @@ function doTimeout() {
           })).then(function( data, textStatus, jqXHR ) {
           $("#messages").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){              
-              $("#messages").html(formatemessages(data));  
+              $("#messages").html(formatmessages(data));  
               $("#messages").unblock(); 
           }, 500); });
+          
+    $.when( $.ajax({
+          url: "../../trackingvisitors_getdata",
+          type: "POST",
+          data: JSON.stringify( {"fromdate": fromdate}),
+          async: false
+          })).then(function( data, textStatus, jqXHR ) {
+          $("#onlineusers").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
+          setTimeout(function (){              
+              $("#onlineusers").html(formatonlineuser(data)); 
+              //console.log(data);
+              $("#onlineusers").unblock(); 
+          }, 500); });          
 
 
 try{     
@@ -357,13 +383,23 @@ $(document).ready(function () {
 
         </div>
         <div class="InnerDivsSmall">
-            <div id="window9" style="height:500px">
+            <div id="window9" style="height:400px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Live Messages Today</span><a style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:10px" href="leakagedetection"> See More</a></div>
-                <div id="messages" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;"></div> 
+                <div id="messages" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;">
+                </div> 
                 
-                </div>
-            </div>     
+            </div>
+            
+            <div id="window10" style="height:300px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Online Users</span></div>
+                <div id="onlineusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;"></div> 
+                
+             </div>
+            </div> 	
+        </div> 
+   
         </div>
+        
     </div>
     
       

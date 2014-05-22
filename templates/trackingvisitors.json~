@@ -1,0 +1,1 @@
+[{% for user in users %}[{{ user.0 }},"{{ user.1 }}","{{ user.2 }}","{{ user.3 }}","{{ user.4 }}"]{% if not forloop.last %} , {% endif %}{% endfor %}]
