@@ -312,7 +312,7 @@ def dashboard_getdata(request):
         
         porposals_sql  = ("(select "+datefieldtostring("timestamp", grouppertext) + " as proposalsent,count(*) as proposal_count from contracts_proposal cp inner join contracts_message cm on cp.message_ptr_id=cm.id where timestamp>='"+t1+"' and timestamp<='"+t2+"'  group by proposalsent) proposals on proposals.proposalsent=contractsmessages.msgdate left outer join ")
                 
-        proposalspaid_sql = ("(select "+datefieldtostring("timestamp", grouppertext) + " as proposalpaid,sum(case when cp.status=4 then 1 else 0 end) as paidproposal_count from contracts_proposal cp inner join contracts_message cm on cp.message_ptr_id=cm.id where timestamp>='"+t1+"' and timestamp<='"+t2+"'  group by proposalpaid) paidproposals on paidproposals.proposalpaid=contractsmessages.msgdate left outer join ")  
+        proposalspaid_sql = ("(select "+datefieldtostring("cp.payed_timestamp", grouppertext) + " as proposalpaid,sum(case when cp.status=4 then 1 else 0 end) as paidproposal_count from contracts_proposal cp inner join contracts_message cm on cp.message_ptr_id=cm.id where cp.payed_timestamp>='"+t1+"' and cp.payed_timestamp<='"+t2+"'  group by proposalpaid) paidproposals on paidproposals.proposalpaid=contractsmessages.msgdate left outer join ")  
                      
         
         application_sql = ("(select count(distinct id) as application_count,"+datefieldtostring("timestamp", grouppertext) + " as appliedat from contracts_application   where timestamp>='"+t1+"' and timestamp<='"+t2+"' group by appliedat) applications on applications.appliedat=contractsmessages.msgdate left outer join ")
@@ -321,7 +321,7 @@ def dashboard_getdata(request):
         
         invoicesent_sql = ("(select count(distinct ci.message_ptr_id) as invoice_count,"+datefieldtostring("timestamp", grouppertext) + " as invoicesent from contracts_invoice ci inner join contracts_message cm on ci.message_ptr_id=cm.id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' group by invoicesent) invoicessent on invoicessent.invoicesent=contractsmessages.msgdate left outer join ")
         
-        invoicepaid_sql = ("(select count(distinct ci.message_ptr_id) as invoicepaid_count,"+datefieldtostring("cm.timestamp", grouppertext) + " as invoicepaid from contracts_invoice ci inner join contracts_message cm on ci.message_ptr_id=cm.id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"' and ci.status=4 group by invoicepaid) invoicespaid on invoicespaid.invoicepaid=contractsmessages.msgdate left outer join ")
+        invoicepaid_sql = ("(select count(distinct ci.message_ptr_id) as invoicepaid_count,"+datefieldtostring("ci.payed_timestamp", grouppertext) + " as invoicepaid from contracts_invoice ci inner join contracts_message cm on ci.message_ptr_id=cm.id where ci.payed_timestamp>='"+t1+"' and ci.payed_timestamp<='"+t2+"' and ci.status=4 group by invoicepaid) invoicespaid on invoicespaid.invoicepaid=contractsmessages.msgdate left outer join ")
         
         invperjob_sql = ("(select avg(inv.jobinv) as invperjobavg, "+datefieldtostring("cj.created_at", grouppertext) + " as invsentat from contracts_job cj inner join (select count(cji.id) as jobinv,cji.job_id from contracts_job_invited cji  group by cji.job_id) inv on inv.job_id=cj.id group by invsentat) invitationsperjob on invitationsperjob.invsentat=contractsmessages.msgdate left outer join ")
         
@@ -1153,7 +1153,7 @@ def total_proposals_getdata(request):
         objs = simplejson.loads(request.raw_post_data)
         fromdate= objs['fromdate']
         print objs['fromdate']   
-        sql = ("select count(distinct cp.message_ptr_id), count(case when cp.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+fromdate+"' then cm.id else null end), count(distinct case when cm.timestamp>='"+fromdate+"' and cp.status=4 then cm.id else null end)   from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id")
+        sql = ("select count(distinct cp.message_ptr_id), count(case when cp.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+fromdate+"' then cm.id else null end), count(distinct case when cp.payed_timestamp>='"+fromdate+"' and cp.status=4 then cm.id else null end)   from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id")
         
         print sql
         results = customQuery(sql,1)
@@ -1177,7 +1177,7 @@ def total_invoices_getdata(request):
         objs = simplejson.loads(request.raw_post_data)
         fromdate= objs['fromdate']
         print objs['fromdate'] 
-        sql = ("select count(distinct ci.message_ptr_id), count(case when ci.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+fromdate+"' then cm.id else null end), count(distinct case when cm.timestamp>='"+fromdate+"' and ci.status=4 then cm.id else null end)   from contracts_invoice ci inner join contracts_message cm on cm.id=ci.message_ptr_id")
+        sql = ("select count(distinct ci.message_ptr_id), count(case when ci.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+fromdate+"' then cm.id else null end), count(distinct case when ci.payed_timestamp>='"+fromdate+"' and ci.status=4 then cm.id else null end)   from contracts_invoice ci inner join contracts_message cm on cm.id=ci.message_ptr_id")
         
         print sql
         
