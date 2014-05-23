@@ -633,7 +633,14 @@ def top_employers_getdata(request):
         return HttpResponse(render_to_string('top_employers.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
         
         
-
+def user_report(request):
+    
+    t = loader.get_template('./reports/user_report.html')
+    c = Context({
+        'user_report': dashboard,
+    })
+    #return HttpResponse(t.render(c))   
+    return render_to_response('./reports/user_report.html', context_instance=RequestContext(request))
 
 @login_required(login_url='/accounts/login/')       
 def skillsdemography_report(request):

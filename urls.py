@@ -29,7 +29,7 @@ urlpatterns = patterns('',
     
     
 
-######################## Freelancers ##################    
+######################## Community ##################    
     
     url(r'^freelancerdemographicprofile$', 'nabbeshreports.maps.views.freelancerdemography_report'),
     url(r'^freelancerdemography_getdata$', 'nabbeshreports.maps.views.freelancerdemography_getdata'), 
@@ -47,12 +47,14 @@ urlpatterns = patterns('',
     url(r'^top_freelancers_getdata$', 'nabbeshreports.maps.views.top_freelancers_getdata'),
 
 
-######################## Employers ####################
     url(r'^topemployers$', 'nabbeshreports.maps.views.top_employers'),
     url(r'^top_employers_getdata$', 'nabbeshreports.maps.views.top_employers_getdata'),
     
     url(r'^crmclients$', 'nabbeshreports.maps.views.crmclients_report'),
     url(r'^crmclients_getdata$', 'nabbeshreports.maps.views.crmclients_getdata'),
+    
+    url(r'^userprofile$', 'nabbeshreports.maps.views.user_report'),
+
 
 ######################## Activity #####################
 
