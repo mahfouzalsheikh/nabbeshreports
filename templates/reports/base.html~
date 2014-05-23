@@ -204,7 +204,7 @@
                             <li><a href="jobsappsretention">Jobs/Apps Retention</a></li>
                             <li><a href="activitiescountries">Activities/Countries</a></li>
                             <li><a href="emailcampaigns">Email Campaigns</a></li>
-                            <li><a href="dealaveragetime">Jobs/Applications Tracking</a><span style="color: Red; font-size:10px"> New</span></li>
+                            <li><a href="dealaveragetime">Timelines</a><span style="color: Red; font-size:10px"> New</span></li>
                         </ul>
                     </li>
                     
