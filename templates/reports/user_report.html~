@@ -249,7 +249,10 @@
                   var html = "<a href='http://www.nabbesh.com/profile/"+value+"' target=_blank>"+ value+ "</a>";
                   return html;
                 } 
-                
+             var applinkrenderer = function (row, column, value) {                                
+                  var html = "<a href='http://www.nabbesh.com/contracts/workstream/"+value+"' target=_blank>Go To Workflow:"+ value+ "</a>";
+                  return html;
+                }   
              var addfilter = function () {
                 var filtergroup = new $.jqx.filter();
               
@@ -364,7 +367,7 @@
                   { text: 'Status', datafield: 'Status', threestatecheckbox: true, columntype: 'checkbox', filtertype: 'bool', columngroup: 'JobDetails'},
                   { text: 'Approved', datafield: 'Approved', threestatecheckbox: true, columntype: 'checkbox', filtertype: 'bool', columngroup: 'JobDetails'},                  
           
-                  { text: 'App ID', datafield: 'Workstream', filtertype: 'textbox', columngroup: 'Workstream', cellsrenderer:profileidrenderer, width:30}, 
+                  { text: 'App ID', datafield: 'Workstream', filtertype: 'textbox', columngroup: 'Workstream', cellsrenderer: applinkrenderer, width:30}, 
                   { text: 'Proposals', datafield: 'Proposals Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['sum','avg'], columngroup: 'Workstream'},
                   { text: 'Accepted Proposals', datafield: 'Accepted Proposals', filtertype: 'number', width: 100, cellclassname: cellclass, aggregates: ['sum','avg'], columngroup: 'Workstream'},
                   { text: 'Invoices', datafield: 'Invoices Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['sum','avg'], columngroup: 'Workstream'},
