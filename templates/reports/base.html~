@@ -171,9 +171,9 @@
 <div id="mainmenu">
                 <ul>
                     <li><a href="/">Home</a></li>
-                    <li><a href="/mainmetrics">Main Metrics</a><span style="color: Blue; font-size:10px"> New</span>
+                    <li><a href="/mainmetrics">Main Metrics</a>
                     <ul style='width: 250px;'>
-                            <li><a href="growthdashboard">Growth</a>  <span style="color: Blue; font-size:10px"> New</span></li>                         
+                            <li><a href="growthdashboard">Growth</a>                         
                         </ul>
                     </li>
                     

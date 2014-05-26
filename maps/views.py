@@ -190,7 +190,7 @@ def freelancersgender_getdata(request):
     if request.method == 'POST':
         #objs = simplejson.loads(request.raw_post_data)
         
-        detect("https://s3.amazonaws.com/fideloper.com/faces_orig.jpg")
+        #detect("https://s3.amazonaws.com/fideloper.com/faces_orig.jpg")
         
         sql = "select usercount, case gender when 0 then 'Male' when 1 then 'Female' end from \
          (select count(*) as usercount, gender from users where gender < 2 group by gender) total;"
@@ -633,14 +633,74 @@ def top_employers_getdata(request):
         return HttpResponse(render_to_string('top_employers.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
         
         
-def user_report(request):
-    
+def user_report(request):    
     t = loader.get_template('./reports/user_report.html')
     c = Context({
         'user_report': dashboard,
     })
-    #return HttpResponse(t.render(c))   
     return render_to_response('./reports/user_report.html', context_instance=RequestContext(request))
+    
+@csrf_exempt 
+def user_personalinfo_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        userid= objs['userid']
+        sql = ("select u.id,u.django_user_id, au.first_name || ' ' || au.last_name, au.email,  u.countrycode || ' ' || u.areacode || ' ' || u.mobile,  u.country,  u.city, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as cphoto, u.dob, u.gender, u.formatted_address, u.is_employer, u.is_hobbies_explorer, u.is_freelancer, u.hide_in_search, u.deactivated, u.view_count, u.date_of_birth, u.city, u.country, u.nationality, u.average_rating, u.reviews_count, u.jobs_count, au.is_staff, au.is_active, au.is_superuser, au.last_login, au.date_joined, tv.last_update from  users u inner join auth_user au on u.django_user_Id=au.id left outer join tracking_visitor tv on tv.user_id=au.id where u.id="+ userid)        
+        print sql
+        results = customQuery(sql,1)
+        
+        return HttpResponse(json.dumps(results), mimetype='application/json')
+        
+@csrf_exempt      
+def user_jobs_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+
+        t1 = objs['fromdate']  + ' 00:00:00+00'
+        t2 = objs['todate'] + ' 23:59:59+00'
+        
+      
+        userid = objs["userid"]
+        contkeywords = objs['contsearchkeywords']
+        
+        skillkeywords = objs['skillsearchkeywords']
+        
+        print objs
+        
+        
+        contsearchsql = "" 
+        if contkeywords <> "":    
+            contsearchsql = " and cj.id in (select distinct contcj.id from users cont inner join auth_user contauth on contauth.id=cont.django_user_id inner join contracts_application contapp on contapp.applicant_id=cont.id  inner join contracts_job contcj on contcj.id=contapp.job_id  where (lower(substring(contauth.email,1,40)) like '%%" +contkeywords.lower() + "%%' or  lower(substring(contauth.first_name || ' ' || contauth.last_name,1,40)) like '%%" +contkeywords.lower() + "%%') ) "
+       
+        skillsearchsql = "" 
+        if skillkeywords <> "":    
+            skillsearchsql = " and  ss.name like '%%" +skillkeywords.lower() + "%%'  " 
+       
+        budgetsql = "COALESCE(case when effort_unit=1 then budget  else 0 end, 0) as fixedbudget, COALESCE(case when effort_unit=5 then case  when budget_range=1 then '1-100'  when budget_range=2 then '101-250'  when budget_range=3 then '251-1000'  when budget_range=4 then '1001-2000' when budget_range=5 then '2001-5000' when budget_range=6 then '5000+'  when budget_range=7 then null  else null end else null end,'0') as budgetrange "
+        
+        sql = ("select u.id,au.first_name || ' ' || au.last_name as employer_name,au.email as Employer_Email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile as phone, cj.id as job_id,substring(cj.title,1,200) as job_title,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16) as created_at, "+budgetsql+" ,count(distinct ca.id) as application_count, count( distinct case when ca.shortlisted=true then ca.id else null end) as shortlisted, count(distinct case when cm.from_applicant=true then cm.id else null end) as applicant_messages, count(distinct case when cm.from_applicant=false then cm.id else null end) as employer_responses,count(distinct cp.message_ptr_id) as proposal_count, count(distinct case when cp.status=4 then cp.message_ptr_id else null end) as acceptedproposal_count, case when cj.status=1 then True when cj.status=2 then False end as JobStatus, cj.approved from contracts_job cj left outer join contracts_application ca   on cj.id=ca.job_id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id left outer join contracts_requiredskill cr on cr.job_id=cj.id left outer join skills_skill ss on ss.id=cr.skill_id where u.id = "+str(userid)+"  and created_at>='"+t1+"' and created_at<='"+t2+"' "+ contsearchsql+ skillsearchsql +" group by employer_name,cj.id,job_title,cj.created_at,au.email,phone,u.id order by cj.created_at desc;")
+        
+        print sql
+        results = customQuery(sql,1)
+                              
+        c = Context({'statistics': results})
+        return HttpResponse(render_to_string('jobs_applications_statistics.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+        
+        
+
+def user_applications_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+    
+        sql = ("")        
+        print sql
+        results = customQuery(sql,1)
+        #print results	
+        c = Context({'users': results})
+        return HttpResponse(render_to_string('top_employers.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
+
+
+
 
 @login_required(login_url='/accounts/login/')       
 def skillsdemography_report(request):

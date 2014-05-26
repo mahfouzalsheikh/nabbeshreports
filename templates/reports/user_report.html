@@ -1,37 +1,384 @@
 {% extends 'reports/base.html' %}
-{% block reportblock %}
-</div>
-<div style="padding: 20px 20px 20px 20px">
-<div id="visualization" style="width: 100%; height:350px; float: left;"></div>
-<div id="tablearea" style="width: 100%; float: left;"></div>
-</div>              
-    
+
+{% block  customheadscripts %}
     <script type="text/javascript">
         google.load('visualization', '1', {packages: ['corechart']});
         google.load('visualization', '1', {packages: ['table']});
+        
     </script>
-<script type="text/javascript">
+    <script type="text/javascript">
+         var fromdate;
+         var todate;
+         var contsearchkeywordsfield;
+         var skillsearchkeywords;
+         var source;
+    </script>     
+    <script type="text/javascript">
 
-	
-     function drawChart() {
+     function getPersonalData(userid){
+      var params = {'userid' : userid};
       var jsonData = $.ajax({
-          url: "freelancersgender_getdata",
+          url: "user_personalinfo_getdata",
           dataType:"json",
           type: "POST",
+          data: JSON.stringify(params),
           async: false
           }).responseText;
-
-      var data = new google.visualization.DataTable(jsonData);
-
-      var chart = new google.visualization.PieChart(document.getElementById('visualization'));
-      
-      chart.draw(data, {title:"Gender Distribution",width: '100%', height: 350, is3D: true});
-      
-      var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
-      tablearea.draw(data,null);
-    }
+       return jsonData;    
+     }	
+     
+     function getJobsData(userid,from,to){
+        searchkeywords= $('#searchkeywordsfield').val();
+        contsearchkeywords= $('#contsearchkeywordsfield').val();
+        skillsearchkeywords= $('#skillsearchkeywordsfield').val();        
+        var params = {"fromdate": from, "todate": to, "userid": userid, "contsearchkeywords": contsearchkeywords, "skillsearchkeywords":skillsearchkeywords};
+        var jsonData = $.ajax({
+          url: "user_jobs_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+          //alert(jsonData.length);
+          if(jsonData.length<241){
+              alert("No Results! try to change search criterias!");
+              return [];
+          }else
+          {
+             jqwdata = JSON.parse(jsonData);
+             jqwdata.shift();          
+             return  jqwdata;
+          }
+     }
 	
-		
-    drawChart();
-</script>
+  
+    function getCommunicationJSON(job_id)
+    {
+      var params = {"job_id": job_id};      
+      var jsonData = $.ajax({
+          url: "jobs_communications_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;                   
+      return jsonData;
+    }     
+     
+     
+
+          function drawChart(from,to,searchkeywords) {
+     
+
+	  var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+	       var cell = $('#jobsGrid').jqxGrid('getcell', index, 'Job ID');		       	       	       
+	       var jsonstring = getCommunicationJSON(cell.value.toString());		      
+	     //alert(jsonstring.length);
+	     if(jsonstring.length>132){
+	       detailsjqwdata = JSON.parse(jsonstring);
+	       detailsjqwdata.shift();
+	       
+	       var applinkrenderer = function (row, column, value) {                                
+                  var html = "<a href='http://www.nabbesh.com/contracts/workstream/"+value+"' target=_blank>Go To Workflow:"+ value+ "</a>";
+                  return html;
+                }
+                var profileidrenderer = function (row, column, value) {                                
+                  var html = "<a href='http://www.nabbesh.com/profile/"+value+"' target=_blank>"+ value+ "</a>";
+                  return html;
+                } 
+	       
+	       var source =	  
+               { localdata : detailsjqwdata,
+                 datafields: [ 
+                    { name: 'User Id', type: 'int', map: '0'},
+                    { name: 'Email', type: 'string', map: '1'},
+                    { name: 'Name', type: 'string', map: '2'},
+                    { name: 'Phone', type: 'string', map: '3'},                    
+                    { name: 'Application ID', type: 'string', map: '4'},
+                    { name: 'Shortlisted', type: 'int', map: '5'},
+                    { name: 'Proposals', type: 'int', map: '6'},
+                    { name: 'Accepted Proposals', type: 'int', map: '7'},
+                    { name: 'Employer Responses', type: 'int', map: '8'},                                     
+                    ],
+                datatype: "array"
+               };
+               var dataAdapter = new $.jqx.dataAdapter(source);
+               $('#detailstable').jqxGrid(
+               {
+                 theme: theme,
+                 width: '95%',
+                 height: '180',
+                 source: dataAdapter,
+                 columnsresize: true,
+                 sortable: true,
+                 editable: true,
+                 editmode: 'dblclick',
+                 //showfilterrow: true,
+                 filterable: true,
+
+
+                 columns: [
+                   { text: 'User Id', datafield: 'User Id', filtertype: 'number', cellsrenderer:profileidrenderer},
+                   { text: 'Email', datafield: 'Email', filtertype: 'textbox'},
+                   { text: 'Name', datafield: 'Name', filtertype: 'textbox'},
+                   { text: 'Phone', datafield: 'Phone', filtertype: 'textbox'},
+                   { text: 'Workflow', datafield: 'Application ID', filtertype: 'number', cellsrenderer: applinkrenderer},
+                   { text: 'Shortlisted', datafield: 'Shortlisted', filtertype: 'number', cellclassname: cellclass},
+                   { text: 'Proposals', datafield: 'Proposals', filtertype: 'number', cellclassname: cellclass},
+                   { text: 'Accepted Proposals', datafield: 'Accepted Proposals', filtertype: 'number', cellclassname: cellclass},
+                   { text: 'Employer Responses', datafield: 'Employer Responses', filtertype: 'number', cellclassname: cellclass}
+                   
+                 ]
+             }); 
+             //$('#detailstable').jqxGrid('autoresizecolumns');         
+	     } else {$('#detailstable').html("No Details to Display!");}	  
+	   }
+
+	   var cellclass = function (row, columnfield, value) {
+                if (value == 0) {
+                    return 'red';
+                }               
+                else return 'green';
+            }
+	   var statusclass = function (row, columnfield, value) {
+                if (value == 'Closed') {
+                    return 'red';
+                }               
+                else return 'green';
+            }
+            
+            var joblinkrenderer = function (row, column, value) {                                
+                var html = "<a href='http://www.nabbesh.com/admin/contracts/job/"+value+"' target=_blank>"+ value+ "</a>";
+                return html;
+            }
+            
+            var emillinkrenderer = function (row, column, value) {                                
+                var html = "<a href='mailto:"+value+"?Subject=Hello%20again' target=_top>"+value+"</a>";
+                return html;
+            }
+             var profileidrenderer = function (row, column, value) {                                
+                  var html = "<a href='http://www.nabbesh.com/profile/"+value+"' target=_blank>"+ value+ "</a>";
+                  return html;
+                } 
+                
+             var addfilter = function () {
+                var filtergroup = new $.jqx.filter();
+              
+                var filtervalue = 'true';
+                var filtercondition = 'equal';
+                var filter = filtergroup.createfilter('booleanfilter', filtervalue, filtercondition);
+		var filter_or_operator = 1;
+                filtergroup.addfilter(filter_or_operator, filter);
+
+                $("#jobsGrid").jqxGrid('addfilter', 'Approved', filtergroup);
+                // apply the filters.
+                $("#jobsGrid").jqxGrid('applyfilters');
+            }       
+           var dataAdapter = new $.jqx.dataAdapter(source);
+            var theme = 'bootstrap';
+                        
+            $("#jobsGrid").jqxGrid(
+            {
+                theme: theme,
+                width: '100%',
+                height: '600px',
+                source: dataAdapter,
+                columnsresize: true,
+                sortable: true,
+                showfilterrow: true,
+                filterable: true,
+                altrows: true,
+                rowdetails: true,
+                showstatusbar: true,
+                statusbarheight: 90,
+                showaggregates: true,
+                editable: true,
+                ready: function () {
+                    addfilter();
+                },
+                editmode: 'dblclick',
+                selectionmode: 'checkbox',
+                
+                rowdetailstemplate: { rowdetails: "<div id='jobsGriddetailed' style='background-color:#CCD6E0;width: 100%; padding: 10px 10px 10px 10px; float: left;'><div id='detailstable'></div></div>", rowdetailsheight: 200 },
+                initrowdetails: initrowdetails,
+
+                columns: [
+                  
+                  { text: 'ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer, columngroup: 'JobDetails'},
+                  { text: 'Title', datafield: 'Job Title', filtertype: 'textbox', columngroup: 'JobDetails', width: 300},
+                  { text: 'Created At', datafield: 'Job Posted At', filtertype: 'date',cellsformat: 'dd-MM-yy HH:m', columngroup: 'JobDetails'},
+                  { text: 'Fixed Budget', datafield: 'Fixed Budget', filtertype: 'number', columngroup: 'JobDetails',width:50},
+                  { text: 'Range Budget', datafield: 'Budget Range', filtertype: 'checkedlist', columngroup: 'JobDetails'},
+                  { text: 'Status', datafield: 'Status', threestatecheckbox: true, columntype: 'checkbox', filtertype: 'bool', columngroup: 'JobDetails'},
+                  { text: 'Approved', datafield: 'Approved', threestatecheckbox: true, columntype: 'checkbox', filtertype: 'bool', columngroup: 'JobDetails'},                  
+                  { text: 'Count', datafield: 'Application Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'ApplicantsInformation'},
+                  { text: 'Shortlisted', datafield: 'Shortlisted Applications', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'ApplicantsInformation',width:75},
+                  //{ text: 'Msgs', datafield: 'Applicants Msgs', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'ApplicantsInformation'},
+                  { text: 'Emp Resp', datafield: 'Employers Responses', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'ApplicantsInformation'},
+                  { text: 'Count', datafield: 'Proposal Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'Proposals'},
+                  { text: 'Accepted', datafield: 'Accepted Proposals', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'Proposals'}
+
+                ],
+                columngroups: 
+                [
+                  { text: 'Employer Details', align: 'center', name: 'EmployerDetails' },
+                  { text: 'Job Details', align: 'center', name: 'JobDetails' },
+                  { text: 'Applicants Information', align: 'center', name: 'ApplicantsInformation' },
+                  { text: 'Proposals', align: 'center', name: 'Proposals' }
+                ]
+            });          
+            //$("#jobsGrid").jqxGrid('autoresizecolumns');
+      
+            $('#jobsGrid').on('rowselect', function (event) 
+		{
+		    var args = event.args; 
+		    var row = args.rowindex;
+		    var cell = $('#jobsGrid').jqxGrid('getcell', row, 'Job ID');	
+		    //drawCommunicationChart(cell.value.toString());
+		});
+
+    }
+     
+     $(document).ready(function () {    
+        
+         var theme=  'bootstrap';         
+         $('#docking').jqxDocking({ theme:theme , orientation: 'horizontal', mode: 'docked',floatingWindowOpacity: 0.5, width:'100%' }); 
+         $('#docking').jqxDocking('hideAllCloseButtons');
+         $('#docking').jqxDocking('pinWindow', 'window1');		
+         
+         
+         
+         var today = new Date(Date.now());
+         $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-12))});
+         $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+
+     
+         $("#fromdate").on('change', function (event) {
+                   fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
+                });
+         $("#todate").on('change', function (event) {
+                    todate= $('#todate').jqxDateTimeInput('getText'); 
+                });        
+        
+         
+         $("#contsearchkeywordsfield").jqxInput({theme: theme,placeHolder: "By Freelancer Keywords", height: 25, width: 200, minLength: 1});   
+         $("#skillsearchkeywordsfield").jqxInput({theme: theme,placeHolder: "By Skills Required Keywords", height: 25, width: 200, minLength: 1});                 
+                
+         $("#filterButton").jqxButton({theme: theme, width: '200'});
+         $("#filterButton").on('click', function () {          
+                  source.localdata  = getJobsData(950,fromdate,todate);
+
+                  $("#jobsGrid").jqxGrid('updatebounddata','cells');
+                  
+                });
+         fromdate = $('#fromdate').jqxDateTimeInput('getText');
+         todate = $('#todate').jqxDateTimeInput('getText');
+         contsearchkeywordsfield= $('#contsearchkeywordsfieldfield').val();
+         
+         skillsearchkeywords= $('#skillsearchkeywordsfield').val();     
+         $("#jobsOptionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+         
+         
+         source =
+       { localdata : getJobsData(950,fromdate,todate),
+              datafields: [ 
+                    { name: 'Employer Id', type: 'int', map: '0'},
+                    { name: 'Employer Name', type: 'string', map: '1'},
+                    { name: 'Employer Email', type: 'string', map: '2'},
+                    { name: 'Employer Phone', type: 'string', map: '3'},                    
+                    { name: 'Job ID', type: 'int', map: '4'},
+                    { name: 'Job Title', type: 'string', map: '5'},
+                    { name: 'Job Posted At', type: 'date', map: '6'},
+                    { name: 'Fixed Budget', type: 'int', map: '7'},
+                    { name: 'Budget Range', type: 'string', map: '8'},
+                    { name: 'Application Count', type: 'int', map: '9'},
+                    { name: 'Shortlisted Applications', type: 'int', map: '10'},
+                    { name: 'Applicants Msgs', type: 'int', map: '11'},
+                    { name: 'Employers Responses', type: 'int', map: '12'},
+                    { name: 'Proposal Count', type: 'int', map: '13'},
+                    { name: 'Accepted Proposals', type: 'int', map: '14'},
+                    { name: 'Status', type: 'bool', map: '15'},  
+                    { name: 'Approved', type: 'bool', map: '16'}                   
+                    ],
+                datatype: "array"
+            };
+         
+     
+         drawChart();      
+      });
+    </script>
+{% endblock %}
+{% block reportblock %}
+    <style type="text/css">
+        .InnerDivs
+        {
+            width: 250px;
+        }
+        .InnerDivsSmall
+        {
+            width: 100%;
+        }        
+    </style>
+  
+    
+   <div id="docking">      
+        <div class="InnerDivsSmall">
+            <div id="window1" style="height:150px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">User Details</span></div>
+                <div id="allusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div>                    
+        </div>                                   
+    </div>
+    
+
+    <div id='jobsOptionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td></tr> 
+
+                   <tr>Search<td></td><td><input type="text" id="contsearchkeywordsfield"/></td></tr>
+                   <tr><td></td><td><input type="text" id="skillsearchkeywordsfield"/></td></tr>                  
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
+                </table>   
+            </div>
+        </div>
+      
+    
+    <div id="jobsGrid" style="width: 100%;" ></div>
+
+<style>     
+        .green {
+            color: black\9;
+            background-color: #3DAA95\9;
+        }
+        .yellow {
+            color: black\9;
+            background-color: yellow\9;
+        }
+        .red {
+            color: black\9;
+            background-color: #e83636\9;
+        }
+        .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+            color: black;
+            font-size: 16;
+            background-color: #C2E0D1;
+        }
+        .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+            color: black;
+            background-color: #FFFF80;
+        }
+        .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+            color: black;
+            background-color: 	#FFFEED;
+        }
+</style>
+
+
+
+            
+    
+
 {% endblock %}

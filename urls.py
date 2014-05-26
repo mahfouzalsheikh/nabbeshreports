@@ -54,6 +54,9 @@ urlpatterns = patterns('',
     url(r'^crmclients_getdata$', 'nabbeshreports.maps.views.crmclients_getdata'),
     
     url(r'^userprofile$', 'nabbeshreports.maps.views.user_report'),
+    url(r'^user_personalinfo_getdata$', 'nabbeshreports.maps.views.user_personalinfo_getdata'),
+    url(r'^user_jobs_getdata$', 'nabbeshreports.maps.views.user_jobs_getdata'),
+    url(r'user_applications_getdata$', 'nabbeshreports.maps.views.user_applications_getdata'),
 
 
 ######################## Activity #####################
