@@ -654,7 +654,7 @@ def find_user_getdata(request):
         if userid!='':
             searchsql = "where u.id = "+userid
         else:
-            searchsql = "where lower(au.first_name || ' ' || au.last_name) like '%%"+searchtext.lower()+"%%' or au.email like '%%"+searchtext.lower()+"%%' or lower(cj.title) like '%%"+searchtext.lower()+"%%'  limit 10 "
+            searchsql = "where lower(au.first_name || ' ' || au.last_name) like '%%"+searchtext.lower()+"%%' or au.email like '%%"+searchtext.lower()+"%%' or lower(cj.title) like '%%"+searchtext.lower()+"%%'  or u.id in (select u.id from contracts_message  cm inner join contracts_application ca on ca.id=cm.application_id inner join users u on u.id=ca.applicant_id where cm.public_id = '"+searchtext+"' union select u.id from contracts_message  cm inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on cj.id=ca.job_id inner join users u on u.id=cj.employer_id where cm.public_id = '"+searchtext+"'  ) limit 10 "
        
         sql = ("select distinct u.id, au.first_name || ' ' || au.last_name, au.email, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as cphoto from users u    inner join auth_user au on u.django_user_id=au.id left join contracts_job cj on cj.employer_id=u.id " + searchsql )
         print sql
