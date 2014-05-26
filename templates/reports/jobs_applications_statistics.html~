@@ -127,7 +127,7 @@
           }).responseText;
           console.log(jsonData);
           //alert(jsonData.length);
-          if(jsonData.length<241){
+          if(jsonData.length<262){
               alert("No Results! try to change search criterias!");
               return [];
           }else
@@ -269,7 +269,7 @@
                 // apply the filters.
                 $("#jqwtablearea").jqxGrid('applyfilters');
             }       
-           var dataAdapter = new $.jqx.dataAdapter(source);
+            var dataAdapter = new $.jqx.dataAdapter(source);
             var theme = 'bootstrap';
                         
             $("#jqwtablearea").jqxGrid(
@@ -303,7 +303,7 @@
                   { text: 'Email', datafield: 'Employer Email', filtertype: 'textbox', columngroup: 'EmployerDetails', width:150},
                   { text: 'Phone', datafield: 'Employer Phone', filtertype: 'textbox', columngroup: 'EmployerDetails', width:150},
                   { text: 'ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer, columngroup: 'JobDetails'},
-                  { text: 'Title', datafield: 'Job Title', filtertype: 'textbox', columngroup: 'JobDetails', width: 300},
+                  { text: 'Title', datafield: 'Job Title', filtertype: 'textbox', columngroup: 'JobDetails', width: 180},
                   { text: 'Created At', datafield: 'Job Posted At', filtertype: 'date',cellsformat: 'dd-MM-yy HH:m', columngroup: 'JobDetails'},
                   { text: 'Fixed Budget', datafield: 'Fixed Budget', filtertype: 'number', columngroup: 'JobDetails',width:50},
                   { text: 'Range Budget', datafield: 'Budget Range', filtertype: 'checkedlist', columngroup: 'JobDetails'},

@@ -12,8 +12,17 @@
          var contsearchkeywordsfield;
          var skillsearchkeywords;
          var source;
+         
+         var appsfromdate;
+         var appstodate;
+         var appscontsearchkeywordsfield;         
+         var appsskillsearchkeywords;
+         var appssource;         
+         
+         var userid=0;
     </script>     
     <script type="text/javascript">
+
 
      function getPersonalData(userid){
       var params = {'userid' : userid};
@@ -26,6 +35,21 @@
           }).responseText;
        return jsonData;    
      }	
+     
+     function getFindUserData(){
+      userid= $('#userid').val();
+      userotherinfo= $('#userotherinfo').val();     
+      var params = {'userid' : userid, 'userotherinfo':userotherinfo};
+      var jsonData = $.ajax({
+          url: "find_user_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+  
+       return jsonData;    
+     }
      
      function getJobsData(userid,from,to){
         searchkeywords= $('#searchkeywordsfield').val();
@@ -40,8 +64,8 @@
           async: false
           }).responseText;
           //alert(jsonData.length);
-          if(jsonData.length<241){
-              alert("No Results! try to change search criterias!");
+          if(jsonData.length<262){
+              //alert("No Results! try to change search criterias!");
               return [];
           }else
           {
@@ -51,7 +75,31 @@
           }
      }
 	
-  
+     function getApplicationsData(userid,from,to){
+
+        contsearchkeywords= $('#appscontsearchkeywordsfield').val();
+        skillsearchkeywords= $('#appsskillsearchkeywordsfield').val();        
+        var params = {"fromdate": from, "todate": to, "userid": userid, "searchkeywords": contsearchkeywords, "skillsearchkeywords":skillsearchkeywords};
+        var jsonData = $.ajax({
+          url: "user_applications_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+          
+          if(jsonData.length<239){
+              //alert("No Results! try to change search criterias!");
+              return [];
+          }else
+          {
+             jqwdata = JSON.parse(jsonData);
+             jqwdata.shift();          
+             return  jqwdata;
+          }
+     }
+     
+     
     function getCommunicationJSON(job_id)
     {
       var params = {"job_id": job_id};      
@@ -65,9 +113,50 @@
       return jsonData;
     }     
      
+    function circularimage(url)
+    {
+       return "<div style='width: 50px;height: 50px; border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;background: url("+url+") no-repeat;background-size: cover;background-position: center center; border-radius: 99em; border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
+    }
+    
+    function formatname(id, name, direction)
+    {
+       html='<td style="text-align:'+direction+'"><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/profile/'+id+'">'+name+'</a></br><a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return selectuser('+id+');"><abbr title="Browse Transactions">Browse Activities</abbr></a></td>';     
+       return html;
+    }
      
+    function selectuser(id){
+      $('#userid').val(id);
+      $('#userotherinfo').val('');  
+      finduser();      
+      
 
-          function drawChart(from,to,searchkeywords) {
+      source.localdata  = getJobsData(id,fromdate,todate);
+
+      appssource.localdata = getApplicationsData(id,appsfromdate,appstodate);
+
+       $("#jobsGrid").jqxGrid('updatebounddata','cells');
+       $("#appsGrid").jqxGrid('updatebounddata','cells');
+
+    }
+    
+    
+    function finduser(){
+                  array= JSON.parse(getFindUserData());
+
+                  if(array.length>0){
+                     html = '<table><tr>';
+                     for(i=0; i<array.length;i++)
+                     {         
+
+                        html += '<td width="50px">'+circularimage(array[i][3])+'</td>'+ formatname(array[i][0], array[i][1], 'left')+'</td>';
+                     }
+                     html+= '</tr></table>';
+                     $("#allusers").html(html);
+                  }else{
+                     html+='No Results, please try more specific info!';
+                  } 
+    }
+    function drawChart() {
      
 
 	  var initrowdetails = function (index, parentElement, gridElement, datarecord) {
@@ -174,14 +263,14 @@
                 // apply the filters.
                 $("#jobsGrid").jqxGrid('applyfilters');
             }       
-           var dataAdapter = new $.jqx.dataAdapter(source);
+            var dataAdapter = new $.jqx.dataAdapter(source);
             var theme = 'bootstrap';
                         
             $("#jobsGrid").jqxGrid(
             {
                 theme: theme,
                 width: '100%',
-                height: '600px',
+                height: '450px',
                 source: dataAdapter,
                 columnsresize: true,
                 sortable: true,
@@ -205,10 +294,10 @@
                 columns: [
                   
                   { text: 'ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer, columngroup: 'JobDetails'},
-                  { text: 'Title', datafield: 'Job Title', filtertype: 'textbox', columngroup: 'JobDetails', width: 300},
+                  { text: 'Title', datafield: 'Job Title', filtertype: 'textbox', columngroup: 'JobDetails', width: 180},
                   { text: 'Created At', datafield: 'Job Posted At', filtertype: 'date',cellsformat: 'dd-MM-yy HH:m', columngroup: 'JobDetails'},
                   { text: 'Fixed Budget', datafield: 'Fixed Budget', filtertype: 'number', columngroup: 'JobDetails',width:50},
-                  { text: 'Range Budget', datafield: 'Budget Range', filtertype: 'checkedlist', columngroup: 'JobDetails'},
+                  { text: 'Range Budget', datafield: 'Budget Range', filtertype: 'checkedlist', columngroup: 'JobDetails', width:100},
                   { text: 'Status', datafield: 'Status', threestatecheckbox: true, columntype: 'checkbox', filtertype: 'bool', columngroup: 'JobDetails'},
                   { text: 'Approved', datafield: 'Approved', threestatecheckbox: true, columntype: 'checkbox', filtertype: 'bool', columngroup: 'JobDetails'},                  
                   { text: 'Count', datafield: 'Application Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'ApplicantsInformation'},
@@ -216,7 +305,7 @@
                   //{ text: 'Msgs', datafield: 'Applicants Msgs', filtertype: 'number', width:70, cellclassname: cellclass, aggregates: ['min', 'max','sum'], columngroup: 'ApplicantsInformation'},
                   { text: 'Emp Resp', datafield: 'Employers Responses', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'ApplicantsInformation'},
                   { text: 'Count', datafield: 'Proposal Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'Proposals'},
-                  { text: 'Accepted', datafield: 'Accepted Proposals', filtertype: 'number', cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'Proposals'}
+                  { text: 'Accepted', datafield: 'Accepted Proposals', filtertype: 'number', width: 100, cellclassname: cellclass, aggregates: ['min', 'max','sum','avg'], columngroup: 'Proposals'}
 
                 ],
                 columngroups: 
@@ -227,7 +316,7 @@
                   { text: 'Proposals', align: 'center', name: 'Proposals' }
                 ]
             });          
-            //$("#jobsGrid").jqxGrid('autoresizecolumns');
+            
       
             $('#jobsGrid').on('rowselect', function (event) 
 		{
@@ -236,6 +325,60 @@
 		    var cell = $('#jobsGrid').jqxGrid('getcell', row, 'Job ID');	
 		    //drawCommunicationChart(cell.value.toString());
 		});
+
+
+            var appsdataAdapter = new $.jqx.dataAdapter(appssource);
+            var theme = 'bootstrap';
+                        
+            $("#appsGrid").jqxGrid(
+            {
+                theme: theme,
+                width: '100%',
+                height: '450px',
+                source: appsdataAdapter,
+                columnsresize: true,
+                sortable: true,
+                showfilterrow: true,
+                filterable: true,
+                altrows: true,
+
+                showstatusbar: true,
+                statusbarheight: 90,
+                showaggregates: true,
+                editable: true,
+                editmode: 'dblclick',
+                selectionmode: 'checkbox',
+                                
+
+                columns: [
+                  
+                  { text: 'ID', datafield: 'Employer Id', filtertype: 'textbox', columngroup: 'EmployerDetails', cellsrenderer:profileidrenderer, width:30},
+                  { text: 'Name', datafield: 'Employer Name', filtertype: 'textbox', columngroup: 'EmployerDetails', width:150},
+                  { text: 'Email', datafield: 'Employer Email', filtertype: 'textbox', columngroup: 'EmployerDetails', width:150},
+                  { text: 'Phone', datafield: 'Employer Phone', filtertype: 'textbox', columngroup: 'EmployerDetails', width:150},
+                  { text: 'ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer, columngroup: 'JobDetails'},
+                  { text: 'Title', datafield: 'Job Title', filtertype: 'textbox', columngroup: 'JobDetails', width: 150},
+                  { text: 'Created At', datafield: 'Job Posted At', filtertype: 'date',cellsformat: 'dd-MM-yy HH:m', columngroup: 'JobDetails'},
+                  { text: 'Fixed Budget', datafield: 'Fixed Budget', filtertype: 'number', columngroup: 'JobDetails',width:50},
+                  { text: 'Range Budget', datafield: 'Budget Range', filtertype: 'checkedlist', columngroup: 'JobDetails', width:100},
+                  { text: 'Status', datafield: 'Status', threestatecheckbox: true, columntype: 'checkbox', filtertype: 'bool', columngroup: 'JobDetails'},
+                  { text: 'Approved', datafield: 'Approved', threestatecheckbox: true, columntype: 'checkbox', filtertype: 'bool', columngroup: 'JobDetails'},                  
+          
+                  { text: 'App ID', datafield: 'Workstream', filtertype: 'textbox', columngroup: 'Workstream', cellsrenderer:profileidrenderer, width:30}, 
+                  { text: 'Proposals', datafield: 'Proposals Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['sum','avg'], columngroup: 'Workstream'},
+                  { text: 'Accepted Proposals', datafield: 'Accepted Proposals', filtertype: 'number', width: 100, cellclassname: cellclass, aggregates: ['sum','avg'], columngroup: 'Workstream'},
+                  { text: 'Invoices', datafield: 'Invoices Count', filtertype: 'number', cellclassname: cellclass, aggregates: ['sum','avg'], columngroup: 'Workstream'},
+                  { text: 'Paid Invoices', datafield: 'Accepted Invoices', filtertype: 'number', cellclassname: cellclass, aggregates: ['sum','avg'], columngroup: 'Workstream'}
+
+                ],
+                columngroups: 
+                [
+                  { text: 'Employer Details', align: 'center', name: 'EmployerDetails' },
+                  { text: 'Job Details', align: 'center', name: 'JobDetails' },
+                  { text: 'Workstream', align: 'center', name: 'Workstream' },
+
+                ]
+            });          
 
     }
      
@@ -266,8 +409,7 @@
                 
          $("#filterButton").jqxButton({theme: theme, width: '200'});
          $("#filterButton").on('click', function () {          
-                  source.localdata  = getJobsData(950,fromdate,todate);
-
+                  source.localdata  = getJobsData(userid,fromdate,todate);                  
                   $("#jobsGrid").jqxGrid('updatebounddata','cells');
                   
                 });
@@ -279,8 +421,8 @@
          $("#jobsOptionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
          
          
-         source =
-       { localdata : getJobsData(950,fromdate,todate),
+       source =
+       { localdata : getJobsData(userid,fromdate,todate),
               datafields: [ 
                     { name: 'Employer Id', type: 'int', map: '0'},
                     { name: 'Employer Name', type: 'string', map: '1'},
@@ -303,7 +445,70 @@
                 datatype: "array"
             };
          
+         
+         $("#appsfromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-12))});
+         $("#appstodate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+
      
+         $("#appsfromdate").on('change', function (event) {
+                   fromdate= $('#appsfromdate').jqxDateTimeInput('getText'); 
+                });
+         $("#appstodate").on('change', function (event) {
+                    todate= $('#appstodate').jqxDateTimeInput('getText'); 
+                });        
+        
+         
+         $("#appscontsearchkeywordsfield").jqxInput({theme: theme,placeHolder: "By Employer Keywords", height: 25, width: 200, minLength: 1});   
+         $("#appsskillsearchkeywordsfield").jqxInput({theme: theme,placeHolder: "By Skills Required Keywords", height: 25, width: 200, minLength: 1});                 
+                
+         $("#appsfilterButton").jqxButton({theme: theme, width: '200'});
+         $("#appsfilterButton").on('click', function () {          
+                  appssource.localdata  = getApplicationsData(userid,fromdate,todate);
+
+                  $("#appsGrid").jqxGrid('updatebounddata','cells');
+                  
+                });
+         appsfromdate = $('#appsfromdate').jqxDateTimeInput('getText');
+         appstodate = $('#appstodate').jqxDateTimeInput('getText');
+         appscontsearchkeywordsfield= $('#appscontsearchkeywordsfieldfield').val();
+         
+         appsskillsearchkeywords= $('#appsskillsearchkeywordsfield').val();     
+         $("#appsOptionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});         
+         
+         
+         appssource =
+       { localdata : getApplicationsData(userid,appsfromdate,appstodate),
+              datafields: [ 
+                    { name: 'Employer Id', type: 'int', map: '0'},
+                    { name: 'Employer Name', type: 'string', map: '1'},
+                    { name: 'Employer Email', type: 'string', map: '2'},
+                    { name: 'Employer Phone', type: 'string', map: '3'},                    
+                    { name: 'Job ID', type: 'int', map: '4'},
+                    { name: 'Job Title', type: 'string', map: '5'},
+                    { name: 'Job Posted At', type: 'date', map: '6'},
+                    { name: 'Fixed Budget', type: 'int', map: '7'},
+                    { name: 'Budget Range', type: 'string', map: '8'},
+                    { name: 'Status', type: 'bool', map: '9'},  
+                    { name: 'Approved', type: 'bool', map: '10'},                     
+                    { name: 'Workstream', type: 'int', map: '11'},
+                    { name: 'Proposals Count', type: 'int', map: '12'},
+                    { name: 'Accepted Proposals', type: 'int', map: '13'},
+                    { name: 'Invoices Count', type: 'int', map: '14'},
+                    { name: 'Accepted Invoices', type: 'int', map: '15'}                                                         
+                    ],
+                datatype: "array"
+            };
+         
+            
+            $("#userid").jqxInput({placeHolder: "User ID", theme: theme, height: 25, width: 100, minLength: 5 });
+            $("#userotherinfo").jqxInput({placeHolder: "Email, Name, Job Title", theme: theme, height: 25, width:500, minLength: 5 });
+            $("#findUserButton").jqxButton({theme: theme, width: '200'});
+            $("#findUserButton").on('click', function () {          
+                     finduser();                                                                   
+                });
+            
+            
+           
          drawChart();      
       });
     </script>
@@ -323,30 +528,57 @@
     
    <div id="docking">      
         <div class="InnerDivsSmall">
-            <div id="window1" style="height:150px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">User Details</span></div>
-                <div id="allusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            <div id="window1" style="height:120px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px"></span>
+                  <input type="text" id="userid"/>
+                  <input type="text" id="userotherinfo"/>
+                  <input type="button" value="Find User" id='findUserButton' />
+                </div>
+                <div id="allusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">
+                   
+                </div>
             </div>                    
         </div>                                   
     </div>
     
 
     <div id='jobsOptionsExpander'>
-            <div>Options</div>
+            <div>Options - Jobs Created</div>
             <div>
                 <table>
                    <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
                    <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td></tr> 
 
-                   <tr>Search<td></td><td><input type="text" id="contsearchkeywordsfield"/></td></tr>
+                   <tr><td>Search</td><td><input type="text" id="contsearchkeywordsfield"/></td></tr>
                    <tr><td></td><td><input type="text" id="skillsearchkeywordsfield"/></td></tr>                  
                    <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
                 </table>   
+                
             </div>
         </div>
-      
+        <div id="jobsGrid" style="width: 100%;" ></div>
     
-    <div id="jobsGrid" style="width: 100%;" ></div>
+    
+
+
+
+    <div id='appsOptionsExpander'>
+            <div>Options - Jobs Applied To</div>
+            <div>
+                <table>
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='appsfromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='appstodate'></div></td></tr> 
+
+                   <tr><td>Search</td><td><input type="text" id="appscontsearchkeywordsfield"/></td></tr>
+                   <tr><td></td><td><input type="text" id="appsskillsearchkeywordsfield"/></td></tr>                  
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='appsfilterButton' /></div></td></tr>                                     
+                </table>  
+                 
+            </div>
+        </div>
+        <div id="appsGrid" style="width: 100%;" ></div>
+    
+    
 
 <style>     
         .green {
@@ -376,9 +608,5 @@
         }
 </style>
 
-
-
-            
-    
 
 {% endblock %}

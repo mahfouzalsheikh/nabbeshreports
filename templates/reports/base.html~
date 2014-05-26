@@ -188,6 +188,12 @@
                             <li><a href="crmclients">Clients for CRM</a><span style="color: Red; font-size:10px"> New</span></li>                         
                         </ul>
                     </li>
+                    <li>Tracking<span style="color: Red; font-size:10px"> New</span>
+                        <ul style='width: 180px;'>
+                              <li><a href="jobsapplicationsstatistics">Jobs/Applications</a></li>
+                              <li><a href="useractivities">User Activity</a><span style="color: Red; font-size:10px"> New</span></li>                             
+                        </ul>
+                    </li>
                     <li>Activities<span style="color: Red; font-size:10px"> New</span>        
                         <ul style='width: 200px;'>                        
                             <li><a href="jobsapplicationsstatistics">Jobs/Applications Tracking</a></li>
