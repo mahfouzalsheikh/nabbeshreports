@@ -126,6 +126,20 @@ function formatonlineuser(data)
    }
 }
 
+function formatpendinginvoice(data)
+{
+   if(data.length!=0)
+   {
+      html='<table style="width:100%">'
+      for(i=0; i<data.length;i++)
+      {         
+         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td><td><span style="color: rgb(255,0,0); font-size:18px">'+data[i][12]+'</span><span style="TEXT-DECORATION: NONE;font-size:12px;color: rgb(60,60,60)"> Pending Invoice(s) here: </span></br><a  target="_blank" href="www.nabbesh.com/contracts/workstream/'+data[i][6]+'" style="TEXT-DECORATION: NONE;font-size:10px;color: rgb(60,60,60)">Workstream: '+data[i][6]+'</a></td><td>'+circularimage(data[i][5])+'</td></tr>';        
+      }
+       html+='</table>'
+      return html;
+   }
+}
+
 showcontactdetails= function (userid) {
    array= $.parseJSON(getUserData(userid));
    html='<table><tr><td rowspan=5>'+circularimagecontact(array[0][5])+'</td><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:16px" href="http://www.nabbesh.com/profile/'+userid+'">'+array[0][0]+'</a></td></tr><tr><td>'+array[0][1]+'</td></tr></tr><tr><td>'+array[0][2]+'</td></tr><tr><td>'+array[0][3]+ ',' + array[0][4]+'</td></tr><tr><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/admin/legacy/users/'+userid+'">Full Info</a></td></tr></table>';
@@ -262,7 +276,19 @@ function doTimeout() {
               $("#messages").unblock(); 
           }, 500); });
           
-        
+          
+    $.when( $.ajax({
+          url: "../../pendinginvoices_getdata",
+          type: "POST",
+          data: JSON.stringify( {"fromdate": fromdate}),
+          async: false
+          })).then(function( data, textStatus, jqXHR ) {
+          
+          setTimeout(function (){    
+          $("#pendinginvoices").html( formatpendinginvoice(data));          
+              console.log(data);
+             
+          }, 500); });        
 
 
 try{     
@@ -324,7 +350,7 @@ $(document).ready(function () {
      
      setTimeout(doTimeoutQuick, 1000);
      
-       $('#window').jqxWindow({ modalOpacity: 0.5, theme: theme, zIndex: 99999,
+     $('#window').jqxWindow({ modalOpacity: 0.5, theme: theme, zIndex: 99999,
                     showCollapseButton: true, maxHeight: 170, maxWidth: 300, minHeight: 170, minWidth: 300, height: 170, width: 300
                 });
      $('#window').jqxWindow('close');
@@ -386,7 +412,10 @@ $(document).ready(function () {
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Invoices</span></div>
                 <div id="allinvoices" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>                                    
-
+            <div id="window11" style="height:400px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Pending Invoices</span></div>
+                <div id="pendinginvoices" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div> 
         </div>
         <div class="InnerDivsSmall">
             <div id="window9" style="height:400px">

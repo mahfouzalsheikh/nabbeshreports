@@ -1345,6 +1345,18 @@ def tracking_visitors_getdata(request):
         return HttpResponse(render_to_string('trackingvisitors.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 
+@csrf_exempt 
+def pendinginvoices_getdata(request):
+    if request.method == 'POST':
+        #objs = simplejson.loads(request.raw_post_data)
+
+        sql = ("select * from ( select  em.id, ema.first_name || ' ' || ema.last_name as emfullname,  case when (em.photo <>'' and em.photo is not null and em.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as emphoto, fr.id, fra.first_name || ' ' || fra.last_name as frfullname, case when (fr.photo <>'' and fr.photo is not null and fr.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto, ca.id as applicationid, ca.timestamp, cj.id,cj.title, count(distinct case when cp.status=1 then cp.message_ptr_id else null end) as pendingproposals, count(distinct case when cp.status=4 then cp.message_ptr_id else null end) as paidproposals, count(distinct case when ci.status=1 then ci.message_ptr_id else null end) as pendinginvoices, count(distinct case when ci.status=4 then ci.message_ptr_id else null end) as paidinvoices,  case  when max(cmi.timestamp)>max(cmp.timestamp) then max(cmi.timestamp) else max(cmp.timestamp) end as latestaction  from  contracts_job cj  inner join users em on em.id=cj.employer_id inner join auth_user ema on ema.id=em.django_user_id  inner join contracts_application ca on ca.job_id=cj.id  inner join users fr on fr.id=ca.applicant_id inner join auth_user fra on fra.id=fr.django_user_id inner join contracts_message cmp on cmp.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cmp.id inner join contracts_message cmi on cmi.application_id=ca.id left outer join contracts_invoice ci on ci.message_ptr_id=cmi.id  where cp.status=4  group by ca.id, emfullname, frfullname, cj.id,cj.title, em.photo, fr.photo, em.id, fr.id) total where pendingproposals>0 or pendinginvoices>0 order by latestaction ")        
+            
+        results = customQuery(sql,1)     
+        c = Context({'details': results})   
+        return HttpResponse(render_to_string('userdetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+
+
 @login_required(login_url='/accounts/login/')
 def leakagedetection_report(request):
         
