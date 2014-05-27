@@ -667,11 +667,12 @@ def user_personalinfo_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
         userid= objs['userid']
-        sql = ("select u.id,u.django_user_id, au.first_name || ' ' || au.last_name, au.email,  u.countrycode || ' ' || u.areacode || ' ' || u.mobile,  u.country,  u.city, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as cphoto, u.dob, u.gender, u.formatted_address, u.is_employer, u.is_hobbies_explorer, u.is_freelancer, u.hide_in_search, u.deactivated, u.view_count, u.date_of_birth, u.city, u.country, u.nationality, u.average_rating, u.reviews_count, u.jobs_count, au.is_staff, au.is_active, au.is_superuser, au.last_login, au.date_joined, tv.last_update from  users u inner join auth_user au on u.django_user_Id=au.id left outer join tracking_visitor tv on tv.user_id=au.id where u.id="+ userid)        
+        sql = ("select u.id,u.django_user_id, au.first_name || ' ' || au.last_name, au.email,  u.countrycode || ' ' || u.areacode || ' ' || u.mobile,  u.country,  u.city, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as cphoto, u.dob, u.gender, u.formatted_address, u.is_employer, u.is_hobbies_explorer, u.is_freelancer, u.hide_in_search, u.deactivated, u.view_count, u.date_of_birth, u.city, u.country, u.nationality, u.average_rating, u.reviews_count, u.jobs_count, au.is_staff, au.is_active, au.is_superuser, au.last_login, au.date_joined, tv.last_update from  users u inner join auth_user au on u.django_user_Id=au.id left outer join tracking_visitor tv on tv.user_id=au.id where u.id="+ str(userid))        
         print sql
         results = customQuery(sql,1)
         
-        return HttpResponse(json.dumps(results), mimetype='application/json')
+        c = Context({'details': results})
+        return HttpResponse(render_to_string('userdetails.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
         
 @csrf_exempt      
 def user_jobs_getdata(request):

@@ -117,6 +117,10 @@
     {
        return "<div style='width: 50px;height: 50px; border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;background: url("+url+") no-repeat;background-size: cover;background-position: center center; border-radius: 99em; border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
     }
+    function circularimagecontact(url) 
+    {
+      return "<div style='width: 100px;height: 100px; border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;background: url("+url+") no-repeat;background-size: cover;background-position: center center; border-radius: 10em; border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
+    }    
     
     function formatname(id, name, direction)
     {
@@ -124,21 +128,34 @@
        return html;
     }
      
+    function formatcell(text, textsize, color)
+    {
+       html='<td style="TEXT-DECORATION: NONE;color: '+color+'; font-size:'+textsize+'px">'+text+'</td>';     
+       return html;
+    } 
     function selectuser(id){
       $('#userid').val(id);
       $('#userotherinfo').val('');  
       finduser();      
       
-
+      showcontactdetails( $.parseJSON(getPersonalData(id)));
       source.localdata  = getJobsData(id,fromdate,todate);
-
-      appssource.localdata = getApplicationsData(id,appsfromdate,appstodate);
-
-       $("#jobsGrid").jqxGrid('updatebounddata','cells');
-       $("#appsGrid").jqxGrid('updatebounddata','cells');
+      appssource.localdata = getApplicationsData(id,appsfromdate,appstodate);      
+      $("#jobsGrid").jqxGrid('updatebounddata','cells');
+      $("#appsGrid").jqxGrid('updatebounddata','cells');
 
     }
-    
+    function showcontactdetails(data){
+       console.log(data);
+       var html1='<table><tr><td rowspan=4>';       
+       html1 +=  circularimagecontact(data[0][7]) + '</td>';  
+       html1 += formatcell(data[0][4], 24, 'rgb(100,100,100)' ) + '</tr>';
+       html1 += '<tr>' + formatcell(data[0][3], 16, 'rgb(100,100,100)') + '</tr>';
+       html1 += '<tr>' + formatcell(data[0][10], 14, 'rgb(100,100,100)') + '</tr>';
+       html1 += '<tr>' + formatcell('Last Seen:' + data[0][29], 10, 'rgb(100,100,100)') + '</tr>';
+       html1 += '</table>';
+       $("#contactdetails").html(html1);
+    }
     
     function finduser(){
                   array= JSON.parse(getFindUserData());
@@ -153,7 +170,7 @@
                      html+= '</tr></table>';
                      $("#allusers").html(html);
                   }else{
-                     html+='No Results, please try more specific info!';
+                     $("#allusers").html('No Results, please try more specific info!');
                   } 
     }
     function drawChart() {
@@ -391,6 +408,7 @@
          $('#docking').jqxDocking({ theme:theme , orientation: 'horizontal', mode: 'docked',floatingWindowOpacity: 0.5, width:'100%' }); 
          $('#docking').jqxDocking('hideAllCloseButtons');
          $('#docking').jqxDocking('pinWindow', 'window1');		
+         $('#docking').jqxDocking('pinWindow', 'window2');
          
          
          
@@ -504,7 +522,7 @@
          
             
             $("#userid").jqxInput({placeHolder: "User ID", theme: theme, height: 25, width: 100, minLength: 5 });
-            $("#userotherinfo").jqxInput({placeHolder: "Email, Name, Job Title", theme: theme, height: 25, width:500, minLength: 5 });
+            $("#userotherinfo").jqxInput({placeHolder: "Email, Name, Job Title, Transaction Public Id", theme: theme, height: 25, width:500, minLength: 5 });
             $("#findUserButton").jqxButton({theme: theme, width: '200'});
             $("#findUserButton").on('click', function () {          
                      finduser();                                                                   
@@ -532,12 +550,20 @@
    <div id="docking">      
         <div class="InnerDivsSmall">
             <div id="window1" style="height:120px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px"></span>
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Search Users</span>
                   <input type="text" id="userid"/>
                   <input type="text" id="userotherinfo"/>
                   <input type="button" value="Find User" id='findUserButton' />
                 </div>
                 <div id="allusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">
+                   
+                </div>
+            </div>  
+            <div id="window2" style="height:150px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Contact Details</span>
+                  
+                </div>
+                <div id="contactdetails" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">
                    
                 </div>
             </div>                    
