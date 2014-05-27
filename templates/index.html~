@@ -133,7 +133,7 @@ function formatpendinginvoice(data)
       html='<table style="width:100%">'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td><td><span style="color: rgb(255,0,0); font-size:18px">'+data[i][12]+'</span><span style="TEXT-DECORATION: NONE;font-size:12px;color: rgb(60,60,60)"> Pending Invoice(s) here: </span></br><a  target="_blank" href="www.nabbesh.com/contracts/workstream/'+data[i][6]+'" style="TEXT-DECORATION: NONE;font-size:10px;color: rgb(60,60,60)">Workstream: '+data[i][6]+'</a></td><td>'+circularimage(data[i][5])+'</td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td><td><span style="color: rgb(255,0,0); font-size:18px">'+data[i][12]+'</span><span style="TEXT-DECORATION: NONE;font-size:12px;color: rgb(60,60,60)"> Pending Invoice(s) here: </span></br><a  target="_blank" href="http://www.nabbesh.com/contracts/workstream/'+data[i][6]+'" style="TEXT-DECORATION: NONE;font-size:10px;color: rgb(60,60,60)">Workstream: '+data[i][6]+'</a></td><td>'+circularimage(data[i][5])+'</td></tr>';        
       }
        html+='</table>'
       return html;
@@ -283,10 +283,10 @@ function doTimeout() {
           data: JSON.stringify( {"fromdate": fromdate}),
           async: false
           })).then(function( data, textStatus, jqXHR ) {
-          
+          $("#pendinginvoices").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){    
-          $("#pendinginvoices").html( formatpendinginvoice(data));          
-              console.log(data);
+              $("#pendinginvoices").html( formatpendinginvoice(data));          
+              $("#pendinginvoices").unblock(); 
              
           }, 500); });        
 
@@ -316,7 +316,7 @@ function doTimeoutQuick() {
           $("#onlineusers").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){              
               $("#onlineusers").html(formatonlineuser(data)); 
-              //console.log(data);
+
               $("#onlineusers").unblock(); 
           }, 500); });  
       setTimeout(doTimeoutQuick, 30000);
