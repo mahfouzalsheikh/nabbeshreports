@@ -277,18 +277,7 @@ function doTimeout() {
           }, 500); });
           
           
-    $.when( $.ajax({
-          url: "../../pendinginvoices_getdata",
-          type: "POST",
-          data: JSON.stringify( {"fromdate": fromdate}),
-          async: false
-          })).then(function( data, textStatus, jqXHR ) {
-          $("#pendinginvoices").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
-          setTimeout(function (){    
-              $("#pendinginvoices").html( formatpendinginvoice(data));          
-              $("#pendinginvoices").unblock(); 
-             
-          }, 500); });        
+    
 
 
 try{     
@@ -412,10 +401,7 @@ $(document).ready(function () {
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Invoices</span></div>
                 <div id="allinvoices" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>                                    
-            <div id="window11" style="height:400px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Pending Invoices</span></div>
-                <div id="pendinginvoices" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
-            </div> 
+
         </div>
         <div class="InnerDivsSmall">
             <div id="window9" style="height:400px">
