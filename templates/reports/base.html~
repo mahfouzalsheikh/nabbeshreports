@@ -187,16 +187,16 @@
                             <li><a href="freelancerseducation">Education</a></li>
                             <li><a href="topfreelancers"></a>Top <b>Freelancers</b></li>  
                             <li><a href="topemployers">Top <b>Employers</b></a></li>
-                            <li><a href="crmclients">Clients for CRM</a><span style="color: Red; font-size:10px"> New</span></li>                         
+                            <li><a href="crmclients">Clients for CRM</a></li>                         
                         </ul>
                     </li>
-                    <li>Tracking<span style="color: Red; font-size:10px"> New</span>
+                    <li>Tracking
                         <ul style='width: 180px;'>
                               <li><a href="jobsapplicationsstatistics">Jobs/Applications</a></li>
-                              <li><a href="useractivities">User Activity</a><span style="color: Red; font-size:10px"> New</span></li>                             
+                              <li><a href="useractivities">User Activity</a></li>                             
                         </ul>
                     </li>
-                    <li>Activities<span style="color: Red; font-size:10px"> New</span>        
+                    <li>Activities        
                         <ul style='width: 200px;'>                        
                             <li><a href="jobsapplicationsstatistics">Jobs/Applications Tracking</a></li>
                             <li><a href="jobsemployersstatistics">Employers & Jobs Stats</a></li>                            
@@ -209,16 +209,18 @@
                             <li><a href="jobsappsretention">Jobs/Apps Retention</a></li>
                             <li><a href="activitiescountries">Activities/Countries</a></li>
                             <li><a href="emailcampaigns">Email Campaigns</a></li>
-                            <li><a href="dealaveragetime">Deals Timelines</a><span style="color: Red; font-size:10px"> New</span></li>
+                            <li><a href="dealaveragetime">Deals Timelines</a></li>
                         </ul>
                     </li>
                     
-                    <li>Finance
+                    <li>Finance<span style="color: Red; font-size:10px"> New</span>
                         <ul style='width: 180px;'>
                             <li><a href="proposals">Proposals</a></li>
                             <li><a href="invoices">Invoices</a></li>
+                            <li><a href="pendinginvoices">Pending Invoices<span style="color: Red; font-size:10px"> New</span></a></li>                            
                             <li><a href="payments">Payments</a></li>  
-                            <li><a href="revenue">Revenue</a></li>                                                                     
+                            <li><a href="revenue">Revenue<span style="color: Red; font-size:10px"> Deposits Included</span></a></li>
+                            
                         </ul>
                     </li>
                     <li>Skills
