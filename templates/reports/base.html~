@@ -163,7 +163,8 @@
 
 <div style="font-size:14px;float:right;vertical-align:text-bottom; color: rgb(102, 102, 102);">
  {% if  user.is_authenticated %}
-    {{ user.first_name  }} {{user.last_name}}  | <a href="/accounts/logout/">Sign Out</a>
+ <span style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:14px" href="leakagedetection">  {{ user.first_name  }} {{user.last_name}} | </span>
+   <a style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:14px" href="/accounts/logout/">Sign Out</a>
  {% endif %}
 </div>
 
