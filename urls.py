@@ -108,6 +108,9 @@ urlpatterns = patterns('',
     url(r'^invoices_getdata$', 'nabbeshreports.maps.views.invoices_getdata'),
     url(r'^invoices$', 'nabbeshreports.maps.views.invoices_report'),
     
+    url(r'^pendinginvoices_getdata$', 'nabbeshreports.maps.views.pendinginvoices_getdata'),
+    url(r'^pendinginvoices$', 'nabbeshreports.maps.views.pendinginvoices_report'),
+    
     url(r'^payers_getdata$', 'nabbeshreports.maps.views.payers_getdata'),
     url(r'^payers$', 'nabbeshreports.maps.views.payers_report'),
 
@@ -143,7 +146,7 @@ urlpatterns = patterns('',
     url(r'^trackingmessages_getdata$', 'nabbeshreports.maps.views.tracking_messages_getdata'),
     url(r'^userprofileinfo_getdata$', 'nabbeshreports.maps.views.userprofileinfo_getdata'),
     url(r'^trackingvisitors_getdata$', 'nabbeshreports.maps.views.tracking_visitors_getdata'),
-    url(r'^pendinginvoices_getdata$', 'nabbeshreports.maps.views.pendinginvoices_getdata'),
+    
 #######################################################    
 
     url(r'^leakagedetection$', 'nabbeshreports.maps.views.leakagedetection_report'),

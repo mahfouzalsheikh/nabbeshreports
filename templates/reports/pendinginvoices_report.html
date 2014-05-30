@@ -1,0 +1,145 @@
+{% extends 'reports/base.html' %}
+
+{% block  customheadscripts %}
+
+
+
+
+<script type="text/javascript">
+
+
+
+
+function circularimage(url)
+{
+   return "<div style='width: 50px;height: 50px; border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;background: url("+url+") no-repeat;background-size: cover;background-position: center center; border-radius: 99em; border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
+}
+
+function circularimagecontact(url)
+{
+   return "<div style='width: 100px;height: 100px; border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;background: url("+url+") no-repeat;background-size: cover;background-position: center center;  border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
+}
+
+function formatname(id, name, direction)
+{
+   html='<td style="text-align:'+direction+'"><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/profile/'+id+'">'+name+'</a></br><a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');"><abbr title="See full profile on backend">contact info</abbr></a></td>';   
+   return html;
+}
+
+
+function getData(){
+      var params = {};
+      var jsonData = $.ajax({
+          url: "../../pendinginvoices_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+}
+
+
+function getUserData(userid){
+      var params = {"userid": userid};
+      var jsonData = $.ajax({
+          url: "../../userprofileinfo_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+}
+
+function formatpendinginvoice(data)
+{
+   if(data.length!=0)
+   {
+      html='<table style="width:100%">'
+      for(i=0; i<data.length;i++)
+      {         
+         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+formatname(data[i][0],data[i][1],'left')+'<td><span style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)"> Has  </span><span style="color: rgb(255,0,0); font-size:18px">'+data[i][12]+'</span><span style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)"> Pending Invoice(s) to be paid on this </span><a  target="_blank" href="http://www.nabbesh.com/contracts/workstream/'+data[i][6]+'" style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)">Workstream: '+data[i][6]+'</a></td>' + formatname(data[i][3],data[i][4],'right') + '<td>'+circularimage(data[i][5])+'</td></tr>';        
+      }
+       html+='</table>'
+      return html;
+   }
+}
+
+showcontactdetails= function (userid) {
+   array= $.parseJSON(getUserData(userid));
+   html='<table><tr><td rowspan=5>'+circularimagecontact(array[0][5])+'</td><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:16px" href="http://www.nabbesh.com/profile/'+userid+'">'+array[0][0]+'</a></td></tr><tr><td>'+array[0][1]+'</td></tr></tr><tr><td>'+array[0][2]+'</td></tr><tr><td>'+array[0][3]+ ',' + array[0][4]+'</td></tr><tr><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/admin/legacy/users/'+userid+'">Full Info</a></td></tr></table>';
+   
+   $('#windowContent').html(html);   
+   $('#window').jqxWindow({ position: { x: 200, y: 100 }})
+   $('#window').jqxWindow('open');
+
+
+}
+
+
+             
+function draw(){
+   var searchkeywords= $('#searchkeywordsfield').val();
+   data=getData();
+   console.log($.parseJSON(data));
+   $("#pendinginvoices").html(formatpendinginvoice($.parseJSON(data)));
+  // console.log(data);
+}
+            
+            
+                 
+     
+$(document).ready(function () {
+
+     var theme=  'bootstrap';         
+
+    
+     
+
+
+     $('#window').jqxWindow({ modalOpacity: 0.5, theme: theme, zIndex: 99999,
+                    showCollapseButton: true, maxHeight: 170, maxWidth: 300, minHeight: 170, minWidth: 300, height: 170, width: 300
+                });
+     $('#window').jqxWindow('close');
+
+
+
+     draw();
+    
+
+
+
+});     
+     
+</script>
+
+{% endblock %}
+
+{% block reportblock %}
+
+    
+
+
+    
+   <div id="pendinginvoices">        
+     
+   </div>
+   
+   
+           <div id="window" style="position: fixed;">
+                <div id="windowHeader">
+                    <span>
+                        Contact Details
+                    </span>
+                </div>
+                <div style="overflow: hidden;" id="windowContent">
+
+                </div>
+            </div>    
+
+
+{% endblock %}
+
+
+

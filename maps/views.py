@@ -1349,6 +1349,17 @@ def tracking_visitors_getdata(request):
         return HttpResponse(render_to_string('trackingvisitors.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 
+
+@login_required(login_url='/accounts/login/')
+def pendinginvoices_report(request):
+        
+    t = loader.get_template('./reports/pendinginvoices_report.html')
+    c = Context({
+        'pendinginvoices_report': pendinginvoices_report,
+    })
+    return render_to_response('./reports/pendinginvoices_report.html', context_instance=RequestContext(request))
+
+
 @csrf_exempt 
 def pendinginvoices_getdata(request):
     if request.method == 'POST':
