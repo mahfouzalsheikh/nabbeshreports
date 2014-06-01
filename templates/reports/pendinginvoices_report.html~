@@ -17,7 +17,7 @@ function circularimage(url)
 
 function circularimagecontact(url)
 {
-   return "<div style='width: 100px;height: 100px; border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;background: url("+url+") no-repeat;background-size: cover;background-position: center center;  border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
+   return "<div style='width: 75px;height: 75px; border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;background: url("+url+") no-repeat;background-size: cover;background-position: center center;  border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
 }
 
 function formatname(id, name, direction)
@@ -27,7 +27,7 @@ function formatname(id, name, direction)
 }
 
 
-function getData(){
+function getInvoicesData(){
       var params = {};
       var jsonData = $.ajax({
           url: "../../pendinginvoices_getdata",
@@ -39,6 +39,17 @@ function getData(){
        return jsonData;    
 }
 
+function getRatingsData(){
+      var params = {};
+      var jsonData = $.ajax({
+          url: "../../pendingratings_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+}
 
 function getUserData(userid){
       var params = {"userid": userid};
@@ -56,16 +67,37 @@ function formatpendinginvoice(data)
 {
    if(data.length!=0)
    {
-      html='<table style="width:100%">'
+      html='<table  style="width:100%">'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+formatname(data[i][0],data[i][1],'left')+'<td><span style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)"> Has  </span><span style="color: rgb(255,0,0); font-size:18px">'+data[i][12]+'</span><span style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)"> pending invoice(s) to be paid on this </span><a  target="_blank" href="http://www.nabbesh.com/contracts/workstream/'+data[i][6]+'" style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)">Workstream: '+data[i][6]+'</a></td>' + formatname(data[i][3],data[i][4],'right') + '<td>'+circularimage(data[i][5])+'</td></tr>';        
+         html+= '<tr><td width="50px">'+circularimagecontact(data[i][2])+'</td>'+formatname(data[i][0],data[i][1],'left')+'<td align="center"><span style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)"> Has  </span><span style="color: rgb(255,0,0); font-size:18px">'+data[i][12]+'</span><span style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)"> pending invoice(s) to be paid on this </span><a  target="_blank" href="http://www.nabbesh.com/contracts/workstream/'+data[i][6]+'" style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)">Workstream: '+data[i][6]+'</a></td>' + formatname(data[i][3],data[i][4],'right') + '<td width="100px">'+circularimagecontact(data[i][5])+'</td></tr>';        
       }
        html+='</table>'
       return html;
    }
 }
-
+function formatpendingrating(data){
+   if(data.length!=0)
+   {
+      html='<table  style="width:100%">'
+      for(i=0; i<data.length;i++)
+      { 
+        frarrow='';
+        emarrow='';
+        if(data[i][9]=='0')
+        {
+          frarrow= ' Should post review on invoice >>>';
+        }
+        if(data[i][10]=='0')
+        {
+          emarrow= '<<< Should post review on invoice ';
+        }
+        html+='<tr><td width="50px">'+circularimagecontact(data[i][2])+'</td>'+formatname(data[i][0],data[i][1],'left')+'</td><td align="center"><span style="TEXT-DECORATION: NONE;font-size:12px;color: rgb(60,60,60)">'+frarrow+'</span></td><td align="center"><span style="TEXT-DECORATION: NONE;font-size:18px;color: rgb(249,161,29)">'+data[i][6]+'</span></br><span style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)"> Paid on: '+data[i][7]+'</span></br><span style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)">On: </span><a target="_blank" href="http://www.nabbesh.com/contracts/workstream/'+data[i][8]+'" style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)">Workstream</a></td><td align="center"><span style="TEXT-DECORATION: NONE;font-size:12px;color: rgb(60,60,60)">'+emarrow+'</span></td>' + formatname(data[i][3],data[i][4],'right') + '<td width="100px">'+circularimagecontact(data[i][5])+'</td></tr>'
+      }
+       html+='</table>'
+      return html;
+   }
+}
 showcontactdetails= function (userid) {
    array= $.parseJSON(getUserData(userid));
    html='<table><tr><td rowspan=5>'+circularimagecontact(array[0][5])+'</td><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:16px" href="http://www.nabbesh.com/profile/'+userid+'">'+array[0][0]+'</a></td></tr><tr><td>'+array[0][1]+'</td></tr></tr><tr><td>'+array[0][2]+'</td></tr><tr><td>'+array[0][3]+ ',' + array[0][4]+'</td></tr><tr><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/admin/legacy/users/'+userid+'">Full Info</a></td></tr></table>';
@@ -80,10 +112,14 @@ showcontactdetails= function (userid) {
 
              
 function draw(){
-   var searchkeywords= $('#searchkeywordsfield').val();
-   data=getData();
-   console.log($.parseJSON(data));
-   $("#pendinginvoices").html(formatpendinginvoice($.parseJSON(data)));
+
+   invoicesdata=getInvoicesData();   
+   $("#pendinginvoices").html(formatpendinginvoice($.parseJSON(invoicesdata)));
+   
+   ratingsdata=getRatingsData();
+   $("#pendingratings").html(formatpendingrating($.parseJSON(ratingsdata)));
+   
+   console.log($.parseJSON(ratingsdata));
   // console.log(data);
 }
             
@@ -119,13 +155,18 @@ $(document).ready(function () {
 {% block reportblock %}
 
     
-
+<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Pending Invoices</h2><div id='date'></div></center></div>
 
     
-   <div id="pendinginvoices">        
+   <div id="pendinginvoices" style="width:100%">        
      
    </div>
    
+<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Pending Ratings</h2><div id='date'></div></center></div>   
+
+   <div id="pendingratings" style="width:100%">        
+     
+   </div>
    
            <div id="window" style="position: fixed;">
                 <div id="windowHeader">

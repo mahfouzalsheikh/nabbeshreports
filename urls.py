@@ -109,6 +109,7 @@ urlpatterns = patterns('',
     url(r'^invoices$', 'nabbeshreports.maps.views.invoices_report'),
     
     url(r'^pendinginvoices_getdata$', 'nabbeshreports.maps.views.pendinginvoices_getdata'),
+    url(r'^pendingratings_getdata$', 'nabbeshreports.maps.views.pendingratings_getdata'),
     url(r'^pendinginvoices$', 'nabbeshreports.maps.views.pendinginvoices_report'),
     
     url(r'^payers_getdata$', 'nabbeshreports.maps.views.payers_getdata'),

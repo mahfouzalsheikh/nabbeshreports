@@ -1373,6 +1373,18 @@ def pendinginvoices_getdata(request):
         return HttpResponse(render_to_string('userdetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 
+@csrf_exempt 
+def pendingratings_getdata(request):
+    if request.method == 'POST':
+        #objs = simplejson.loads(request.raw_post_data)
+
+        sql = ("select fr.id, aufr.first_name || ' ' || aufr.last_name as frfullname, case when (fr.photo <>'' and fr.photo is not null and fr.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto,   em.id , auem.first_name || ' ' || auem.last_name as emfullname,  case when (em.photo <>'' and em.photo is not null and em.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as emphoto ,cm.public_id, ci.payed_timestamp, cm.application_id, COALESCE(ccr.creator_user_id,0), COALESCE(cfr.creator_user_id,0) from contracts_invoice ci   inner join contracts_invoiceitem cii on cii.invoice_id=ci.message_ptr_id inner join contracts_message cm on cm.id=ci.message_ptr_id inner join contracts_application ca on ca.id=cm.application_id inner join users fr on fr.id=ca.applicant_id inner join auth_user aufr on aufr.id=fr.django_user_id inner join contracts_job cj on cj.id=ca.job_id inner join users em on em.id=cj.employer_id inner join auth_user auem on auem.id=em.django_user_id left outer join contracts_clientreview ccr on ccr.invoice_id=ci.message_ptr_id left outer join contracts_contractorreview cfr on cfr.invoice_id=ci.message_ptr_id where ci.payed_timestamp is not null and (ccr.creator_user_id is null or cfr.creator_user_id is null) order by payed_timestamp desc")        
+            
+        results = customQuery(sql,1)   
+        print sql  
+        c = Context({'details': results})   
+        return HttpResponse(render_to_string('userdetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+
 @login_required(login_url='/accounts/login/')
 def leakagedetection_report(request):
         
