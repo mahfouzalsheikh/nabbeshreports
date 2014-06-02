@@ -121,7 +121,7 @@ function formatmessages(data)
       html='<table style="width:100%" >'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left', data[i][18])+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16], data[i][17], data[i][21], data[i][20] ) +formatname(data[i][6], data[i][7], 'right', data[i][19])+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left', data[i][18])+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16], data[i][17], data[i][22], data[i][20] ) +formatname(data[i][6], data[i][7], 'right', data[i][19])+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
       }
        html+='</table>'
       return html;
@@ -331,8 +331,11 @@ function doTimeoutQuick() {
 $(document).ready(function () {
 
      var theme=  'bootstrap';         
+     $('#loadingup').hide();
+     $('#loadingdown').hide();
+     
+     
      $('#docking').jqxDocking({ theme:theme , orientation: 'horizontal', mode: 'docked',floatingWindowOpacity: 0.5, width:'100%' });
-
      $('#docking').jqxDocking('hideAllCloseButtons');
      $('#docking').jqxDocking('pinWindow', 'window1');
      $('#docking').jqxDocking('pinWindow', 'window2');
@@ -348,16 +351,25 @@ $(document).ready(function () {
      $("#allproposals").block({ message : '', css: { border: '0px solid #a00' } });
      $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
      
-     $("#messages").scroll(function() { 
-           //console.log($("#messages").prop('scrollHeight') + ' - ' +  $("#messages").scrollTop() + ' ' + $("#messages").height());
-           if ($("#messages").prop('scrollHeight') - $("#messages").scrollTop() <=  $("#messages").height()+100 )
+     $("#msgcontainer").scroll(function() { 
+           //console.log($("#msgcontainer").prop('scrollHeight') + ' - ' +  $("#msgcontainer").scrollTop() + ' ' + $("#msgcontainer").height());
+           if ($("#msgcontainer").prop('scrollHeight') - $("#msgcontainer").scrollTop() <=  $("#msgcontainer").height()+100 )
            {
-              
+              $("#loadingdown").show();
+              $("#loadingup").hide();
               console.log('Load Down');
            }else
-           if($("#messages").scrollTop()==0)
+           if($("#msgcontainer").scrollTop()==0)
            {
+              $("#loadingup").show();
+              $("#loadingdown").hide();
+           
               console.log('Load Up');
+           }
+           else
+           {
+              $("#loadingup").hide();
+              $("#loadingdown").hide();
            }
       });
      
@@ -433,8 +445,13 @@ $(document).ready(function () {
         <div class="InnerDivsSmall">
             <div id="window9" style="height:400px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Live Messages Today</span><a style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:10px" href="leakagedetection"> See More</a></div>
-                <div id="messages" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;">
-                </div> 
+                  <div id="msgcontainer" style="padding: 0px 0px 0px 0px; color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;">
+                    <div id="loadingup"> </div>
+                    <div id="messages">
+                  
+                    </div> 
+                    <div id="loadingdown"> </div>
+                  </div>   
                 
             </div>
             
