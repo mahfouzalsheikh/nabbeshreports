@@ -63,29 +63,23 @@ function formatname(id, name, direction, rating)
    return html;
 }
 
-function formatworkstream(id, direction, time, invoice, proposal,job,jobid, email, phone,skype, odesk, elance)
+function formatworkstream(id, direction, time, invoice, proposal,job,jobid, email, phone,skype, odesk, elance, haspayment)
 {
    console.log(elance);
    typeword='';
-   if(direction=='True')
-   { 
-      dir='>>>>>>>';
-      color = 'rgb(0, 182, 222)';
-   }else
-   {
-      dir='<<<<<<<';
-      color = 'rgb(60,60,60)';
-   }
+   frmsg='';
+   empmsg='';
+   
+
    if(invoice != 'None')
    {
-      //alert('invoice');
-      typeword='Invoice  ';
+      typeword='Invoice';
    }else 
    if(proposal != 'None')
    {
-      typeword='Proposal ';
+      typeword='Proposal';
      
-   }else typeword='';
+   }else typeword='>>>>>>>>';
    
    //console.log(invoice);
    emailtext='';
@@ -99,8 +93,24 @@ function formatworkstream(id, direction, time, invoice, proposal,job,jobid, emai
      emailtext+=' Odesk '; 
    if(elance=='True')
      emailtext+=' Elance ';              
+
+   if(direction=='True')
+   { 
+      dir='>>>';
+      color = 'rgb(0, 182, 222)';
+      frmsg = '<a target="_blank" style="TEXT-DECORATION: NONE;color: '+color+'; font-size:12px" href="http://www.nabbesh.com/contracts/workstream/'+id+'">'+dir+typeword+dir+'</a></br><span style="font-size:10px">'+time+'</span>';
+   }else
+   {
+      dir='<<<';
+      color = 'rgb(60,60,60)';
+      empmsg = '<a target="_blank" style="TEXT-DECORATION: NONE;color: '+color+'; font-size:12px" href="http://www.nabbesh.com/contracts/workstream/'+id+'">'+dir+'<<<<<<<<'+dir+'</a></br><span style="font-size:10px">'+time+'</span>'
+   }
+   haspaymenttext='';
+   if(haspayment!='0'){
+      haspaymenttext='Has Payment';
+   }
    
-   html='<td style="text-align:center;"><a target="_blank" style="TEXT-DECORATION: NONE;color: '+color+'; font-size:16px" href="http://www.nabbesh.com/contracts/workstream/'+id+'">'+typeword+dir+'</a></br><span style="font-size:10px">'+time+'</span></br><a  target="_blank" href="http://www.nabbesh.com/jobs/location/title/'+jobid+'" style="TEXT-DECORATION: NONE;font-size:10px;color: rgb(60,60,60)">'+job+'</a></br><span style="color: rgb(255,0,0); font-size:10px">'+emailtext+'</span></td>'
+   html='<td>'+frmsg+'</td><td style="text-align:center;"><span style="color: rgb(255,0,0); font-size:12px">'+haspaymenttext+'</span></br><a  target="_blank" href="http://www.nabbesh.com/jobs/location/title/'+jobid+'" style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)">'+job+'</a></br><span style="color: rgb(255,0,0); font-size:10px">'+emailtext+'</span><td>'+empmsg+'</td>'
    return html;
 }
 function formatmessages(data)
@@ -108,10 +118,10 @@ function formatmessages(data)
    console.log(data);
    if(data.length!=0)
    {
-      html='<table style="width:100%">'
+      html='<table style="width:100%" >'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left', data[i][18])+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16], data[i][17] ) +formatname(data[i][6], data[i][7], 'right', data[i][19])+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left', data[i][18])+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16], data[i][17], data[i][20] ) +formatname(data[i][6], data[i][7], 'right', data[i][19])+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
       }
        html+='</table>'
       return html;
