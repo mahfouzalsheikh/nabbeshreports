@@ -63,7 +63,7 @@ function formatname(id, name, direction, rating)
    return html;
 }
 
-function formatworkstream(id, direction, time, invoice, proposal,job,jobid, email, phone,skype, odesk, elance, haspayment)
+function formatworkstream(id, direction, time, invoice, proposal,job,jobid, email, phone,skype, odesk, elance, haspayment,public_id)
 {
    //console.log(elance);
    typeword='';
@@ -110,18 +110,18 @@ function formatworkstream(id, direction, time, invoice, proposal,job,jobid, emai
       haspaymenttext='<a target="_blank" href="http://www.nabbesh.com/contracts/workstream/'+id+'"><img src="https://s3-us-west-2.amazonaws.com/nabbeshscripts/reportingtool/money.png" alt="Has Payment" height="20" width="20"></a>';
    }
    
-   html='<td>'+frmsg+'</td><td style="text-align:center;">'+haspaymenttext+'</br><a  target="_blank" href="http://www.nabbesh.com/jobs/location/title/'+jobid+'" style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)">'+job+'</a></br><span style="color: rgb(255,0,0); font-size:10px">'+emailtext+'</span><td>'+empmsg+'</td>'
+   html='<td>'+frmsg+'</td><td style="text-align:center;">'+haspaymenttext+'</br><a  target="_blank" href="http://www.nabbesh.com/jobs/location/title/'+jobid+'" style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)">'+job+'</a></br><a  style="TEXT-DECORATION: NONE;font-size:10px;color: rgb(150,150,150)" target="_blank" href="http://www.nabbesh.com/admin/contracts/application/?q='+public_id+'">Workstream Admin</a></br><span style="color: rgb(255,0,0); font-size:10px">'+emailtext+'</span><td>'+empmsg+'</td>'
    return html;
 }
 function formatmessages(data)
 {   
-   //console.log(data);
+   console.log(data);
    if(data.length!=0)
    {
       html='<table style="width:100%" >'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left', data[i][18])+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16], data[i][17], data[i][20] ) +formatname(data[i][6], data[i][7], 'right', data[i][19])+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left', data[i][18])+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16], data[i][17], data[i][21], data[i][20] ) +formatname(data[i][6], data[i][7], 'right', data[i][19])+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
       }
        html+='</table>'
       return html;
