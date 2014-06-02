@@ -125,7 +125,7 @@ function formatonlineuser(data)
       html='<table style="width:100%">'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][3])+'</td>'+formatname(data[i][0], data[i][1], 'left', '0')+'<td> <span style="color: rgb(100,100,100); font-size:12px"> is browsing:  </span> <a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:16px" href="http://www.nabbesh.com'+data[i][4]+'">'+data[i][4]+'</td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[i][3])+'</td>'+formatname(data[i][0], data[i][1], 'left', '0.00')+'<td> <span style="color: rgb(100,100,100); font-size:12px"> is browsing:  </span> <a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:16px" href="http://www.nabbesh.com'+data[i][4]+'">'+data[i][4]+'</td></tr>';        
       }
        html+='</table>'
       return html;
