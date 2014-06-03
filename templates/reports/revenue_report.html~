@@ -39,7 +39,7 @@
      function drawChart(fromdate, todate, limit) {
           
           var escrow = $.parseJSON(getEscrowData())[0][0];
-          $("#title").html('<span style="font-size:32px;font-weight:bold;color: rgb(150 , 150 , 150);">Revenue | </span><span style="font-size:18px;font-weight:bold;color: rgb(150 , 150 , 150);"> Total Current Escrow: '+ escrow+' $</span>');
+          $("#title").html('<span style="font-size:32px;font-weight:bold;color: rgb(150 , 150 , 150);">Revenue | </span><span style="font-size:18px;font-weight:bold;color: rgb(150 , 150 , 150);"> Total Current Escrow: </span><span style="font-size:24px;font-weight:bold;color: rgb(100 , 100 , 100);"> '+escrow+'$ </span>');
           
           var jqwdata = JSON.parse(getData(fromdate, todate, limit));
           var data = new google.visualization.arrayToDataTable(jqwdata);
