@@ -1315,16 +1315,28 @@ def total_messages_getdata(request):
 def tracking_messages_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
-        fromdate= objs['fromdate']
-        print fromdate
-        sql = ("select total.*, COALESCE(paid.haspayment,0) from (select fr.id, aufr.first_name || ' ' || aufr.last_name, case when (fr.photo <>'' and fr.photo is not null and fr.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto ,  cm.from_applicant,  '' as msg, substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,16) , ca.id as application_id, em.id , auem.first_name || ' ' || auem.last_name,  case when (em.photo <>'' and em.photo is not null and em.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as emphoto, ci.message_ptr_id as invoicenumber,cp.message_ptr_id, substring(cj.title,1,20),cj.id,case when cm.message ~ E'[A-Za-z0-9._%%-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,4}' then true else false end, case when cm.message ~ E'([0-9]{3}\?[0-9]{3}\-?[0-9]{4})' or cm.message ~ E'([0-9]{6})' then true else false end, case when lower(cm.message) like '%%skype%%' then true else false end as skype, case when lower(cm.message) like '%%odesk%%' then true else false end as odesk, case when lower(cm.message) like '%%elance.com%%' then true else false end as elance, fr.average_rating,em.average_rating, ca.public_id as app_Public_id, cm.id as msgid  from  contracts_message cm inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on ca.job_id=cj.id inner join users em on em.id=cj.employer_id inner join auth_user auem on auem.id=em.django_user_id inner join users fr on fr.id=ca.applicant_id inner join auth_user aufr on aufr.id=fr.django_user_id  left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id where cm.timestamp>='"+fromdate+"'  ) total left outer join (select ca.id as application_id,count(distinct case when  cp.status=4 then cp.message_ptr_id else null end) as haspayment from contracts_application ca inner join contracts_message cm on cm.application_id=ca.id inner join  contracts_proposal cp on cp.message_ptr_id=cm.id group by ca.id ) paid on paid.application_id=total.application_id order by total.msgid desc")        
+        maxid= objs['maxid']
+        minid= objs['minid']        
+        direction = objs['dir']
+        wherestring = ""
+        if direction=="Up":
+            wherestring = " where cm.id>" + str(minid)
+        else:
+            wherestring = " where cm.id<" + str(maxid)
+
+        sql = ("select total.*, COALESCE(paid.haspayment,0) from (select fr.id, aufr.first_name || ' ' || aufr.last_name, case when (fr.photo <>'' and fr.photo is not null and fr.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto ,  cm.from_applicant,  '' as msg, substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1,16) , ca.id as application_id, em.id , auem.first_name || ' ' || auem.last_name,  case when (em.photo <>'' and em.photo is not null and em.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as emphoto, ci.message_ptr_id as invoicenumber,cp.message_ptr_id, substring(cj.title,1,20),cj.id,case when cm.message ~ E'[A-Za-z0-9._%%-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,4}' then true else false end, case when cm.message ~ E'([0-9]{3}\?[0-9]{3}\-?[0-9]{4})' or cm.message ~ E'([0-9]{6})' then true else false end, case when lower(cm.message) like '%%skype%%' then true else false end as skype, case when lower(cm.message) like '%%odesk%%' then true else false end as odesk, case when lower(cm.message) like '%%elance.com%%' then true else false end as elance, fr.average_rating,em.average_rating, ca.public_id as app_Public_id, cm.id as msgid  from  contracts_message cm inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on ca.job_id=cj.id inner join users em on em.id=cj.employer_id inner join auth_user auem on auem.id=em.django_user_id inner join users fr on fr.id=ca.applicant_id inner join auth_user aufr on aufr.id=fr.django_user_id  left outer join contracts_proposal cp on cp.message_ptr_id=cm.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id  "+wherestring+" ) total left outer join (select ca.id as application_id,count(distinct case when  cp.status=4 then cp.message_ptr_id else null end) as haspayment from contracts_application ca inner join contracts_message cm on cm.application_id=ca.id inner join  contracts_proposal cp on cp.message_ptr_id=cm.id group by ca.id ) paid on paid.application_id=total.application_id order by total.msgid desc limit 20")        
            
+        print sql       
            
-        print sql    
-        results = customQuery(sql,1)     
-        
-        print results[0]
-        c = Context({'messages': results})   
+        results = customQuery(sql,1)    
+        print results 
+        if  len(results)!=0:
+            if direction=="Down":
+                maxid = results[len(results)-1][22]
+            else:    
+                minid = results[0][22]
+        #print results[len(results)-1][22], results[0][22], "--------------------------------"
+        c = Context({'messages': results, 'maxid' : maxid, 'minid': minid })   
         return HttpResponse(render_to_string('trackingmessages.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 @csrf_exempt 
