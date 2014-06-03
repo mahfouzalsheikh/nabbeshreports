@@ -246,7 +246,7 @@ function doTimeout() {
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
           $("#allmessages").block({ message : '', css: { border: '0px solid #a00' } }); 
-          setTimeout(function (){$("#allmessages").html('<span style="font-size:42px;">' + data[0][0].toString() + '</span> Sent /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][1].toString() + '</span> Today');     }, 500);     });                  
+          setTimeout(function (){$("#allmessages").html('<span style="font-size:32px;">' + data[0][0].toString() + '</span> Sent /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][1].toString() + '</span> Today');     }, 500);     });                  
                  
                  
 
