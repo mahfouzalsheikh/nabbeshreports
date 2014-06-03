@@ -139,7 +139,7 @@ function formatonlineuser(data)
       html='<table style="width:100%">'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][3])+'</td>'+formatname(data[i][0], data[i][1], 'left', '0.00')+'<td> <span style="color: rgb(100,100,100); font-size:12px"> is browsing:  </span> <a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:12px" href="http://www.nabbesh.com'+data[i][4]+'"> LINK </a></br><span  style="TEXT-DECORATION: NONE;color: rgb(150,150,150); font-size:10px"> from:'+data[i][5]+'</span></td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[i][3])+'</td>'+formatname(data[i][0], data[i][1], 'left', '0.00')+'<td> <span style="color: rgb(100,100,100); font-size:12px"> is browsing:  </span> <a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:12px" href="http://www.nabbesh.com'+data[i][4]+'"> LINK </a></br><span  style="TEXT-DECORATION: NONE;color: rgb(150,150,150); font-size:10px"> from: </span><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(50,50,50); font-size:10px" href="http://www.geoiptool.com/en/?IP='+data[i][5]+'">' +data[i][5]+  '</a></td></tr>';        
       }
        html+='</table>'
       return html;
