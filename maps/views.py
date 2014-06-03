@@ -1358,7 +1358,7 @@ def tracking_visitors_getdata(request):
     if request.method == 'POST':
         #objs = simplejson.loads(request.raw_post_data)
 
-        sql = ("select u.id, au.first_name || ' ' || au.last_name,tv.last_update, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as uphoto, tv.url from tracking_visitor tv  inner join auth_user au on au.id=tv.user_id  inner join users u on u.django_user_id=au.id where tv.last_update >= (now() - interval '10 minutes') order by tv.last_update desc")        
+        sql = ("select u.id, au.first_name || ' ' || au.last_name,tv.last_update, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as uphoto, tv.url, tv.ip_address from tracking_visitor tv  inner join auth_user au on au.id=tv.user_id  inner join users u on u.django_user_id=au.id where tv.last_update >= (now() - interval '10 minutes') order by tv.last_update desc")        
             
         results = customQuery(sql,1)     
         c = Context({'users': results})   
