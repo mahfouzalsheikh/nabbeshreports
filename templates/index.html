@@ -358,7 +358,7 @@ $(document).ready(function () {
      $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
      
      $("#msgcontainer").scroll(function() { 
-           //console.log($("#msgcontainer").prop('scrollHeight') + ' - ' +  $("#msgcontainer").scrollTop() + ' ' + $("#msgcontainer").height());
+           
            if ($("#msgcontainer").prop('scrollHeight') - $("#msgcontainer").scrollTop() <=  $("#msgcontainer").height()+100 )
            {
                $("#loadingdown").show(); 
@@ -366,25 +366,26 @@ $(document).ready(function () {
                dataArray = $.parseJSON(messagesdata);
                minID=dataArray[1][0];
                maxID=dataArray[2][0];
-               //console.log(minID, maxID);     
+                   
               $("#messages").html($("#messages").html() + formatmessages(dataArray[0]));      
               setTimeout(function (){$("#loadingdown").hide(), 2000}); 
              
-              
-           
-              console.log('Load Down');
+
               
            }else
            if($("#msgcontainer").scrollTop()==0)
            {
                $("#loadingup").show(); 
-               var messagesdata = getMessaegsData(minID,maxID,"Up");
+               var messagesdataup = getMessaegsData(minID,maxID,"Up");
      
-               dataArray = $.parseJSON(messagesdata);
+               dataArray = $.parseJSON(messagesdataup);
                
                minID=dataArray[1][0];
                maxID=dataArray[2][0];
-               //console.log(minID, maxID);
+    
+               if(dataArray[0].length>0){
+                  $("#messages").html(formatmessages(dataArray[0]) + $("#messages").html());       
+               }   
               setTimeout(function (){$("#loadingup").hide(), 2000});  
            
                
@@ -406,8 +407,9 @@ $(document).ready(function () {
      var messagesdata = getMessaegsData(minID,maxID, "Down");
      
      dataArray = $.parseJSON(messagesdata);
-     minID=dataArray[1][0];
+     
      maxID=dataArray[2][0];
+     minID= maxID+20;
      console.log(minID, maxID);
      $("#messages").html(formatmessages(dataArray[0]));
  
