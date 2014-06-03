@@ -18,16 +18,28 @@
           data: JSON.stringify(params),
           async: false
           }).responseText;
-          
-          console.log(jsonData);
 
-          
           return jsonData;
      }
+     
+     function getEscrowData()
+     {
+         var params = {};
+         var jsonData =  $.ajax({
+          url: "totalescrow_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+
+          return jsonData;
+     }     
 	
      function drawChart(fromdate, todate, limit) {
           
-
+          var escrow = $.parseJSON(getEscrowData())[0][0];
+          $("#title").html('<span style="font-size:32px;font-weight:bold;color: rgb(150 , 150 , 150);">Revenue | </span><span style="font-size:18px;font-weight:bold;color: rgb(150 , 150 , 150);"> Total Current Escrow: '+ escrow+' $</span>');
           
           var jqwdata = JSON.parse(getData(fromdate, todate, limit));
           var data = new google.visualization.arrayToDataTable(jqwdata);
@@ -162,7 +174,7 @@
 </script>
 
 {% endblock %}
-<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Revenue</h2><div id='date'></div></center></div>
+<div id="title"></div>
 
 
 <div id='optionsExpander'>

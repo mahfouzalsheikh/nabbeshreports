@@ -1309,7 +1309,17 @@ def total_messages_getdata(request):
         print sql
         results = customQuery(sql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json')    
-   
+
+@csrf_exempt 
+def total_escrow_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+
+        sql = ("select cast(sum(amount_in_escrow) as text)   from contracts_application where amount_in_escrow>0")
+        
+        print sql
+        results = customQuery(sql,1)
+        return HttpResponse(json.dumps(results), mimetype='application/json')    
    
 @csrf_exempt 
 def tracking_messages_getdata(request):
