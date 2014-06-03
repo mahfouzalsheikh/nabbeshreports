@@ -139,7 +139,7 @@ function formatonlineuser(data)
       html='<table style="width:100%">'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][3])+'</td>'+formatname(data[i][0], data[i][1], 'left', '0.00')+'<td> <span style="color: rgb(100,100,100); font-size:12px"> is browsing:  </span> <a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:16px" href="http://www.nabbesh.com'+data[i][4]+'">'+data[i][4]+'</td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[i][3])+'</td>'+formatname(data[i][0], data[i][1], 'left', '0.00')+'<td> <span style="color: rgb(100,100,100); font-size:12px"> is browsing:  </span> <a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:16px" href="http://www.nabbesh.com'+data[i][4]+'"> LINK </td></tr>';        
       }
        html+='</table>'
       return html;
@@ -451,12 +451,13 @@ $(document).ready(function () {
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Skills</span></div>
                 <div id="allskills" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
-        </div>
-        <div class="InnerDivsSmall">
             <div id="window5" style="height:100px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Workstream Messages</span></div>
                 <div id="allmessages" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
+        </div>
+        <div class="InnerDivsSmall">
+
             <div id="window6" style="height:140px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Applications</span></div>
                 <div id="allapplications" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
@@ -468,11 +469,16 @@ $(document).ready(function () {
             <div id="window8" style="height:110px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Invoices</span></div>
                 <div id="allinvoices" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
-            </div>                                    
+            </div>   
+            <div id="window10" style="height:300px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Online Users</span></div>
+                <div id="onlineusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;"></div> 
+                
+            </div>                                 
 
         </div>
         <div class="InnerDivsSmall">
-            <div id="window9" style="height:400px">
+            <div id="window9" style="height:800px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Live Messages Today</span><a style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:10px" href="leakagedetection"> See More</a></div>
                   <div id="msgcontainer" style="padding: 0px 0px 0px 0px; color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;">
                     <div id="loadingup" style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:18px; text-align:center"> Updating </div>
@@ -484,11 +490,7 @@ $(document).ready(function () {
                 
             </div>
             
-            <div id="window10" style="height:300px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Online Users</span></div>
-                <div id="onlineusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;"></div> 
-                
-             </div>
+
             </div> 	
         </div> 
    
