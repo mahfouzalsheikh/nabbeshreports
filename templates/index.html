@@ -67,7 +67,7 @@ function formatname(id, name, direction, rating)
    return html;
 }
 
-function formatworkstream(id, direction, time, invoice, proposal,job,jobid, email, phone,skype, odesk, elance, haspayment,public_id)
+function formatworkstream(id, direction, time, invoice, proposal,job,jobid, email, phone,skype, odesk, elance, haspayment,public_id, hasreposnse)
 {
    //console.log(elance);
    typeword='';
@@ -81,9 +81,9 @@ function formatworkstream(id, direction, time, invoice, proposal,job,jobid, emai
    }else 
    if(proposal != 'None')
    {
-      typeword='Proposal';
-     
-   }else typeword='>>>>>>>>';
+         typeword='Proposal'      
+   }else 
+      typeword='>>>>>>>>';
    
    //console.log(invoice);
    emailtext='';
@@ -98,16 +98,20 @@ function formatworkstream(id, direction, time, invoice, proposal,job,jobid, emai
    if(elance=='True')
      emailtext+=' Elance ';              
 
+   if(hasreposnse>0)
+      color = 'rgb(255,0,0)';
+   else
+      color = 'rgb(60,60,60)';
    if(direction=='True')
    { 
       dir='>>>';
-      color = 'rgb(60,60,60)';
+      
       frmsg = '<a target="_blank" style="TEXT-DECORATION: NONE;color: '+color+'; font-size:12px" href="http://www.nabbesh.com/contracts/workstream/'+id+'">'+dir+typeword+dir+'</a></br><span style="font-size:10px">'+time+'</span>';
    }else
    {
       dir='<<<';
-      color = 'rgb(60,60,60)';
-      empmsg = '<a target="_blank" style="TEXT-DECORATION: NONE;color: '+color+'; font-size:12px" href="http://www.nabbesh.com/contracts/workstream/'+id+'">'+dir+'<<<<<<<<'+dir+'</a></br><span style="font-size:10px">'+time+'</span>'
+      
+      empmsg = '<a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(60,60,60); font-size:12px" href="http://www.nabbesh.com/contracts/workstream/'+id+'">'+dir+'<<<<<<<<'+dir+'</a></br><span style="font-size:10px">'+time+'</span>'
    }
    haspaymenttext='';
    if(haspayment!='0'){
@@ -125,7 +129,7 @@ function formatmessages(data)
       html='<table style="width:100%">'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left', data[i][18])+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16], data[i][17], data[i][22], data[i][20] ) +formatname(data[i][6], data[i][7], 'right', data[i][19])+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left', data[i][18])+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16], data[i][17], data[i][22], data[i][20], data[i][23] ) +formatname(data[i][6], data[i][7], 'right', data[i][19])+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
       }
        html+='</table>'
       return html;
@@ -368,6 +372,7 @@ $(document).ready(function () {
                $("#loadingdown").show(); 
                var messagesdata = getMessaegsData(minID,maxID,"Down");
                dataArray = $.parseJSON(messagesdata);
+               //console.log(dataArray);
                minID=dataArray[1][0];
                maxID=dataArray[2][0];
                    
