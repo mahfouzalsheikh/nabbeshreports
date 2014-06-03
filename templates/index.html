@@ -287,11 +287,7 @@ function doTimeout() {
         setTimeout(function (){$("#allproposals").html('<span style="font-size:32px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> Paid </br>Today <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Paid <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][3].toString() + '</span>');  }, 500); });
        
      
-
- 
-          
-          
-    
+              
 
 
 try{     
@@ -367,9 +363,9 @@ $(document).ready(function () {
      
      $("#msgcontainer").scroll(function() { 
            //console.log($("#msgcontainer").prop('scrollHeight'), $("#msgcontainer").scrollTop(), $("#msgcontainer").height() );
-           if ($("#msgcontainer").prop('scrollHeight') - $("#msgcontainer").scrollTop() <=  $("#msgcontainer").height()+100 )
+           if ($("#msgcontainer").prop('scrollHeight') - $("#msgcontainer").scrollTop() <=  $("#msgcontainer").height()+250 )
            {
-               $("#loadingdown").show(); 
+                
                var messagesdata = getMessaegsData(minID,maxID,"Down");
                dataArray = $.parseJSON(messagesdata);
                //console.log(dataArray);
@@ -377,14 +373,14 @@ $(document).ready(function () {
                maxID=dataArray[2][0];
                    
               $("#messages").html($("#messages").html() + formatmessages(dataArray[0]));      
-              setTimeout(function (){$("#loadingdown").hide(), 2000}); 
+              
              
 
               
            }else
            if($("#msgcontainer").scrollTop()==0)
            {
-               $("#loadingup").show(); 
+               
                var messagesdataup = getMessaegsData(minID,maxID,"Up");
      
                dataArray = $.parseJSON(messagesdataup);
@@ -395,8 +391,7 @@ $(document).ready(function () {
                if(dataArray[0].length>0){
                   $("#messages").html(formatmessages(dataArray[0]) + $("#messages").html());       
                }   
-              setTimeout(function (){$("#loadingup").hide(), 2000});  
-           
+              
                
            }
 
