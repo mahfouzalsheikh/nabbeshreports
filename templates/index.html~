@@ -129,7 +129,7 @@ function formatworkstream(id, direction, time, invoice, proposal,job,jobid, emai
 }
 function formatmessages(data)
 {   
-   console.log(data);
+   //console.log(data);
    if(data.length!=0)
    {
       html='<table style="width:100%" >'
