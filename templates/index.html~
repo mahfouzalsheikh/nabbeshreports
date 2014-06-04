@@ -102,6 +102,12 @@ function formatworkstream(id, direction, time, invoice, proposal,job,jobid, emai
       color = 'rgb(255,0,0)';
    else
       color = 'rgb(60,60,60)';
+      
+   var strDateTime = time;
+   console.log(time);
+   //var datetime = new Date(strDateTime);
+   //console.log(datetime.toLocaleString()); 
+   
    if(direction=='True')
    { 
       dir='>>';
@@ -123,7 +129,7 @@ function formatworkstream(id, direction, time, invoice, proposal,job,jobid, emai
 }
 function formatmessages(data)
 {   
-   //console.log(data);
+   console.log(data);
    if(data.length!=0)
    {
       html='<table style="width:100%" >'
