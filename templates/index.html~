@@ -118,7 +118,7 @@ function formatworkstream(id, direction, time, invoice, proposal,job,jobid, emai
       haspaymenttext='<a target="_blank" href="http://www.nabbesh.com/contracts/workstream/'+id+'"><img src="https://s3-us-west-2.amazonaws.com/nabbeshscripts/reportingtool/money.png" alt="Has Payment" height="20" width="20"></a>';
    }
    
-   html='<td width="80px">'+frmsg+'</td><td style="text-align:center;" ><div style="width: 100%;height:75px; border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;background:rgb(250,250,250) ;background-size: cover;background-position: center center; border: 1px solid #bbbbbb;" onmouseover="this.style.background=&#39;rgb(220,220,220)&#39;"  onmouseout ="this.style.background=&#39;rgb(250,250,250)&#39;"> '+haspaymenttext+' <a  target="_blank" href="http://www.nabbesh.com/jobs/location/title/'+jobid+'" style="TEXT-DECORATION: NONE;font-size:12px;color: rgb(60,60,60)" >'+job+'</a></br><a  style="TEXT-DECORATION: NONE;font-size:10px;color: rgb(150,150,150)" target="_blank" href="http://www.nabbesh.com/admin/contracts/application/?q='+public_id+'">Workstream Admin</a></br><span style="color: rgb(255,0,0); font-size:10px">'+emailtext+'</span></div></td><td width="80px">'+empmsg+'</td>'
+   html='<td width="80px">'+frmsg+'</td><td style="text-align:center;" ><div style="width: 100%;height:75px; border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;background:rgb(250,250,250) ;background-size: cover;background-position: center center; border: 1px solid #bbbbbb;" onmouseover="this.style.background=&#39;rgb(220,220,220)&#39;"  onmouseout ="this.style.background=&#39;rgb(250,250,250)&#39;"> '+haspaymenttext+' <a  target="_blank" href="http://www.nabbesh.com/jobs/location/title/'+jobid+'" style="TEXT-DECORATION: NONE;font-size:12px;color: rgb(60,60,60)" >'+job+'</a></br><a  style="TEXT-DECORATION: NONE;font-size:10px;color: rgb(150,150,150)" target="_blank" href="http://www.nabbesh.com/admin/contracts/application/?q='+public_id+'">Workstream Admin</a></br><span style="color: rgb(255,0,0); font-size:10px">'+emailtext+'</span></div></td><td width="80px">'+empmsg+'</td>'
    return html;
 }
 function formatmessages(data)
@@ -212,7 +212,7 @@ function doTimeout() {
           data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
-          $("#allusers").block({ message : '', css: { border: '0px solid #a00' } });    
+          //$("#allusers").block({ message : '', css: { border: '0px solid #a00' } });    
           setTimeout(function (){$("#allusers").html('<span style="font-size:64px;">' + data[0][0].toString() + '</span> Users  <span style="font-size:24px;">' + data[0][1].toString() + '</span> Active /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Today');       }, 500);     });
 
 
@@ -223,7 +223,7 @@ function doTimeout() {
           data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
-          $("#alljobs").block({ message : '', css: { border: '0px solid #a00' } }); 
+          //$("#alljobs").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#alljobs").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span> Jobs  </br><span style="font-size:24px;">' + data[0][1].toString() + '</span> Open /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Today');       }, 500);     });
 
         
@@ -234,7 +234,7 @@ function doTimeout() {
           data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
-          $("#allskills").block({ message : '', css: { border: '0px solid #a00' } }); 
+          //$("#allskills").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#allskills").html('<span style="font-size:48px;">' + data[0][1].toString() + '</span> Published  </br><span style="font-size:24px;">' + data[0][0].toString() + '</span> Added');      }, 500);     });
 
 
@@ -245,7 +245,7 @@ function doTimeout() {
           data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
-          $("#allmessages").block({ message : '', css: { border: '0px solid #a00' } }); 
+          //$("#allmessages").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#allmessages").html('<span style="font-size:32px;">' + data[0][0].toString() + '</span> Sent /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][1].toString() + '</span> Today');     }, 500);     });                  
                  
                  
@@ -257,7 +257,7 @@ function doTimeout() {
           data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
-          $("#allapplications").block({ message : '', css: { border: '0px solid #a00' } }); 
+          //$("#allapplications").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#allapplications").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span> Applications on </br><span style="font-size:24px;">' + data[0][1].toString() + '</span> Jobs /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Today');     }, 500);     });  
      
 
@@ -269,7 +269,7 @@ function doTimeout() {
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {
      
-          $("#allinvoices").block({ message : '', css: { border: '0px solid #a00' } }); 
+          //$("#allinvoices").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#allinvoices").html('<span style="font-size:32px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> Paid </br>Today <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Paid <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][3].toString() + '</span>');    }, 500);     });                      
                
         
@@ -283,7 +283,7 @@ function doTimeout() {
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {
 
-        $("#allproposals").block({ message : '', css: { border: '0px solid #a00' } }); 
+        //$("#allproposals").block({ message : '', css: { border: '0px solid #a00' } }); 
         setTimeout(function (){$("#allproposals").html('<span style="font-size:32px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> Paid </br>Today <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Paid <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][3].toString() + '</span>');  }, 500); });
        
      
@@ -292,7 +292,7 @@ function doTimeout() {
 
 try{     
      analyticsresult= $.parseJSON(getVisitsData());
-     $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
+     //$("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
      $("#analyticscontent").html('<span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][2].toString() + '</span> Pageviews  <span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][1].toString() + '</span> Visits');
      }
      catch(err)
@@ -312,11 +312,11 @@ function doTimeoutQuick() {
           data: JSON.stringify( {"fromdate": fromdate}),
           async: false
           })).then(function( data, textStatus, jqXHR ) {
-          $("#onlineusers").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
+          //$("#onlineusers").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){              
               $("#onlineusers").html(formatonlineuser(data)); 
 
-              $("#onlineusers").unblock(); 
+              //$("#onlineusers").unblock(); 
           }, 500); });  
       setTimeout(doTimeoutQuick, 30000);
 }         
@@ -348,14 +348,15 @@ $(document).ready(function () {
      $('#docking').jqxDocking('pinWindow', 'window3');   
      $('#docking').jqxDocking('pinWindow', 'window4');
      
-     $("#allusers").block({ message : '', css: { border: '0px solid #a00' } }); 
+     
+     /*$("#allusers").block({ message : '', css: { border: '0px solid #a00' } }); 
      $("#alljobs").block({ message : '', css: { border: '0px solid #a00' } });
      $("#allskills").block({ message : '', css: { border: '0px solid #a00' } }); 
      $("#allmessages").block({ message : '', css: { border: '0px solid #a00' } }); 
      $("#allapplications").block({ message : '', css: { border: '0px solid #a00' } });
      $("#allinvoices").block({ message : '', css: { border: '0px solid #a00' } }); 
      $("#allproposals").block({ message : '', css: { border: '0px solid #a00' } });
-     $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
+     $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } }); */
      
      
     
@@ -363,7 +364,7 @@ $(document).ready(function () {
      
      $("#msgcontainer").scroll(function() { 
            //console.log($("#msgcontainer").prop('scrollHeight'), $("#msgcontainer").scrollTop(), $("#msgcontainer").height() );
-           if ($("#msgcontainer").prop('scrollHeight') - $("#msgcontainer").scrollTop() <=  $("#msgcontainer").height()+250 )
+           if ($("#msgcontainer").prop('scrollHeight') - $("#msgcontainer").scrollTop() <=  $("#msgcontainer").height()+500 )
            {
                 
                var messagesdata = getMessaegsData(minID,maxID,"Down");

@@ -212,7 +212,7 @@ function doTimeout() {
           data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
-          $("#allusers").block({ message : '', css: { border: '0px solid #a00' } });    
+          //$("#allusers").block({ message : '', css: { border: '0px solid #a00' } });    
           setTimeout(function (){$("#allusers").html('<span style="font-size:64px;">' + data[0][0].toString() + '</span> Users  <span style="font-size:24px;">' + data[0][1].toString() + '</span> Active /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Today');       }, 500);     });
 
 
@@ -223,7 +223,7 @@ function doTimeout() {
           data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
-          $("#alljobs").block({ message : '', css: { border: '0px solid #a00' } }); 
+          //$("#alljobs").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#alljobs").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span> Jobs  </br><span style="font-size:24px;">' + data[0][1].toString() + '</span> Open /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Today');       }, 500);     });
 
         
@@ -234,7 +234,7 @@ function doTimeout() {
           data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
-          $("#allskills").block({ message : '', css: { border: '0px solid #a00' } }); 
+          //$("#allskills").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#allskills").html('<span style="font-size:48px;">' + data[0][1].toString() + '</span> Published  </br><span style="font-size:24px;">' + data[0][0].toString() + '</span> Added');      }, 500);     });
 
 
@@ -245,7 +245,7 @@ function doTimeout() {
           data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
-          $("#allmessages").block({ message : '', css: { border: '0px solid #a00' } }); 
+          //$("#allmessages").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#allmessages").html('<span style="font-size:32px;">' + data[0][0].toString() + '</span> Sent /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][1].toString() + '</span> Today');     }, 500);     });                  
                  
                  
@@ -257,7 +257,7 @@ function doTimeout() {
           data: JSON.stringify( {"fromdate": fromdate}),
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {                 
-          $("#allapplications").block({ message : '', css: { border: '0px solid #a00' } }); 
+          //$("#allapplications").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#allapplications").html('<span style="font-size:48px;">' + data[0][0].toString() + '</span> Applications on </br><span style="font-size:24px;">' + data[0][1].toString() + '</span> Jobs /<span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Today');     }, 500);     });  
      
 
@@ -269,7 +269,7 @@ function doTimeout() {
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {
      
-          $("#allinvoices").block({ message : '', css: { border: '0px solid #a00' } }); 
+          //$("#allinvoices").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#allinvoices").html('<span style="font-size:32px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> Paid </br>Today <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Paid <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][3].toString() + '</span>');    }, 500);     });                      
                
         
@@ -283,7 +283,7 @@ function doTimeout() {
           async: true
           }) ).then(function( data, textStatus, jqXHR ) {
 
-        $("#allproposals").block({ message : '', css: { border: '0px solid #a00' } }); 
+        //$("#allproposals").block({ message : '', css: { border: '0px solid #a00' } }); 
         setTimeout(function (){$("#allproposals").html('<span style="font-size:32px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> Paid </br>Today <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Paid <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][3].toString() + '</span>');  }, 500); });
        
      
@@ -292,7 +292,7 @@ function doTimeout() {
 
 try{     
      analyticsresult= $.parseJSON(getVisitsData());
-     $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
+     //$("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
      $("#analyticscontent").html('<span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][2].toString() + '</span> Pageviews  <span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][1].toString() + '</span> Visits');
      }
      catch(err)
@@ -312,11 +312,11 @@ function doTimeoutQuick() {
           data: JSON.stringify( {"fromdate": fromdate}),
           async: false
           })).then(function( data, textStatus, jqXHR ) {
-          $("#onlineusers").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
+          //$("#onlineusers").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){              
               $("#onlineusers").html(formatonlineuser(data)); 
 
-              $("#onlineusers").unblock(); 
+              //$("#onlineusers").unblock(); 
           }, 500); });  
       setTimeout(doTimeoutQuick, 30000);
 }         
@@ -348,14 +348,15 @@ $(document).ready(function () {
      $('#docking').jqxDocking('pinWindow', 'window3');   
      $('#docking').jqxDocking('pinWindow', 'window4');
      
-     $("#allusers").block({ message : '', css: { border: '0px solid #a00' } }); 
+     
+     /*$("#allusers").block({ message : '', css: { border: '0px solid #a00' } }); 
      $("#alljobs").block({ message : '', css: { border: '0px solid #a00' } });
      $("#allskills").block({ message : '', css: { border: '0px solid #a00' } }); 
      $("#allmessages").block({ message : '', css: { border: '0px solid #a00' } }); 
      $("#allapplications").block({ message : '', css: { border: '0px solid #a00' } });
      $("#allinvoices").block({ message : '', css: { border: '0px solid #a00' } }); 
      $("#allproposals").block({ message : '', css: { border: '0px solid #a00' } });
-     $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
+     $("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } }); */
      
      
     
@@ -363,7 +364,7 @@ $(document).ready(function () {
      
      $("#msgcontainer").scroll(function() { 
            //console.log($("#msgcontainer").prop('scrollHeight'), $("#msgcontainer").scrollTop(), $("#msgcontainer").height() );
-           if ($("#msgcontainer").prop('scrollHeight') - $("#msgcontainer").scrollTop() <=  $("#msgcontainer").height()+250 )
+           if ($("#msgcontainer").prop('scrollHeight') - $("#msgcontainer").scrollTop() <=  $("#msgcontainer").height()+500 )
            {
                 
                var messagesdata = getMessaegsData(minID,maxID,"Down");
