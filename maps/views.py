@@ -1376,7 +1376,7 @@ def photogallery_getdata(request):
         else:
             wherestring = " where u.id<" + str(maxid)
 
-        sql = ("select id, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as uphoto from users u "+ wherestring +" and u.photo<>'' and u.photo is not null order by u.id desc limit 100")        
+        sql = ("select u.id, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as uphoto, au.first_name || ' ' || au.last_name as fullname from users u inner join auth_user au on u.django_user_id=au.id "+ wherestring +" and u.photo<>'' and u.photo is not null and u.deactivated=false and au.is_active=true order by u.id desc limit 100")        
            
         print sql       
         
@@ -1550,7 +1550,7 @@ def dealsaveragetimegeneral_getdata(request):
         c = Context({'dealsaveragetimegeneral': results})   
         return HttpResponse(render_to_string('dealsaveragetimegeneral.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
-@csrf_exempt     
+@login_required(login_url='/accounts/login/')    
 def vistest_report(request):
     
    
@@ -1636,7 +1636,7 @@ def miningtest_getdata(request):
     return HttpResponse(json.dumps(data), mimetype='application/json')  
     
 
-@csrf_exempt     
+@login_required(login_url='/accounts/login/')     
 def miningtest_report(request):
     
    
@@ -1666,7 +1666,7 @@ def analytics_getdata(request):
        
         
  
-@csrf_exempt     
+@login_required(login_url='/accounts/login/')   
 def campaigns_report(request):
     
    
@@ -1841,8 +1841,7 @@ def get_sourcelist(service, profile_id):
       metrics="ga:organicSearches").execute()['rows']
 #      filters="ga:pagePath=~finished_signup").execute()      
 
-#@permission_required('polls.can_vote')
-@csrf_exempt        
+@login_required(login_url='/accounts/login/')     
 def googleanalytics_report(request):
     
     t = loader.get_template('./reports/googleanalytics_report.html')

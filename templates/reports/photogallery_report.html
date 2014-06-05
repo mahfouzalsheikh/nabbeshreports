@@ -16,15 +16,17 @@
 
 
 
-function circularimage(url)
-{
-   return "<div style='width: 50px;height: 50px; border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;background: url("+url+") no-repeat;background-size: cover;background-position: center center; border-radius: 99em; border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
-}
 
 function circularimagecontact(url,id)
 {
-   return '<a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');"><div  style="margin: 5px 5px 5px 5px; display:inline-block; width: 100px;height: 100px; border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;background: url('+url+') no-repeat;background-size: cover;background-position: center center;  border: 1px solid #eee;  box-shadow: 0 7px 7px rgba(0, 0, 0, 0.3);" ></div></a>';
+   return '<a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');"><div  style="margin: 5px 5px 5px 5px; display:inline-block; width: 100px;height: 100px; border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;background: url('+url+') no-repeat;background-size: cover;background-position: center center;  border: 1px solid #eee;  box-shadow: 0 7px 7px rgba(0, 0, 0, 0.3);" ></a>';
 }
+
+function circularimage(url,id, name)
+{
+   return '<a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');"><div  style="margin: 5px 5px 5px 5px; display:inline-block; width: 150px;height: 150px; border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;background: url('+url+') no-repeat;background-size: cover;background-position: center center;  border: 1px solid #eee;  box-shadow: 0 7px 7px rgba(0, 0, 0, 0.3);" ><div style="background: rgba(255,255,255,0.8); position:relative; bottom:0; width:100%; height:20px"> '+name+'</div></div></a>';
+}
+
 
 function formatname(id, name, direction, rating)
 {
@@ -45,7 +47,7 @@ function formatphotos(data){
       html='';
       for(i=0; i<data.length;i++)
       {         
-         html+= circularimagecontact(data[i][1], data[i][0])    
+         html+= circularimage(data[i][1], data[i][0], data[i][2])    
          //console.log(data[i][1]);
       }
        
