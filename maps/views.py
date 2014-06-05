@@ -1351,6 +1351,38 @@ def tracking_messages_getdata(request):
         c = Context({'messages': results, 'maxid' : maxid, 'minid': minid })   
         return HttpResponse(render_to_string('trackingmessages.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
+
+
+@csrf_exempt 
+def profilepix_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        maxid= objs['maxid']
+        minid= objs['minid']        
+        direction = objs['dir']
+        wherestring = ""
+        if direction=="Up":
+            wherestring = " where u.id>" + str(minid)
+        else:
+            wherestring = " where u.id<" + str(maxid)
+
+        sql = ("select id, photo from users u "+ wherestring +" and photo<>'' and photo is not null limit 50")        
+           
+        print sql       
+        
+           
+        results = customQuery(sql,1)    
+        
+        if  len(results)!=0:
+            if direction=="Down":
+                maxid = results[len(results)-1][0]
+            else:    
+                minid = results[0][0]
+        #print results[len(results)-1][22], results[0][22], "--------------------------------"
+        c = Context({'messages': results, 'maxid' : maxid, 'minid': minid })   
+        return HttpResponse(render_to_string('trackingmessages.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+
+
 @csrf_exempt 
 def leakagedetection_getdata(request):
     if request.method == 'POST':

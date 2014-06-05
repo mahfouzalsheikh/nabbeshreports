@@ -9,6 +9,7 @@
 
  var minID= 0 ;
  var maxID=10000000000;
+ var feedscounter=0;
 
 function getVisitsData(){
       var today = new Date(Date.now());
@@ -132,7 +133,10 @@ function formatworkstream(id, direction, time, invoice, proposal,job,jobid, emai
 }
 function formatmessages(data)
 {   
-   console.log(data);
+   feedscounter+=data.length;
+   //console.log(feedscounter);
+   //console.log(data);
+   $("#messagestitle").html('<span style="TEXT-DECORATION: NONE;color: rgb(255 , 0 , 0); font-size:14px">'+feedscounter.toString()+'</span><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px"> Live Messages</span><a style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:10px" href="leakagedetection"> See More</a>');
    if(data.length!=0)
    {
       html='<table style="width:100%" >'
@@ -324,7 +328,8 @@ function doTimeoutQuick() {
           //$("#onlineusers").block({ message : 'Loading..', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){              
               $("#onlineusers").html(formatonlineuser(data)); 
-
+              //console.log(data.length);
+              $("#userstitle").html('<span style="TEXT-DECORATION: NONE;color: rgb(255, 0, 0); font-size:14px">'+data.length.toString()+'</span><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">  Online Registered Users</span>');
               //$("#onlineusers").unblock(); 
           }, 500); });  
       setTimeout(doTimeoutQuick, 30000);
@@ -490,7 +495,7 @@ $(document).ready(function () {
                 <div id="allinvoices" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>   
             <div id="window10" style="height:300px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Online Users</span></div>
+                <div id="userstitle"><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Online Registered Users</span></div>
                 <div id="onlineusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;"></div> 
                 
             </div>                                 
@@ -498,7 +503,7 @@ $(document).ready(function () {
         </div>
         <div class="InnerDivsSmall">
             <div id="window9" style="height:800px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Live Messages</span><a style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:10px" href="leakagedetection"> See More</a></div>
+                <div id="messagestitle"><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Live Messages</span><a style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:10px" href="leakagedetection"> See More</a></div>
                   <div id="msgcontainer" style="padding: 0px 0px 0px 0px; color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;">
                     <div id="loadingup" style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:18px; text-align:center"> Updating </div>
                     <div id="messages">
