@@ -1353,8 +1353,18 @@ def tracking_messages_getdata(request):
 
 
 
+@csrf_exempt
+def photogallery_report(request):
+    
+    
+    t = loader.get_template('./reports/photogallery_report.html')
+    c = Context({
+        'photogallery_report': revenue_report,
+    })
+    return render_to_response('./reports/photogallery_report.html', context_instance=RequestContext(request))
+
 @csrf_exempt 
-def profilepix_getdata(request):
+def photogallery_getdata(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
         maxid= objs['maxid']
@@ -1366,7 +1376,7 @@ def profilepix_getdata(request):
         else:
             wherestring = " where u.id<" + str(maxid)
 
-        sql = ("select id, photo from users u "+ wherestring +" and photo<>'' and photo is not null limit 50")        
+        sql = ("select id, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as uphoto from users u "+ wherestring +" and u.photo<>'' and u.photo is not null order by u.id desc limit 100")        
            
         print sql       
         
@@ -1379,8 +1389,8 @@ def profilepix_getdata(request):
             else:    
                 minid = results[0][0]
         #print results[len(results)-1][22], results[0][22], "--------------------------------"
-        c = Context({'messages': results, 'maxid' : maxid, 'minid': minid })   
-        return HttpResponse(render_to_string('trackingmessages.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        c = Context({'users': results, 'maxid' : maxid, 'minid': minid })   
+        return HttpResponse(render_to_string('pixslider.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 
 @csrf_exempt 

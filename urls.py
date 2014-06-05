@@ -151,7 +151,10 @@ urlpatterns = patterns('',
     
 #######################################################    
 
-    url(r'^leakagedetection$', 'nabbeshreports.maps.views.leakagedetection_report'),
+    url(r'^photogallery$', 'nabbeshreports.maps.views.photogallery_report'),
+    url(r'^photogallery_getdata$', 'nabbeshreports.maps.views.photogallery_getdata'),
+    
+    url(r'^photogallery$', 'nabbeshreports.maps.views.leakagedetection_report'),
     url(r'^leakagedetection_getdata$', 'nabbeshreports.maps.views.leakagedetection_getdata'),
    
     url(r'^emailcampaigns$', 'nabbeshreports.maps.views.campaigns_report'),

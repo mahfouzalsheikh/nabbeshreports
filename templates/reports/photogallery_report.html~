@@ -1,0 +1,208 @@
+{% extends 'reports/base.html' %}
+
+{% block  customheadscripts %}
+
+
+
+
+<script type="text/javascript">
+
+ var minID= 0 ;
+ var maxID=10000000000;
+ var feedscounter=0;
+
+
+
+
+
+
+function circularimage(url)
+{
+   return "<div style='width: 50px;height: 50px; border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;background: url("+url+") no-repeat;background-size: cover;background-position: center center; border-radius: 99em; border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
+}
+
+function circularimagecontact(url,id)
+{
+   return '<a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');"><div  style="margin: 5px 5px 5px 5px; display:inline-block; width: 100px;height: 100px; border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;background: url('+url+') no-repeat;background-size: cover;background-position: center center;  border: 1px solid #eee;  box-shadow: 0 7px 7px rgba(0, 0, 0, 0.3);" ></div></a>';
+}
+
+function formatname(id, name, direction, rating)
+{
+   ratingtext='';
+   if(rating!='0.00')
+   {
+     ratingtext= '</br><span style="color: rgb(255,0,0); font-size:10px">Rating: '+rating + '</span>';
+   }
+   html='<td style="text-align:'+direction+'" width="120px"><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/profile/'+id+'">'+name+'</a></br><a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');"><abbr title="See full profile on backend">contact info</abbr></a>'+ratingtext+'</td>';   
+   return html;
+}
+
+
+function formatphotos(data){
+   //console.log(data);
+   if(data.length!=0)
+   {
+      html='';
+      for(i=0; i<data.length;i++)
+      {         
+         html+= circularimagecontact(data[i][1], data[i][0])    
+         //console.log(data[i][1]);
+      }
+       
+      return html;
+   }
+}
+
+
+
+showcontactdetails= function (userid) {
+   array= $.parseJSON(getUserData(userid));
+   html='<table><tr><td rowspan=5>'+circularimagecontact(array[0][5])+'</td><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:16px" href="http://www.nabbesh.com/profile/'+userid+'">'+array[0][0]+'</a></td></tr><tr><td>'+array[0][1]+'</td></tr></tr><tr><td>'+array[0][2]+'</td></tr><tr><td>'+array[0][3]+ ',' + array[0][4]+'</td></tr><tr><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/admin/legacy/users/'+userid+'">Full Info</a></td></tr></table>';
+   
+   $('#windowContent').html(html);   
+   $('#window').jqxWindow({ position: { x: 300, y: $(document).scrollTop() + 300 }}); 
+   $('#window').jqxWindow('open');
+
+
+
+}
+
+
+function getUserData(userid){
+      var params = {"userid": userid};
+      var jsonData = $.ajax({
+          url: "../../userprofileinfo_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+}
+
+
+            
+    
+
+function getPhotosData(min, max, dir)
+{
+    var params = {"minid": min, "maxid": max, "dir": dir};
+      var jsonData = $.ajax({
+          url: "../../photogallery_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;   
+}
+     
+$(document).ready(function () {
+
+     var theme=  'bootstrap';         
+     $('#loadingup').hide();
+     $('#loadingdown').hide();
+     
+
+  
+    
+     
+     
+     $(document).scroll(function() { 
+           console.log($(document).height(), $(document).scrollTop(), $(document).height(), $("#images").prop('scrollHeight') );
+           if ( $(document).scrollTop() >=  $("#images").prop('scrollHeight') - 800)
+           {
+               $('#window').jqxWindow({ position: { x: 300, y: $(document).scrollTop() + 300 }}); 
+               var photosdata = getPhotosData(minID,maxID,"Down");
+               dataArray = $.parseJSON(photosdata);
+               //console.log(dataArray);
+               minID=dataArray[1][0];
+               maxID=dataArray[2][0];
+                   
+              $("#images").html($("#images").html() + formatphotos(dataArray[0]));      
+              
+             
+
+              
+           }else
+           if($(document).scrollTop()==0)
+           {
+               
+               var photosdataup = getPhotosData(minID,maxID,"Up");
+     
+               dataArray = $.parseJSON(photosdataup);
+               
+               minID=dataArray[1][0];
+               maxID=dataArray[2][0];
+    
+               if(dataArray[0].length>0){
+                  $("#images").html(formatphotos(dataArray[0]) + $("#images").html());       
+               }   
+              
+               
+           }
+
+      });
+     
+     
+  
+     
+     $('#window').jqxWindow({ modalOpacity: 0.5, theme: theme, zIndex: 99999,
+                    showCollapseButton: true, maxHeight: 170, maxWidth: 300, minHeight: 170, minWidth: 300, height: 170, width: 300
+                });
+     $('#window').jqxWindow('close');
+     
+     
+     var photosdata = getPhotosData(minID,maxID, "Down");
+     
+     //console.log(photosdata);
+     dataArray = $.parseJSON(photosdata);
+     
+     maxID=dataArray[2][0];
+     minID= maxID+100;
+     console.log(minID, maxID);
+     $("#images").html(formatphotos(dataArray[0]));
+ 
+
+});     
+     
+</script>
+
+{% endblock %}
+
+{% block reportblock %}
+    <style type="text/css">
+        .InnerDivs
+        {
+            width: 250px;
+        }
+        .InnerDivsSmall
+        {
+            width: 300px;
+        }        
+        
+        
+  
+    </style>
+  
+   <div id="images" style= "width:100%;  display:inline-block;" align="center" >
+   </div>
+  
+    
+      
+    
+          <div id="window">
+                <div id="windowHeader">
+                    <span>
+                        Contact Details
+                    </span>
+                </div>
+                <div style="overflow: hidden;" id="windowContent">
+
+                </div>
+
+
+{% endblock %}
+
+
+

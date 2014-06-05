@@ -1,2 +1,2 @@
-[[{% for user in users %}[{{ msg.0 }}, "{{ msg.1}}" ]{% if not forloop.last %} , {% endif %}{% endfor %}], [{{minid}}], [{{maxid}}]]
+[[{% for user in users %}[{{ user.0 }}, "{{ user.1}}" ]{% if not forloop.last %} , {% endif %}{% endfor %}], [{{minid}}], [{{maxid}}]]
  
