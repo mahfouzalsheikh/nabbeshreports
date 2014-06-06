@@ -112,7 +112,7 @@ $(document).ready(function () {
      
      $(document).scroll(function() { 
            $('#window').jqxWindow({ position: { x: 300, y: $(document).scrollTop() + 300 }}); 
-           console.log($(document).height(), $(document).scrollTop(), $(document).height(), $("#images").prop('scrollHeight') );
+           //console.log($(document).height(), $(document).scrollTop(), $(document).height(), $("#images").prop('scrollHeight') );
            if ( $(document).scrollTop() >=  $("#images").prop('scrollHeight') - 800)
            {
                
@@ -121,7 +121,7 @@ $(document).ready(function () {
                //console.log(dataArray);
                minID=dataArray[1][0];
                maxID=dataArray[2][0];
-                   
+               console.log(minID, maxID);
               $("#images").html($("#images").html() + formatphotos(dataArray[0]));      
               
              
@@ -137,7 +137,7 @@ $(document).ready(function () {
                
                minID=dataArray[1][0];
                maxID=dataArray[2][0];
-    
+               console.log(minID, maxID);
                if(dataArray[0].length>0){
                   $("#images").html(formatphotos(dataArray[0]) + $("#images").html());       
                }   
@@ -162,7 +162,7 @@ $(document).ready(function () {
      dataArray = $.parseJSON(photosdata);
      
      maxID=dataArray[2][0];
-     minID= maxID+100;
+     minID= dataArray[1][0];
      console.log(minID, maxID);
      $("#images").html(formatphotos(dataArray[0]));
  
