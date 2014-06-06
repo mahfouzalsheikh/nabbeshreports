@@ -1353,7 +1353,7 @@ def tracking_messages_getdata(request):
 
 
 
-@csrf_exempt
+@login_required(login_url='/accounts/login/')
 def photogallery_report(request):
     
     
