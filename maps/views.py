@@ -1796,7 +1796,7 @@ def getcategorizedskillslistsql():
      
     results = customQuery(sql,4) 
                  
-    groupsql ="and ss.id  in ("
+    groupsql ="and ss.id not in ("
     if len(results)>0:
         for skill in results:
             groupsql = groupsql + str(skill[0]) + "," 
