@@ -51,8 +51,7 @@
           jqwdata.shift();
 	  var source =
             { localdata : jqwdata,
-              datafields: [
-              
+              datafields: [              
 
                     { name: 'Period', type: 'string', map: '0'},
                     { name: 'AllProposalsCount', type: 'int', map: '1'},

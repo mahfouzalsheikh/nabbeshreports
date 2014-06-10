@@ -145,7 +145,57 @@ def customQuerySendy(sql):
     for row in cursor.fetchall(): 
         result_list.append(row) 
     return result_list 
-    
+
+
+def customQueryNoResults(sql, db):
+    ##print sql
+    if db==0:
+        result=customQueryNoResultsOffline(sql)
+        #print result
+        return result
+    elif db==1:
+        result=customQueryNoResultsLive(sql)
+        #print result
+        return result
+    elif db==2: 
+        result=customQueryNoResultsOld(sql)
+        #print result
+        return result    
+    elif db==3:
+        result=customQueryNoResultsSendy(sql)
+        return result    
+
+def customQueryNoResultsLive(sql):
+    cursor = connections['live'].cursor()    
+   
+    result = cursor.execute(sql,[])
+    cursor.execute("COMMIT;")
+    print result
+    return 'done' 
+
+def customQueryNoResultsOffline(sql):
+    cursor = connections['offline'].cursor()    
+   
+    result = cursor.execute(sql,[])
+    cursor.execute("COMMIT;")
+    print result
+    return 'done'
+
+def customQueryNoResultsOld(sql):
+    cursor = connections['old'].cursor()    
+   
+    result = cursor.execute(sql,[])
+    cursor.execute("COMMIT;")
+    print result
+    return 'done'
+
+def customQueryNoResultsSendy(sql):
+    cursor = connections['sendy'].cursor()    
+   
+    result = cursor.execute(sql,[])
+    cursor.execute("COMMIT;")
+    print result
+    return 'done'            
        
 @login_required(login_url='/accounts/login/')       
 def freelancerdemography_report(request):
@@ -1664,7 +1714,147 @@ def analytics_getdata(request):
            
 	return HttpResponse(render_to_string('analytics_visitors.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
        
+       
+       
+@login_required(login_url='/accounts/login/')
+def skillscategorizer_tool(request):
+    
+    
+    t = loader.get_template('./reports/skillscategorizer_tool.html')
+    c = Context({
+        'skillscategorizer_tool': revenue_report,
+    })
+    return render_to_response('./reports/skillscategorizer_tool.html', context_instance=RequestContext(request))  
+    
+    
+@csrf_exempt
+def addcategory(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        name = objs['name']
+        id = getmaxid("categories")               
+        sql = "insert into categories(id,name) values("+str(id)+",'"+name+"')"                 
+        results = customQueryNoResults(sql,1)      
+        return HttpResponse(results, mimetype='application/html')
+
+@csrf_exempt
+def updatecategory(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        id = objs['id']
+        name = objs['name']                
+        sql = "update categories set name='"+name+"' where id="+str(id)
+        results = customQueryNoResults(sql,1)      
+        return HttpResponse(results, mimetype='application/html')
+
+@csrf_exempt
+def deletecategory(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        id = objs['id']
+        print id              
+        sql = "delete from categories where id="+str(id)
         
+        results = customQueryNoResults(sql,1)      
+        return HttpResponse(results, mimetype='application/html')      
+
+@csrf_exempt
+def getcategories(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)                            
+        sql = "select ca.*,count(distinct sc.skill_id) from categories ca  left outer join skills_categories sc  on sc.category_id=ca.id group by ca.id order by ca.id desc"
+        results = customQuery(sql,1)              
+        return HttpResponse(json.dumps(results), mimetype='application/json')  
+
+@csrf_exempt
+def getcurrentskill(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)                            
+        sql = "select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where ss.published=true and merge_to_id is null and deleted=false and ss.id not in (select skill_id from skills_categories) group by ss.id order by userscount desc limit 1 "
+        results = customQuery(sql,1)              
+        return HttpResponse(json.dumps(results), mimetype='application/json') 
+        
+@csrf_exempt
+def getsuggestedskillslist(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        skillid=objs['skillid']
+        sql = "select name from skills_skill where id=" + str(skillid)
+        results = customQuery(sql,1) 
+        orstring = ""
+        words = results[0][0].split()     
+        for word in words:
+            orstring = orstring + " or lower(ss.name) like '%%"+word.lower()+"%%'"        
+        
+        finalsql = " select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where  ( "+orstring[3:]+" ) and ss.id<>"+str(skillid)+" and ss.published=true and merge_to_id is null and deleted=false and ss.id not in (select skill_id from skills_categories) group by ss.id order by userscount desc"   
+                
+        results = customQuery(finalsql,1)
+        return HttpResponse(json.dumps(results), mimetype='application/json')  
+        
+        
+@csrf_exempt
+def getskillsbycategory(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        categoryid=objs['categoryid']
+        sql = "select skill_id from skills_categories where category_id=" + str(categoryid)
+        results = customQuery(sql,1) 
+        groupsql ="and ss.id  in ("
+        if len(results)>0:
+            for skill in results:
+                groupsql = groupsql + str(skill[0]) + "," 
+            groupsql = groupsql[:-1] + ")"    
+        else: 
+            groupsql = " and ss.id<0 "        
+        
+        finalsql  = "select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where   ss.published=true and merge_to_id is null and deleted=false  "+groupsql+" group by ss.id order by userscount desc"
+        print finalsql
+        results = customQuery(finalsql,1)
+        return HttpResponse(json.dumps(results), mimetype='application/json')               
+        
+@csrf_exempt
+def categorize(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        skillid = objs['skillid']
+        categoryid = objs['categoryid']        
+        id = getmaxid("skills_categories")             
+        sql = "insert into skills_categories values("+str(id)+", "+str(skillid)+", "+str(categoryid)+")"
+        print sql
+        results = customQueryNoResults(sql,1)      
+        return HttpResponse(results, mimetype='application/html')   
+@csrf_exempt
+def updateskillcat(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        skillid = objs['skillid']
+        categoryid = objs['categoryid']        
+                    
+        sql = "update skills_categories set category_id=" + str(categoryid) + " where skill_id=" +str(skillid)
+        print sql
+        results = customQueryNoResults(sql,1)      
+        return HttpResponse(results, mimetype='application/html')  
+@csrf_exempt
+def uncategorize(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        skillid = objs['skillid']                     
+        sql = "delete from skills_categories where skill_id=" +  str(skillid)
+        print sql
+        results = customQueryNoResults(sql,1)      
+        return HttpResponse(results, mimetype='application/html')                                   
+
+def getmaxid(table):
+    sql = "select max(id) from " + table                 
+    print sql
+    results = customQuery(sql,1)     
+    try: 
+        id=results[0][0]+1
+    except:
+        id=1
+    
+    return id
+
  
 @login_required(login_url='/accounts/login/')   
 def campaigns_report(request):

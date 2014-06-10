@@ -1,0 +1,480 @@
+{% extends 'reports/base.html' %}
+{% block  customheadscripts %}
+<script type="text/javascript">
+        // Load the Visualization API and the piechart package.
+        google.load('visualization', '1', {packages: ['corechart']});
+        google.load('visualization', '1', {packages: ['table']});
+        //google.load('visualization', '1', {packages: ['geochart']});
+        //google.load('visualization', '1', {packages: ['annotatedtimeline']});
+        //google.load('visualization', '1', {packages: ['controls']});
+        //google.load('visualization', '1', {packages: ['geomap']});
+
+
+</script>
+<script type="text/javascript">    
+    var source;
+    //var suggestionssource;
+    var currentskill;
+    
+    function addCategory(name){
+      var params = {"name": name};
+      var jsonData = $.ajax({
+          url: "addcategory",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+          
+         
+       return jsonData;    
+     }	
+     
+    function updateCategory(id, name){
+      var params = {"name": name, "id":id};
+      var jsonData = $.ajax({
+          url: "updatecategory",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+     }
+     function deleteCategory(id){
+      var params = {"id":id};
+      var jsonData = $.ajax({
+          url: "deletecategory",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),          
+          async: false
+          }).responseText;
+       return jsonData;    
+     }
+
+     function getCategoriesData(){
+      var params = {};
+      var jsonData = $.ajax({
+          url: "getcategories",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;  
+     }  
+     
+     function getCurrentSkillData(){
+      var params = {};
+      var jsonData = $.ajax({
+          url: "getcurrentskill",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;  
+     } 
+     
+     function getSuggestedSkillsData(skillid){
+      var params = {"skillid":skillid};
+      var jsonData = $.ajax({
+          url: "getsuggestedskillslist",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;  
+     }
+     
+     function changeCurrentSkill(skillid, categoryid){
+      var params = {"skillid": skillid, "categoryid":categoryid};
+      var jsonData = $.ajax({
+          url: "updateskillcat",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData; 
+     }
+    
+     function categorizeCurrentSkill(skillid, categoryid){
+      var params = {"skillid": skillid, "categoryid":categoryid};
+      var jsonData = $.ajax({
+          url: "categorize",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData; 
+     }
+    
+    function uncategorizeCurrentSkill(skillid){
+      var params = {"skillid": skillid};
+      var jsonData = $.ajax({
+          url: "uncategorize",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData; 
+     }
+     
+
+     
+     function skillsByCategory(categoryid){
+      var params = {"categoryid":categoryid};
+      var jsonData = $.ajax({
+          url: "getskillsbycategory",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData; 
+     }     
+     
+     function fillCurrentSkill(){
+         currentskill = $.parseJSON(getCurrentSkillData());
+         var html='<table width="100%"  align="center"><tr><td align="center" style="font-size:10px;" >ID: '+currentskill[0][0]+'</td></tr><tr><td align="center" style="font-size:18px;" >'+currentskill[0][1]+'</td></tr><tr><td align="center" style="font-size:12px;">'+currentskill[0][2]+' Users</td></tr></table>';
+         $('#currentskill').html(html);
+         
+         data = $.parseJSON(getSuggestedSkillsData(currentskill[0][0]));
+         //console.log(data);
+         fillSuggestionsList(currentskill[0][0]);
+     }
+     function fillCategoriesList(data){
+        selectedIndex = $('#maincategorieslist').jqxListBox('selectedIndex'); 
+        source=     { localdata : data,
+              datafields: [              
+                      { name: 'id', type: 'int', map: '0'},
+                      { name: 'name', type: 'string', map: '1'},
+                      { name: 'count', type: 'int', map: '2'},                                                  
+                    ],
+                datatype: "array"
+            };
+        var dataAdapter = new $.jqx.dataAdapter(source);
+        
+        $('#maincategorieslist').jqxListBox({theme: theme,  source: dataAdapter, displayMember: "name", valueMember: "id",  itemHeight: 40, height: '99%', width:'100%',
+        renderer: function (index, label, value) {                    
+                    var table = "<table height=35><tr><td height='100%' style='font-size:14px;'>" + source.localdata[index][1] + "  (" + source.localdata[index][2] +")</td></tr></table>";
+                    return table;
+                }
+        
+        });
+        $('#maincategorieslist').jqxListBox({selectedIndex:selectedIndex});
+            
+     } 
+     
+     function fillSuggestionsList(skillid){
+        $("#suggestionslistcontainer").html('<div style="width:100%; height:100%" id="suggestionslist"></div>');
+        var data = $.parseJSON(getSuggestedSkillsData(skillid));
+        var suggestionssource = [];
+        suggestionssource = { localdata : data,
+              datafields: [              
+                      { name: 'id', type: 'int', map: '0'},
+                      { name: 'name', type: 'string', map: '1'},
+                      { name: 'count', type: 'int', map: '2'},                                                  
+                    ],
+                datatype: "array"
+            };
+        var dataAdapter = new $.jqx.dataAdapter(suggestionssource);
+        //console.log(suggestionssource);
+        
+        $('#suggestionslist').jqxListBox({theme: theme, checkboxes: true, multiple: true,  source: dataAdapter, displayMember: "name", valueMember: "id", height: '99%', width:'100%',
+        renderer: function (index, label, value) {                    
+                    var table = "<table><tr><td height='100%' style='font-size:12px;'>" + suggestionssource.localdata[index][1] + "  (" + suggestionssource.localdata[index][2] +")</td></tr></table>";
+                    return table;
+                }
+        
+        });
+        //$('#suggestionslist').jqxListBox({selectedIndex:selectedIndex});
+            
+     }     
+     
+     function fillSkillsByCatList(categoryid){
+        $("#catlistcontainer").html('<div style="width:100%; height:100%" id="skillsbycatlist"></div>');
+        var data = $.parseJSON(skillsByCategory(categoryid));
+        var suggestionssource = [];
+        suggestionssource = { localdata : data,
+              datafields: [              
+                      { name: 'id', type: 'int', map: '0'},
+                      { name: 'name', type: 'string', map: '1'},
+                      { name: 'count', type: 'int', map: '2'},                                                  
+                    ],
+                datatype: "array"
+            };
+        var dataAdapter = new $.jqx.dataAdapter(suggestionssource);
+       // console.log(suggestionssource);
+        
+        $('#skillsbycatlist').jqxListBox({theme: theme, checkboxes: true, multiple: true,  source: dataAdapter, displayMember: "name", valueMember: "id", height: '99%', width:'100%',
+        renderer: function (index, label, value) {                    
+                    var table = "<table><tr><td height='100%' style='font-size:12px;'>" + suggestionssource.localdata[index][1] + "  (" + suggestionssource.localdata[index][2] +")</td></tr></table>";
+                    return table;
+                }
+        
+        });
+        //$('#suggestionslist').jqxListBox({selectedIndex:selectedIndex});
+            
+     }
+    $(document).ready(function () {
+        var theme = 'bootstrap';
+         //$("#ProgressBar").jqxProgressBar({theme: theme, width: '100%', height: 20, value: 0});
+         $('#docking').jqxDocking({ theme:theme , orientation: 'horizontal', mode: 'docked',floatingWindowOpacity: 0.5, width:'100%' });     
+         
+         $('#docking').jqxDocking('hideAllCloseButtons');     
+         
+         $("#categorize").jqxButton({theme: theme, width: '100%'});
+         $("#skip").jqxButton({theme: theme, width: '100%'});
+         
+         $("#selectall").jqxButton({theme: theme, width: '100%'});
+         $("#unselectall").jqxButton({theme: theme, width: '100%'});
+
+         $("#browseskill").jqxButton({theme: theme, width: '100%'});         
+         $("#catselectall").jqxButton({theme: theme, width: '100%'});
+         $("#catunselectall").jqxButton({theme: theme, width: '100%'});
+         $("#removeskill").jqxButton({theme: theme, width: '100%'});
+         $("#moveskill").jqxButton({theme: theme, width: '100%'});
+         
+         $("#categorysave").jqxButton({theme: theme, width: '60'});
+         $("#categorydelete").jqxButton({theme: theme, width: '60'});
+         $("#categoryadd").jqxButton({theme: theme, width: '60'});
+         $("#categoryadd").on('click', function () {
+                      if($('#categorytextbox').val() !='')                                                     
+                      {
+                          addCategory($('#categorytextbox').val());
+                          fillCategoriesList($.parseJSON(getCategoriesData()));
+                          
+                      }
+                });
+         $("#categorydelete").on('click', function () {
+                          var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') ); 
+                          deleteCategory(item.value);
+                          fillCategoriesList($.parseJSON(getCategoriesData()));
+                });   
+                
+         $("#categorysave").on('click', function () {
+                      if($('#categorytextbox').val() !='')                                                     
+                      {
+                          var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') );                           
+                          updateCategory(item.value,$('#categorytextbox').val() );
+                          fillCategoriesList($.parseJSON(getCategoriesData()));
+                          fillCategoriesList($.parseJSON(getCategoriesData()));
+                          
+                      }
+                }); 
+         $("#categorize").on('click', function () {
+                      var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') );
+                      categorizeCurrentSkill(currentskill[0][0],item.value);
+                      
+                      var items = $("#suggestionslist").jqxListBox('getCheckedItems');
+                      
+                      $.each(items, function (index) {
+                           categorizeCurrentSkill(this.value,item.value);
+                      });
+                      fillCategoriesList($.parseJSON(getCategoriesData()));
+                      fillCurrentSkill();
+                      
+                      
+          });
+          
+          
+          $("#removeskill").on('click', function () {
+                      var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') );
+
+                      var items = $("#skillsbycatlist").jqxListBox('getCheckedItems');                     
+                      $.each(items, function (index) {
+                           uncategorizeCurrentSkill(this.value);
+                      });
+                      fillCategoriesList($.parseJSON(getCategoriesData()));
+                      fillCurrentSkill();        
+                      fillSkillsByCatList(item.value);
+                      
+                      
+          });
+          
+          $("#moveskill").on('click', function () {
+                      var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') );
+
+                      var items = $("#skillsbycatlist").jqxListBox('getCheckedItems');                     
+                      $.each(items, function (index) {
+                           changeCurrentSkill(this.value);
+                      });
+                      fillCategoriesList($.parseJSON(getCategoriesData()));
+                      fillCurrentSkill();        
+                      fillSkillsByCatList(item.value);
+                      
+                      
+          });
+          
+          $("#skip").on('click', function () {                      
+                      categorizeCurrentSkill(currentskill[0][0],1);
+                      fillCategoriesList($.parseJSON(getCategoriesData()));
+                      fillCurrentSkill();
+          });        
+          $("#selectall").on('click', function () {
+                      $("#suggestionslist").jqxListBox('checkAll'); 
+          });    
+          $("#unselectall").on('click', function () {
+                      $("#suggestionslist").jqxListBox('uncheckAll'); 
+          }); 
+          $("#catselectall").on('click', function () {
+                      $("#skillsbycatlist").jqxListBox('checkAll'); 
+          });    
+          $("#catunselectall").on('click', function () {
+                      $("#skillsbycatlist").jqxListBox('uncheckAll'); 
+          });                                                        
+         $('#maincategorieslist').on('select', function (event) {
+             var args = event.args;
+             //console.log(args);
+             if (args) {
+                var index = args.index;
+                var item = args.item;
+                var originalEvent = args.originalEvent;
+                  // get item's label and value.
+                var label = item.label;
+                var value = item.value;
+                $('#categorytextbox').val(label);
+             }
+         });      
+         
+         $("#browseskill").on('click', function () {
+                      var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') );
+                      fillSkillsByCatList(item.value);
+                      //console.log(skillsByCategory(item.value));
+          });            
+          
+         $("#categorytextbox").jqxInput({theme: theme, height: 25, width: '100%'});       
+         //$('#maincategorieslist').jqxListBox({theme: theme,  itemHeight: 70, height: '99%', width:'100%'});
+         //$('#skillslist').jqxListBox({theme: theme, height: '99%', width:'100%'});          
+         fillCategoriesList($.parseJSON(getCategoriesData()));
+        
+         fillCurrentSkill();
+         
+         //console.log(skillsByCategory(2));
+    });
+    
+</script>  
+{% endblock %}  
+{% block reportblock %}
+
+
+
+
+    <style type="text/css">
+        .InnerDivs
+        {
+            width: 400px;
+        }
+        .InnerDivsSmall
+        {
+            width: 350px;
+        }        
+        
+        
+  
+    </style>
+  
+   
+    
+   <div id="docking">
+   
+   
+        <div class="InnerDivs">
+            <div id="window2" style="height:150px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Current Skill</span></div>
+                <div id="content" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;">
+                   <table width="100%" height="100%" align="canter">
+                     <tr>
+                       <td colspan=2><div id="currentskill"></div></td>
+                     </tr>
+                     <tr height="25">
+                       <td width="50%" align="canter"><input type="button" value="Skip" id='skip'/></td>  
+                       <td width="50%" align="canter"><input type="button" value="Categorize" id='categorize'/></td>                                                                 
+                     </tr>
+                   </table>
+                                      
+                   
+                </div>
+            </div>        
+            <div id="window1" style="height:450px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Suggesstions</span></div>
+                <div id="suggestions" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">
+                   <table width="100%" height="100%" align="canter">
+                     <tr>
+                       <td colspan=2><div style="width:100%; height:100%" id="suggestionslistcontainer"></div></td>
+                     </tr>
+                     <tr height="25">
+                       <td width="50%" align="canter"><input type="button" value="All" id='selectall'/></td>  
+                       <td width="50%" align="canter"><input type="button" value="None" id='unselectall'/></td>                                                                 
+                     </tr>
+                   </table>                   
+                </div>
+            </div>
+
+        </div>
+        <div class="InnerDivsSmall">
+
+            <div id="window6" style="height:600px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Select Category</span></div>
+                <div id="allcategories" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">
+                   <table width=100% height=100% >
+                      <tr height=20>
+                        <td width=40>
+                           <input type="button" value="Add" id='categoryadd' />
+                        </td>
+                        <td width=40>
+                           <input type="button" value="Save" id='categorysave' />
+                        </td>
+                        <td width=40>
+                           <input type="button" value="Delete" id='categorydelete' />
+                        </td>
+                        <td>
+                           <input type="text" id='categorytextbox' />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan=4><div style="width:100%; height:100%" id="maincategorieslist"></div></td>                        
+                      </tr>    
+                    </table>  
+                </div>
+            </div>
+                                     
+
+        </div>
+        <div class="InnerDivsSmall">
+            
+            
+            <div id="window8" style="height:600px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Skills</span></div>
+                <div id="skills" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">
+                     <table width="100%" height="100%" align="canter">
+                     <tr>
+                       <td colspan=5><div style="width:100%; height:100%" id="catlistcontainer"></div></td>
+                     </tr>
+                     <tr height="25">
+                       <td width="20%" align="canter"><input type="button" value="Browse" id='browseskill'/></td>                       
+                       <td width="20%" align="canter"><input type="button" value="All" id='catselectall'/></td>  
+                       <td width="20%" align="canter"><input type="button" value="None" id='catunselectall'/></td>
+                       <td width="20%" align="canter"><input type="button" value="Uncategorize" id='removeskill'/></td>
+                       <td width="20%" align="canter"><input type="button" value="Move" id='moveskill'/></td>
+                     </tr>
+                   </table>         
+                </div>
+            </div>   
+                 
+
+            	
+        </div> 
+   
+        </div>
+        
+    </div>
+
+
+{% endblock %}  

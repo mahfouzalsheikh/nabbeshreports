@@ -154,8 +154,22 @@ urlpatterns = patterns('',
     url(r'^photogallery$', 'nabbeshreports.maps.views.photogallery_report'),
     url(r'^photogallery_getdata$', 'nabbeshreports.maps.views.photogallery_getdata'),
     
-    url(r'^photogallery$', 'nabbeshreports.maps.views.leakagedetection_report'),
+    url(r'^leakagedetection$', 'nabbeshreports.maps.views.leakagedetection_report'),
     url(r'^leakagedetection_getdata$', 'nabbeshreports.maps.views.leakagedetection_getdata'),
+   
+    url(r'^skillscategorizer$', 'nabbeshreports.maps.views.skillscategorizer_tool'),
+    url(r'^addcategory$', 'nabbeshreports.maps.views.addcategory'),
+    url(r'^updatecategory$', 'nabbeshreports.maps.views.updatecategory'),    
+    url(r'^deletecategory$', 'nabbeshreports.maps.views.deletecategory'),
+    url(r'^getcategories$', 'nabbeshreports.maps.views.getcategories'),
+    url(r'^getcurrentskill$', 'nabbeshreports.maps.views.getcurrentskill'),
+    url(r'^getsuggestedskillslist$', 'nabbeshreports.maps.views.getsuggestedskillslist'),  
+    url(r'^getskillsbycategory$', 'nabbeshreports.maps.views.getskillsbycategory'),  
+    url(r'^categorize$', 'nabbeshreports.maps.views.categorize'),
+    url(r'^uncategorize$', 'nabbeshreports.maps.views.uncategorize'),
+    url(r'^updateskillcat$', 'nabbeshreports.maps.views.updateskillcat'),
+    
+              
    
     url(r'^emailcampaigns$', 'nabbeshreports.maps.views.campaigns_report'),
     url(r'^campaigns_list_getdata$', 'nabbeshreports.maps.views.campaigns_list_getdata'),    
