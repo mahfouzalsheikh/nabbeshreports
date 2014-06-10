@@ -1794,7 +1794,7 @@ def getcurrentskill(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)                            
         sql = "select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where ss.published=true and merge_to_id is null and deleted=false and ss.id not in (select skill_id from skills_categories) group by ss.id order by userscount desc limit 1 "
-        results = customQuery(sql,1)              
+        results = customQuery(sql,4)              
         return HttpResponse(json.dumps(results), mimetype='application/json') 
         
 @csrf_exempt
