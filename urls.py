@@ -166,8 +166,11 @@ urlpatterns = patterns('',
     url(r'^getsuggestedskillslist$', 'nabbeshreports.maps.views.getsuggestedskillslist'),  
     url(r'^getskillsbycategory$', 'nabbeshreports.maps.views.getskillsbycategory'),  
     url(r'^categorize$', 'nabbeshreports.maps.views.categorize'),
+    url(r'^categorizegroup$', 'nabbeshreports.maps.views.categorizegroup'),
     url(r'^uncategorize$', 'nabbeshreports.maps.views.uncategorize'),
+    url(r'^uncategorizegroup$', 'nabbeshreports.maps.views.uncategorizegroup'),
     url(r'^updateskillcat$', 'nabbeshreports.maps.views.updateskillcat'),
+    url(r'^updateskillgroupcat$', 'nabbeshreports.maps.views.updateskillgroupcat'),
     url(r'^categorizationstatus$', 'nabbeshreports.maps.views.categorizationstatus'),    
     
     

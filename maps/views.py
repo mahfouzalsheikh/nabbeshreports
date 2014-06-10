@@ -1855,6 +1855,18 @@ def getskillsbycategory(request):
         return HttpResponse(json.dumps(results), mimetype='application/json')               
         
 @csrf_exempt
+def categorizegroup(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        group = objs['group']
+        categoryid = objs['categoryid']
+        for skillid in group:                  
+            id = getmaxid("skills_categories",4)             
+            sql = "insert into skills_categories values("+str(id)+", "+str(skillid)+", "+str(categoryid)+")"        
+            results = customQueryNoResults(sql,4)      
+        return HttpResponse(group, mimetype='application/html') 
+        
+@csrf_exempt
 def categorize(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
@@ -1865,6 +1877,7 @@ def categorize(request):
         print sql
         results = customQueryNoResults(sql,4)      
         return HttpResponse(results, mimetype='application/html')   
+        
 @csrf_exempt
 def updateskillcat(request):
     if request.method == 'POST':
@@ -1875,7 +1888,22 @@ def updateskillcat(request):
         sql = "update skills_categories set category_id=" + str(categoryid) + " where skill_id=" +str(skillid)
         print sql
         results = customQueryNoResults(sql,4)      
-        return HttpResponse(results, mimetype='application/html')  
+        return HttpResponse(results, mimetype='application/html') 
+        
+@csrf_exempt        
+def updateskillgroupcat(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        
+        group = objs['group']
+        categoryid = objs['categoryid']        
+        for skillid in group:            
+            sql = "update skills_categories set category_id=" + str(categoryid) + " where skill_id=" +str(skillid)
+            print sql
+            customQueryNoResults(sql,4)      
+        return HttpResponse('done', mimetype='application/html')
+
+         
 @csrf_exempt
 def uncategorize(request):
     if request.method == 'POST':
@@ -1884,7 +1912,17 @@ def uncategorize(request):
         sql = "delete from skills_categories where skill_id=" +  str(skillid)
         print sql
         results = customQueryNoResults(sql,4)      
-        return HttpResponse(results, mimetype='application/html')                                   
+        return HttpResponse(results, mimetype='application/html')   
+
+@csrf_exempt
+def uncategorizegroup(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        group = objs['group']  
+        for skillid in group:                           
+            sql = "delete from skills_categories where skill_id=" +  str(skillid)        
+            customQueryNoResults(sql,4)      
+        return HttpResponse('done', mimetype='application/html')                                        
 
 @csrf_exempt
 def categorizationstatus(request):
@@ -1892,7 +1930,7 @@ def categorizationstatus(request):
                     
         catsql = "select count(distinct skill_id) from skills_categories"
         catresults = customQuery(catsql,4)   
-        print catresults
+
         
         allsql = "select count(id) from skills_skill where published=true"   
         allresults = customQuery(allsql,1)

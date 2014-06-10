@@ -100,7 +100,17 @@
           }).responseText;
        return jsonData; 
      }
-    
+     function changeGroup(group, categoryid){
+      var params = {"group": group, "categoryid":categoryid};
+      var jsonData = $.ajax({
+          url: "updateskillgroupcat",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData; 
+     }     
      function categorizeCurrentSkill(skillid, categoryid){
       var params = {"skillid": skillid, "categoryid":categoryid};
       var jsonData = $.ajax({
@@ -113,6 +123,18 @@
        return jsonData; 
      }
     
+     function categorizeGroup(group, categoryid){
+      var params = {"group": group, "categoryid":categoryid};
+      var jsonData = $.ajax({
+          url: "categorizegroup",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData; 
+     }    
+    
     function uncategorizeCurrentSkill(skillid){
       var params = {"skillid": skillid};
       var jsonData = $.ajax({
@@ -124,7 +146,18 @@
           }).responseText;
        return jsonData; 
      }
-     
+
+    function uncategorizeGroup(group){
+      var params = {"group": group};
+      var jsonData = $.ajax({
+          url: "uncategorizegroup",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData; 
+     }     
 
      
      function skillsByCategory(categoryid){
@@ -289,11 +322,11 @@
                       
                       
                       var items = $("#suggestionslist").jqxListBox('getCheckedItems');
-                      
+                      group = [];
                       $.each(items, function (index) {
-                           categorizeCurrentSkill(this.value,item.value);
+                           group.push(this.value);
                       });
-                      
+                      categorizeGroup(group,item.value);                      
                       showStatus();
                       fillCategoriesList($.parseJSON(getCategoriesData()));
                       fillCurrentSkill();
@@ -305,10 +338,13 @@
           $("#removeskill").on('click', function () {
                       var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') );
 
-                      var items = $("#skillsbycatlist").jqxListBox('getCheckedItems');                     
+                      var items = $("#skillsbycatlist").jqxListBox('getCheckedItems');  
+                      group = [];                   
                       $.each(items, function (index) {
-                           uncategorizeCurrentSkill(this.value);
+                           group.push(this.value);
+                           //uncategorizeCurrentSkill(this.value);
                       });
+                      uncategorizeGroup(group);
                       showStatus();
                       fillCategoriesList($.parseJSON(getCategoriesData()));
                       fillCurrentSkill();        
@@ -320,10 +356,13 @@
           $("#moveskill").on('click', function () {
                       var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') );
 
-                      var items = $("#skillsbycatlist").jqxListBox('getCheckedItems');                     
+                      var items = $("#skillsbycatlist").jqxListBox('getCheckedItems');    
+                      group = [];                  
                       $.each(items, function (index) {
-                           changeCurrentSkill(this.value, item.value);
+                           group.push(this.value);
+                           //changeCurrentSkill(this.value, item.value);
                       });
+                      changeGroup(group, item.value);
                       showStatus();
                       fillCategoriesList($.parseJSON(getCategoriesData()));
                       fillCurrentSkill();        
