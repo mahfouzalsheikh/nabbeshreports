@@ -303,7 +303,7 @@
 
                       var items = $("#skillsbycatlist").jqxListBox('getCheckedItems');                     
                       $.each(items, function (index) {
-                           changeCurrentSkill(this.value);
+                           changeCurrentSkill(this.value, item.value);
                       });
                       fillCategoriesList($.parseJSON(getCategoriesData()));
                       fillCurrentSkill();        

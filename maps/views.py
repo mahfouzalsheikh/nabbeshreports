@@ -102,7 +102,10 @@ def customQuery(sql, db):
         return result    
     elif db==3:
         result=customQuerySendy(sql)
-        return result    
+        return result 
+    elif db==4:
+        result=customQueryDummy(sql)
+        return result           
     
     
 
@@ -146,6 +149,15 @@ def customQuerySendy(sql):
         result_list.append(row) 
     return result_list 
 
+def customQueryDummy(sql): 
+    cursor = connections['dummy'].cursor()
+    cursor.execute(sql,[])
+    #transaction.commit_unless_managed(using='live')
+    result_list = [] 
+    for row in cursor.fetchall(): 
+        result_list.append(row) 
+    return result_list     
+
 
 def customQueryNoResults(sql, db):
     ##print sql
@@ -164,6 +176,9 @@ def customQueryNoResults(sql, db):
     elif db==3:
         result=customQueryNoResultsSendy(sql)
         return result    
+    elif db==4:
+        result=customQueryNoResultsDummy(sql)
+        return result           
 
 def customQueryNoResultsLive(sql):
     cursor = connections['live'].cursor()    
@@ -195,7 +210,15 @@ def customQueryNoResultsSendy(sql):
     result = cursor.execute(sql,[])
     cursor.execute("COMMIT;")
     print result
-    return 'done'            
+    return 'done' 
+
+def customQueryNoResultsDummy(sql):
+    cursor = connections['dummy'].cursor()    
+   
+    result = cursor.execute(sql,[])
+    cursor.execute("COMMIT;")
+    print result
+    return 'done'               
        
 @login_required(login_url='/accounts/login/')       
 def freelancerdemography_report(request):
@@ -1734,7 +1757,7 @@ def addcategory(request):
         name = objs['name']
         id = getmaxid("categories")               
         sql = "insert into categories(id,name) values("+str(id)+",'"+name+"')"                 
-        results = customQueryNoResults(sql,1)      
+        results = customQueryNoResults(sql,4)      
         return HttpResponse(results, mimetype='application/html')
 
 @csrf_exempt
@@ -1744,7 +1767,7 @@ def updatecategory(request):
         id = objs['id']
         name = objs['name']                
         sql = "update categories set name='"+name+"' where id="+str(id)
-        results = customQueryNoResults(sql,1)      
+        results = customQueryNoResults(sql,4)      
         return HttpResponse(results, mimetype='application/html')
 
 @csrf_exempt
@@ -1755,7 +1778,7 @@ def deletecategory(request):
         print id              
         sql = "delete from categories where id="+str(id)
         
-        results = customQueryNoResults(sql,1)      
+        results = customQueryNoResults(sql,4)      
         return HttpResponse(results, mimetype='application/html')      
 
 @csrf_exempt
@@ -1821,7 +1844,7 @@ def categorize(request):
         id = getmaxid("skills_categories")             
         sql = "insert into skills_categories values("+str(id)+", "+str(skillid)+", "+str(categoryid)+")"
         print sql
-        results = customQueryNoResults(sql,1)      
+        results = customQueryNoResults(sql,4)      
         return HttpResponse(results, mimetype='application/html')   
 @csrf_exempt
 def updateskillcat(request):
@@ -1832,7 +1855,7 @@ def updateskillcat(request):
                     
         sql = "update skills_categories set category_id=" + str(categoryid) + " where skill_id=" +str(skillid)
         print sql
-        results = customQueryNoResults(sql,1)      
+        results = customQueryNoResults(sql,4)      
         return HttpResponse(results, mimetype='application/html')  
 @csrf_exempt
 def uncategorize(request):
@@ -1841,7 +1864,7 @@ def uncategorize(request):
         skillid = objs['skillid']                     
         sql = "delete from skills_categories where skill_id=" +  str(skillid)
         print sql
-        results = customQueryNoResults(sql,1)      
+        results = customQueryNoResults(sql,4)      
         return HttpResponse(results, mimetype='application/html')                                   
 
 def getmaxid(table):
