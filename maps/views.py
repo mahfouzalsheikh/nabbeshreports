@@ -1821,7 +1821,7 @@ def getskillsbycategory(request):
         objs = simplejson.loads(request.raw_post_data)
         categoryid=objs['categoryid']
         sql = "select skill_id from skills_categories where category_id=" + str(categoryid)
-        results = customQuery(sql,1) 
+        results = customQuery(sql,4) 
         groupsql ="and ss.id  in ("
         if len(results)>0:
             for skill in results:
@@ -1832,7 +1832,7 @@ def getskillsbycategory(request):
         
         finalsql  = "select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where   ss.published=true and merge_to_id is null and deleted=false  "+groupsql+" group by ss.id order by userscount desc"
         print finalsql
-        results = customQuery(finalsql,1)
+        results = customQuery(finalsql,4)
         return HttpResponse(json.dumps(results), mimetype='application/json')               
         
 @csrf_exempt
