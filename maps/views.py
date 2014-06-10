@@ -1788,13 +1788,32 @@ def getcategories(request):
         sql = "select ca.*,count(distinct sc.skill_id) from categories ca  left outer join skills_categories sc  on sc.category_id=ca.id group by ca.id order by ca.id desc"
         results = customQuery(sql,4)              
         return HttpResponse(json.dumps(results), mimetype='application/json')  
+        
+
+
+def getcategorizedskillslistsql():
+    sql = "select skill_id from skills_categories"
+     
+    results = customQuery(sql,4) 
+                 
+    groupsql ="and ss.id  in ("
+    if len(results)>0:
+        for skill in results:
+            groupsql = groupsql + str(skill[0]) + "," 
+        groupsql = groupsql[:-1] + ")"    
+    else: 
+        groupsql = " and ss.id<0 " 
+       
+    return groupsql          
 
 @csrf_exempt
 def getcurrentskill(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)                            
-        sql = "select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where ss.published=true and merge_to_id is null and deleted=false and ss.id not in (select skill_id from skills_categories) group by ss.id order by userscount desc limit 1 "
-        results = customQuery(sql,4)              
+        
+        objs = simplejson.loads(request.raw_post_data)    
+                                
+        sql = "select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where ss.published=true and merge_to_id is null and deleted=false " + getcategorizedskillslistsql() +" group by ss.id order by userscount desc limit 1 "
+        results = customQuery(sql,1)              
         return HttpResponse(json.dumps(results), mimetype='application/json') 
         
 @csrf_exempt
@@ -1803,15 +1822,15 @@ def getsuggestedskillslist(request):
         objs = simplejson.loads(request.raw_post_data)
         skillid=objs['skillid']
         sql = "select name from skills_skill where id=" + str(skillid)
-        results = customQuery(sql,4) 
+        results = customQuery(sql,1) 
         orstring = ""
         words = results[0][0].split()     
         for word in words:
             orstring = orstring + " or lower(ss.name) like '%%"+word.lower()+"%%'"        
         
-        finalsql = " select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where  ( "+orstring[3:]+" ) and ss.id<>"+str(skillid)+" and ss.published=true and merge_to_id is null and deleted=false and ss.id not in (select skill_id from skills_categories) group by ss.id order by userscount desc"   
+        finalsql = " select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where  ( "+orstring[3:]+" ) and ss.id<>"+str(skillid)+" and ss.published=true and merge_to_id is null and deleted=false " + getcategorizedskillslistsql() +"  group by ss.id order by userscount desc"   
                 
-        results = customQuery(finalsql,4)
+        results = customQuery(finalsql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json')  
         
         
@@ -1832,7 +1851,7 @@ def getskillsbycategory(request):
         
         finalsql  = "select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where   ss.published=true and merge_to_id is null and deleted=false  "+groupsql+" group by ss.id order by userscount desc"
         print finalsql
-        results = customQuery(finalsql,4)
+        results = customQuery(finalsql,1)
         return HttpResponse(json.dumps(results), mimetype='application/json')               
         
 @csrf_exempt
