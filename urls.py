@@ -168,6 +168,8 @@ urlpatterns = patterns('',
     url(r'^categorize$', 'nabbeshreports.maps.views.categorize'),
     url(r'^uncategorize$', 'nabbeshreports.maps.views.uncategorize'),
     url(r'^updateskillcat$', 'nabbeshreports.maps.views.updateskillcat'),
+    url(r'^categorizationstatus$', 'nabbeshreports.maps.views.categorizationstatus'),    
+    
     
               
    

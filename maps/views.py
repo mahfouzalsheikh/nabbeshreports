@@ -1886,6 +1886,21 @@ def uncategorize(request):
         results = customQueryNoResults(sql,4)      
         return HttpResponse(results, mimetype='application/html')                                   
 
+@csrf_exempt
+def categorizationstatus(request):
+    if request.method == 'POST':
+                    
+        catsql = "select count(distinct skill_id) from skills_categories"
+        catresults = customQuery(catsql,4)   
+        print catresults
+        
+        allsql = "select count(id) from skills_skill where published=true"   
+        allresults = customQuery(allsql,1)
+        result =  "[" +str(allresults[0][0]) + " , " + str(catresults[0][0]) +"]"
+        
+        return HttpResponse(result, mimetype='application/json') 
+
+
 def getmaxid(table, db):
     sql = "select max(id) from " + table                 
     print sql

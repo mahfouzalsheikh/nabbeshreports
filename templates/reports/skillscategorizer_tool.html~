@@ -138,7 +138,17 @@
           }).responseText;
        return jsonData; 
      }     
-     
+     function getStatus(){
+      var params = {};
+      var jsonData = $.ajax({
+          url: "categorizationstatus",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData; 
+     }
      function fillCurrentSkill(){
          currentskill = $.parseJSON(getCurrentSkillData());
          var html='<table width="100%"  align="center"><tr><td align="center" style="font-size:10px;" >ID: '+currentskill[0][0]+'</td></tr><tr><td align="center" style="font-size:18px;" >'+currentskill[0][1]+'</td></tr><tr><td align="center" style="font-size:12px;">'+currentskill[0][2]+' Users</td></tr></table>';
@@ -196,7 +206,12 @@
         //$('#suggestionslist').jqxListBox({selectedIndex:selectedIndex});
             
      }     
-     
+     function showStatus(){
+         data = $.parseJSON(getStatus());
+         $("#progressbar").jqxProgressBar({theme: theme, width: '100%', height: 20, value: 0});
+         $("#progressbar").jqxProgressBar('val', Math.round(data[1]*100/data[0]));
+         console.log(data);
+     }     
      function fillSkillsByCatList(categoryid){
         $("#catlistcontainer").html('<div style="width:100%; height:100%" id="skillsbycatlist"></div>');
         var data = $.parseJSON(skillsByCategory(categoryid));
@@ -224,7 +239,7 @@
      }
     $(document).ready(function () {
         var theme = 'bootstrap';
-         //$("#ProgressBar").jqxProgressBar({theme: theme, width: '100%', height: 20, value: 0});
+         $("#progressbar").jqxProgressBar({theme: theme, width: '100%', height: 20, value: 0,showText:true});
          $('#docking').jqxDocking({ theme:theme , orientation: 'horizontal', mode: 'docked',floatingWindowOpacity: 0.5, width:'100%' });     
          
          $('#docking').jqxDocking('hideAllCloseButtons');     
@@ -272,11 +287,14 @@
                       var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') );
                       categorizeCurrentSkill(currentskill[0][0],item.value);
                       
+                      
                       var items = $("#suggestionslist").jqxListBox('getCheckedItems');
                       
                       $.each(items, function (index) {
                            categorizeCurrentSkill(this.value,item.value);
                       });
+                      
+                      showStatus();
                       fillCategoriesList($.parseJSON(getCategoriesData()));
                       fillCurrentSkill();
                       
@@ -291,6 +309,7 @@
                       $.each(items, function (index) {
                            uncategorizeCurrentSkill(this.value);
                       });
+                      showStatus();
                       fillCategoriesList($.parseJSON(getCategoriesData()));
                       fillCurrentSkill();        
                       fillSkillsByCatList(item.value);
@@ -305,6 +324,7 @@
                       $.each(items, function (index) {
                            changeCurrentSkill(this.value, item.value);
                       });
+                      showStatus();
                       fillCategoriesList($.parseJSON(getCategoriesData()));
                       fillCurrentSkill();        
                       fillSkillsByCatList(item.value);
@@ -355,7 +375,7 @@
          fillCategoriesList($.parseJSON(getCategoriesData()));
         
          fillCurrentSkill();
-         
+         showStatus();
          //console.log(skillsByCategory(2));
     });
     
@@ -386,10 +406,14 @@
    
    
         <div class="InnerDivs">
-            <div id="window2" style="height:150px">
+            <div id="window2" style="height:170px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Current Skill</span></div>
                 <div id="content" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;">
                    <table width="100%" height="100%" align="canter">
+                     <tr>
+                       <td colspan=2><div id="progressbar"></div></td></td>                       
+                     </tr>
+                     
                      <tr>
                        <td colspan=2><div id="currentskill"></div></td>
                      </tr>
@@ -420,7 +444,7 @@
         </div>
         <div class="InnerDivsSmall">
 
-            <div id="window6" style="height:600px">
+            <div id="window6" style="height:605px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Select Category</span></div>
                 <div id="allcategories" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">
                    <table width=100% height=100% >
@@ -450,7 +474,7 @@
         <div class="InnerDivsSmall">
             
             
-            <div id="window8" style="height:600px">
+            <div id="window8" style="height:605px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Skills</span></div>
                 <div id="skills" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">
                      <table width="100%" height="100%" align="canter">
