@@ -1803,7 +1803,7 @@ def getsuggestedskillslist(request):
         objs = simplejson.loads(request.raw_post_data)
         skillid=objs['skillid']
         sql = "select name from skills_skill where id=" + str(skillid)
-        results = customQuery(sql,1) 
+        results = customQuery(sql,4) 
         orstring = ""
         words = results[0][0].split()     
         for word in words:
@@ -1811,7 +1811,7 @@ def getsuggestedskillslist(request):
         
         finalsql = " select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where  ( "+orstring[3:]+" ) and ss.id<>"+str(skillid)+" and ss.published=true and merge_to_id is null and deleted=false and ss.id not in (select skill_id from skills_categories) group by ss.id order by userscount desc"   
                 
-        results = customQuery(finalsql,1)
+        results = customQuery(finalsql,4)
         return HttpResponse(json.dumps(results), mimetype='application/json')  
         
         
