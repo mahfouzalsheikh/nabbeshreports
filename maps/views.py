@@ -1755,7 +1755,7 @@ def addcategory(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
         name = objs['name']
-        id = getmaxid("categories")               
+        id = getmaxid("categories", 4)               
         sql = "insert into categories(id,name) values("+str(id)+",'"+name+"')"                 
         results = customQueryNoResults(sql,4)      
         return HttpResponse(results, mimetype='application/html')
@@ -1841,7 +1841,7 @@ def categorize(request):
         objs = simplejson.loads(request.raw_post_data)
         skillid = objs['skillid']
         categoryid = objs['categoryid']        
-        id = getmaxid("skills_categories")             
+        id = getmaxid("skills_categories",4)             
         sql = "insert into skills_categories values("+str(id)+", "+str(skillid)+", "+str(categoryid)+")"
         print sql
         results = customQueryNoResults(sql,4)      
@@ -1867,10 +1867,10 @@ def uncategorize(request):
         results = customQueryNoResults(sql,4)      
         return HttpResponse(results, mimetype='application/html')                                   
 
-def getmaxid(table):
+def getmaxid(table, db):
     sql = "select max(id) from " + table                 
     print sql
-    results = customQuery(sql,1)     
+    results = customQuery(sql,db)     
     try: 
         id=results[0][0]+1
     except:
