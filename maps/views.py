@@ -1786,7 +1786,7 @@ def getcategories(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)                            
         sql = "select ca.*,count(distinct sc.skill_id) from categories ca  left outer join skills_categories sc  on sc.category_id=ca.id group by ca.id order by ca.id desc"
-        results = customQuery(sql,1)              
+        results = customQuery(sql,4)              
         return HttpResponse(json.dumps(results), mimetype='application/json')  
 
 @csrf_exempt
