@@ -1,5 +1,5 @@
 {% extends 'reports/base.html' %}
-{% block reportblock %}
+
 
 {% block  customheadscripts %}
 <script type="text/javascript"> 
@@ -51,7 +51,8 @@
           jqwdata.shift();
 	  var source =
             { localdata : jqwdata,
-              datafields: [              
+              datafields: [
+              
 
                     { name: 'Period', type: 'string', map: '0'},
                     { name: 'AllProposalsCount', type: 'int', map: '1'},
@@ -126,11 +127,12 @@
          var theme = 'bootstrap';
      $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
       $("#downloadButton").jqxButton({theme: theme, width: '200'});                
-      $("#downloadButton").on('click', function () {
+      $("#downloadButton").on('click', function (event) {
+
                 var json = $.parseJSON(getData(fromdate, todate, limit));
     		var csv = JSON2CSV(json);
-//	        window.open("data:text/csv;charset=utf-8," + escape(csv))
-	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "revenue_data.csv");
+
+	        downloadWithName("charset=utf-8," + escape(csv), "revenue_data.csv");
       }); 
 	
      $("#groupbybuttons").jqxButtonGroup({ mode: 'radio' });
@@ -173,6 +175,8 @@
 </script>
 
 {% endblock %}
+
+{% block reportblock %}
 <div id="title"></div>
 
 

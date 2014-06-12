@@ -263,6 +263,7 @@ $(document).ready(function () {
       $("#downloadButton").on('click', function () {
                 var json = $.parseJSON(getData(limit,fromdate,todate));
     		var csv = JSON2CSV(json);
+    		
 //	        window.open("data:text/csv;charset=utf-8," + escape(csv))
 	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "dashboard_data.csv");
       }); 
