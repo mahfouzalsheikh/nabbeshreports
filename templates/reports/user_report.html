@@ -7,6 +7,9 @@
         
     </script>
     <script type="text/javascript">
+         puserid = '{{ userid }}';
+         //alert(userid);
+         
          var fromdate;
          var todate;
          var contsearchkeywordsfield;
@@ -27,7 +30,7 @@
      function getPersonalData(userid){
       var params = {'userid' : userid};
       var jsonData = $.ajax({
-          url: "user_personalinfo_getdata",
+          url: "../user_personalinfo_getdata",
           dataType:"json",
           type: "POST",
           data: JSON.stringify(params),
@@ -41,7 +44,7 @@
       userotherinfo= $('#userotherinfo').val();     
       var params = {'userid' : userid, 'userotherinfo':userotherinfo};
       var jsonData = $.ajax({
-          url: "find_user_getdata",
+          url: "../find_user_getdata",
           dataType:"json",
           type: "POST",
           data: JSON.stringify(params),
@@ -57,7 +60,7 @@
         skillsearchkeywords= $('#skillsearchkeywordsfield').val();        
         var params = {"fromdate": from, "todate": to, "userid": userid, "contsearchkeywords": contsearchkeywords, "skillsearchkeywords":skillsearchkeywords};
         var jsonData = $.ajax({
-          url: "user_jobs_getdata",
+          url: "../user_jobs_getdata",
           dataType:"json",
           type: "POST",
           data: JSON.stringify(params),
@@ -81,7 +84,7 @@
         skillsearchkeywords= $('#appsskillsearchkeywordsfield').val();        
         var params = {"fromdate": from, "todate": to, "userid": userid, "searchkeywords": contsearchkeywords, "skillsearchkeywords":skillsearchkeywords};
         var jsonData = $.ajax({
-          url: "user_applications_getdata",
+          url: "../user_applications_getdata",
           dataType:"json",
           type: "POST",
           data: JSON.stringify(params),
@@ -534,6 +537,9 @@
             
            
          drawChart();      
+         if(puserid!='None'){
+            selectuser(puserid);
+         }
       });
     </script>
 {% endblock %}

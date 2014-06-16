@@ -704,19 +704,24 @@ def top_employers_getdata(request):
         
         sql = ("select u.id, au.first_name || ' ' || au.last_name as fullname , au.email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile, 'http://www.nabbesh.com/profile/' || u.id as homepage, case when (u.photo <>'' and u.photo is not null) then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as photo, u.country, count(distinct cj.id) as jobs_count, count(distinct applications.proposal_id) as accepted_proposals_count from users u inner join auth_user au on u.django_user_id=au.id  left outer join contracts_job cj on cj.employer_id=u.id   left outer join ( select distinct cj1.employer_id,cm1.id as proposal_id from contracts_job cj1 inner join contracts_application ca1 on ca1.job_id=cj1.id inner join contracts_message cm1 on cm1.application_id=ca1.id  inner join contracts_proposal cp1 on cp1.message_ptr_id=cm1.id where cp1.status=4) applications on applications.employer_id=u.id group  by u.id,au.email,fullname,photo,homepage  "+sortsql+"  desc limit " + limit)
         
-        print sql
+        #print sql
         results = customQuery(sql,1)
  	#print results	
         c = Context({'users': results})
         return HttpResponse(render_to_string('top_employers.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
         
-        
-def user_report(request):    
+@login_required(login_url='/accounts/login/')        
+def user_report(request, userid=None):
+    
     t = loader.get_template('./reports/user_report.html')
+    
+    ##print optional
     c = Context({
-        'user_report': dashboard,
+        'user_report': dashboard, 'userid': userid
     })
-    return render_to_response('./reports/user_report.html', context_instance=RequestContext(request))
+    return HttpResponse(t.render(c))
+    #return HttpResponse(render_to_string('./reports/user_report.html', c, context_instance=RequestContext(request)), mimetype='application/html')
+    #return render_to_response('./reports/user_report.html', context_instance=RequestContext(request))
     
     
 @csrf_exempt 
@@ -735,7 +740,7 @@ def find_user_getdata(request):
             searchsql = "where lower(au.first_name || ' ' || au.last_name) like '%%"+searchtext.lower()+"%%' or au.email like '%%"+searchtext.lower()+"%%' or lower(cj.title) like '%%"+searchtext.lower()+"%%'  or u.id in (select u.id from contracts_message  cm inner join contracts_application ca on ca.id=cm.application_id inner join users u on u.id=ca.applicant_id where cm.public_id = '"+searchtext+"' union select u.id from contracts_message  cm inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on cj.id=ca.job_id inner join users u on u.id=cj.employer_id where cm.public_id = '"+searchtext+"'  ) limit 10 "
        
         sql = ("select distinct u.id, au.first_name || ' ' || au.last_name, au.email, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as cphoto from users u    inner join auth_user au on u.django_user_id=au.id left join contracts_job cj on cj.employer_id=u.id " + searchsql )
-        print sql
+        #print sql
         results = customQuery(sql,1)
         
         return HttpResponse(json.dumps(results), mimetype='application/json')  
@@ -746,7 +751,7 @@ def user_personalinfo_getdata(request):
         objs = simplejson.loads(request.raw_post_data)
         userid= objs['userid']
         sql = ("select u.id,u.django_user_id, au.first_name || ' ' || au.last_name, au.email,  u.countrycode || ' ' || u.areacode || ' ' || u.mobile,  u.country,  u.city, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as cphoto, u.dob, u.gender, u.formatted_address, u.is_employer, u.is_hobbies_explorer, u.is_freelancer, u.hide_in_search, u.deactivated, u.view_count, u.date_of_birth, u.city, u.country, u.nationality, u.average_rating, u.reviews_count, u.jobs_count, au.is_staff, au.is_active, au.is_superuser, au.last_login, au.date_joined, tv.last_update from  users u inner join auth_user au on u.django_user_Id=au.id left outer join tracking_visitor tv on tv.user_id=au.id where u.id="+ str(userid))        
-        print sql
+        #print sql
         results = customQuery(sql,1)
         
         c = Context({'details': results})
@@ -766,7 +771,7 @@ def user_jobs_getdata(request):
         
         skillkeywords = objs['skillsearchkeywords']
         
-        print objs
+        #print objs
         
         
         contsearchsql = "" 
@@ -814,7 +819,7 @@ def user_applications_getdata(request):
             skillsearchsql = " and  ss.name like '%%" +skillkeywords.lower() + "%%'  "   
               
         sql = ("select euser.id,au.first_name || ' ' || au.last_name as employer_name,au.email as Employer_Email, euser.countrycode || ' ' || euser.areacode || ' ' || euser.mobile as phone, cj.id,cj.title, cj.created_at, COALESCE(case when effort_unit=1 then budget  else 0 end, 0) as fixedbudget, COALESCE(case when effort_unit=5 then case  when budget_range=1 then '1-100'  when budget_range=2 then '101-250'  when budget_range=3 then '251-1000'  when budget_range=4 then '1001-2000' when budget_range=5 then '2001-5000' when budget_range=6 then '5000+'  when budget_range=7 then null  else null end else null end,'0') as budgetrange, case when cj.status=1 then True when cj.status=2 then False end as JobStatus, cj.approved, ca.id,  count(distinct cp.message_ptr_id) as proposals, count(distinct case when cp.status=4 then cp.message_ptr_id else null end) as acceptedproposals, count(distinct ci.message_ptr_id) as invoices, count(distinct case when ci.status=4 then ci.message_ptr_id else null end) as acceptedinvoices  from contracts_job cj  inner join contracts_application ca on ca.job_id=cj.id  inner join contracts_message cm on cm.application_id=ca.id inner join users fuser on fuser.id=ca.applicant_id inner join users euser on euser.id=cj.employer_id inner join auth_user au on au.id=euser.django_user_id  left outer join contracts_proposal cp on cp.message_ptr_id=cm.id  left outer join contracts_invoice ci on ci.message_ptr_id=cm.id where fuser.id="+str(userid)+"  and created_at>='"+t1+"' and created_at<='"+t2+"' "+ searchsql+ skillsearchsql +" group by euser.id, employer_name, employer_email, phone, cj.id, ca.id order by ca.timestamp desc")        
-        print sql
+        #print sql
         results = customQuery(sql,1)
         #print results	
         c = Context({'statistics': results})
@@ -1280,6 +1285,7 @@ def revenue_report(request):
 def revenue_getdata(request):
     if request.method == 'POST':
         
+        print request
         objs = simplejson.loads(request.raw_post_data)
         print objs
         print 'done till here'
@@ -1432,7 +1438,7 @@ def photogallery_report(request):
     
     t = loader.get_template('./reports/photogallery_report.html')
     c = Context({
-        'photogallery_report': revenue_report,
+        'photogallery_report': photogallery_report,
     })
     return render_to_response('./reports/photogallery_report.html', context_instance=RequestContext(request))
 
@@ -1745,7 +1751,7 @@ def skillscategorizer_tool(request):
     
     t = loader.get_template('./reports/skillscategorizer_tool.html')
     c = Context({
-        'skillscategorizer_tool': revenue_report,
+        'skillscategorizer_tool': skillscategorizer_tool,
     })
     return render_to_response('./reports/skillscategorizer_tool.html', context_instance=RequestContext(request))  
     
@@ -2245,3 +2251,10 @@ def detect(path):
     rects = cascade.detectMultiScale(img, 1.3, 4, cv2.cv.CV_HAAR_SCALE_IMAGE, (20,20)) 
     print rects
     return rects
+
+
+@csrf_exempt    
+def download(request):
+    revenue_getdata(request)
+    response = ''
+    return response
