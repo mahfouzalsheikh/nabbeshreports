@@ -47,14 +47,14 @@ function getTotal(link){
        return jsonData;  
      }
 
-function circularimage(url)
+function circularimage(url, userid)
 {
-   return "<div style='width: 50px;height: 50px; border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;background: url("+url+") no-repeat;background-size: cover;background-position: center center; border-radius: 99em; border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
+   return "<a target='_blank' href='http://www.nabbesh.com/profile/"+userid+"'><div style='width: 50px;height: 50px; border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;background: url("+url+") no-repeat;background-size: cover;background-position: center center; border-radius: 99em; border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div></a>"
 }
 
-function circularimagecontact(url)
+function circularimagecontact(url, userid)
 {
-   return "<div style='width: 100px;height: 100px; border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;background: url("+url+") no-repeat;background-size: cover;background-position: center center;  border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div>"
+   return "<a target='_blank' href='http://www.nabbesh.com/profile/"+userid+"'><div style='width: 100px;height: 100px; border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;background: url("+url+") no-repeat;background-size: cover;background-position: center center;  border: 2px solid #eee;  box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);'></div></a>"
 }
 
 function formatname(id, name, direction, rating)
@@ -64,7 +64,7 @@ function formatname(id, name, direction, rating)
    {
      ratingtext= '</br><span style="color: rgb(255,0,0); font-size:10px">Rating: '+rating + '</span>';
    }
-   html='<td style="text-align:'+direction+'" width="120px"><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/profile/'+id+'">'+name+'</a></br><a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');"><abbr title="See full profile on backend">contact info</abbr></a>'+ratingtext+'</td>';   
+   html='<td style="text-align:'+direction+'" width="120px"><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://reports.nabbesh.com/useractivities/'+id+'">'+name+'</a></br><a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');"><abbr title="See full profile on backend">contact info</abbr></a>'+ratingtext+'</td>';   
    return html;
 }
 
@@ -142,7 +142,7 @@ function formatmessages(data)
       html='<table style="width:100%" >'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][2])+'</td>'+ formatname(data[i][0], data[i][1], 'left', data[i][18])+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16], data[i][17], data[i][24], data[i][20], data[i][25], data[i][22], data[i][23]  ) +formatname(data[i][6], data[i][7], 'right', data[i][19])+'<td width="50px">'+circularimage(data[i][8])+'</td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[i][2],data[i][0])+'</td>'+ formatname(data[i][0], data[i][1], 'left', data[i][18])+'</td>'+formatworkstream(data[i][5], data[i][3], data[i][4],data[i][9], data[i][10], data[i][11], data[i][12], data[i][13], data[i][14], data[i][15], data[i][16], data[i][17], data[i][24], data[i][20], data[i][25], data[i][22], data[i][23]  ) +formatname(data[i][6], data[i][7], 'right', data[i][19])+'<td width="50px">'+circularimage(data[i][8],data[i][6])+'</td></tr>';        
       }
        html+='</table>'
       return html;
@@ -156,7 +156,7 @@ function formatonlineuser(data)
       html='<table style="width:100%">'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][3])+'</td>'+formatname(data[i][0], data[i][1], 'left', '0.00')+'<td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:12px" href="http://www.nabbesh.com'+data[i][4]+'"> URL </a><span  style="TEXT-DECORATION: NONE;color: rgb(150,150,150); font-size:10px"> from: </span><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(50,50,50); font-size:10px" href="http://www.geoiptool.com/en/?IP='+data[i][5]+'">' +data[i][5]+  '</a></td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[i][3],data[i][0])+'</td>'+formatname(data[i][0], data[i][1], 'left', '0.00')+'<td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:12px" href="http://www.nabbesh.com'+data[i][4]+'"> URL </a><span  style="TEXT-DECORATION: NONE;color: rgb(150,150,150); font-size:10px"> from: </span><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(50,50,50); font-size:10px" href="http://www.geoiptool.com/en/?IP='+data[i][5]+'">' +data[i][5]+  '</a></td></tr>';        
       }
        html+='</table>'
       return html;
@@ -179,7 +179,7 @@ function formatpendinginvoice(data)
 
 showcontactdetails= function (userid) {
    array= $.parseJSON(getUserData(userid));
-   html='<table><tr><td rowspan=5>'+circularimagecontact(array[0][5])+'</td><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:16px" href="http://www.nabbesh.com/profile/'+userid+'">'+array[0][0]+'</a></td></tr><tr><td>'+array[0][1]+'</td></tr></tr><tr><td>'+array[0][2]+'</td></tr><tr><td>'+array[0][3]+ ',' + array[0][4]+'</td></tr><tr><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/admin/legacy/users/'+userid+'">Full Info</a><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,0,0); font-size:12px" href="./useractivities/'+userid+'"> Activities</a></td></tr></table>';
+   html='<table><tr><td rowspan=5>'+circularimagecontact(array[0][5],array[0][0])+'</td><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:16px" href="http://www.nabbesh.com/profile/'+userid+'">'+array[0][0]+'</a></td></tr><tr><td>'+array[0][1]+'</td></tr></tr><tr><td>'+array[0][2]+'</td></tr><tr><td>'+array[0][3]+ ',' + array[0][4]+'</td></tr><tr><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/admin/legacy/users/'+userid+'">Full Info</a><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,0,0); font-size:12px" href="./useractivities/'+userid+'"> Activities</a></td></tr></table>';
    
    $('#windowContent').html(html);   
 
