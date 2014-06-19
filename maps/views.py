@@ -28,7 +28,7 @@ from oauth2client.file import Storage
 from oauth2client.tools import run
 from apiclient.errors import HttpError
 from oauth2client.client import AccessTokenRefreshError
-import cv2
+
 import urllib
 import itertools
 import json
