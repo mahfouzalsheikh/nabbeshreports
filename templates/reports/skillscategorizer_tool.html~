@@ -64,7 +64,18 @@
           }).responseText;
        return jsonData;  
      }  
-     
+
+     function getCategoriesTreeData(){
+      var params = {};
+      var jsonData = $.ajax({
+          url: "getcategoriestree",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;  
+     }       
      function getCurrentSkillData(){
       var params = {};
       var jsonData = $.ajax({
@@ -212,7 +223,32 @@
         });
         $('#maincategorieslist').jqxListBox({selectedIndex:selectedIndex});
             
-     } 
+     }
+     function fillCategoriesTree(data){
+        selectedItem = $('#catssubcatstree').jqxTree('getSelectedItem');
+
+        
+        source= { localdata : data,
+              datafields: [              
+                      { name: 'id', type: 'int', map: '0'},
+                      { name: 'name', type: 'string', map: '1'},
+                      { name: 'parentid', type: 'int', map: '2'},                                                  
+                    ],
+                id: 'id',
+                datatype: "json"
+            };
+        var dataAdapter = new $.jqx.dataAdapter(source);
+        dataAdapter.dataBind();
+        var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'name', map: 'label'}]);
+        
+        $('#catssubcatstree').jqxTree({theme: theme,  source: records, height: '100%', width:'100%'});
+        
+        if(selectedItem !=null){   
+           console.log(selectedItem.parentId);        
+           $("#catssubcatstree").jqxTree('expandItem', $("#" + selectedItem.parentId )[0]); 
+           $("#catssubcatstree").jqxTree('selectItem', $("#" + selectedItem.id )[0]);
+        }    
+     }
      
      function fillSuggestionsList(skillid){
         $("#suggestionslistcontainer").html('<div style="width:100%; height:100%" id="suggestionslist"></div>');
@@ -243,7 +279,7 @@
          data = $.parseJSON(getStatus());
          $("#progressbar").jqxProgressBar({theme: theme, width: '100%', height: 20, value: 0});
          $("#progressbar").jqxProgressBar('val', Math.round(data[1]*100/data[0]));
-         console.log(data);
+         //console.log(data);
      }     
      function fillSkillsByCatList(categoryid){
         $("#catlistcontainer").html('<div style="width:100%; height:100%" id="skillsbycatlist"></div>');
@@ -278,7 +314,7 @@
          $('#docking').jqxDocking('hideAllCloseButtons');     
          
          $("#categorize").jqxButton({theme: theme, width: '100%'});
-         $("#skip").jqxButton({theme: theme, width: '100%'});
+         //$("#skip").jqxButton({theme: theme, width: '100%'});
          
          $("#selectall").jqxButton({theme: theme, width: '100%'});
          $("#unselectall").jqxButton({theme: theme, width: '100%'});
@@ -289,12 +325,17 @@
          $("#removeskill").jqxButton({theme: theme, width: '100%'});
          $("#moveskill").jqxButton({theme: theme, width: '100%'});
          
-         $("#categorysave").jqxButton({theme: theme, width: '60'});
-         $("#categorydelete").jqxButton({theme: theme, width: '60'});
-         $("#categoryadd").jqxButton({theme: theme, width: '60'});
+         //$("#categorysave").jqxButton({theme: theme, width: '60'});
+         //$("#categorydelete").jqxButton({theme: theme, width: '60'});
+         //$("#categoryadd").jqxButton({theme: theme, width: '60'});
          $("#categoryadd").on('click', function () {
+                          //var item = $('#catssubcatstree').jqxTree('getSelectedItem');
+			  //alert(item.id);
                       if($('#categorytextbox').val() !='')                                                     
                       {
+
+
+  
                           addCategory($('#categorytextbox').val());
                           fillCategoriesList($.parseJSON(getCategoriesData()));
                           
@@ -317,26 +358,25 @@
                       }
                 }); 
          $("#categorize").on('click', function () {
-                      var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') );
-                      categorizeCurrentSkill(currentskill[0][0],item.value);
-                      
-                      
-                      var items = $("#suggestionslist").jqxListBox('getCheckedItems');
-                      group = [];
-                      $.each(items, function (index) {
-                           group.push(this.value);
-                      });
-                      categorizeGroup(group,item.value);                      
-                      showStatus();
-                      fillCategoriesList($.parseJSON(getCategoriesData()));
-                      fillCurrentSkill();
-                      
-                      
+	              
+                      var item = $('#catssubcatstree').jqxTree('getSelectedItem');
+		      if(item.parentId>=0){
+	                      categorizeCurrentSkill(currentskill[0][0],item.id);                                           
+	                      var items = $("#suggestionslist").jqxListBox('getCheckedItems');
+	                      group = [];
+	                      $.each(items, function (index) {
+	                           group.push(this.value);
+	                      });
+	                      categorizeGroup(group,item.id);                      
+	                      showStatus();
+	                      fillCurrentSkill();
+			      fillCategoriesTree($.parseJSON(getCategoriesTreeData()));
+                      }                      
           });
           
           
           $("#removeskill").on('click', function () {
-                      var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') );
+                      var item = $("#catssubcatstree").jqxTree('getSelectedItem');
 
                       var items = $("#skillsbycatlist").jqxListBox('getCheckedItems');  
                       group = [];                   
@@ -346,34 +386,34 @@
                       });
                       uncategorizeGroup(group);
                       showStatus();
-                      fillCategoriesList($.parseJSON(getCategoriesData()));
+                      fillCategoriesTree($.parseJSON(getCategoriesTreeData()));
                       fillCurrentSkill();        
-                      fillSkillsByCatList(item.value);
+                      fillSkillsByCatList(item.id);
                       
                       
           });
           
           $("#moveskill").on('click', function () {
-                      var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') );
-
-                      var items = $("#skillsbycatlist").jqxListBox('getCheckedItems');    
-                      group = [];                  
-                      $.each(items, function (index) {
-                           group.push(this.value);
-                           //changeCurrentSkill(this.value, item.value);
-                      });
-                      changeGroup(group, item.value);
-                      showStatus();
-                      fillCategoriesList($.parseJSON(getCategoriesData()));
-                      fillCurrentSkill();        
-                      fillSkillsByCatList(item.value);
-                      
+                      var item = $("#catssubcatstree").jqxTree('getSelectedItem');
+		      if(item.parentId>0){
+	                      var items = $("#skillsbycatlist").jqxListBox('getCheckedItems');    
+        	              group = [];                  
+        	              $.each(items, function (index) {
+        	                   group.push(this.value);
+        	                   //changeCurrentSkill(this.value, item.value);
+        	              });
+        	              changeGroup(group, item.id);
+        	              showStatus();
+        	              fillCategoriesTree($.parseJSON(getCategoriesTreeData()));
+        	              fillCurrentSkill();        
+        	              fillSkillsByCatList(item.id);
+                      }
                       
           });
           
           $("#skip").on('click', function () {                      
-                      categorizeCurrentSkill(currentskill[0][0],1);
-                      fillCategoriesList($.parseJSON(getCategoriesData()));
+                      categorizeCurrentSkill(currentskill[0][0],212);
+                      fillCategoriesTree($.parseJSON(getCategoriesTreeData()));
                       fillCurrentSkill();
           });        
           $("#selectall").on('click', function () {
@@ -403,15 +443,18 @@
          });      
          
          $("#browseskill").on('click', function () {
-                      var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') );
-                      fillSkillsByCatList(item.value);
+                      var item = $('#catssubcatstree').jqxTree('getSelectedItem');
+                   
+                      fillSkillsByCatList(item.id);
                       //console.log(skillsByCategory(item.value));
           });            
           
-         $("#categorytextbox").jqxInput({theme: theme, height: 25, width: '100%'});       
+         //$("#categorytextbox").jqxInput({theme: theme, height: 25, width: '100%'});       
          //$('#maincategorieslist').jqxListBox({theme: theme,  itemHeight: 70, height: '99%', width:'100%'});
          //$('#skillslist').jqxListBox({theme: theme, height: '99%', width:'100%'});          
-         fillCategoriesList($.parseJSON(getCategoriesData()));
+         fillCategoriesTree($.parseJSON(getCategoriesTreeData()));
+         //fillCategoriesList($.parseJSON(getCategoriesData()));
+
         
          fillCurrentSkill();
          showStatus();
@@ -456,9 +499,8 @@
                      <tr>
                        <td colspan=2><div id="currentskill"></div></td>
                      </tr>
-                     <tr height="25">
-                       <td width="50%" align="canter"><input type="button" value="Skip" id='skip'/></td>  
-                       <td width="50%" align="canter"><input type="button" value="Categorize" id='categorize'/></td>                                                                 
+                     <tr height="25">                       
+                       <td width="100%" align="canter"><input type="button" value="Categorize" id='categorize'/></td>                                                                 
                      </tr>
                    </table>
                                       
@@ -487,7 +529,7 @@
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Select Category</span></div>
                 <div id="allcategories" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">
                    <table width=100% height=100% >
-                      <tr height=20>
+                      <!-- <tr height=20>
                         <td width=40>
                            <input type="button" value="Add" id='categoryadd' />
                         </td>
@@ -500,10 +542,11 @@
                         <td>
                            <input type="text" id='categorytextbox' />
                         </td>
-                      </tr>
+                      </tr>  -->
+  
                       <tr>
-                        <td colspan=4><div style="width:100%; height:100%" id="maincategorieslist"></div></td>                        
-                      </tr>    
+                        <td colspan=4><div style="width:100%; height:100%" id="catssubcatstree"></div></td>                        
+                      </tr> 		
                     </table>  
                 </div>
             </div>

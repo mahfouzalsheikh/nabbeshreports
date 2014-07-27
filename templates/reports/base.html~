@@ -54,6 +54,7 @@
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxgrid.edit.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxwindow.js"></script>
     <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxrating.js"></script>
+    <script type="text/javascript" src="/site_media/jqwid/jqwidgets/jqxtree.js"></script>
     
     
 
@@ -128,7 +129,7 @@
     		          var link = document.createElement("a");
    		          link.download = name;
    		          link.textContent='download';
-   		          link..target   = '_blank';
+   		          link.target   = '_blank';
 		          link.href = uri;
 		          console.log(link);
 		          
