@@ -1836,7 +1836,7 @@ def getcurrentskill(request):
         return HttpResponse(json.dumps(results), mimetype='application/json') 
         
 @csrf_exempt
-def getsuggestedskillslist(request):
+def getsuggestedskillslist1(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
         skillid=objs['skillid']
@@ -1845,13 +1845,33 @@ def getsuggestedskillslist(request):
         orstring = ""
         words = results[0][0].split()     
         for word in words:
-            orstring = orstring + " or lower(ss.name) like '%%"+word.lower()+"%%'"        
-        
+            orstring = orstring + " or lower(ss.name) like '%%"+word.lower()+"%%'"
+
         finalsql = " select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where  ( "+orstring[3:]+" ) and ss.id<>"+str(skillid)+" and ss.published=true and merge_to_id is null and deleted=false " + getcategorizedskillslistsql() +"  group by ss.id order by userscount desc"   
                 
         results = customQuery(finalsql,4)
-        return HttpResponse(json.dumps(results), mimetype='application/json')  
+        return HttpResponse(json.dumps(results), mimetype='application/json')
+
+
+@csrf_exempt
+def getsuggestedskillslist(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        print objs
+        skillid=objs['skillid']
+        similarity = objs['similarity']
+        sql = "select name from skills_skill where id=" + str(skillid)
+        results = customQuery(sql,4) 
+        orstring = ""
+        words = results[0][0].split()     
+        for word in words:
+            orstring = orstring + " or lower(ss.name) like '%%"+word.lower()+"%%'"
+
+        finalsql = " select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where similarity(ss.name,'" + results[0][0] + "') > " + str(similarity)+ "  and ss.id<>"+str(skillid)+" and ss.published=true and merge_to_id is null and deleted=false " + getcategorizedskillslistsql() +"  group by ss.id order by userscount desc"   
         
+        print finalsql        
+        results = customQuery(finalsql,4)
+        return HttpResponse(json.dumps(results), mimetype='application/json')   
         
 @csrf_exempt
 def getskillsbycategory(request):
