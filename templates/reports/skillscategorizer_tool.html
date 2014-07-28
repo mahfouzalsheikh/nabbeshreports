@@ -202,7 +202,7 @@
          
 //         console.log();
          
-         fillSuggestionsList(currentskill[0][0], $('#similaritySlider').jqxSlider('getValue')/10);
+         fillSuggestionsList(currentskill[0][0], $('#similaritySlider').jqxSlider('getValue')/100);
      }
      function fillCategoriesList(data){
         selectedIndex = $('#maincategorieslist').jqxListBox('selectedIndex'); 
@@ -311,7 +311,7 @@
     $(document).ready(function () {
         var theme = 'bootstrap';
          $("#progressbar").jqxProgressBar({theme: theme, width: '100%', height: 20, value: 0,showText:true});
-         $('#similaritySlider').jqxSlider({ showButtons: true, value: 3, min: 1, max: 10, mode: 'fixed', width: '100%' });
+         $('#similaritySlider').jqxSlider({ showButtons: true, value: 30, min: 1, max: 100, mode: 'fixed', width: '100%' });
          $('#docking').jqxDocking({ theme:theme , orientation: 'horizontal', mode: 'docked',floatingWindowOpacity: 0.5, width:'100%' });     
          
          $('#docking').jqxDocking('hideAllCloseButtons');     
@@ -333,7 +333,7 @@
          //$("#categoryadd").jqxButton({theme: theme, width: '60'});
          $('#similaritySlider').on('slideEnd', function (event)  {
                  var value = event.args.value; 
-                 fillSuggestionsList(currentskill[0][0], $('#similaritySlider').jqxSlider('getValue')/10);
+                 fillSuggestionsList(currentskill[0][0], $('#similaritySlider').jqxSlider('getValue')/100);
                  
          }); 
          $("#categoryadd").on('click', function () {
