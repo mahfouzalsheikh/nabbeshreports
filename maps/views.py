@@ -1805,7 +1805,7 @@ def getcategoriestree(request):
         sql = "select id, name || ' (' ||  count  || ') ' as name, category_id from ( select  ssc.*, count(distinct sssc.skill_id) from skills_subcategories ssc left outer  join skills_skills_subcategories sssc  on sssc.subcategory_id=ssc.id where ssc.category_id<>-1  group by ssc.id  union  select ssc1.category_id , ssc2.name, ssc2.category_id, count(distinct sssc.skill_id) from skills_subcategories ssc1  left outer join skills_subcategories ssc2 on ssc1.category_id=ssc2.id  left outer join skills_skills_subcategories sssc on sssc.subcategory_id=ssc1.id where ssc1.category_id<>-1 group by ssc1.category_id, ssc2.name,ssc2.category_id) total  order by id "
         print sql
         results = customQuery(sql,4)              
-        print results
+        #print results
         return HttpResponse(json.dumps(results), mimetype='application/json') 
 
 
@@ -1889,7 +1889,7 @@ def getskillsbycategory(request):
             groupsql = " and ss.id<0 "        
         
         finalsql  = "select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where   ss.published=true and merge_to_id is null and deleted=false  "+groupsql+" group by ss.id order by userscount desc"
-        print finalsql
+        #print finalsql
         results = customQuery(finalsql,4)
         return HttpResponse(json.dumps(results), mimetype='application/json')               
         
@@ -1900,9 +1900,10 @@ def categorizegroup(request):
         group = objs['group']
         categoryid = objs['categoryid']
         for skillid in group:                  
-            id = getmaxid("skills_skills_subcategories",4)             
-            sql = "insert into skills_skills_subcategories values("+str(id)+", "+str(skillid)+", "+str(categoryid)+")"        
-            results = customQueryNoResults(sql,4)      
+            id = getmaxid("skills_skills_subcategories",4)      
+            if (iscategorized(skillid)==True):       
+                sql = "insert into skills_skills_subcategories values("+str(id)+", "+str(skillid)+", "+str(categoryid)+")"        
+                results = customQueryNoResults(sql,4)      
         return HttpResponse(group, mimetype='application/html') 
         
 @csrf_exempt
@@ -1911,12 +1912,26 @@ def categorize(request):
         objs = simplejson.loads(request.raw_post_data)
         skillid = objs['skillid']
         categoryid = objs['categoryid']        
-        id = getmaxid("skills_skills_subcategories",4)             
-        sql = "insert into skills_skills_subcategories values("+str(id)+", "+str(skillid)+", "+str(categoryid)+")"
-        #print sql
-        results = customQueryNoResults(sql,4)      
+        id = getmaxid("skills_skills_subcategories",4)   
+        if (iscategorized(skillid)==True):          
+            sql = "insert into skills_skills_subcategories values("+str(id)+", "+str(skillid)+", "+str(categoryid)+")"
+            #print sql
+            results = customQueryNoResults(sql,4)      
+        else:
+            results = False
         return HttpResponse(results, mimetype='application/html')   
-        
+
+
+def iscategorized(skillid):
+    sql = "select count(*) from skills_skills_subcategories where skill_id=" + str(skillid)
+    print sql
+    results = customQuery(sql,4) 
+    
+    if (results[0][0] > 0):
+        return False
+    else:
+        return True
+
 @csrf_exempt
 def updateskillcat(request):
     if request.method == 'POST':
