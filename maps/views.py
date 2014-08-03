@@ -28,6 +28,7 @@ from oauth2client.file import Storage
 from oauth2client.tools import run
 from apiclient.errors import HttpError
 from oauth2client.client import AccessTokenRefreshError
+from django.contrib.admin.views.decorators import staff_member_required
 
 import urllib
 import itertools
@@ -82,6 +83,7 @@ def initialize_service():
  
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def home(request):    
     t = loader.get_template('index.html')   
@@ -222,6 +224,7 @@ def customQueryNoResultsLiveWrite(sql):
     print result
     return 'done'               
        
+@staff_member_required       
 @login_required(login_url='/accounts/login/')       
 def freelancerdemography_report(request):
     
@@ -250,6 +253,7 @@ def freelancerdemography_getdata(request):
         
         
         
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def freelancersgender_report(request):
     
@@ -279,6 +283,7 @@ def freelancersgender_getdata(request):
         
         
         
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def freelancerseducation_report(request):
     
@@ -304,6 +309,7 @@ def freelancerseducation_getdata(request):
         return HttpResponse(render_to_string('freelancerseducation.json', c, context_instance=RequestContext(request)), mimetype='application/json')
         
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def freelancersages_report(request):
     
@@ -328,6 +334,7 @@ def freelancersages_getdata(request):
         
         
  
+@staff_member_required       
 @login_required(login_url='/accounts/login/')	
 def dashboard(request):
     
@@ -418,6 +425,7 @@ def dashboard_getdata(request):
     
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')	
 def growth_dashboard(request):
     
@@ -453,6 +461,7 @@ def growthdashboard_getdata(request):
 
         
         
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def jobs_employers_statistics(request):
     
@@ -496,6 +505,7 @@ def jobs_employers_statistics_getdata(request):
    
         return HttpResponse(render_to_string('jobs_employers_statistics.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
         
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def jobs_applications_statistics(request):
     if request.method == 'GET':
@@ -567,6 +577,7 @@ def jobs_communications_getdata(request):
         
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def sign_job_proposal_invoice(request):
     
@@ -603,6 +614,7 @@ def sign_job_proposal_invoice_getdata(request):
         return HttpResponse(render_to_string('sign_job_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
         
         dashboard
+@staff_member_required       
 @login_required(login_url='/accounts/login/')        
 def sign_application_proposal_invoice(request):
     
@@ -639,6 +651,7 @@ def sign_application_proposal_invoice_getdata(request):
         
         
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def top_freelancers(request):
     
@@ -679,6 +692,7 @@ def top_freelancers_getdata(request):
         c = Context({'users': results})
         return HttpResponse(render_to_string('top_freelancers.json', c, context_instance=RequestContext(request)), mimetype='application/json')             
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def top_employers(request):
     
@@ -712,6 +726,7 @@ def top_employers_getdata(request):
         c = Context({'users': results})
         return HttpResponse(render_to_string('top_employers.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
         
+@staff_member_required       
 @login_required(login_url='/accounts/login/')        
 def user_report(request, userid=None):
     
@@ -830,6 +845,7 @@ def user_applications_getdata(request):
 
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')       
 def skillsdemography_report(request):
     
@@ -889,6 +905,7 @@ def skillsdemographydetails_getdata(request):
         return HttpResponse(render_to_string('skillsdemographydetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
             
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')        
 def skillsdistribution_report(request):
     
@@ -942,6 +959,7 @@ def geocodes(request):
     return HttpResponse(t.render(c))
             
             
+@staff_member_required       
 @login_required(login_url='/accounts/login/')        
 def crosscountryapps_report(request):
     
@@ -975,6 +993,7 @@ def crosscountryapps_getdata(request):
 	    
             
                         
+@staff_member_required       
 @login_required(login_url='/accounts/login/')         
 def proposals_report(request):
     
@@ -1007,6 +1026,7 @@ def proposals_getdata(request):
 	
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')        
 def invoices_report(request):
     
@@ -1041,6 +1061,7 @@ def invoices_getdata(request):
 	
             
             
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def jobs_apps_stats_report(request):
     
@@ -1075,6 +1096,7 @@ def jobs_apps_stats_getdata(request):
 
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')       
 def signups_apps_retention_report(request):
     
@@ -1102,6 +1124,7 @@ def signups_apps_retention_getdata(request):
 	           
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')        
 def signups_jobs_retention_report(request):
     
@@ -1137,6 +1160,7 @@ def signups_jobs_retention_getdata(request):
 
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')       
 def jobs_apps_retention_report(request):
     
@@ -1168,6 +1192,7 @@ def jobs_apps_retention_getdata(request):
 
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')         
 def activities_countries_report(request):
     
@@ -1194,6 +1219,7 @@ def activities_countries_getdata(request):
 
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def payers_report(request):
     
@@ -1220,6 +1246,7 @@ def payers_getdata(request):
 
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def payees_report(request):
     
@@ -1245,6 +1272,7 @@ def payees_getdata(request):
         return HttpResponse(render_to_string('payees.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def payments_report(request):
     
@@ -1273,6 +1301,7 @@ def payments_getdata(request):
 
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def revenue_report(request):
     
@@ -1434,6 +1463,7 @@ def tracking_messages_getdata(request):
 
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def photogallery_report(request):
     
@@ -1501,6 +1531,7 @@ def tracking_visitors_getdata(request):
 
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def pendinginvoices_report(request):
         
@@ -1536,6 +1567,7 @@ def pendingratings_getdata(request):
         c = Context({'details': results})   
         return HttpResponse(render_to_string('userdetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def leakagedetection_report(request):
         
@@ -1558,6 +1590,7 @@ def userprofileinfo_getdata(request):
 
     
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def crmclients_report(request):
     
@@ -1582,6 +1615,7 @@ def crmclients_getdata(request):
 
 
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def dealaveragetime_report(request):
     
@@ -1631,6 +1665,7 @@ def dealsaveragetimegeneral_getdata(request):
         c = Context({'dealsaveragetimegeneral': results})   
         return HttpResponse(render_to_string('dealsaveragetimegeneral.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')    
 def vistest_report(request):
     
@@ -1717,6 +1752,7 @@ def miningtest_getdata(request):
     return HttpResponse(json.dumps(data), mimetype='application/json')  
     
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')     
 def miningtest_report(request):
     
@@ -1746,7 +1782,8 @@ def analytics_getdata(request):
 	return HttpResponse(render_to_string('analytics_visitors.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
        
        
-       
+    
+@staff_member_required       
 @login_required(login_url='/accounts/login/')
 def skillscategorizer_tool(request):
     
@@ -2005,6 +2042,7 @@ def getmaxid(table, db):
     return id
 
  
+@staff_member_required       
 @login_required(login_url='/accounts/login/')   
 def campaigns_report(request):
     
@@ -2180,6 +2218,7 @@ def get_sourcelist(service, profile_id):
       metrics="ga:organicSearches").execute()['rows']
 #      filters="ga:pagePath=~finished_signup").execute()      
 
+@staff_member_required       
 @login_required(login_url='/accounts/login/')     
 def googleanalytics_report(request):
     
