@@ -243,7 +243,7 @@
         dataAdapter.dataBind();
         var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'name', map: 'label'}]);
         
-        $('#catssubcatstree').jqxTree({theme: theme, checkboxes: true,  source: records, height: '100%', width:'100%'});
+        $('#catssubcatstree').jqxTree({theme: theme,  source: records, height: '100%', width:'100%'});
         
         if(selectedItem !=null){   
            console.log(selectedItem.parentId);        

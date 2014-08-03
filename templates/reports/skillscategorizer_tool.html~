@@ -243,7 +243,7 @@
         dataAdapter.dataBind();
         var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'name', map: 'label'}]);
         
-        $('#catssubcatstree').jqxTree({theme: theme,  source: records, height: '100%', width:'100%'});
+        $('#catssubcatstree').jqxTree({theme: theme, checkboxes: true,  source: records, height: '100%', width:'100%'});
         
         if(selectedItem !=null){   
            console.log(selectedItem.parentId);        
@@ -368,7 +368,7 @@
          $("#categorize").on('click', function () {
 	              
                       var item = $('#catssubcatstree').jqxTree('getSelectedItem');
-		      if(item.parentId>=0){
+		      if(item.parentId>=-1){
 	                      categorizeCurrentSkill(currentskill[0][0],item.id);                                           
 	                      var items = $("#suggestionslist").jqxListBox('getCheckedItems');
 	                      group = [];
