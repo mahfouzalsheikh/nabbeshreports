@@ -16,8 +16,8 @@
     //var suggestionssource;
     var currentskill;
     
-    function addCategory(name){
-      var params = {"name": name};
+    function addCategory(name, parentId){
+      var params = {"name": name, "parentId":  parentId};
       var jsonData = $.ajax({
           url: "addcategory",
           dataType:"json",
@@ -243,7 +243,7 @@
         dataAdapter.dataBind();
         var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'name', map: 'label'}]);
         
-        $('#catssubcatstree').jqxTree({theme: theme, checkboxes: true,  source: records, height: '100%', width:'100%'});
+        $('#catssubcatstree').jqxTree({theme: theme,  source: records, height: '100%', width:'100%'});
         
         if(selectedItem !=null){   
            console.log(selectedItem.parentId);        
@@ -311,7 +311,7 @@
     $(document).ready(function () {
         var theme = 'bootstrap';
          $("#progressbar").jqxProgressBar({theme: theme, width: '100%', height: 20, value: 0,showText:true});
-         $('#similaritySlider').jqxSlider({ showButtons: true, value: 30, min: 1, max: 100, mode: 'fixed', width: '100%' });
+         $('#similaritySlider').jqxSlider({ showButtons: false, value: 30, min: 1, max: 100, mode: 'fixed', width: '95%' });
          $('#docking').jqxDocking({ theme:theme , orientation: 'horizontal', mode: 'docked',floatingWindowOpacity: 0.5, width:'100%' });     
          
          $('#docking').jqxDocking('hideAllCloseButtons');     
@@ -328,47 +328,60 @@
          $("#removeskill").jqxButton({theme: theme, width: '100%'});
          $("#moveskill").jqxButton({theme: theme, width: '100%'});
          
-         //$("#categorysave").jqxButton({theme: theme, width: '60'});
-         //$("#categorydelete").jqxButton({theme: theme, width: '60'});
-         //$("#categoryadd").jqxButton({theme: theme, width: '60'});
+         $("#categorysave").jqxButton({theme: theme, width: '100%'});
+         $("#categorydelete").jqxButton({theme: theme, width: '100%'});
+         $("#categoryadd").jqxButton({theme: theme, width: '100%'});
+         $("#clearselection").jqxButton({theme: theme, width: '100%'});
+
          $('#similaritySlider').on('slideEnd', function (event)  {
                  var value = event.args.value; 
                  fillSuggestionsList(currentskill[0][0], $('#similaritySlider').jqxSlider('getValue')/100);
                  
          }); 
          $("#categoryadd").on('click', function () {
-                          //var item = $('#catssubcatstree').jqxTree('getSelectedItem');
-			  //alert(item.id);
-                      if($('#categorytextbox').val() !='')                                                     
+                      var item = $('#catssubcatstree').jqxTree('getSelectedItem');
+		      
+                      
+                      if($('#categorytextbox').val() !='' && item!= null && item.parentId==0)                                                     
                       {
-
-
-  
-                          addCategory($('#categorytextbox').val());
-                          fillCategoriesList($.parseJSON(getCategoriesData()));
-                          
-                      }
+                          console.log(item);
+                          addCategory($('#categorytextbox').val(),item.id);
+                          fillCategoriesTree($.parseJSON(getCategoriesTreeData()));                          
+                      }else   if ($('#categorytextbox').val() !='' )
+                      {
+                          addCategory($('#categorytextbox').val(), -1 );
+			  fillCategoriesTree($.parseJSON(getCategoriesTreeData()));                          
+		      }
+                      
                 });
          $("#categorydelete").on('click', function () {
-                          var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') ); 
-                          deleteCategory(item.value);
-                          fillCategoriesList($.parseJSON(getCategoriesData()));
+                          var item = $('#catssubcatstree').jqxTree('getSelectedItem');
+                          deleteCategory(item.id);
+                          fillCategoriesTree($.parseJSON(getCategoriesTreeData()));
                 });   
                 
          $("#categorysave").on('click', function () {
                       if($('#categorytextbox').val() !='')                                                     
                       {
-                          var item = $("#maincategorieslist").jqxListBox('getItem', $('#maincategorieslist').jqxListBox('selectedIndex') );                           
-                          updateCategory(item.value,$('#categorytextbox').val() );
-                          fillCategoriesList($.parseJSON(getCategoriesData()));
-                          fillCategoriesList($.parseJSON(getCategoriesData()));
+                          var item = $('#catssubcatstree').jqxTree('getSelectedItem');
+                          updateCategory(item.id,$('#categorytextbox').val() );
+                          fillCategoriesTree($.parseJSON(getCategoriesTreeData()));
+
                           
                       }
                 }); 
+
+         $("#clearselection").on('click', function () {
+                      $("#catssubcatstree").jqxTree('selectItem', null);
+                }); 
+
+
+
+
          $("#categorize").on('click', function () {
 	              
                       var item = $('#catssubcatstree').jqxTree('getSelectedItem');
-		      if(item.parentId>=-1){
+		      if(item.parentId>0){
 	                      categorizeCurrentSkill(currentskill[0][0],item.id);                                           
 	                      var items = $("#suggestionslist").jqxListBox('getCheckedItems');
 	                      group = [];
@@ -436,18 +449,12 @@
           $("#catunselectall").on('click', function () {
                       $("#skillsbycatlist").jqxListBox('uncheckAll'); 
           });                                                        
-         $('#maincategorieslist').on('select', function (event) {
-             var args = event.args;
-             //console.log(args);
-             if (args) {
-                var index = args.index;
-                var item = args.item;
-                var originalEvent = args.originalEvent;
-                  // get item's label and value.
-                var label = item.label;
-                var value = item.value;
+         $('#catssubcatstree').on('select', function (event) {
+                var args = event.args;
+                var item = $('#catssubcatstree').jqxTree('getItem', args.element);
+                var label = item.label; 
                 $('#categorytextbox').val(label);
-             }
+             
          });      
          
          $("#browseskill").on('click', function () {
@@ -457,7 +464,7 @@
                       //console.log(skillsByCategory(item.value));
           });            
           
-         //$("#categorytextbox").jqxInput({theme: theme, height: 25, width: '100%'});       
+         $("#categorytextbox").jqxInput({theme: theme, height: 25, width: '100%'});       
          //$('#maincategorieslist').jqxListBox({theme: theme,  itemHeight: 70, height: '99%', width:'100%'});
          //$('#skillslist').jqxListBox({theme: theme, height: '99%', width:'100%'});          
          fillCategoriesTree($.parseJSON(getCategoriesTreeData()));
@@ -542,21 +549,28 @@
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Categories & Subcategories</span></div>
                 <div id="allcategories" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">
                    <table width=100% height=100% >
-                      <!-- <tr height=20>
-                        <td width=40>
+                      <tr height=20>
+                        <td width=75>
                            <input type="button" value="Add" id='categoryadd' />
                         </td>
-                        <td width=40>
+                        <td width=75>
                            <input type="button" value="Save" id='categorysave' />
                         </td>
-                        <td width=40>
+                        <td width=75>
                            <input type="button" value="Delete" id='categorydelete' />
                         </td>
-                        <td>
-                           <input type="text" id='categorytextbox' />
+                        <td width=75>
+                           <input type="button" value="Clear Sel" id='clearselection' />
                         </td>
-                      </tr>  -->
-  
+
+   
+                      </tr>
+                      <tr height=20> 
+                        <td colspan=4>
+                           <input type="text" id='categorytextbox' />
+                        </td>    
+                      </tr>   
+
                       <tr>
                         <td colspan=4><div style="width:100%; height:100%" id="catssubcatstree"></div></td>                        
                       </tr> 		
