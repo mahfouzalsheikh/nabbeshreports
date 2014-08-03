@@ -1811,7 +1811,7 @@ def getcategories(request):
 def getcategoriestree(request):
     if request.method == 'POST':
         #objs = simplejson.loads(request.raw_post_data)                            
-        sql = "select id, name , category_id from ( select  ssc.*, count(distinct sssc.skill_id) from skills_subcategories ssc left outer  join skills_skills_subcategories sssc  on sssc.subcategory_id=ssc.id where ssc.category_id<>-1  group by ssc.id  union  select id, name, category_id, 0 as count from skills_subcategories where category_id=-1) total  order by id"
+        sql = "select id, name || ' (' || count || ')' as count, category_id   from (select ssc1.id,ssc1.name,ssc1.category_id, count(distinct sssc.skill_id) from  skills_subcategories ssc1  left outer join skills_subcategories ssc2 on ssc2.category_id=ssc1.id  left outer join skills_skills_subcategories sssc on sssc.subcategory_id=ssc2.id where ssc1.category_id=-1 group by ssc1.id union  select ssc.id,ssc.name, category_id, count(distinct sssc.skill_id) from skills_subcategories ssc left outer join skills_skills_subcategories  sssc on sssc.subcategory_id=ssc.id where ssc.category_id<>-1 group by ssc.id) total order by id "
         print sql
         results = customQuery(sql,4)              
         #print results
