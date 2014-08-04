@@ -111,8 +111,8 @@
           }).responseText;
        return jsonData; 
      }
-     function changeGroup(group, categoryid){
-      var params = {"group": group, "categoryid":categoryid};
+     function changeGroup(group, catsgroup){
+      var params = {"group": group, "catsgroup":catsgroup};
       var jsonData = $.ajax({
           url: "updateskillgroupcat",
           dataType:"json",
@@ -122,8 +122,8 @@
           }).responseText;
        return jsonData; 
      }     
-     function categorizeCurrentSkill(skillid, categoryid){
-      var params = {"skillid": skillid, "categoryid":categoryid};
+     function categorizeCurrentSkill(skillid, catsgroup){
+      var params = {"skillid": skillid, "catsgroup":catsgroup};
       var jsonData = $.ajax({
           url: "categorize",
           dataType:"json",
@@ -134,8 +134,8 @@
        return jsonData; 
      }
     
-     function categorizeGroup(group, categoryid){
-      var params = {"group": group, "categoryid":categoryid};
+     function categorizeGroup(group, catsgroup){
+      var params = {"group": group, "catsgroup":catsgroup};
       var jsonData = $.ajax({
           url: "categorizegroup",
           dataType:"json",
@@ -243,7 +243,7 @@
         dataAdapter.dataBind();
         var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'name', map: 'label'}]);
         
-        $('#catssubcatstree').jqxTree({theme: theme,  source: records, height: '100%', width:'100%'});
+        $('#catssubcatstree').jqxTree({theme: theme, checkboxes: true,  source: records, height: '100%', width:'100%'});
         
         if(selectedItem !=null){   
            console.log(selectedItem.parentId);        
@@ -381,14 +381,21 @@
          $("#categorize").on('click', function () {
 	              
                       var item = $('#catssubcatstree').jqxTree('getSelectedItem');
-		      if(item.parentId>0){
-	                      categorizeCurrentSkill(currentskill[0][0],item.id);                                           
+                      var checkedsubcats = $("#catssubcatstree").jqxTree('getCheckedItems');
+                      catsgroup = [];
+	                      $.each(checkedsubcats, function (index) {
+                                   if(this.parentId>0){
+	                           catsgroup.push(this.id);}
+	                      });
+                      //console.log(catsgroup);
+		      if(checkedsubcats.length>0){
+	                      categorizeCurrentSkill(currentskill[0][0],catsgroup);                                           
 	                      var items = $("#suggestionslist").jqxListBox('getCheckedItems');
 	                      group = [];
 	                      $.each(items, function (index) {
 	                           group.push(this.value);
 	                      });
-	                      categorizeGroup(group,item.id);                      
+	                      categorizeGroup(group,catsgroup);                      
 	                      showStatus();
 	                      fillCurrentSkill();
 			      fillCategoriesTree($.parseJSON(getCategoriesTreeData()));
@@ -403,7 +410,7 @@
                       group = [];                   
                       $.each(items, function (index) {
                            group.push(this.value);
-                           //uncategorizeCurrentSkill(this.value);
+                           
                       });
                       uncategorizeGroup(group);
                       showStatus();
@@ -416,14 +423,19 @@
           
           $("#moveskill").on('click', function () {
                       var item = $("#catssubcatstree").jqxTree('getSelectedItem');
-		      if(item.parentId>0){
+		      var checkedsubcats = $("#catssubcatstree").jqxTree('getCheckedItems');
+                      catsgroup = [];
+	                      $.each(checkedsubcats, function (index) {
+                                   if(this.parentId>0){
+	                           catsgroup.push(this.id);}
+	                      });
+		      if(checkedsubcats.length>0){
 	                      var items = $("#skillsbycatlist").jqxListBox('getCheckedItems');    
         	              group = [];                  
         	              $.each(items, function (index) {
-        	                   group.push(this.value);
-        	                   //changeCurrentSkill(this.value, item.value);
+        	                   group.push(this.value);        	                   
         	              });
-        	              changeGroup(group, item.id);
+        	              changeGroup(group, catsgroup);
         	              showStatus();
         	              fillCategoriesTree($.parseJSON(getCategoriesTreeData()));
         	              fillCurrentSkill();        

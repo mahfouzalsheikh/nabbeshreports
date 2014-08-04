@@ -1907,11 +1907,11 @@ def categorizegroup(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
         group = objs['group']
-        categoryid = objs['categoryid']
-        for skillid in group:                  
-            id = getmaxid("skills_skills_subcategories",4)      
-            if (iscategorized(skillid)==True):       
-                sql = "insert into skills_skills_subcategories values("+str(id)+", "+str(skillid)+", "+str(categoryid)+")"        
+        catsgroup = objs['catsgroup']
+        for catid in catsgroup:                  
+            for skillid in group:
+                id = getmaxid("skills_skills_subcategories",4)             
+                sql = "insert into skills_skills_subcategories values("+str(id)+", "+str(skillid)+", "+str(catid)+")"        
                 results = customQueryNoResults(sql,4)      
         return HttpResponse(group, mimetype='application/html') 
         
@@ -1920,12 +1920,16 @@ def categorize(request):
     if request.method == 'POST':
         objs = simplejson.loads(request.raw_post_data)
         skillid = objs['skillid']
-        categoryid = objs['categoryid']        
-        id = getmaxid("skills_skills_subcategories",4)   
-        if (iscategorized(skillid)==True):          
-            sql = "insert into skills_skills_subcategories values("+str(id)+", "+str(skillid)+", "+str(categoryid)+")"
-            #print sql
-            results = customQueryNoResults(sql,4)      
+
+        catsgroup = objs['catsgroup']      
+
+           
+        if (iscategorized(skillid)==True):         
+             
+            for catid in catsgroup:
+                id = getmaxid("skills_skills_subcategories",4)
+                sql = "insert into skills_skills_subcategories values("+str(id)+", "+str(skillid)+", "+str(catid)+")"
+                results = customQueryNoResults(sql,4)      
         else:
             results = False
         return HttpResponse(results, mimetype='application/html')   
@@ -1959,11 +1963,17 @@ def updateskillgroupcat(request):
         objs = simplejson.loads(request.raw_post_data)
         
         group = objs['group']
-        categoryid = objs['categoryid']        
-        for skillid in group:            
-            sql = "update skills_skills_subcategories set subcategory_id=" + str(categoryid) + ", categorized_at=now() where skill_id=" +str(skillid)
-            #print sql
-            customQueryNoResults(sql,4)      
+        catsgroup = objs['catsgroup']
+        for skillid in group: 
+            sql = "delete from skills_skills_subcategories where skill_id=" + str(skillid)                
+            customQueryNoResults(sql,4)  
+            for catid in catsgroup:                                  
+                print sql
+                id = getmaxid("skills_skills_subcategories",4)
+                sql = "insert into skills_skills_subcategories values("+str(id)+", "+str(skillid)+", "+str(catid)+")"        
+                results = customQueryNoResults(sql,4) 
+                print sql     
+                
         return HttpResponse('done', mimetype='application/html')
 
          
