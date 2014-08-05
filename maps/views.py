@@ -1881,6 +1881,22 @@ def getsuggestedskillslist(request):
         print finalsql        
         results = customQuery(finalsql,4)
         return HttpResponse(json.dumps(results), mimetype='application/json')   
+
+@csrf_exempt
+def suggestcategory(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        print objs
+        skillid=objs['skillid']
+        sql = "select name from skills_skill where id=" + str(skillid)
+        results = customQuery(sql,4) 
+
+        words = results[0][0].split()     
+        
+        finalsql = "select ssc.id,ssc.name, ssc.category_id from (select * from (select name, id from skills_subcategories union select ss.name, sssc.subcategory_id from skills_skill ss inner join skills_skills_subcategories sssc on sssc.skill_id=ss.id ) allsimilars  where similarity(name, '"+ results[0][0] +"') > 0.2) total inner join skills_subcategories ssc on ssc.id=total.id  where ssc.category_id<>-1"
+        print finalsql        
+        results = customQuery(finalsql,4)
+        return HttpResponse(json.dumps(results), mimetype='application/json')  
         
 @csrf_exempt
 def getskillsbycategory(request):
