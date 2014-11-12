@@ -67,7 +67,8 @@
           async: false
           }).responseText;
           //alert(jsonData.length);
-          if(jsonData.length<262){
+          console.log(jsonData);
+          if(jsonData.length<288){
               //alert("No Results! try to change search criterias!");
               return [];
           }else
@@ -210,7 +211,8 @@
                     { name: 'Shortlisted', type: 'int', map: '5'},
                     { name: 'Proposals', type: 'int', map: '6'},
                     { name: 'Accepted Proposals', type: 'int', map: '7'},
-                    { name: 'Employer Responses', type: 'int', map: '8'},                                     
+                    { name: 'Employer Responses', type: 'int', map: '8'},           
+		    { name: 'Employer Opens', type: 'int', map: '9'},
                     ],
                 datatype: "array"
                };
@@ -238,7 +240,8 @@
                    { text: 'Shortlisted', datafield: 'Shortlisted', filtertype: 'number', cellclassname: cellclass},
                    { text: 'Proposals', datafield: 'Proposals', filtertype: 'number', cellclassname: cellclass},
                    { text: 'Accepted Proposals', datafield: 'Accepted Proposals', filtertype: 'number', cellclassname: cellclass},
-                   { text: 'Employer Responses', datafield: 'Employer Responses', filtertype: 'number', cellclassname: cellclass}
+                   { text: 'Employer Responses', datafield: 'Employer Responses', filtertype: 'number', cellclassname: cellclass},
+		   { text: 'Employer Opens', datafield: 'Employer Opens', filtertype: 'number', cellclassname: cellclass}
                    
                  ]
              }); 
@@ -381,7 +384,7 @@
                   { text: 'ID', datafield: 'Employer Id', filtertype: 'textbox', columngroup: 'EmployerDetails', cellsrenderer:profileidrenderer, width:30},
                   { text: 'Name', datafield: 'Employer Name', filtertype: 'textbox', columngroup: 'EmployerDetails', width:150},
                   { text: 'Email', datafield: 'Employer Email', filtertype: 'textbox', columngroup: 'EmployerDetails', width:150},
-                  { text: 'Phone', datafield: 'Employer Phone', filtertype: 'textbox', columngroup: 'EmployerDetails', width:150},
+                  { text: 'O.R. %', datafield: 'Employer Open Rate', filtertype: 'number', cellclassname: cellclass, cellsformat: 'p', columngroup: 'EmployerDetails', width:50},
                   { text: 'ID', datafield: 'Job ID', filtertype: 'number', cellsrenderer: joblinkrenderer, columngroup: 'JobDetails'},
                   { text: 'Title', datafield: 'Job Title', filtertype: 'textbox', columngroup: 'JobDetails', width: 150},
                   { text: 'Created At', datafield: 'Job Posted At', filtertype: 'date',cellsformat: 'dd-MM-yy HH:m', columngroup: 'JobDetails'},
@@ -467,7 +470,8 @@
                     { name: 'Proposal Count', type: 'int', map: '13'},
                     { name: 'Accepted Proposals', type: 'int', map: '14'},
                     { name: 'Status', type: 'bool', map: '15'},  
-                    { name: 'Approved', type: 'bool', map: '16'}                   
+                    { name: 'Approved', type: 'bool', map: '16'},            
+                    { name: 'Employer Open Rate', type: 'float', map: '17'}    
                     ],
                 datatype: "array"
             };
