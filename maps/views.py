@@ -558,11 +558,12 @@ def jobs_communications_getdata(request):
         job_id = objs['job_id']
         #print job_id;
         
-        sql = ("select u.id,au.email,au.first_name || ' ' || au.last_name as freelancer_name, u.countrycode || ' ' || u.areacode || ' ' || u.mobile as phone,ca.id as application_id,case when ca.shortlisted=true then 1 else 0 end as shortlisted,count(cp.message_ptr_id) as proposals, sum(case when cp.status=4 then 1 else 0 end) as acceptedproposal_count, sum(case when cm.from_applicant=false then 1 else 0 end) as employer_responses from contracts_application ca inner join users u on u.id=ca.applicant_id inner join auth_user au on u.django_user_id=au.id inner join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id where job_id= "+job_id+" group by u.id,au.email,freelancer_name, phone, ca.id,shortlisted ;")
+        sql = ("select u.id,au.email,au.first_name || ' ' || au.last_name as freelancer_name, u.countrycode || ' ' || u.areacode || ' ' || u.mobile as phone,ca.id as application_id,case when ca.shortlisted=true then 1 else 0 end as shortlisted,count(cp.message_ptr_id) as proposals, sum(case when cp.status=4 then 1 else 0 end) as acceptedproposal_count, sum(case when cm.from_applicant=false then 1 else 0 end) as employer_responses, ca.client_views from contracts_application ca inner join users u on u.id=ca.applicant_id inner join auth_user au on u.django_user_id=au.id inner join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id where job_id= "+job_id+" group by u.id,au.email,freelancer_name, phone, ca.id,shortlisted ;")
         
         #print sql
         results = customQuery(sql,1)
- 	print results	
+ 	#print results	
+        print sql
         c = Context({'messages': results})
         return HttpResponse(render_to_string('jobs_communications.json', c, context_instance=RequestContext(request)), mimetype='application/json')             
         

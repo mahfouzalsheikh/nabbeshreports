@@ -125,7 +125,7 @@
           data: JSON.stringify(params),
           async: false
           }).responseText;
-          console.log(jsonData);
+          //console.log(jsonData);
           //alert(jsonData.length);
           if(jsonData.length<262){
               alert("No Results! try to change search criterias!");
@@ -193,7 +193,8 @@
                     { name: 'Shortlisted', type: 'int', map: '5'},
                     { name: 'Proposals', type: 'int', map: '6'},
                     { name: 'Accepted Proposals', type: 'int', map: '7'},
-                    { name: 'Employer Responses', type: 'int', map: '8'},                                     
+                    { name: 'Employer Responses', type: 'int', map: '8'},
+		    { name: 'Employer Opens', type: 'int', map: '9'},                                       
                     ],
                 datatype: "array"
                };
@@ -221,7 +222,8 @@
                    { text: 'Shortlisted', datafield: 'Shortlisted', filtertype: 'number', cellclassname: cellclass},
                    { text: 'Proposals', datafield: 'Proposals', filtertype: 'number', cellclassname: cellclass},
                    { text: 'Accepted Proposals', datafield: 'Accepted Proposals', filtertype: 'number', cellclassname: cellclass},
-                   { text: 'Employer Responses', datafield: 'Employer Responses', filtertype: 'number', cellclassname: cellclass}
+                   { text: 'Employer Responses', datafield: 'Employer Responses', filtertype: 'number', cellclassname: cellclass},
+		   { text: 'Employer Opens', datafield: 'Employer Opens', filtertype: 'number', cellclassname: cellclass}
                    
                  ]
              }); 
