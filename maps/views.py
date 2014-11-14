@@ -2342,3 +2342,42 @@ def download(request):
     revenue_getdata(request)
     response = ''
     return response
+
+@csrf_exempt
+def crm_notes_getdata(request):
+        objs = simplejson.loads(request.raw_post_data)                 
+        user_id = objs['user_id']      
+        
+        sql = ("select * from crm_notes where user_id=" + str(user_id) + " order by created desc")
+        
+        results = customQuery(sql,0)
+ 	print get_current_userid(request)  
+        c = Context({'notes': results})
+        return HttpResponse(render_to_string('crm_notes.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+
+def get_current_userid(request):                 
+
+        
+        sql = ("select u.id from users u inner join auth_user au on u.django_user_id=au.id where au.username ='" + str(request.user)+"'")
+        
+        results = customQuery(sql,1)
+
+        return results[0][0] 
+
+
+@csrf_exempt
+def crm_notes_add(request):
+        
+        objs = simplejson.loads(request.raw_post_data)     
+        print objs            
+        user_id = objs['user_id']      
+        message = objs['message']
+        crm_user_id = str(get_current_userid(request))
+        sql = ("insert into crm_notes(user_id, message, created, crm_user_id) values("+str(user_id)+", '"+message+"', now(), "+ crm_user_id +")")
+        print sql            
+        results = customQueryNoResults(sql,0)      
+        return HttpResponse(results, mimetype='application/html')     
+
+
+
+

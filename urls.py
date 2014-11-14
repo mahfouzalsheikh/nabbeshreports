@@ -153,6 +153,9 @@ urlpatterns = patterns('',
     
 #######################################################    
 
+    url(r'^crm_notes_getdata$', 'nabbeshreports.maps.views.crm_notes_getdata'),
+    url(r'^crm_notes_add$', 'nabbeshreports.maps.views.crm_notes_add'),
+
     url(r'^photogallery$', 'nabbeshreports.maps.views.photogallery_report'),
     url(r'^photogallery_getdata$', 'nabbeshreports.maps.views.photogallery_getdata'),
     

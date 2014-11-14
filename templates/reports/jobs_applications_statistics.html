@@ -30,6 +30,18 @@
 
 <div id="jqwtablearea" style="width: 100%;" ></div>
 
+          <div id="window">
+                <div id="windowHeader">
+                    <span>
+                        Owly Notes
+                    </span>
+                </div>
+                <div style="overflow: hidden;" id="windowContent">
+
+                </div>
+          </div>
+
+
 <style>     
         .green {
             color: black\9;
@@ -179,7 +191,7 @@
                   return html;
                 }
                 var profileidrenderer = function (row, column, value) {                                
-                  var html = "<a href='http://www.nabbesh.com/profile/"+value+"' target=_blank>"+ value+ "</a>";
+                  var html = "<a href='http://www.nabbesh.com/profile/"+value+"' target=_blank>"+ value+ "</a>";                  
                   return html;
                 } 
 	       
@@ -255,7 +267,8 @@
                 return html;
             }
              var profileidrenderer = function (row, column, value) {                                
-                  var html = "<a href='http://www.nabbesh.com/profile/"+value+"' target=_blank>"+ value+ "</a>";
+                  //var html = "<a href='http://www.nabbesh.com/profile/"+value+"' target=_blank>"+ value+ "</a>";
+                  var html = '<a id="profileadmin'+value+'" style="cursor: pointer; onmouseover="" onclick="return showcontactdetails('+value+');"><abbr title="See full profile on backend">'+value+'</abbr></a>';
                   return html;
                 } 
                 
@@ -357,7 +370,156 @@
       return jsonData;
     }
     
-    
+function circularimagecontact(url,id)
+{
+   return '<a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');"><div  style="margin: 5px 5px 5px 5px; display:inline-block; width: 100px;height: 100px; border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;background: url('+url+') no-repeat;background-size: cover;background-position: center center;  border: 1px solid #eee;  box-shadow: 0 7px 7px rgba(0, 0, 0, 0.3);" ></a>';
+}
+
+function circularimagecontactsmall(url,id)
+{
+   return '<a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');"><div  style="margin: 5px 5px 5px 5px; display:inline-block; width: 50px;height: 50px; border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;background: url('+url+') no-repeat;background-size: cover;background-position: center center;  border: 1px solid #eee;  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);" ></a>';
+}
+
+function circularimage(url,id, name)
+{
+   return '<a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');"><div  style="margin: 5px 5px 5px 5px; display:inline-block; width: 150px;height: 150px; border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;background: url('+url+') no-repeat;background-size: cover;background-position: center center;  border: 1px solid #eee;  box-shadow: 0 7px 7px rgba(0, 0, 0, 0.3);" ><div style="border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;background: rgba(255,255,255,0.8); position:relative; bottom:0; width:100%; height:20px"> '+name+'</div></div></a>';
+}
+
+
+function formatname(id, name, direction, rating)
+{
+   ratingtext='';
+   if(rating!='0.00')
+   {
+     ratingtext= '</br><span style="color: rgb(255,0,0); font-size:10px">Rating: '+rating + '</span>';
+   }
+   html='<td style="text-align:'+direction+'" width="120px"><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/profile/'+id+'">'+name+'</a></br><a id="profileadmin'+id+'" style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');"><abbr title="See full profile on backend">contact info</abbr></a>'+ratingtext+'</td>';   
+   return html;
+}
+
+
+function formatphotos(data){
+   //console.log(data);
+   if(data.length!=0)
+   {
+      html='';
+      for(i=0; i<data.length;i++)
+      {         
+         html+= circularimage(data[i][1], data[i][0], data[i][2])    
+         //console.log(data[i][1]);
+      }
+       
+      return html;
+   }
+}
+
+function renderMessage(msgArray){
+
+   timestamp = '<span style="font-size:10px;background-color:rgb(139, 197, 63);margin: 5px 5px 5px 5px; display:inline-block; border-radius: 2px;-webkit-border-radius: 2px;-moz-border-radius: 2px;">' +msgArray[3]+'</span>';
+   html = "<table style='width:100%;font-size:12px;'><tr><td width=75px>"+circularimagecontactsmall($.parseJSON(getUserData(msgArray[4]))[0][5])+"</td><td><div id='note1'>"+ '</br><div style="width:95%;background-color:#ccc;margin: 5px 5px 5px 5px; display:inline-block; border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;"><p style="font-size=12px">'+ msgArray[2]+ "</p>"+timestamp+"</div></div><td></tr></table>";
+   return html;
+}
+
+    function addNote(user_id, message){
+      
+      var params = {"user_id": user_id, "message":  message};
+      var jsonData = $.ajax({
+          url: "crm_notes_add",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+          
+         
+       return jsonData;    
+     }	
+
+showcontactdetails= function (userid) {
+   array= $.parseJSON(getUserData(userid));
+   html='<div><table style="width:100%;TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px">'
+   html+='<tr><td rowspan=5>'+circularimagecontact(array[0][5])+'</td><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/profile/'+userid+'">'+array[0][0]+'</a></td><td rowspan=4 style="width:300px"><textarea id="messagebox"></textarea></td></tr><tr><td >'+array[0][1]+'</td></tr></tr><tr><td>'+array[0][2]+'</td></tr><tr><td>'+array[0][3]+ ',' + array[0][4]+'</td></tr><tr><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/admin/legacy/users/'+userid+'">Full Info</a></td><td>';
+   html+= '<input type="button" value="Note" id="noteButton">';
+            
+   html+='</td></tr></table></div>';
+   html+='<div id="notesDiv" style="width:100%; height:450px;overflow: scroll;"></div>'
+
+
+   
+   $('#windowContent').html(html);   
+   $("#messagebox").jqxInput({theme : 'bootstrap',
+     placeHolder: "Enter a note",
+     height: '75px',
+     width: '100%'
+   });
+  
+   $("#noteButton").jqxButton({theme: 'bootstrap', width: '100'});
+   $("#noteButton").on('click', function () {                             
+                   a='';
+                   try{
+                       a=JSON.parse('["'+$("#messagebox").val()+'"]');
+                       addNote(userid, $("#messagebox").val());
+                       loadMessages(userid);
+                       $("#messagebox").val('');                       
+                   }catch(e){                     
+                       alert(e); //error in the above string(in this case,yes)!
+                   }	                            
+                });
+   loadMessages(userid);
+   $('#window').jqxWindow({ position: { x: 200, y: $(document).scrollTop() + 100 }}); 
+   $('#window').jqxWindow('open');
+}
+
+function loadMessages(userid){
+   jsonData = getUserNotesData(userid);
+   if(jsonData.length>3)
+   {
+      jsonArray = JSON.parse(jsonData);
+      html='';
+      for(i=0; i<jsonArray.length;i++){
+         html += renderMessage(jsonArray[i]);         
+      }
+      $('#notesDiv').html(html);
+   }
+}
+
+
+
+function getUserData(userid){
+      var params = {"userid": userid};
+      var jsonData = $.ajax({
+          url: "../../userprofileinfo_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+}
+
+function getUserNotesData(userid){
+      var params = {"user_id": userid};
+      var jsonData = $.ajax({
+          url: "../../crm_notes_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+}
+
+$(document).ready(function () {
+
+     var theme=  'bootstrap';         
+     $('#loadingup').hide();
+     $('#loadingdown').hide();
+     $('#window').jqxWindow({ modalOpacity: 0.5, theme: theme, zIndex: 99999,
+                    showCollapseButton: true, maxHeight: 600, maxWidth: 600, minHeight: 600, minWidth: 600, height: 600, width: 600
+                });
+     $('#window').jqxWindow('close');
+
+});     
 </script>
 {% endblock %}
 
