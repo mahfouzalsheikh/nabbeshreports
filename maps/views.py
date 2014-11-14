@@ -2345,13 +2345,13 @@ def download(request):
 
 @csrf_exempt
 def crm_notes_getdata(request):
-        objs = simplejson.loads(request.raw_post_data)                 
+        objs = simplejson.loads(request.raw_post_data)        
+        print objs         
         user_id = objs['user_id']      
-        
+        print user_id
         sql = ("select * from crm_notes where user_id=" + str(user_id) + " order by created desc")
-        
+        print sql
         results = customQuery(sql,0)
- 	print get_current_userid(request)  
         c = Context({'notes': results})
         return HttpResponse(render_to_string('crm_notes.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
 
