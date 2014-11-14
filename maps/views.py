@@ -2378,6 +2378,14 @@ def crm_notes_add(request):
         results = customQueryNoResults(sql,0)      
         return HttpResponse(results, mimetype='application/html')     
 
-
+@csrf_exempt
+def crm_notes_delete(request):        
+        objs = simplejson.loads(request.raw_post_data)     
+        print objs                 
+        messageId = objs['messageId']
+        sql = "delete from crm_notes where id=" +str(messageId)
+        print sql            
+        results = customQueryNoResults(sql,0)      
+        return HttpResponse(results, mimetype='application/html')   
 
 
