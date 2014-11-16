@@ -182,7 +182,7 @@
 	       var cell = $('#jqwtablearea').jqxGrid('getcell', index, 'Job ID');		       	       	       
 	       var jsonstring = getCommunicationJSON(cell.value.toString());		      
 	     //alert(jsonstring.length);
-	     if(jsonstring.length>132){
+	     if(jsonstring.length>149){
 	       detailsjqwdata = JSON.parse(jsonstring);
 	       detailsjqwdata.shift();
 	       
@@ -366,7 +366,8 @@
           type: "POST",
           data: JSON.stringify(params),
           async: false
-          }).responseText;                   
+          }).responseText;      
+      console.log(jsonData.length);
       return jsonData;
     }
     
