@@ -434,7 +434,7 @@ function addNote(user_id, message){
       var params = {"user_id": user_id, "message":  message};
       var jsonData = $.ajax({
           url: "crm_notes_add",
-          dataType:"json",
+          dataType:"html",
           type: "POST",
           data: JSON.stringify(params),
           async: false
@@ -483,7 +483,7 @@ showcontactdetails= function (userid) {
    $("#noteButton").on('click', function () {                             
                    a='';
                    try{
-                       a=JSON.parse('["'+$("#messagebox").val()+'"]');
+                       //a=JSON.parse('["'+$("#messagebox").val()+'"]');
                        addNote(userid, $("#messagebox").val());
                        loadMessages(userid);
                        $("#messagebox").val('');                       
@@ -498,17 +498,9 @@ showcontactdetails= function (userid) {
 
 
 function loadMessages(userid){
-   jsonData = getUserNotesData(userid);
-   if(jsonData.length>3)
-   {
-      jsonArray = JSON.parse(jsonData);
-      html='';
-      for(i=0; i<jsonArray.length;i++){
-         html += renderMessage(jsonArray[i]);               
-      }
+   html = getUserNotesData(userid);
       $('#notesDiv').html(html);
 
-   }
 }
 
 
@@ -529,11 +521,12 @@ function getUserNotesData(userid){
       var params = {"user_id": userid};
       var jsonData = $.ajax({
           url: "../../crm_notes_getdata",
-          dataType:"json",
+          dataType:"html",
           type: "POST",
           data: JSON.stringify(params),
           async: false
           }).responseText;
+         console.log(jsonData);
        return jsonData;    
 }
 

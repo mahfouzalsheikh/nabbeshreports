@@ -2349,11 +2349,16 @@ def crm_notes_getdata(request):
         print objs         
         user_id = objs['user_id']      
         print user_id
-        sql = ("select * from crm_notes where user_id=" + str(user_id) + " order by created desc")
+        sql = ("select crm.*, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as cphoto  from crm_notes crm inner join users u on crm.crm_user_id=u.id where user_id="+str(user_id)+" order by created desc")
         print sql
         results = customQuery(sql,4)
+
+     
+        results = customQuery(sql,1) 
+
+
         c = Context({'notes': results})
-        return HttpResponse(render_to_string('crm_notes.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+        return HttpResponse(render_to_string('crm_notes.html', c, context_instance=RequestContext(request)), mimetype='application/html') 
 
 def get_current_userid(request):                 
 
