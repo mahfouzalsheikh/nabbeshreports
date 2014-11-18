@@ -2351,7 +2351,7 @@ def crm_notes_getdata(request):
         print user_id
         sql = ("select * from crm_notes where user_id=" + str(user_id) + " order by created desc")
         print sql
-        results = customQuery(sql,0)
+        results = customQuery(sql,4)
         c = Context({'notes': results})
         return HttpResponse(render_to_string('crm_notes.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
 
@@ -2360,7 +2360,7 @@ def get_current_userid(request):
         
         sql = ("select u.id from users u inner join auth_user au on u.django_user_id=au.id where au.username ='" + str(request.user)+"'")
         
-        results = customQuery(sql,1)
+        results = customQuery(sql,4)
 
         return results[0][0] 
 
@@ -2375,7 +2375,7 @@ def crm_notes_add(request):
         crm_user_id = str(get_current_userid(request))
         sql = ("insert into crm_notes(user_id, message, created, crm_user_id) values("+str(user_id)+", '"+message+"', now(), "+ crm_user_id +")")
         print sql            
-        results = customQueryNoResults(sql,0)      
+        results = customQueryNoResults(sql,4)      
         return HttpResponse(results, mimetype='application/html')     
 
 @csrf_exempt
@@ -2385,7 +2385,7 @@ def crm_notes_delete(request):
         messageId = objs['messageId']
         sql = "delete from crm_notes where id=" +str(messageId)
         print sql            
-        results = customQueryNoResults(sql,0)      
+        results = customQueryNoResults(sql,4)      
         return HttpResponse(results, mimetype='application/html')   
 
 
