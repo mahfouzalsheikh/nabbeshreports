@@ -1,6 +1,6 @@
 [
-["Id","Employer Name","Employer Email", "Phone","Job ID","Job Title","Job Posted At","Fixed Budget", "Budget Range","Application Count", "Shortlisted Applications","Applicants Msgs", "Employers Responses" ,"Proposal Count","Accepted Proposals","Status", "Employer Open Rate"],
-{% for metric in statistics %}[{{ metric.0 }},"{{ metric.1 }}","{{ metric.2 }}","{{ metric.3 }}",{{ metric.4 }},"{{ metric.5 }}","{{ metric.6 }}",{{ metric.7 }},"{{ metric.8 }}",{{ metric.9 }}, {{ metric.10 }}, {{ metric.11 }},{{ metric.12 }},{{ metric.13 }},{{ metric.14 }},"{{ metric.15 }}", "{{ metric.16 }}", {{ metric.17 }} ]
+["Id","Employer Name","Employer Email", "Phone","Job ID","Job Title","Job Posted At","Fixed Budget", "Budget Range","Application Count", "Shortlisted Applications","Applicants Msgs", "Employers Responses" ,"Proposal Count","Accepted Proposals","Status", "Employer Open Rate", "CRM Notes"],
+{% for metric in statistics %}[{{ metric.0 }},"{{ metric.1 }}","{{ metric.2 }}","{{ metric.3 }}",{{ metric.4 }},"{{ metric.5 }}","{{ metric.6 }}",{{ metric.7 }},"{{ metric.8 }}",{{ metric.9 }}, {{ metric.10 }}, {{ metric.11 }},{{ metric.12 }},{{ metric.13 }},{{ metric.14 }},"{{ metric.15 }}", "{{ metric.16 }}", {{ metric.17 }},  {{ metric.18 }} ]
 {% if not forloop.last %},{% endif %}{% endfor %}
 ]
 
