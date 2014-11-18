@@ -1,0 +1,17 @@
+{% for note in notes %}
+
+
+
+   <table style='width:100%;font-size:12px;'>
+      <tr>
+        <td valign='top' width=65px><a style="cursor: pointer; TEXT-DECORATION: NONE;color: rgb(50,100,100); font-size:12px" onmouseover="" onclick="return showcontactdetails('+id+');">
+          <div  style="margin: 5px 5px 5px 5px; display:inline-block; width: 50px;height: 50px; border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;background: url(' {{ note.5 }} ') no-repeat;background-size: cover;background-position: center center;  border: 1px solid #eee;  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);" ></a>
+       </td>
+       <td valign='top'><div id='note1'><div style="padding:3px 0px 3px 3px;vertical-align:top;width:100%;background-color:#ccc;margin: 5px 5px 5px 5px; display:inline-block; border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;"><p style="font-size=12px; ">{{ note.2|linebreaksbr }}</p><span style="color:rgb(255,255,255);font-size:10px;background-color:rgb(139, 197, 63);margin: 5px 5px 5px 5px; display:inline-block; border-radius: 2px;-webkit-border-radius: 2px;-moz-border-radius: 2px;">{{ note.3 }}</span></div></div>
+       </td>
+       <td valign='top' width=10px><div style="text-align:center;width:20px;height:20px;background-color:rgb(242, 101, 34);margin: 5px 5px 5px 5px; display:inline-block; border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;"><a id="profileadmin'+msgArray[0]+'" style="color:rgb(255,255,255);cursor: pointer; onmouseover="" onclick="return deleteNoteAndLoad({{ note.0 }},{{ note.1 }});">x</a></div>
+       </td>
+    </tr>
+  </table>
+   
+{% endfor %}
