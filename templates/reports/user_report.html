@@ -69,12 +69,15 @@
           //alert(jsonData.length);
           console.log(jsonData.length);
           if(jsonData.length<297){
+              console.log(jsonData);
               //alert("No Results! try to change search criterias!");
               return [];
           }else
           {
+             console.log(jsonData);
              jqwdata = JSON.parse(jsonData);
-             jqwdata.shift();          
+             jqwdata.shift();      
+             console.log(jqwdata);    
              return  jqwdata;
           }
      }
@@ -150,15 +153,19 @@
 
     }
     function showcontactdetails(data){
-       console.log(data);
-       var html1='<table><tr><td rowspan=5>';       
+       //console.log(data);
+       crm_notes = '<a id="profileadmin" style="font-size:12px;cursor: pointer; onmouseover="" onclick="return showusercrmnote('+data[0][0]+');"><span style="text-align:center;width:100px;height:20px;background-color:rgb(242, 101, 34);margin: 5px 5px 5px 5px; display:inline-block; border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;color:rgb(255,255,255)">Owly Notes</span></a>'
+       var html1='<table><tr><td rowspan=6>';       
        html1 +=  circularimagecontact(data[0][7]) + '</td>';  
-       html1 += formatcell(data[0][4], 24, 'rgb(100,100,100)' ) + '</tr>';
+       html1 += formatcell(data[0][4], 24, 'rgb(100,100,100)' ) + '<td>'+crm_notes+'</td></tr>';
        html1 += '<tr>' + formatcell(data[0][3], 16, 'rgb(100,100,100)') + '</tr>';
        html1 += '<tr>' + formatcell(data[0][10], 14, 'rgb(100,100,100)') + '</tr>';
        html1 += '<tr>' + formatcell('Last Seen:' + data[0][29], 10, 'rgb(100,100,100)') + '</tr>';
+
        html1 += '<tr><td><div id="userrating"></div></td></tr>';
        html1 += '</table>';
+
+
        $("#contactdetails").html(html1);
        $("#userrating").jqxRating({ width: 100, height: 25, theme: theme,disabled:true,value: data[0][21]});
        
@@ -545,6 +552,144 @@
             selectuser(puserid);
          }
       });
+
+
+
+
+
+
+function renderMessage(msgArray){
+    
+   var closeButton = '<div style="text-align:center;width:20px;height:20px;background-color:rgb(242, 101, 34);margin: 5px 5px 5px 5px; display:inline-block; border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;"><a id="profileadmin'+msgArray[0]+'" style="color:rgb(255,255,255);cursor: pointer; onmouseover="" onclick="return deleteNoteAndLoad('+msgArray[0]+', '+msgArray[1]+');">x</a></div>';
+   timestamp = '<span style="color:rgb(255,255,255);font-size:10px;background-color:rgb(139, 197, 63);margin: 5px 5px 5px 5px; display:inline-block; border-radius: 2px;-webkit-border-radius: 2px;-moz-border-radius: 2px;">' +msgArray[3]+'</span>';
+   html = "<table style='width:100%;font-size:12px;'><tr><td valign='top' width=65px>"+circularimagecontactsmall($.parseJSON(getUserData(msgArray[4]))[0][5])+"</td><td valign='top'><div id='note1'>"+ '<div style="padding:3px 0px 3px 3px;vertical-align:top;width:100%;background-color:#ccc;margin: 5px 5px 5px 5px; display:inline-block; border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;"><p style="font-size=12px; ">'+ msgArray[2]+ "</p>"+timestamp+"</div></div></td><td valign='top' width=10px>"+closeButton+"</td></tr></table>";
+   
+   return html;
+}
+
+function addNote(user_id, message){
+      
+      var params = {"user_id": user_id, "message":  message};
+      var jsonData = $.ajax({
+          url: "crm_notes_add",
+          dataType:"html",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+          
+         
+       return jsonData;    
+}	
+
+function deleteNoteAndLoad(messageId, userid){
+          deleteNote(messageId);
+          loadMessages(userid);
+}
+function deleteNote(messageId){
+      
+      var params = {"messageId": messageId};
+      var jsonData = $.ajax({
+          url: "crm_notes_delete",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;                   
+       return jsonData;  
+}
+
+showusercrmnote= function (userid) {
+   array= $.parseJSON(getUserData(userid));
+   html='<div><table style="width:100%;TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px">'
+   html+='<tr><td rowspan=5>'+circularimagecontact(array[0][5])+'</td><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/profile/'+userid+'">'+array[0][0]+'</a></td><td rowspan=4 style="width:300px"><textarea id="messagebox"></textarea></td></tr><tr><td >'+array[0][1]+'</td></tr></tr><tr><td>'+array[0][2]+'</td></tr><tr><td>'+array[0][3]+ ',' + array[0][4]+'</td></tr><tr><td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(100,100,100); font-size:12px" href="http://www.nabbesh.com/admin/legacy/users/'+userid+'">Full Info</a></td><td>';
+   html+= '<input type="button" value="Post" id="noteButton">';
+            
+   html+='</td></tr></table></div>';
+   html+='<div id="notesDiv" style="width:100%; height:150px;overflow: scroll;"></div>'
+
+
+   
+   $('#windowContent').html(html);   
+   $("#messagebox").jqxInput({theme : 'bootstrap',
+     placeHolder: "Enter a note",
+     height: '75px',
+     width: '100%'
+   });
+  
+   $("#noteButton").jqxButton({theme: 'bootstrap', width: '100'});
+   $("#noteButton").on('click', function () {                             
+                   a='';
+                   try{
+                       //a=JSON.parse('["'+$("#messagebox").val()+'"]');
+                       addNote(userid, $("#messagebox").val());
+                       loadMessages(userid);
+                       $("#messagebox").val('');                       
+                   }catch(e){                     
+                       alert(e); //error in the above string(in this case,yes)!
+                   }	                            
+                });
+   loadMessages(userid);
+   $('#window').jqxWindow({zIndex: 99999, position: { x: 200, y: $(document).scrollTop() + 100 }}); 
+   $('#window').jqxWindow('open');
+}
+
+
+function loadMessages(userid){
+   html = getUserNotesData(userid);
+      $('#notesDiv').html(html);
+
+}
+
+
+
+function getUserData(userid){
+      var params = {"userid": userid};
+      var jsonData = $.ajax({
+          url: "../../userprofileinfo_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+}
+
+function getUserNotesData(userid){
+      var params = {"user_id": userid};
+      var jsonData = $.ajax({
+          url: "../../crm_notes_getdata",
+          dataType:"html",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+       return jsonData;    
+}
+
+$(document).ready(function () {
+
+
+    
+$("#userotherinfo").keyup(function(e){ 
+    var code = e.which; // recommended to use e.which, it's normalized across browsers
+    if(code==13){
+        e.preventDefault();
+        finduser();
+      }
+});
+     var theme=  'bootstrap';         
+     $('#loadingup').hide();
+     $('#loadingdown').hide();
+     $('#window').jqxWindow({ modalOpacity: 0.5, theme: theme, zIndex: 99999,
+                    showCollapseButton: true, maxHeight: 300, maxWidth: 600, minHeight: 300, minWidth: 600, height: 300, width: 600
+                });
+     $('#window').jqxWindow('close');
+
+});     
+
+
+
     </script>
 {% endblock %}
 {% block reportblock %}
@@ -619,7 +764,17 @@
             </div>
         </div>
         <div id="appsGrid" style="width: 100%;" ></div>
-    
+
+          <div id="window">
+                <div id="windowHeader">
+                    <span>
+                        Owly Notes
+                    </span>
+                </div>
+                <div style="overflow: hidden;" id="windowContent">
+
+                </div>
+          </div>    
     
 
 <style>     
