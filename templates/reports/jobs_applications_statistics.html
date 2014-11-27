@@ -144,8 +144,10 @@
               return [];
           }else
           {
+             console.log(jsonData);
              jqwdata = JSON.parse(jsonData);
-             jqwdata.shift();          
+             console.log('converted');
+             jqwdata.shift();                     
              return  jqwdata;
           }
      }
