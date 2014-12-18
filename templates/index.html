@@ -285,6 +285,16 @@ function doTimeout() {
           //$("#allinvoices").block({ message : '', css: { border: '0px solid #a00' } }); 
           setTimeout(function (){$("#allinvoices").html('<span style="font-size:32px;">' + data[0][0].toString() + '</span>/ <span style="font-size:24px;">' + data[0][1].toString() + '</span> Paid </br>Today <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][2].toString() + '</span> Paid <span style="font-size:24px; color:rgb(255,0,0)">' + data[0][3].toString() + '</span>');    }, 500);     });                      
                
+
+    $.when( $.ajax({
+          url: "../../totalescrow_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify( {}),
+          async: true
+          }) ).then(function( data, textStatus, jqXHR ) {
+      
+          setTimeout(function (){$("#escrow").html('<span style="font-size:48px;">' + data[0][0].toString() + '$</span>');    }, 500);     });   
         
     
                        
@@ -470,6 +480,11 @@ $(document).ready(function () {
             <div id="window3" style="height:130px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Approved Jobs</span></div>
                 <div id="alljobs" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div>
+
+            <div id="window11" style="height:100px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Currently in Escrow</span></div>
+                <div id="escrow" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
             </div>
             <div id="window4" style="height:130px">
                 <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Skills</span></div>
