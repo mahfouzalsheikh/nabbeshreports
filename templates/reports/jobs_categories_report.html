@@ -36,7 +36,9 @@
                     { name: 'Category', type: 'string', map: '0'},
                     { name: 'JobsTotalCount', type: 'int', map: '1' },
                     { name: 'Converted', type: 'int', map: '2' },
-                    { name: 'PaidAmount', type: 'int', map: '3' }
+                    { name: 'PaidAmount', type: 'int', map: '3' },
+                    { name: 'Percentage', type: 'int', map: '4' },
+                    { name: 'PaidPercentage', type: 'int', map: '5' }
                     ],
                 datatype: "array"
             };
@@ -55,7 +57,9 @@
                   { text: 'Category', datafield: 'Category', filtertype: 'textbox'},
                   { text: 'Jobs Total Count', datafield: 'JobsTotalCount', filtertype: 'number'},
                   { text: 'Converted', datafield: 'Converted', filtertype: 'number'},
-                  { text: 'Paid Amount', datafield: 'PaidAmount', filtertype: 'number'}
+                  { text: 'Paid Amount', datafield: 'PaidAmount', filtertype: 'number'},
+                  { text: 'Percentage of Total', datafield: 'Percentage', cellsformat: 'p', filtertype: 'number'},
+                  { text: 'Paid Percentage', datafield: 'PaidPercentage', cellsformat: 'p', filtertype: 'number'}
                 ]
             });    
 

@@ -1,4 +1,4 @@
-[["Category","Total Jobs Count", "Converted", "Paid Amount"], 
-{% for category in categories %}["{{ category.0 }}",{{ category.1 }},{{ category.2 }},{{ category.3 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]
+[["Category","Total Jobs Count", "Converted", "Paid Amount", "Percentage of Total", "Percentage of Total Converted"], 
+{% for category in categories %}["{{ category.0 }}",{{ category.1 }},{{ category.2 }},{{ category.3 }},{{ category.4 }},{{ category.5 }}]{% if not forloop.last %} , {% endif %}{% endfor %}]
 
 
