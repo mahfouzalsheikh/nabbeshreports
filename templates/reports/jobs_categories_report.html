@@ -1,0 +1,78 @@
+{% extends 'reports/base.html' %}
+{% block reportblock %}
+
+<div id="visualization" style="width: 100%; height:550px;"></div>
+<div id="tablearea" style="width: 100%;"></div>
+<div id="jqwtablearea" style="width: 100%;"></div>
+   
+<script type="text/javascript">
+        // Load the Visualization API and the piechart package.
+        google.load('visualization', '1', {packages: ['corechart']});
+        google.load('visualization', '1', {packages: ['table']});
+        //google.load('visualization', '1', {packages: ['geochart']});
+        //google.load('visualization', '1', {packages: ['annotatedtimeline']});
+        //google.load('visualization', '1', {packages: ['controls']});
+        //google.load('visualization', '1', {packages: ['geomap']});
+
+
+</script>
+<script type="text/javascript">
+
+	
+     function drawChart() {
+      var jsonData = $.ajax({
+          url: "jobscategories_getdata",
+          dataType:"json",
+          type: "POST",
+          async: false
+          }).responseText;
+          
+          jqwdata = JSON.parse(jsonData);
+          jqwdata.shift();
+         
+	  var source =
+            { localdata : jqwdata,
+              datafields: [
+                    { name: 'Category', type: 'string', map: '0'},
+                    { name: 'JobsTotalCount', type: 'int', map: '1' },
+                    { name: 'Converted', type: 'int', map: '2' },
+                    { name: 'PaidAmount', type: 'int', map: '3' }
+                    ],
+                datatype: "array"
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            $("#jqwtablearea").jqxGrid(
+            {
+                width: '100%',
+                //height: '100%',
+                source: dataAdapter,
+                columnsresize: true,
+                sortable: true,
+                showfilterrow: true,
+                filterable: true,
+                altrows: true,
+                columns: [
+                  { text: 'Category', datafield: 'Category', filtertype: 'textbox'},
+                  { text: 'Jobs Total Count', datafield: 'JobsTotalCount', filtertype: 'number'},
+                  { text: 'Converted', datafield: 'Converted', filtertype: 'number'},
+                  { text: 'Paid Amount', datafield: 'PaidAmount', filtertype: 'number'}
+                ]
+            });    
+
+      var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
+
+
+      var columnView = new google.visualization.DataView(data);
+
+      columnView.setColumns([0,1]);      
+      console.log(data);
+      var chart = new google.visualization.PieChart(document.getElementById('visualization'));
+      chart.draw(data, {title:"Education Distribution",width: '100%', height: 550, is3D: true});
+
+    }	
+		
+    drawChart();
+</script>          
+
+{% endblock %}  
+

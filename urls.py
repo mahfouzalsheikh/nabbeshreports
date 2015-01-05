@@ -42,6 +42,9 @@ urlpatterns = patterns('',
     
     url(r'^freelancerseducation$', 'nabbeshreports.maps.views.freelancerseducation_report'),
     url(r'^freelancerseducation_getdata$', 'nabbeshreports.maps.views.freelancerseducation_getdata'),      
+
+    url(r'^jobscategories$', 'nabbeshreports.maps.views.jobs_categories_report'),
+    url(r'^jobscategories_getdata$', 'nabbeshreports.maps.views.jobs_categories_getdata'),      
     
     url(r'^topfreelancers$', 'nabbeshreports.maps.views.top_freelancers'),  
     url(r'^top_freelancers_getdata$', 'nabbeshreports.maps.views.top_freelancers_getdata'),

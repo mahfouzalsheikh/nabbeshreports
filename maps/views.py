@@ -303,6 +303,32 @@ def freelancerseducation_getdata(request):
         c = Context({'educations': results})
    
         return HttpResponse(render_to_string('freelancerseducation.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+
+
+
+@login_required(login_url='/accounts/login/')
+def jobs_categories_report(request):
+    
+    t = loader.get_template('./reports/jobs_categories_report.html')
+    c = Context({
+        'jobs_categories_report': jobs_categories_report,
+    })
+    return render_to_response('./reports/jobs_categories_report.html', context_instance=RequestContext(request))
+            
+@csrf_exempt
+def jobs_categories_getdata(request):
+    if request.method == 'POST':
+        #objs = simplejson.loads(request.raw_post_data)
+
+        sql = "select category, count(distinct job_id) as total_jobs,  count(distinct case when paid_invoices>0 then job_id else null end) as converted, sum(paid_amount) as paid_amount from (select distinct  catjobs.*,  count(distinct case when ci.status=4 then ci.message_ptr_id else null end) as paid_invoices, sum(distinct case when ci.status=4 then cii.unit_price*cii.quantity else 0 end) as paid_amount from ( select job_id,cat_id, category  from ( select cj.id as job_id, cats.id as cat_id, cats.name as category, similarity(cj.title, cats.name) as coef from contracts_job cj inner join contracts_requiredskill crs on crs.job_id=cj.id  left outer join skills_skills_subcategories sssc on sssc.skill_id=crs.skill_id left outer  join skills_subcategories ssc on ssc.id=sssc.subcategory_id inner join skills_subcategories cats on cats.id=ssc.category_id where cj.approved=true group by cj.id, cats.id order by job_id, coef desc ) t1 where coef= (select max(coef) from  ( select cj.id as job_id, cats.id as cat_id, similarity(cj.title, cats.name) as coef from contracts_job cj inner join contracts_requiredskill crs on crs.job_id=cj.id  left outer join skills_skills_subcategories sssc on sssc.skill_id=crs.skill_id left outer  join skills_subcategories ssc on ssc.id=sssc.subcategory_id inner join skills_subcategories cats on cats.id=ssc.category_id where cj.approved=true group by cj.id, cats.id  order by job_id, coef desc ) t2 where t1.job_id=t2.job_id)) catjobs left outer join contracts_application ca on catjobs.job_id=ca.job_id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id left outer join contracts_invoiceitem cii on cii.invoice_id=ci.message_ptr_id group by catjobs.job_id, catjobs.cat_id, catjobs.category) total group by category order by total_jobs desc "
+        
+        #print sql
+        results = customQuery(sql,1)
+        print results
+ 
+        c = Context({'categories': results})
+   
+        return HttpResponse(render_to_string('jobs_categories.json', c, context_instance=RequestContext(request)), mimetype='application/json')
         
 
 @login_required(login_url='/accounts/login/')
