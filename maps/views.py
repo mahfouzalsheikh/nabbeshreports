@@ -1777,6 +1777,17 @@ def analytics_getdata(request):
         
            
 	return HttpResponse(render_to_string('analytics_visitors.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+
+
+@csrf_exempt
+def getcategoriesbubbles(request):
+    if request.method == 'GET':
+        #objs = simplejson.loads(request.raw_post_data)                            
+        sql = "select 'main' as name, 'null' as maincat, 1 as size union select name, 'main' as maincat, 2 as size from skills_subcategories where category_id=-1  union select final.category,maincat, 100*final.total_jobs as size from ( select category, maincat, count(distinct job_id) as total_jobs,  sum( paid_invoices) as converted, sum(paid_amount) as paid_amount, count(distinct case when paid_invoices>0 then job_id else null end) as converted_count from (select distinct  catjobs.*,  count(distinct case when ci.status=4 then ci.message_ptr_id else null end) as paid_invoices, sum(distinct case when ci.status=4 then cii.unit_price*cii.quantity else 0 end) as paid_amount from ( select job_id,cat_id, category, maincat  from ( select cj.id as job_id, ssc.id as cat_id, ssc.name as category, cats.name as maincat, similarity(cj.title, ssc.name) as coef from contracts_job cj inner join contracts_requiredskill crs on crs.job_id=cj.id  left outer join skills_skills_subcategories sssc on sssc.skill_id=crs.skill_id left outer  join skills_subcategories ssc on ssc.id=sssc.subcategory_id inner join skills_subcategories cats on cats.id=ssc.category_id where cj.approved=true and cj.created_at>'2013-12-01' group by cj.id, ssc.id, cats.id order by job_id, coef desc ) t1 where coef= (select max(coef) from  ( select cj.id as job_id, ssc.id as cat_id, similarity(cj.title, ssc.name) as coef from contracts_job cj inner join contracts_requiredskill crs on crs.job_id=cj.id  left outer join skills_skills_subcategories sssc on sssc.skill_id=crs.skill_id left outer  join skills_subcategories ssc on ssc.id=sssc.subcategory_id inner join skills_subcategories cats on cats.id=ssc.category_id where cj.approved=true and cj.created_at>'2013-12-01' group by cj.id, ssc.id order by job_id, coef desc ) t2 where t1.job_id=t2.job_id)) catjobs left outer join contracts_application ca on catjobs.job_id=ca.job_id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id left outer join contracts_invoiceitem cii on cii.invoice_id=ci.message_ptr_id group by catjobs.job_id, catjobs.cat_id, catjobs.category, catjobs.maincat) total group by category, maincat order by total_jobs desc ) final  order by size"
+        print sql
+        results = customQuery(sql,4)              
+        c = Context({'buubles': results})     
+        return HttpResponse(render_to_string('flare.json', c, context_instance=RequestContext(request)), mimetype='application/json')
        
        
 @staff_member_required       
@@ -1848,6 +1859,9 @@ def getcategoriestree(request):
         results = customQuery(sql,4)              
         #print results
         return HttpResponse(json.dumps(results), mimetype='application/json') 
+
+
+
 
 
 def getcategorizedskillslistsql():

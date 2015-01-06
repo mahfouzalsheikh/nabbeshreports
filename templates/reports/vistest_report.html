@@ -7,9 +7,53 @@ text {
 }
 
 </style>
+<head>
+    <script type="text/javascript" src="/site_media/jqwid/scripts/jquery-1.10.2.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
 <body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<div id="vis" style="width: 100%; height:450px; text-align:center"></div>
 <script>
+
+var data = [];
+
+
+function getData(){
+      var params = {};
+      var jsonData = $.ajax({
+          url: "getcategoriesbubbles",
+          dataType:"json",
+          type: "GET",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+          //alert(jsonData);
+       return jsonData;                 
+}
+
+ data= $.parseJSON(getData());
+ 
+// create a name: node map
+var dataMap = data.reduce(function(map, node) {
+    map[node.name] = node;
+    return map;
+}, {});
+
+// create the tree array
+var tree = [];
+data.forEach(function(node) {
+    // add to parent
+    var parent = dataMap[node.parent];
+    if (parent) {
+        // create child array if it doesn't exist
+        (parent.children || (parent.children = []))
+            // add node to child array
+            .push(node);
+    } else {
+        // parent is null or missing
+        tree.push(node);
+    }
+});
 
 var diameter = 960,
     format = d3.format(",d"),
@@ -20,14 +64,15 @@ var bubble = d3.layout.pack()
     .size([diameter, diameter])
     .padding(1.5);
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#vis").append("svg")
     .attr("width", diameter)
     .attr("height", diameter)
     .attr("class", "bubble");
 
-d3.json("/site_media/flare.json", function(error, root) {
+
+d3.json("", function(error, root) {
   var node = svg.selectAll(".node")
-      .data(bubble.nodes(classes(root))
+      .data(bubble.nodes(classes(tree[0]))
       .filter(function(d) { return !d.children; }))
     .enter().append("g")
       .attr("class", "node")
@@ -60,4 +105,10 @@ function classes(root) {
 
 d3.select(self.frameElement).style("height", diameter + "px");
 
+
+
 </script>
+
+
+
+</body>
