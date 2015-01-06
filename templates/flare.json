@@ -1,0 +1,1 @@
+[ {% for buuble in buubles %}{"name" : "{{ buuble.0 }}","parent":"{{ buuble.1 }}", "size":"{{ buuble.2 }}"}{% if not forloop.last %} , {% endif %}{% endfor %} ]
