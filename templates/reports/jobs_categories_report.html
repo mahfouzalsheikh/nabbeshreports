@@ -1,10 +1,27 @@
 {% extends 'reports/base.html' %}
 {% block reportblock %}
 
-<div id="visualization" style="width: 100%; height:550px;"></div>
-<div id="tablearea" style="width: 100%;"></div>
-<div id="jqwtablearea" style="width: 100%;"></div>
-   
+
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>          
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>       
+                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>                              
+                </table>   
+            </div>
+        </div>
+
+
+<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Jobs / Categories </h2><div id='date'></div></center></div>
+
+<div id="visualizationarea" style="width: 100%; height:450px"></div>
+<div id="visualizationarea1" style="width: 100%; height:450px"></div>
+<div id="proposalstablearea" style="width: 100%;"></div>
+
+
 <script type="text/javascript">
         // Load the Visualization API and the piechart package.
         google.load('visualization', '1', {packages: ['corechart']});
@@ -17,66 +34,132 @@
 
 </script>
 <script type="text/javascript">
+ var theme = 'bootstrap';
+ $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
+ 
+</script>
 
-	
-     function drawChart() {
+<script type="text/javascript">
+     
+                
+      $("#filterButton").jqxButton({ theme: theme,width: '200'});
+      $("#filterButton").on('click', function () {
+                                         
+                  draw(fromdate,todate);
+                 
+
+                });
+     $("#downloadButton").jqxButton({ theme: theme,width: '200'});            
+     $("#downloadButton").on('click', function () {
+                var json = $.parseJSON(getData(fromdate,todate));
+    		var csv = JSON2CSV(json);
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "jobs_apps_stats_data.csv");
+      }); 
+
+     
+     function firstDayInPreviousMonth(yourDate) {
+        var d = new Date(yourDate);
+        d.setDate(1);
+        d.setMonth(d.getMonth() - 1);
+       return d;
+     }
+     
+     function lastDayInPreviousMonth(yourDate) {
+        var d = new Date(yourDate);
+        d.setDate(0);
+        d.setMonth(d.getMonth());
+       return d;
+     }
+
+     
+      var today = new Date(Date.now());
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: firstDayInPreviousMonth(new Date(new Date(today).setMonth(today.getMonth()-12)))});
+     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: lastDayInPreviousMonth(today) });
+
+     
+     $("#fromdate").on('change', function (event) {
+                    fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
+                });
+     $("#todate").on('change', function (event) {
+                    todate= $('#todate').jqxDateTimeInput('getText'); 
+                });             
+     
+     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
+     var todate = $('#todate').jqxDateTimeInput('getText');
+     
+     
+     
+     function getData(from,to){
+      var params = {"fromdate": from, "todate": to};
       var jsonData = $.ajax({
           url: "jobscategories_getdata",
           dataType:"json",
           type: "POST",
+          data: JSON.stringify(params),
           async: false
           }).responseText;
-          
-          jqwdata = JSON.parse(jsonData);
-          jqwdata.shift();
-         
-	  var source =
-            { localdata : jqwdata,
-              datafields: [
-                    { name: 'Category', type: 'string', map: '0'},
-                    { name: 'JobsTotalCount', type: 'int', map: '1' },
-                    { name: 'Converted', type: 'int', map: '2' },
-                    { name: 'PaidAmount', type: 'int', map: '3' },
-                    { name: 'Percentage', type: 'int', map: '4' },
-                    { name: 'PaidPercentage', type: 'int', map: '5' }
-                    ],
-                datatype: "array"
-            };
-            var dataAdapter = new $.jqx.dataAdapter(source);
-            $("#jqwtablearea").jqxGrid(
-            {
-                width: '100%',
-                //height: '100%',
-                source: dataAdapter,
-                columnsresize: true,
-                sortable: true,
-                showfilterrow: true,
-                filterable: true,
-                altrows: true,
-                columns: [
-                  { text: 'Category', datafield: 'Category', filtertype: 'textbox'},
-                  { text: 'Jobs Total Count', datafield: 'JobsTotalCount', filtertype: 'number'},
-                  { text: 'Paid Invoices', datafield: 'Converted', filtertype: 'number'},
-                  { text: 'Paid Amount', datafield: 'PaidAmount', filtertype: 'number'},
-                  { text: 'Percentage of Total', datafield: 'Percentage', cellsformat: 'p', filtertype: 'number'},
-                  { text: 'Paid Percentage', datafield: 'PaidPercentage', cellsformat: 'p', filtertype: 'number'}
-                ]
-            });    
-
+          //alert(jsonData);
+       return jsonData;    
+       
+      
+     }
+     
+     
+     function drawChart(jsonData,metrics) {
+  
+     
+      
+	
+      dataarray =   $.parseJSON(jsonData);               
+     
+      var data1 = new google.visualization.arrayToDataTable(dataarray);
+      var data2 = new google.visualization.arrayToDataTable(dataarray);
+      
+      
+   
       var data = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
-
-
+	          
+         
+      var dataView = new google.visualization.DataView(data);
+                
+      var tablearea = new google.visualization.Table(document.getElementById('proposalstablearea'));
+      
+      tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});
+      
+      
       var columnView = new google.visualization.DataView(data);
 
-      columnView.setColumns([0,1]);      
-      console.log(data);
-      var chart = new google.visualization.PieChart(document.getElementById('visualization'));
+      columnView.setColumns([0,1]);
+      var chart = new google.visualization.PieChart(document.getElementById('visualizationarea'));
       chart.draw(data, {title:"Jobs Distribution per Category",width: '100%', height: 550, is3D: true});
+       
 
-    }	
-		
-    drawChart();
-</script>          
 
-{% endblock %}  
+      columnView.setColumns([0,2,1]);
+      var chart = new google.visualization.ColumnChart(document.getElementById('visualizationarea1'));
+     
+       var options = {
+        width: '100%',
+        height: 450,
+        legend: { position: 'top', maxLines: 3 },
+	bar: { groupWidth: '75%' },
+        isStacked: true
+      };
+       
+      chart.draw(columnView, options); 
 
+
+      
+    }
+    
+    
+    function draw(from,to) {
+      var jsonData= getData(from,to);	
+      drawChart(jsonData);
+      
+    } 
+  
+    draw(fromdate,todate);
+</script>
+{% endblock %}
