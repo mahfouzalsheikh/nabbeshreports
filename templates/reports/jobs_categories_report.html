@@ -74,7 +74,7 @@
 
      
       var today = new Date(Date.now());
-     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: firstDayInPreviousMonth(new Date(new Date(today).setMonth(today.getMonth()-12)))});
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: firstDayInPreviousMonth(new Date(new Date(today).setMonth(today.getMonth()-11)))});
      $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: lastDayInPreviousMonth(today) });
 
      
