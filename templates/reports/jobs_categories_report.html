@@ -54,7 +54,7 @@
      $("#downloadButton").on('click', function () {
                 var json = $.parseJSON(getData(fromdate,todate));
     		var csv = JSON2CSV(json);
-	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "jobs_apps_stats_data.csv");
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "jobs_categories.csv");
       }); 
 
      
