@@ -12,6 +12,7 @@ text {
     <script src="http://d3js.org/d3.v3.min.js"></script>
 </head>
 <body>
+<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Nabbesh Freelance Jobs Economy</h2><div id='date'></div></center></div>
 <div id="vis" style="width: 100%; height:450px; text-align:center"></div>
 <script>
 
@@ -78,8 +79,8 @@ d3.json("", function(error, root) {
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-  node.append("title").text(function(d) { return d.packageName + "   " +d.className + ": " + format(d.value); });
-
+  node.append("title").text(function(d) { return d.packageName + " >  " +d.className + " ( " + format(d.value/100) + " ) "; });
+  node.append('svg:title').text(function(d) { return 'test'; });
   node.append("circle")
       .attr("r", function(d) { return d.r; })
       .style("fill", function(d) { return color(d.packageName); });
