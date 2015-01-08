@@ -197,6 +197,7 @@ urlpatterns = patterns('',
     
     
     url(r'^vistest_report$', 'nabbeshreports.maps.views.vistest_report'),
+    url(r'^categorypacks_report$', 'nabbeshreports.maps.views.categorypacks_report'),
 
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
     url(r'^static/admin/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.ADMIN_STATIC}),

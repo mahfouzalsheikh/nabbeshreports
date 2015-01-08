@@ -7,6 +7,38 @@ text {
 }
 
 </style>
+
+
+
+<style>
+
+.node {
+  cursor: pointer;
+}
+
+.node:hover {
+  stroke: #000;
+}
+
+.node--leaf {
+  fill: white;
+}
+
+.label {
+  font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+}
+
+.label,
+.node--root,
+.node--leaf {
+  pointer-events: none;
+}
+
+</style>
+
+
 <head>
     <script type="text/javascript" src="/site_media/jqwid/scripts/jquery-1.10.2.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -25,6 +57,9 @@ text {
 </div>
 <div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Nabbesh Freelance Jobs Economy</h2><div id='date'></div></center></div>
 <div id="vis" style="width: 100%; height:450px; text-align:center"></div>
+<div id="viszoom" style="width: 100%; height:450px; text-align:center"></div>
+
+
 <script>
 
 var data = [];
@@ -66,6 +101,8 @@ data.forEach(function(node) {
         tree.push(node);
     }
 });
+
+console.log(JSON.stringify(tree[0]));
 
 var diameter = 960,
     format = d3.format(",d"),
@@ -115,12 +152,16 @@ function classes(root) {
   return {children: classes};
 }
 
-d3.select(self.frameElement).style("height", diameter + "px");
-
-
 
 </script>
 
 
 
+
+
+
+
+
 </body>
+</html>
+

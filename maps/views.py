@@ -1674,6 +1674,16 @@ def vistest_report(request):
     })
     return HttpResponse(t.render(c))
 
+@login_required(login_url='/accounts/login/')    
+def categorypacks_report(request):
+    
+   
+    t = loader.get_template('./reports/categorypacks_report.html')
+    c = Context({
+        'categorypacks_report': categorypacks_report,
+    })
+    return HttpResponse(t.render(c))
+
 def getskillname(skillid):
     result = customQuery("select name from skills_skill where id="+skillid,0)    
     return result[0][0]
