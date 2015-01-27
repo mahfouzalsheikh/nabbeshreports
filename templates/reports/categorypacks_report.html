@@ -108,9 +108,9 @@ data.forEach(function(node) {
 var margin = 20,
     diameter = 900;
 
-var color = d3.scale.linear()
+var color1 = d3.scale.linear()
     .domain([-1, 5])
-    .range(["hsl(255,80%,80%)", "hsl(255,30%,40%)"])
+    .range(["hsl(0,80%,80%)", "hsl(255,30%,40%)"])
     .interpolate(d3.interpolateHcl);
 color = d3.scale.category20c();
 var pack = d3.layout.pack()
@@ -135,7 +135,7 @@ d3.json("/site_media/staticflare.json", function(error, root) {
       .data(nodes)
     .enter().append("circle")
       .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-      .style("fill", function(d) { return d.children ? color(d.name) : color(d.name); })
+      .style("fill", function(d) { return d===root ? color(d.name) : color(d.name); })
       .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
 
   var text = svg.selectAll("text")
