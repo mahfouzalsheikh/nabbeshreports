@@ -189,7 +189,7 @@ urlpatterns = patterns('',
     
     url(r'^download$', 'nabbeshreports.maps.views.download'),  
     
-              
+    url(r'^tracker$', 'nabbeshreports.maps.views.tracker_image'),  
    
     url(r'^emailcampaigns$', 'nabbeshreports.maps.views.campaigns_report'),
     url(r'^campaigns_list_getdata$', 'nabbeshreports.maps.views.campaigns_list_getdata'),    

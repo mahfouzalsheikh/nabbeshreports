@@ -2448,4 +2448,14 @@ def crm_notes_delete(request):
         results = customQueryNoResults(sql,4)      
         return HttpResponse(results, mimetype='application/html')   
 
+@csrf_exempt
+def tracker_image(request):
+    import urllib2;   
+    url ="https://s3-us-west-2.amazonaws.com/nabbeshscripts/tracker.png"; 
+    opener = urllib2.urlopen(url);  
+    mimetype = "application/octet-stream"
+    response = HttpResponse(opener.read(), mimetype=mimetype)
+    response["Content-Disposition"]= "attachment; filename=tracker.png"
+    return response 
+
 
