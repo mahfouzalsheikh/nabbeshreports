@@ -604,8 +604,12 @@ def jobs_communications_getdata(request):
 def sign_job_proposal_invoice(request):
     
     t = loader.get_template('./reports/sign_job_proposal_invoice.html')
-    param = get_sourceliststring()
-    c = Context({'sign_job_proposal_invoice': dashboard,'param' : param  })
+
+    medium = get_mediumliststring()
+    source = get_sourceliststring()
+    campaign = get_campaignliststring()
+
+    c = Context({'sign_job_proposal_invoice': dashboard, 'medium' : medium, 'source': source, 'campaign': campaign  })
     return render_to_response('./reports/sign_job_proposal_invoice.html',c, context_instance=RequestContext(request))        
         
 @csrf_exempt  
@@ -615,14 +619,16 @@ def sign_job_proposal_invoice_getdata(request):
         #print objs
         print objs
         cpcchecked = objs['cpcchecked']
-        checkedItems = objs['checkedItems']
+        mediumCheckedItems = objs['mediumCheckedItems']
+        sourceCheckedItems = objs['sourceCheckedItems']
+        campaignCheckedItems = objs['campaignCheckedItems']
         signupchecked = objs['signupchecked']
         t1 = objs['fromdate']
         t2= objs['todate']
         
         wheresql = ""
         if cpcchecked== "True":
-            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  getcpcGroupNewAndOld(checkedItems)
+            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  getcpcGroupNewAndOld(mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
         else:
             wheresql = "Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"'"
            
@@ -640,9 +646,11 @@ def sign_job_proposal_invoice_getdata(request):
 def sign_application_proposal_invoice(request):
     
     t = loader.get_template('./reports/sign_application_proposal_invoice.html')
-    param = get_sourceliststring()
+    medium = get_mediumliststring()
+    source = get_sourceliststring()
+    campaign = get_campaignliststring()
     
-    c = Context({'sign_application_proposal_invoice': dashboard, 'param' : param  })
+    c = Context({'sign_application_proposal_invoice': dashboard, 'medium' : medium, 'source': source, 'campaign': campaign })
     return render_to_response('./reports/sign_application_proposal_invoice.html',c, context_instance=RequestContext(request))        
         
 @csrf_exempt  
@@ -652,13 +660,16 @@ def sign_application_proposal_invoice_getdata(request):
         #print objs
         
         cpcchecked = objs['cpcchecked']
-        checkedItems = objs['checkedItems']
+        mediumCheckedItems = objs['mediumCheckedItems']
+        sourceCheckedItems = objs['sourceCheckedItems']
+        campaignCheckedItems = objs['campaignCheckedItems']
+        
         signupchecked = objs['signupchecked']
         t1 = objs['fromdate']
         t2= objs['todate']        
         wheresql = ""
         if cpcchecked== "True":
-            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  getcpcGroupNewAndOld(checkedItems)
+            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  getcpcGroupNewAndOld(mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
         else:
             wheresql = "Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"'"
 
@@ -2219,17 +2230,17 @@ def ga_get_visits(start_date, end_date, limit):
  
                 
 @csrf_exempt
-def get_results(service, profile_id,checkedItems):
+def get_results(service, profile_id, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems):
   # Use the Analytics Service Object to query the Core Reporting API
-  print checkedItems
+
   return service.data().ga().get(
       ids="ga:" + profile_id,
       start_date="2013-01-01",
       end_date="2020-02-28",
       max_results=100000, 
-      dimensions = "ga:pagePath, ga:medium",
+      dimensions = "ga:pagePath, ga:medium, ga:source, ga:campaign",
       metrics="ga:pageviews",
-      filters="ga:pagePath=~finished_signup;"+checkedItems).execute()
+      filters="ga:pagePath=~finished_signup;"+mediumCheckedItems +campaignCheckedItems ).execute()
 #      filters="ga:pagePath=~finished_signup").execute()
       
       
@@ -2261,7 +2272,83 @@ def get_sourceliststring():
     return HttpResponse(t.render(c))
       
 @csrf_exempt
+def get_mediumliststring():
+    service = initialize_service()
+    try:
+        profile_id = get_first_profile_id(service)       
+        param = profile_id
+        if profile_id:
+	    results=get_mediumlist(service, profile_id)
+	    sources = ""
+	    for source in results:
+	        sources = sources + "" +source[0] + ","
+	    sources = sources[:-1]  
+            return sources
+            
+    except TypeError, error:
+        param=error 
+    except HttpError, error:
+
+        param=error
+    except AccessTokenRefreshError:
+        param=error
+        
+    
+    c = Context({'googleanalytics_report': freelancerdemography_report,  'param': param})
+    return HttpResponse(t.render(c))
+
+
+@csrf_exempt
+def get_campaignliststring():
+    service = initialize_service()
+    try:
+        profile_id = get_first_profile_id(service)       
+        param = profile_id
+        if profile_id:
+	    results=get_campaignlist(service, profile_id)
+	    sources = ""
+	    for source in results:
+	        sources = sources + "" +source[0] + ","
+	    sources = sources[:-1]  
+            return sources
+            
+    except TypeError, error:
+        param=error 
+    except HttpError, error:
+
+        param=error
+    except AccessTokenRefreshError:
+        param=error
+        
+    
+    c = Context({'googleanalytics_report': freelancerdemography_report,  'param': param})
+    return HttpResponse(t.render(c))
+
+
+@csrf_exempt
 def get_sourcelist(service, profile_id):
+  return service.data().ga().get(
+      ids="ga:" + profile_id,
+      start_date="2013-01-01",
+      end_date="2020-02-28",
+      max_results=100000, 
+      dimensions = "ga:source",
+      metrics="ga:organicSearches").execute()['rows']
+
+
+@csrf_exempt
+def get_campaignlist(service, profile_id):
+  return service.data().ga().get(
+      ids="ga:" + profile_id,
+      start_date="2013-01-01",
+      end_date="2020-02-28",
+      max_results=100000, 
+      dimensions = "ga:campaign",
+      metrics="ga:organicSearches").execute()['rows']
+
+
+@csrf_exempt
+def get_mediumlist(service, profile_id):
   return service.data().ga().get(
       ids="ga:" + profile_id,
       start_date="2013-01-01",
@@ -2269,7 +2356,8 @@ def get_sourcelist(service, profile_id):
       max_results=100000, 
       dimensions = "ga:medium",
       metrics="ga:organicSearches").execute()['rows']
-#      filters="ga:pagePath=~finished_signup").execute()      
+
+
 
 @login_required(login_url='/accounts/login/')     
 def googleanalytics_report(request):
@@ -2310,13 +2398,13 @@ def googleanalytics_report(request):
 
 
 @csrf_exempt        
-def getcpcGroup(checkedItems):        
+def getcpcGroup(mediumCheckedItems, sourceCheckedItems, campaignCheckedItems):        
     service = initialize_service()
     try:   
         profile_id = get_first_profile_id(service)
         param = profile_id
         if profile_id:    
-            results = get_results(service, profile_id,checkedItems)
+            results = get_results(service, profile_id,mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
             count=0
             userprofiles=""
             for userprofile in results['rows']:
@@ -2332,8 +2420,8 @@ def getcpcGroup(checkedItems):
     except AccessTokenRefreshError:
         param=error
         
-def getcpcGroupNewAndOld(checkedItems):      
-    cpcresponse = getcpcGroup(checkedItems)
+def getcpcGroupNewAndOld(mediumCheckedItems, sourceCheckedItems, campaignCheckedItems):      
+    cpcresponse = getcpcGroup(mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
     sql1 = ("select id from users where lower(homepage) in " + cpcresponse)
     sql2 = ("select id from users where lower(cast(id as text)) in " + cpcresponse)
     
