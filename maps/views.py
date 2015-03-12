@@ -2350,7 +2350,7 @@ def get_sourcelist(service, profile_id):
       end_date="2020-02-28",
       max_results=100000, 
       dimensions = "ga:source",
-      metrics="ga:organicSearches").execute()['rows']
+      metrics="ga:pageViews").execute()['rows']
 
 
 @csrf_exempt
@@ -2361,7 +2361,7 @@ def get_campaignlist(service, profile_id):
       end_date="2020-02-28",
       max_results=100000, 
       dimensions = "ga:campaign",
-      metrics="ga:organicSearches").execute()['rows']
+      metrics="ga:pageViews").execute()['rows']
 
 
 @csrf_exempt
@@ -2372,7 +2372,7 @@ def get_mediumlist(service, profile_id):
       end_date="2020-02-28",
       max_results=100000, 
       dimensions = "ga:medium",
-      metrics="ga:organicSearches").execute()['rows']
+      metrics="ga:pageViews").execute()['rows']
 
 
 
