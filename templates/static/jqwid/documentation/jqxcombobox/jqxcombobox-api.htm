@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../../Styles/jqx.apireference.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../scripts/documentation.js"></script>
     <meta name="keywords" content="jQuery, List, Combo Box, DropDownList, Popup List, DropDown List, Input" />
     <meta name="description" content="This page represents the help documentation of the jqxComboBox widget." />
@@ -219,6 +219,110 @@
                         <pre><code>var selectedIndex = $('#jqxComboBox').jqxComboBox('selectedIndex');</code></pre>
                          <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/2AwtN/">selectedIndex is set to 2</a></div>
+                    </div>
+                </td>
+            </tr>
+         <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span80'>multiSelect</span>
+                </td>
+                <td>
+                    <span>Boolean</span>
+                </td>
+                <td>
+                    false
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Determines whether the jqxComboBox is in multi-select mode. 
+                        </p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>multiSelect</code> property.
+                        </p>
+                        <pre><code>$("#jqxComboBox").jqxComboBox({multiSelect: true }); </code></pre>
+                         <p>
+                            Get the <code>multiSelect</code> property.
+                        </p>
+                        <pre><code>var multiSelect = $('#jqxComboBox').jqxComboBox('multiSelect');</code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/91f9jq5w/">multiSelect is set to true</a></div>
+                    </div>
+                </td>
+            </tr>
+      <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span81'>showCloseButtons</span>
+                </td>
+                <td>
+                    <span>Boolean</span>
+                </td>
+                <td>
+                    true
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Determines whether the jqxComboBox shows the items close buttons in multi-select mode. 
+                        </p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>showCloseButtons</code> property.
+                        </p>
+                        <pre><code>$("#jqxComboBox").jqxComboBox({showCloseButtons: false }); </code></pre>
+                         <p>
+                            Get the <code>showCloseButtons</code> property.
+                        </p>
+                        <pre><code>var showCloseButtons = $('#jqxComboBox').jqxComboBox('showCloseButtons');</code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/49Lvr8wj/">showCloseButtons is set to false</a></div>
+                    </div>
+                </td>
+            </tr>
+  <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span82'>validateSelection</span>
+                </td>
+                <td>
+                    <span>Function</span>
+                </td>
+                <td>
+                    null
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Determines whether an item can be selected in multi-select mode. 
+                        </p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>validateSelection</code> property.
+                        </p>
+                        <pre><code>$("#jqxComboBox").jqxComboBox({validateSelection: function(itemValue)
+                            {
+                                if (itemValue == "Breve")
+                                {
+                                   return false;
+                                }
+                                return true;
+                            }                             
+                         }); </code></pre>
+                         <p>
+                            Get the <code>validateSelection</code> property.
+                        </p>
+                        <pre><code>var validateSelection = $('#jqxComboBox').jqxComboBox('validateSelection');</code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/kg9bxL83/">validateSelection is set to a custom function</a></div>
                     </div>
                 </td>
             </tr>

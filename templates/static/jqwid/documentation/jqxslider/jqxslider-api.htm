@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../../Styles/jqx.apireference.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../scripts/documentation.js"></script>
     <meta name="keywords" content="jQuery, Slider, RangeSlider, jQuery Slider, Slider Widget, jqxSlider, jquery mobile slider, javascript mobile slider" />
     <meta name="description" content="This page represents the help documentation of the jqxSlider widget." />
@@ -587,17 +587,17 @@
                     <span id='Span35'>tooltip</span>
                 </td>
                 <td>
-                    <span>Bool</span>
+                    <span>Boolean</span>
                 </td>
                 <td>
-                   true
+                   false
                 </td>
             </tr>
             <tr>
                 <td colspan='3' style='width: 100%'>
                     <div class="documentation-option-description property-content" style="display: none;">
                         <p>
-                        Sets or gets whether the slider title will be shown.</p>
+                        Sets or gets whether the slider tooltip will be shown.</p>
                         <h4>
                             Code examples</h4>
                         <p>
@@ -610,6 +610,103 @@
                         <pre><code>var tooltip = $('#jqxSlider').jqxSlider('tooltip'); </code></pre>
                            <div style="padding-bottom:5px;">
                         <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/fbPsv/">tooltip is set to true</a>  </div> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span18'>tooltipHideDelay</span>
+                </td>
+                <td>
+                    <span>Numer</span>
+                </td>
+                <td>
+                   500
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                        Sets or gets the tooltip's hide delay.</p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Set the <code>tooltipHideDelay</code> property.
+                        </p>
+                        <pre><code>$('#jqxSlider').jqxSlider({ tooltipHideDelay: 2000 }); </code></pre>
+                         <p>
+                            Get the <code>tooltipHideDelay</code> property.
+                        </p>
+                        <pre><code>var tooltipHideDelay = $('#jqxSlider').jqxSlider('tooltipHideDelay'); </code></pre>
+                           <div style="padding-bottom:5px;">
+                        <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Lyoh02wo/">tooltipHideDelay is set to 2000</a>  </div> 
+                    </div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span24'>tooltipPosition</span>
+                </td>
+                <td>
+                    <span>String</span>
+                </td>
+                <td>
+                   "near"
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                        Sets or gets the tooltip's position. Possible values: "near", "far"</p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Set the <code>tooltipPosition</code> property.
+                        </p>
+                        <pre><code>$('#jqxSlider').jqxSlider({ tooltipPosition: "far" }); </code></pre>
+                         <p>
+                            Get the <code>tooltipPosition</code> property.
+                        </p>
+                        <pre><code>var tooltipPosition = $('#jqxSlider').jqxSlider('tooltipPosition'); </code></pre>
+                           <div style="padding-bottom:5px;">
+                        <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/tqeLgh63/">tooltipPosition is set to "far"</a>  </div> 
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span25'>tooltipFormatFunction</span>
+                </td>
+                <td>
+                    <span>Function</span>
+                </td>
+                <td>
+                   null
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                        Sets or gets the tooltip's tooltip formatting.</p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Set the <code>tooltipFormatFunction</code> property.
+                        </p>
+                        <pre><code>$('#jqxSlider').jqxSlider({ tooltipFormatFunction: function(value){return new Number(value).toPrecision(2); }}); </code></pre>
+                         <p>
+                            Get the <code>tooltipFormatFunction</code> property.
+                        </p>
+                        <pre><code>var tooltipFormatFunction = $('#jqxSlider').jqxSlider('tooltipFormatFunction'); </code></pre>
+                           <div style="padding-bottom:5px;">
+                        <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/tn3pv9fn/">tooltipFormatFunction is set to custom function</a>  </div> 
                     </div>
                 </td>
             </tr>

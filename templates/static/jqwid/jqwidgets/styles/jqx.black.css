@@ -115,6 +115,9 @@ border-color:#262626; color:#fff}
 .jqx-grid-black, .jqx-grid-header-black, .jqx-grid-cell-black{border-color:#262626}
 .jqx-widget-black .jqx-grid-column-menubutton-black, .jqx-widget-black .jqx-grid-column-sortascbutton-black, .jqx-widget-black .jqx-grid-column-sortdescbutton-black, .jqx-widget-black .jqx-grid-column-filterbutton-black{border-color:#262626}
 .jqx-widget-black .jqx-grid-column-header-black{border-color:#262626}
+.jqx-calendar-cell-today-black {
+    color: #35353A;
+}
 .jqx-grid-bottomright-black, .jqx-panel-bottomright-black, .jqx-listbox-bottomright-black{background-color:#262626}
 .jqx-widget-black .jqx-grid-column-menubutton-black, .jqx-menu-vertical-black{background-color:#262626; border-color:#262626}
 .jqx-menu-vertical-black{background: #222; color:#fff;}
@@ -217,4 +220,7 @@ background: linear-gradient(top, #f87948 0%,#fb4e0b 4%,#f44501 11%,#e24000 19%,#
 }
 .jqx-menu-minimized-button-black {
    background-image: url('images/icon-menu-minimized-white.png');
+}
+.jqx-editor-toolbar-icon-black {
+    background: url('images/html_editor_white.png') no-repeat;
 }

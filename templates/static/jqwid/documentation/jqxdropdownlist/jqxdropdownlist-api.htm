@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../../Styles/jqx.apireference.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../scripts/documentation.js"></script>
     <meta name="keywords" content="jQuery, List, ListBox, DropDownList, Popup List, DropDown List, Input" />
     <meta name="description" content="This page represents the help documentation of the jqxDropDownList widget." />
@@ -273,7 +273,7 @@ var source =
 // create a new instance of the jqx.dataAdapter.
 var dataAdapter = new $.jqx.dataAdapter(source);
 
-// Create a jqxListBox
+// Create a jqxDropDownList
 $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactName", valueMember: "CompanyName", width: 200, height: 250});
 </code></pre>
                         <p>
@@ -407,6 +407,130 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                         <pre><code>var checkboxes = $('#jqxDropDownList').jqxDropDownList('checkboxes'); </code></pre>
                          <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/CLB86/">checkboxes is set to true</a></div>
+                    </div>
+                </td>
+            </tr>
+              <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span17'>filterable</span>
+                </td>
+                <td>
+                    <span>Boolean</span>
+                </td>
+                <td>
+                   false
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           Determines whether the Filtering is enabled.</p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>filterable</code> property.
+                        </p>
+                        <pre><code>$("#jqxDropDownList").jqxDropDownList({filterable:true}); </code></pre>
+                        <p>
+                            Get the <code>filterable</code> property.
+                        </p>
+                        <pre><code>var filterable = $('#jqxDropDownList').jqxDropDownList('filterable'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/ph5S6/">filterable is set to true</a></div>
+                    </div>
+                </td>
+            </tr>
+             <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span77'>filterHeight</span>
+                </td>
+                <td>
+                    <span>Number</span>
+                </td>
+                <td>
+                   27
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           Determines the Filter's height.</p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>filterHeight</code> property.
+                        </p>
+                        <pre><code>$("#jqxDropDownList").jqxDropDownList({filterHeight:30}); </code></pre>
+                        <p>
+                            Get the <code>filterHeight</code> property.
+                        </p>
+                        <pre><code>var filterHeight = $('#jqxDropDownList').jqxDropDownList('filterHeight'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/RnpYb/">filterHeight is set to 30</a></div>
+                    </div>
+                </td>
+            </tr>
+       <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span78'>filterDelay</span>
+                </td>
+                <td>
+                    <span>Number</span>
+                </td>
+                <td>
+                   100
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           Determines the Filter's delay. After 100 milliseconds, the widget automatically filters its data based on the filter input's value. To perform filter only on "Enter" key press, set this property to 0.</p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>filterDelay</code> property.
+                        </p>
+                        <pre><code>$("#jqxDropDownList").jqxDropDownList({filterDelay:300}); </code></pre>
+                        <p>
+                            Get the <code>filterDelay</code> property.
+                        </p>
+                        <pre><code>var filterDelay = $('#jqxDropDownList').jqxDropDownList('filterDelay'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/PT988/">filterDelay is set to 300</a></div>
+                    </div>
+                </td>
+            </tr>
+      <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span79'>filterPlaceHolder</span>
+                </td>
+                <td>
+                    <span>String</span>
+                </td>
+                <td>
+                   "Looking for"
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           Determines the Filter input's place holder.</p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>filterPlaceHolder</code> property.
+                        </p>
+                        <pre><code>$("#jqxDropDownList").jqxDropDownList({filterPlaceHolder:300}); </code></pre>
+                        <p>
+                            Get the <code>filterPlaceHolder</code> property.
+                        </p>
+                        <pre><code>var filterPlaceHolder = $('#jqxDropDownList').jqxDropDownList('filterPlaceHolder'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/GY7LM/">filterPlaceHolder is set to "Filtering..."</a></div>
                     </div>
                 </td>
             </tr>
@@ -2550,6 +2674,33 @@ $("#jqxWidget").jqxDropDownList({ source: dataAdapter, displayMember: "ContactNa
                          <pre><code>$("#jqxDropDownList").val('New Value');</code></pre>   
                           <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/w4Wqk/">sets or gets the selected value in the jqxDropDownList</a></div>                                             
+                    </div>
+                </td>
+            </tr>
+         <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span80'>clearFilter</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Clears the widget's filter when filtering is applied.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Invoke the <code>clearFilter</code> method.
+                        </p>
+                        <pre><code>$('#jqxDropDownList').jqxDropDownList('clearFilter'); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/7gryLwv0/">clears the jqxDropDownList's Filter.</a></div>                                             
                     </div>
                 </td>
             </tr>

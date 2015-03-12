@@ -44,23 +44,34 @@
   
   Files for individual widgets and plug-ins. Include depending on project needs:
 	
-  jqxbutton.js: Button, RepeatButton, SubmitButton & ToggleButton widgets
-  jqxbuttongroup.js: Button Group widget
-  jqxcalendar.js: impements Calendar widget
-  jqxchart.js: Chart widget
-  jqxcheckbox.js: CheckBox widget   
+  jqxangular.js: AngularJS integration plug-in
+  jqxbuttons.js: Button, RepeatButton, SubmitButton & ToggleButton widgets
+  jqxbulletchart.js: BulletChart widget
+  jqxbuttongroup.js: Button group widget
+  jqxcalendar.js: Calendar widget
   jqxcombobox.js: ComboBox widget
+  jqxcomplexinput.js: Complex Numbers TextBox widget
+  jqxchart.core.js: Chart widget's Core
+  jqxchart.rangeselector.js: Chart Range Selector
+  jqxchart.api.js: Chart API
+  jqxchart.annotations.js: Chart's annotations
+  jqxchart.waterfall.js: Waterfall Chart
+  jqxcheckbox.js: CheckBox widget
+  jqxdata.js: Data Source plug-in
+  jqxdata.export.js: Data Export plug-in
+  jqxdatetimeinput.js: DateTimeInput widget
   jqxcolorpicker.js: Color Picker widget
-  jqxdata.js: Data Source plug-in  
-  jqxdata.export.js: Data export plug-in  
-  jqxdatatable.js DataTable widget.
-  jqxdropdownbutton.js: DropDownButton widget
-  jqxdatetimeinput.js: impements DateTimeInput widget
+  jqxdatatable.js: DataTable widget
+  jqxdocking.js: Docking widget
+  jqxdropdownbutton.js: DropDown Button widget
+  jqxdragdrop.js: DragDrop plug-in
+  jqxdraw.js: Draw Plugin.
   jqxdockpanel.js: DockPanel widget
   jqxdropdownlist.js: DropDownList widget
-  jqxdocking.js: Docking widget
-  jqxdragdrop.js: DragDrop plug-in
+  jqxeditor.js: Editor widget
   jqxexpander.js: Expander widget
+  jqxfileupload.js: FileUpload widget
+  jqxformattedinput.js: Binary, Octal, Hex TextBox widget
   jqxgrid.js: Grid widget
   jqxgrid.sort.js: Grid Sort plug-in
   jqxgrid.filter.js: Grid Filter plug-in
@@ -68,38 +79,41 @@
   jqxgrid.selection.js: Grid Selection plug-in
   jqxgrid.columnsresize.js: Grid Columns Resize plug-in
   jqxgrid.columnsreorder.js: Grid Columns Reorder plug-in
-  jqxgrid.pager.js: Grid paging plug-in
-  jqxgrid.edit.js: Grid edit plug-in
-  jqxgrid.aggregates.js: Grid aggregates plug-in
-  jqxgrid.export.js: Grid export plug-in
+  jqxgrid.pager.js: Grid Pager plug-in
+  jqxgrid.edit.js: Grid Editing plug-in
   jqxgrid.storage.js: Grid Save/Load state plug-in
-  jqxgauge.js: Gauge widget
-  jqxinput.js: Input widget
-  jqxknockout.js: Knockout Integration plug-in
+  jqxgrid.aggregates.js: Grid Aggregates plug-in
+  jqxgauge.js: Radial and Linear Gauge widget
+  jqxinput.js: TextBox widget
+  jqxknockout.js: Knockout integration plug-in
   jqxlistbox.js: ListBox widget
-  jqxlistmenu.js: ListMenu widget
   jqxmaskedinput.js: Masked TextBox widget
   jqxmenu.js: Menu widget
   jqxnavigationbar.js: NavigationBar widget
+  jqxnavbar.js: NavBar widget
+  jqxnotification.js: Notification widget
   jqxnumberinput.js: NumberInput TextBox widget
+  jqxrangeselector.js: RangeSelector widget
   jqxpanel.js: Panel widget
+  jqxpopup.js: impements PopUp widget
   jqxprogressbar.js: ProgressBar widget
-  jqxpasswordinput.js: Password widget
-  jqxresponse.js: Response plug-in  
+  jqxpasswordinput.js: Password input widget
   jqxrating.js: Rating widget
-  jqxrangeselector.js: Range Selector widget  
-  jqxradiobutton.js: RadioButton widget   
+  jqxribbon.js: Ribbon widget
+  jqxradiobutton.js: RadioButton widget
+  jqxresponse.js: Response plug-in
   jqxswitchbutton.js: Switch Button widget
   jqxscrollbar.js: ScrollBar widget
-  jqxslider.js: Slider widget
-  jqxsplitter.js: Splitter widget
   jqxscrollview.js: ScrollView widget
+  jqxsplitter.js: Splitter widget
+  jqxslider.js: Slider widget
   jqxtabs.js: Tabs widget
   jqxtree.js: Tree widget
   jqxtreemap.js: TreeMap widget
-  jqxtouch.js plug-in: which simlifies handling of touch events
+  jqxtreegrid.js: TreeGrid widget
+  jqxtoolbar.js: Toolbar widget
   jqxtooltip.js: ToolTip widget
-  jqxvalidator.js: Validator plug-in
+  jqxvalidator.js: Validation plug-in
   jqxwindow.js: Window widget
 
   File for all widgets and plug-ins:
@@ -125,12 +139,7 @@
   The /scripts, /images, /styles folders contain the jquery library and
   other files used by the demo only.
 
-5.Unit tests
-  
-  All jQWidget unit tests are located in the tests directory.
-  You can use the unit tests if you're planning to modify some of the widgets.
-
-6.License & Purchase
+5.License & Purchase
 
    For more information regarding the licensing, please visit: http://www.jqwidgets.com/license
 

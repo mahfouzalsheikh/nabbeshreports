@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" href="../../Styles/jqx.apireference.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../scripts/documentation.js"></script>
     <meta name="keywords" content="API, documentation, help, jQuery range selector, jQWidgets, jqxRangeSelector, range, range selector, range selector widget" />
     <meta name="description" content="jqxRangeSelector API Reference" />
@@ -50,7 +50,6 @@
                             Possible values:
                         </p>
                         <ul>
-                            <li>"auto";</li>
                             <li>"Npx", where N is a number;</li>
                             <li>numeric value in pixels.</li></ul>
                         <h4>
@@ -87,7 +86,6 @@
                             Possible values:
                         </p>
                         <ul>
-                            <li>"auto";</li>
                             <li>"Npx", where N is a number;</li>
                             <li>numeric value in pixels.</li></ul>
                         <h4>
@@ -211,6 +209,43 @@
                         <pre><code>var max = $("jqxRangeSelector").jqxRangeSelector("max");</code></pre>
                            <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/mUAbZ/">max is set to 95</a></div>
+                    </div>
+                </td>
+            </tr>
+           <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span12'>padding</span>
+                </td>
+                <td>
+                    <span>Number/String</span>
+                </td>
+                <td>
+                    "auto"
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Sets or gets the range selector's padding.<br />
+                            Possible values:
+                        </p>
+                        <ul>
+                            <li>"auto";</li>
+                            <li>"Npx", where N is a number;</li>
+                            <li>numeric value in pixels.</li></ul>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>padding</code> property.
+                        </p>
+                        <pre><code>$('#jqxRangeSelector').jqxRangeSelector({ padding: "0px" });</code></pre>
+                        <p>
+                            Get the <code>padding</code> property.
+                        </p>
+                        <pre><code>var padding = $("jqxRangeSelector").jqxRangeSelector("padding");</code></pre>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/kumWj/">padding is set to "0px"</a></div>
                     </div>
                 </td>
             </tr>

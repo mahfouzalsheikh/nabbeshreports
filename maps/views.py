@@ -626,9 +626,13 @@ def sign_job_proposal_invoice_getdata(request):
         t1 = objs['fromdate']
         t2= objs['todate']
         
-        wheresql = ""
+        wheresql =""
         if cpcchecked== "True":
-            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  getcpcGroupNewAndOld(t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
+            try:
+                wr = getcpcGroupNewAndOld(t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
+            except:
+                wr = "(0)"         
+            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  wr               
         else:
             wheresql = "Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"'"
            
@@ -667,20 +671,25 @@ def sign_application_proposal_invoice_getdata(request):
         signupchecked = objs['signupchecked']
         t1 = objs['fromdate']
         t2= objs['todate']  
-   
-
-     
-        wheresql = ""
+         
+        
+        wheresql =""
         if cpcchecked== "True":
-            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  getcpcGroupNewAndOld(t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
+            try:
+                wr = getcpcGroupNewAndOld(t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
+            except:
+                wr = "(0)"         
+            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  wr               
         else:
             wheresql = "Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"'"
-
+        
            
         sql = ("select count(distinct u.id) as user_count, count(distinct applicants.id) as applicants_count, count(distinct proposals.applicant_id) as proposal_count, count(distinct invoices.applicant_id) as invoice_count, count(distinct applicants.applicationid) as applicationscount, count(distinct proposals.proposalid) as proposalscount, count(distinct invoiceid) as invoicescount from users u inner join auth_user au on u.django_user_id=au.id left outer join (select u1.id,ca.id as applicationid from users u1 inner join contracts_application ca on ca.applicant_id=u1.id) applicants on applicants.id=u.id left outer join (select ca1.applicant_id,ca1.id,cp.message_ptr_id  as proposalid from contracts_application ca1 inner join contracts_message cm on cm.application_id=ca1.id inner join contracts_proposal cp on cp.message_ptr_id=cm.id) proposals on proposals.applicant_id=u.id left outer join (select ca2.applicant_id,ci.message_ptr_id as invoiceid from contracts_message cm1 inner join contracts_invoice ci on ci.message_ptr_id=cm1.id inner join contracts_application ca2 on ca2.id=cm1.application_id) invoices on invoices.applicant_id=u.id " + wheresql)
         
+        print sql
         results = customQuery(sql,1)
- 	#print sql	
+ 	
+        
         c = Context({'statistics': results})
         return HttpResponse(render_to_string('sign_application_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
         
@@ -2422,17 +2431,17 @@ def getcpcGroup(t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedI
         param = profile_id
         if profile_id:    
             results = get_results(service, profile_id,t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
-            #print results['rows']
+            
             count=0
             userprofiles=""
             
-            for userprofile in results['rows']:
-                
+            for userprofile in results['rows']:                
                 userprofiles = userprofiles + "'" + userprofile[0].replace("?just_finished_signup=True","").replace("/profile/","").replace("/","").replace("&edit=true","").lower() + "',"
-                count=count+1
+                count=count+1                
 	    userprofiles= "(" + userprofiles[:-1] + ")"
             print "Count--------------------------------------------------"
             print count
+            print userprofiles
 	    return userprofiles
 	    
     except TypeError, error:
@@ -2451,14 +2460,13 @@ def getcpcGroupNewAndOld(t1, t2, mediumCheckedItems, sourceCheckedItems, campaig
     result2 = customQuery(sql1,2)
     
     result = result1 + result2
-    #print result
+    
     count=0
     userprofiles=""
     for userprofile in result:
         userprofiles = userprofiles + str(userprofile[0]) + ","
         count=count+1
     userprofiles= "(" + userprofiles[:-1] + ")"
-    #print userprofiles
     return userprofiles
     
     

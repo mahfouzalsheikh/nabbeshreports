@@ -75,9 +75,9 @@
      var campaignlistsource = campaignstring.split(",");
 
      
-     $("#mediumlist").jqxDropDownList({theme: theme,width: 250,height: 25, source: mediumlistsource, checkboxes: true, animationType: 'fade'});
-     $("#campaignlist").jqxDropDownList({theme: theme,width: 250,height: 25, source: campaignlistsource, checkboxes: true, animationType: 'fade'});
-     $("#sourcelist").jqxDropDownList({theme: theme,width: 250,height: 25, source: sourcelistsource, checkboxes: true, animationType: 'fade'});
+     $("#mediumlist").jqxDropDownList({theme: theme,width: 250,height: 25,filterable: true, source: mediumlistsource, checkboxes: true, animationType: 'fade'});
+     $("#campaignlist").jqxDropDownList({theme: theme,width: 250,height: 25,filterable: true, source: campaignlistsource, checkboxes: true, animationType: 'fade'});
+     $("#sourcelist").jqxDropDownList({theme: theme,width: 250,height: 25,filterable: true, source: sourcelistsource, checkboxes: true, animationType: 'fade'});
      var metricsss,mediumCheckedItems, sourceCHeckedItems, campaignCheckedItems;
      $("#mediumlist").on('checkChange', function (event) {
         metricsss = $("#mediumlist").jqxDropDownList('getCheckedItems');
@@ -156,12 +156,13 @@
 	
       
       obj= $.parseJSON(jsonData);
-      
+      console.log(obj); 
+
       signedup=obj[0];
       appliedforjob=obj[1];
       sentproposal=obj[2];
       sentinvoice=obj[3];   
-      
+if(parseFloat(signedup)>0 && parseFloat(appliedforjob)>0  ){      
       applicationscount = obj[4];
       proposalscount = obj[5];
       invoicescount = obj[6];   
@@ -170,9 +171,7 @@
       stage2=(parseFloat(sentproposal) / parseFloat(appliedforjob)*100).toFixed(2) + '%  >>>';
       stage3=(parseFloat(sentinvoice) / parseFloat(sentproposal)*100).toFixed(2) + '%  >>>';
       
-      //$('#stage1').html(stage1);
-      //$('#stage2').html(stage2);
-      //$('#stage3').html(stage3);
+
       
 	          
       var period = '';
@@ -211,7 +210,9 @@
                 .Set('shadow.color', 'gray')
                 .Draw();     
    
-      // Apply formatter to second column
+      }
+      else
+        {alert("No Suffecient Data to Draw The Funnel");} 
     }
     
      

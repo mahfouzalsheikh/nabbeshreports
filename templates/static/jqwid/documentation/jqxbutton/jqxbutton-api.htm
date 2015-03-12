@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../../styles/jqx.apireference.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../scripts/documentation.js"></script>
     <meta name="keywords" content="jQuery, Button, Toggle Button, Repeat Button, Link Button, Help Documentation, jQuery Button, JavaScript Button, jQuery Mobile Button" />
     <meta name="description" content="This page represents the help documentation of the jqxButton, jqxToggleButton, jqxRepeatButton and jqxLinkButton widgets." />
@@ -273,6 +273,50 @@
                         <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/yEFBC/">theme is set to 'energyblue'</a>
                     </div>
+                </td>
+            </tr>
+        <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span12'>template</span>
+                </td>
+                <td>
+                    <span>String</span>
+                </td>
+                <td>
+                    'default'
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Determines the button's template as an alternative of the default styles.</p>
+                        <b>Possible Values:</b>
+                        <br />
+                        <pre><code>'default' - the default button's template. The button's style depends only on its "theme" property value.</code></pre>
+                        <pre><code>'primary' - dark blue button for extra visual weight.</code></pre>
+                        <pre><code>'success' - green button for successful or positive action.</code></pre>
+                        <pre><code>'warning' - orange button which indicates caution.</code></pre>
+                        <pre><code>'danger' - red button which indicates a dangerous or negative action.</code></pre>
+                        <pre><code>'inverse' - dark gray button, not tied to a semantic action or use.</code></pre>
+                        <pre><code>'info' - blue button, not tied to a semantic action or use.</code></pre>
+                        <pre><code>'link' - making it look like a link .</code></pre>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                           Set the <code>template</code> property.
+                        </p>
+                        <pre><code>$("#jqxButton").jqxButton({ template: 'primary'});</code></pre>
+                        
+                        <p>
+                            Get the <code>template</code> property.
+                        </p>
+                        <pre><code>var template = $('#jqxButton').jqxButton('template');</code></pre>
+                       <div style="padding-bottom:5px;">
+                        <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/CpVnv/">template is set to 'success'</a>
+                       </div> 
+          
+		   </div>
                 </td>
             </tr>
            <tr>

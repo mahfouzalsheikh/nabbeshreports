@@ -105,6 +105,10 @@
 .jqx-grid-column-menubutton-metrodark {
     background-image: url('images/metro-icon-down-white.png');
  }
+.jqx-calendar-cell-today-metrodark {
+    color: #35353A;
+}
+
 .jqx-widget-metrodark .jqx-grid-cell-selected-metrodark, .jqx-grid-cell-selected-metrodark{ background-color:#007ACC; border-color: #007ACC; font-size: 12px;  color:#fff;}
 .jqx-widget-metrodark .jqx-grid-cell-hover-metrodark, .jqx-grid-cell-hover-metrodark{ background-color:#1C97EA; border-color: #1C97EA;}
  /*applied to the column's sort button when the sort order is ascending.*/
@@ -340,4 +344,7 @@
 }
 .jqx-menu-minimized-button-metrodark {
    background-image: url('images/icon-menu-minimized-white.png');
+}
+.jqx-editor-toolbar-icon-metrodark {
+    background: url('images/html_editor_white.png') no-repeat;
 }

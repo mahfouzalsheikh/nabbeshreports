@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../../Styles/jqx.apireference.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../scripts/documentation.js"></script>
     <meta name="keywords" content="jQuery, Menu, MainMenu, jqxMenu, Context Menu, Vertical Menu, Horizontal Menu, Menu Widget, Web Menu, Top Menu, jquery mobile menu, javascript mobile menu" />
     <meta name="description" content="This page represents the help documentation of the jqxMenu widget(includes Menu, Context Menu and Vertical Menu)." />
@@ -567,6 +567,37 @@ $('#jqxMenu').jqxMenu({ source: source, height: '30px', width: '330px'});
                     </div>
                 </td>
             </tr>
+          <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span31'>keyboardNavigation</span>
+                </td>
+                <td>
+                    <span>Boolean</span>
+                </td>
+                <td>
+                    false
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Enables or disables the jqxMenu's keyboard navigation.</p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>keyboardNavigation</code> property.
+                        </p>
+                        <pre><code>$('#jqxMenu').jqxMenu({keyboardNavigation: true}); </code></pre>
+                        <p>
+                            Get the <code>disabled</code> property.
+                        </p>
+                        <pre><code>var keyboardNavigation = $('#jqxMenu').jqxMenu('keyboardNavigation');</code></pre>
+                                                    <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/fwxfuwd1/">keyboardNavigation is set to true</a></div>
+                    </div>
+                </td>
+            </tr>
             <tr>
                 <td class="documentation-option-type-click">
                     <span id='Span13'>autoOpenPopup</span>
@@ -690,6 +721,37 @@ $('#jqxMenu').jqxMenu({ source: source, height: '30px', width: '330px'});
                         <pre><code>var clickToOpen = $('#jqxMenu').jqxMenu('clickToOpen');</code></pre>
                             <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/56NZQ/">clickToOpen is set to true</a></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span26'>minimizeWidth</span>
+                </td>
+                <td>
+                    <span>String</span>
+                </td>
+                <td>
+                    'auto'
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Sets or gets the jqxMenu's minimizeWidth. That width determines the minimum browser window's width when the Menu will switch from normal to minimized mode and the Menu's width is in percentages. Set it to null, if you want to disable that behavior. Note: jqxMenu automatically switches to minimized mode, when it is displayed on a touch device. By setting the property to null, you will disable that behavior, too.</p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>minimizeWidth</code> property.
+                        </p>
+                        <pre><code>$('#jqxMenu').jqxMenu({ minimizeWidth: 250 });</code></pre>
+                      <p>
+                            Get the <code>minimizeWidth</code> property.
+                        </p>
+                        <pre><code>var minimizeWidth = $('#jqxMenu').jqxMenu('minimizeWidth');</code></pre>
+                            <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/w68qW/">minimizeWidth is set to 450</a></div>
                     </div>
                 </td>
             </tr>
@@ -865,7 +927,7 @@ $('#jqxMenu').jqxMenu({ source: source, height: '30px', width: '330px'});
                         </p>
                         <pre><code>$('#jqxMenu').jqxMenu('openItem', menuItemId);</code></pre>
                                                    <div style="padding-bottom:5px;">
-  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/9n8SD/">opens an item in the jqxMenu </a></div>
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/CJSwp/">opens an item in the jqxMenu </a></div>
                     </div>
                 </td>
             </tr>
@@ -1001,6 +1063,87 @@ $('#jqxMenu').jqxMenu({ source: source, height: '30px', width: '330px'});
                         <pre><code>$('#jqxMenu').jqxMenu('destroy'); </code></pre>
                               <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/9n8SD/">destroys the jqxMenu </a></div>
+                    </div>
+                </td>
+            </tr>
+           <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span28'>minimize</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Minimizes the widget.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Invoke the <code>minimize</code> method.
+                        </p>
+                        <pre><code>$('#jqxMenu').jqxMenu('minimize'); </code></pre>
+                              <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/ypNUV/">minimizes the jqxMenu </a></div>
+                    </div>
+                </td>
+            </tr>
+         <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span29'>restore</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Restores the widget from the "minimized" state.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Invoke the <code>restore</code> method.
+                        </p>
+                        <pre><code>$('#jqxMenu').jqxMenu('restore'); </code></pre>
+                              <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/ypNUV/">restores the jqxMenu </a></div>
+                    </div>
+                </td>
+            </tr>
+    <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span30'>disable</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Disables or enables a menu item. The method has two parameters - HTML Element ID and a boolean value which determines whether to disable or enable the element. 
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Invoke the <code>disable</code> method.
+                        </p>
+                        <pre><code>$('#jqxMenu').jqxMenu('disable', 'productLITagID', true); </code></pre>
+                              <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/fy2Ca/">disables a jqxMenu item.</a></div>
                     </div>
                 </td>
             </tr>

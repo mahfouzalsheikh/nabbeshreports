@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../../Styles/jqx.apireference.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../scripts/documentation.js"></script>
     <meta name="keywords" content="jQuery, Input, Number Input, Currency Input, Percentage Input, Floating-Point Input, Decimal Input, jqxNumberInput" />
     <meta name="description" content="This page represents the help documentation of the jqxNumberInput widget." />
@@ -124,6 +124,37 @@
                     </div>
                 </td>
             </tr>
+           <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span6'>disabled</span>
+                </td>
+                <td>
+                    <span>Boolean</span>
+                </td>
+                <td>
+                    false
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Determines whether jqxNumberInput is disabled.</p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Set the <code>disabled</code> property.
+                        </p>
+                        <pre><code>$("#jqxNumberInput").jqxNumberInput({ disabled: true }) </code></pre>
+                         <p>
+                            Get the <code>disabled</code> property.
+                        </p>
+                        <pre><code>var disabled = $('#jqxNumberInput').jqxNumberInput('disabled');</code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/vSYL7/">disabled is set to true</a></div>
+                    </div>
+                </td>
+            </tr>
             <tr>
                 <td class="documentation-option-type-click">
                     <span id='Span4'>width</span>
@@ -183,6 +214,36 @@
                         <pre><code>var height = $('#jqxNumberInput').jqxNumberInput('height');</code></pre>
                          <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/SzVkL/">height is set to '25px'</a></div>
+                    </div>
+                </td>
+            </tr>
+        <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span25'>disabled</span>
+                </td>
+                <td>
+                    <span>Boolean</span>
+                </td>
+                <td>
+                    false
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                       <p>Sets or gets whether the widget is disabled.</p>
+                       <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>disabled</code> property.
+                        </p>
+                        <pre><code>$('#jqxNumberInput').jqxNumberInput({disabled : true}); </code></pre>
+                        <p>
+                            Get the <code>disabled</code> property.
+                        </p>
+                        <pre><code>var disabled = $('#jqxNumberInput').jqxNumberInput('disabled'); </code></pre>
+                          <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/a34sdc9u/">disabled is set to true</a></div>
                     </div>
                 </td>
             </tr>
@@ -776,7 +837,7 @@
             </tr>
             <tr>
                 <td class="documentation-option-type-click">
-                    <span id='Span27'>valuechanged</span>
+                    <span id='Span27'>valueChanged</span>
                 </td>
                 <td>
                     <span>Event</span>
@@ -792,14 +853,14 @@
                         <h4>
                             Code examples</h4>
                         <p>
-                            Bind to the <code>valuechanged</code> event by type: jqxNumberInput.
+                            Bind to the <code>valueChanged</code> event by type: jqxNumberInput.
                         </p>
-                        <pre><code>$('#jqxNumberInput').on('valuechanged', function (event)
+                        <pre><code>$('#jqxNumberInput').on('valueChanged', function (event)
 {
     var value = event.args.value;
 }); </code></pre>
                                                   <div style="padding-bottom:5px;">
-  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/pk2Gz/"> Bind to the valuechanged event by type: jqxNumberInput.</a></div>
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/pk2Gz/"> Bind to the valueChanged event by type: jqxNumberInput.</a></div>
                     </div>
                 </td>
             </tr>

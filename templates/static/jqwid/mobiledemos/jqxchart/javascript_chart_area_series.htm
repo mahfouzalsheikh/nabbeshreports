@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta name="msapplication-tap-highlight" content="no" />
     <title id='Description'>jQWidgets Chart Area Series Mobile Example</title>
     <link rel="stylesheet" href="../styles/demo.css" type="text/css" />
@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.blackberry.css" type="text/css" />
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.android.css" type="text/css" />
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.mobile.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="../simulator.js"></script>
@@ -73,9 +73,6 @@
                             type: 'area',
                             valueAxis:
                             {
-                                unitInterval: 500,
-                                minValue: 0,
-                                maxValue: 3000,
                                 displayValueAxis: true,
                                 description: 'Daily Closing Price',
                                 //descriptionClass: 'css-class-name',
@@ -83,8 +80,8 @@
                                 tickMarksColor: '#888888'
                             },
                             series: [
-                                    { dataField: 'S&P 500', displayText: 'S&P 500' },
-                                    { dataField: 'NASDAQ', displayText: 'NASDAQ' }
+                                    { dataField: 'NASDAQ', displayText: 'NASDAQ' },
+                                    { dataField: 'S&P 500', displayText: 'S&P 500' }
                             ]
                         }
                     ]

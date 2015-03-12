@@ -12,6 +12,14 @@
     }
 
     var theme = window.location.toString().substring(1 + themestart);
+    if (theme.indexOf('(') >= 0)
+    {
+        theme = theme.substring(1);
+    }
+    if (theme.indexOf(')') >= 0) {
+        theme = theme.substring(0, theme.indexOf(')'));
+    }
+
     var url = "../../jqwidgets/styles/jqx." + theme + '.css';
 
     if (document.createStyleSheet != undefined) {
@@ -27,13 +35,24 @@
         }
     }
     else {
-        var link = $('<link rel="stylesheet" href="' + url + '" media="screen" />');
-        link[0].onload = function () {
-            if ($.jqx && $.jqx.ready) {
-                $.jqx.ready();
-            };
+        var hasStyle = false;
+        if (document.styleSheets) {
+            $.each(document.styleSheets, function (index, value) {
+                if (value.href != undefined && value.href.indexOf(theme) != -1) {
+                    hasStyle = true;
+                    return false;
+                }
+            });
         }
-        $(document).find('head').append(link);
+        if (!hasStyle) {
+            var link = $('<link rel="stylesheet" href="' + url + '" media="screen" />');
+            link[0].onload = function () {
+                if ($.jqx && $.jqx.ready) {
+                    $.jqx.ready();
+                };
+            }
+            $(document).find('head').append(link);
+        }
     }
     $.jqx = $.jqx || {};
     $.jqx.theme = theme;

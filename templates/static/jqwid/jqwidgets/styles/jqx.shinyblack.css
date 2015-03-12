@@ -58,17 +58,17 @@
     background-position: center;
 }
 
-.jqx-grid-group-expand-shinyblack, .jqx-grid-cell-shinyblack>.jqx-grid-group-expand-shinyblack {
+.jqx-grid-group-expand-shinyblack, .jqx-grid-cell-shinyblack>.jqx-grid-group-expand-shinyblack, .jqx-tree-item-arrow-expand-shinyblack {
     background-image: url('images/icon-down.png');
     background-repeat: no-repeat;
     background-position: center;
 }
-.jqx-grid-group-collapse-shinyblack, .jqx-grid-cell-shinyblack>.jqx-grid-group-collapse-shinyblack {
+.jqx-grid-group-collapse-shinyblack, .jqx-grid-cell-shinyblack>.jqx-grid-group-collapse-shinyblack, .jqx-tree-item-arrow-collapse-shinyblack {
     background-image: url('images/icon-right.png');
     background-repeat: no-repeat;
     background-position: center;
 }
-.jqx-grid-group-collapse-rtl-shinyblack, .jqx-grid-cell-shinyblack>.jqx-grid-group-collapse-rtl-shinyblack {
+.jqx-grid-group-collapse-rtl-shinyblack, .jqx-grid-cell-shinyblack>.jqx-grid-group-collapse-rtl-shinyblack, .jqx-tree-item-arrow-collapse-rtl-shinyblack {
     background-image: url('images/icon-left.png');
     background-repeat: no-repeat;
     background-position: center;
@@ -138,4 +138,7 @@
 }
 .jqx-menu-minimized-button-shinyblack {
    background-image: url('images/icon-menu-minimized-white.png');
+}
+.jqx-editor-toolbar-icon-shinyblack {
+    background: url('images/html_editor_white.png') no-repeat;
 }

@@ -219,3 +219,6 @@
 .jqx-menu-minimized-button-ui-le-frog {
    background-image: url('images/icon-menu-minimized-white.png');
 }
+.jqx-editor-toolbar-icon-ui-le-frog {
+    background: url('images/html_editor_white.png') no-repeat;
+}

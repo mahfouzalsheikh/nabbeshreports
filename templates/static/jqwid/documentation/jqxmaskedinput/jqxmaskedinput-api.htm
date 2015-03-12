@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../../styles/jqx.apireference.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../scripts/documentation.js"></script>
     <meta name="keywords" content="jQuery, Mask Input, Masked Input, MaskedInput, MaskBox, Mask TextBox, Input Mask, Input, jqxMaskedInput" />
     <meta name="description" content="This page represents the help documentation of the jqxMaskedInput widget." />
@@ -80,6 +80,28 @@
                     <div class="documentation-option-description property-content" style="display: none;">
                         <p>
                             Sets or gets the masked input's mask.</p>
+                        Mask characters:
+                        <ul>
+                            <li>
+                                # - For digit character. Accepts values from 0 to 9
+                            </li>
+                            <li>
+                                9 - For digit character. Accepts values from 0 to 9
+                            </li>
+                            <li>
+                                0 - For digit character. Accepts values from 0 to 9
+                            </li>
+                            <li>
+                                A - For alpha numeric character. Accepts values from 0 to 9 and from a to z and A to Z.
+                            </li>
+                            <li>
+                                L - For alpha character. Accepts values from a to z and A to Z
+                            </li>
+                            <li>
+                                [abcd] - For character set. Matches any one of the enclosed characters. You can specify a range of characters by using a hyphen. For example, [abcd] is the same as [a-d].
+                                Examples: [0-5] - accepts values from 0 to 5. [ab] - accepts only a or b. 
+                            </li>
+                        </ul>
                         <h4>
                             Code examples</h4>
                         <p>
@@ -154,6 +176,37 @@
                         <pre><code>var height = $('#jqxMaskedInput').jqxMaskedInput('height');</code></pre>
                           <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Z3QQB/">height is set to '25px'</a></div>
+                    </div>
+                </td>
+            </tr>
+   <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span7'>disabled</span>
+                </td>
+                <td>
+                    <span>Boolean</span>
+                </td>
+                <td>
+                    false
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Sets or gets whether the widget is disabled.</p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Set the <code>disabled</code> property.
+                        </p>
+                        <pre>$('#jqxMaskedInput').jqxMaskedInput({ disabled: true});<code></code></pre>
+                        <p>
+                            Get the <code>disabled</code> property.
+                        </p>
+                        <pre><code>var disabled = $('#jqxMaskedInput').jqxMaskedInput('disabled');</code></pre>
+                           <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/fpjxzo1e/">disabled is set to true</a></div>
                     </div>
                 </td>
             </tr>
@@ -327,7 +380,7 @@
             </tr>
             <tr>
                 <td class="documentation-option-type-click">
-                    <span id='Span27'>valuechanged</span>
+                    <span id='Span27'>valueChanged</span>
                 </td>
                 <td>
                     <span>Event</span>
@@ -344,11 +397,18 @@
                         <h4>
                             Code examples</h4>
                         <p>
-                            Bind to the <code>valuechanged</code> event by type: jqxMaskedInput.
+                            Bind to the <code>valueChanged</code> event by type: jqxMaskedInput.
                         </p>
-                        <pre><code>$('#jqxMaskedInput').on('valuechanged', function () {var value = event.args.value;}); </code></pre>
+                        <pre><code>
+$('#jqxMaskedInput').on('valueChanged',
+function () 
+{
+    var value = event.args.value;
+    var text = event.args.text;
+});
+                        </code></pre>
                      <div style="padding-bottom:5px;">
-  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/YhwxH/">Bind to the valuechanged event by type:jqxMaskedInput </a></div>
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/YhwxH/">Bind to the valueChanged event by type:jqxMaskedInput </a></div>
                           </div>
                 </td>
             </tr>
@@ -373,103 +433,23 @@
                         <p>
                             Bind to the <code>change</code> event by type: jqxMaskedInput.
                         </p>
-                        <pre><code>$('#jqxMaskedInput').on('change', function () {var value = event.args.value;}); </code></pre>
+                        <pre><code>
+$('#jqxMaskedInput').on('change',
+function () 
+{
+    var value = event.args.value;
+    var text = event.args.text;
+});
+                        </code></pre>
                    
                             <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/94ssJ/">Bind to the change event by type:jqxMaskedInput </a></div> </div>
                 </td>
             </tr>
             <tr>
-                <td class="documentation-option-type-click">
-                    <span id='Span7'>textchanged</span>
-                </td>
-                <td>
-                    <span>Event</span>
-                </td>
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='3' style='width: 100%'>
-                    <div class="documentation-option-description property-content" style="display: none;">
-                        <p>
-                            This event is triggered when the text is changed.
-                        </p>
-                        <h4>
-                            Code examples</h4>
-                        <p>
-                            Bind to the <code>textchanged</code> event by type: jqxMaskedInput.
-                        </p>
-                        <pre><code>$('#jqxMaskedInput').on('textchanged', function (event) { var text = event.args.text;}); </code></pre>
-                       <div style="padding-bottom:5px;">
-  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/D3Sh6/">Bind to the textchanged event by type:jqxMaskedInput </a></div> 
-                    </div>
-                </td>
-            </tr>
-            <tr>
                 <td colspan='3' style='width: 100%'>
                     <h2 class="documentation-top-header">
                         Methods</h2>
-                </td>
-            </tr>
-            <tr>
-                <td class="documentation-option-type-click">
-                    <span id='Span37'>maskedValue</span>
-                </td>
-                <td>
-                    <span>Method</span>
-                </td>
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='3' style='width: 100%'>
-                    <div class="documentation-option-description property-content" style="display: none;">
-                        <p>
-                            Sets the editable input value without mask characters. For example: If your
-                            mask string is set to '(###)###' and you invoke the maskedValue method passing '4444'
-                            as parameter, the jqxMaskedInput widget should display '(444)___'. 
-                        </p>
-                        <h4>
-                            Code examples</h4>
-                        <p>
-                            Invoke the <code>maskedValue</code> method.
-                        </p>
-                        <pre><code>@param String, Number</code></pre>
-                        <pre><code>$("#jqxMaskedInput").jqxMaskedInput('maskedValue', value);</code></pre>
-                           <div style="padding-bottom:5px;">
-  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/cy2h8/">sets the mask value of the jqxMaskedInput </a></div> 
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="documentation-option-type-click">
-                    <span id='Span8'>inputValue</span>
-                </td>
-                <td>
-                    <span>Method</span>
-                </td>
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='3' style='width: 100%'>
-                    <div class="documentation-option-description property-content" style="display: none;">
-                        <p>
-                            Sets the editable input value without mask characters. For example: If your
-                            mask string is set to '(###)###' and you invoke the inputValue method passing '4444'
-                            as parameter, the jqxMaskedInput widget should display '(444)4__'.
-                        </p>
-                        <h4>
-                            Code examples</h4>
-                        <p>
-                            Invoke the <code>inputValue</code> method.
-                        </p>
-                        <pre><code>@param String, Number</code></pre>
-                        <pre><code>$("#jqxMaskedInput").jqxMaskedInput('inputValue', value);</code></pre>
-                          <div style="padding-bottom:5px;">
-  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/JaJZR/">sets the input value of the jqxMaskedInput </a></div> 
-                    </div>
                 </td>
             </tr>
           <tr>

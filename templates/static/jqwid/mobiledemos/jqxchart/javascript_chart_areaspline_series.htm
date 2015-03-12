@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.blackberry.css" type="text/css" />
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.android.css" type="text/css" />
     <link rel="stylesheet" href="../../jqwidgets/styles/jqx.mobile.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
     <script type="text/javascript" src="../../jqwidgets/jqxchart.js"></script>
@@ -57,8 +57,6 @@
                         gridLinesInterval: 15,
                         gridLinesColor: '#888888',
                         axisSize: 'auto',
-                        minValue: 1948,
-                        maxValue: 2013,
                         valuesOnTicks: true
                     },
                 colorScheme: 'scheme01',
@@ -92,9 +90,9 @@
                                 description: 'Index Value'
                             },
                             series: [
-                                    { dataField: 'BuildCost', displayText: 'Building Cost Index', opacity: 0.7 },
-                                    { dataField: 'HPI', displayText: 'Real Home Price Index', opacity: 0.7 }
-                                ]
+                                    { dataField: 'HPI', displayText: 'Real Home Price Index', opacity: 0.5 },
+                            { dataField: 'BuildCost', displayText: 'Building Cost Index', opacity: 0.5 }
+                    ]
                         }
                     ]
             };

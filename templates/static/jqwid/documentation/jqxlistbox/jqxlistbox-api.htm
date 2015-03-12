@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../../Styles/jqx.apireference.css" type="text/css" />
-    <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../scripts/documentation.js"></script>
     <title>jqxListBox API Reference</title>
     <script type="text/javascript">
@@ -699,6 +699,130 @@ $("#jqxListBox").jqxListBox({ source: dataAdapter, displayMember: "ContactName",
                         <pre><code>var checkboxes = $('#jqxListBox').jqxListBox('checkboxes'); </code></pre>
                         <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/8khqv/">checkboxes is set to true</a></div>
+                    </div>
+                </td>
+            </tr>
+             <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span70'>filterable</span>
+                </td>
+                <td>
+                    <span>Boolean</span>
+                </td>
+                <td>
+                   false
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           Determines whether the Filtering is enabled.</p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>filterable</code> property.
+                        </p>
+                        <pre><code>$("#jqxListBox").jqxListBox({filterable:true}); </code></pre>
+                        <p>
+                            Get the <code>filterable</code> property.
+                        </p>
+                        <pre><code>var filterable = $('#jqxListBox').jqxListBox('filterable'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/xEqV9/">filterable is set to true</a></div>
+                    </div>
+                </td>
+            </tr>
+           <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span77'>filterHeight</span>
+                </td>
+                <td>
+                    <span>Number</span>
+                </td>
+                <td>
+                   27
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           Determines the Filter's height.</p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>filterHeight</code> property.
+                        </p>
+                        <pre><code>$("#jqxListBox").jqxListBox({filterHeight:30}); </code></pre>
+                        <p>
+                            Get the <code>filterHeight</code> property.
+                        </p>
+                        <pre><code>var filterHeight = $('#jqxListBox').jqxListBox('filterHeight'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/jX75m/">filterHeight is set to 30</a></div>
+                    </div>
+                </td>
+            </tr>
+         <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span76'>filterDelay</span>
+                </td>
+                <td>
+                    <span>Number</span>
+                </td>
+                <td>
+                   100
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           Determines the Filter's delay. After 100 milliseconds, the widget automatically filters its data based on the filter input's value. To perform filter only on "Enter" key press, set this property to 0.</p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>filterDelay</code> property.
+                        </p>
+                        <pre><code>$("#jqxListBox").jqxListBox({filterDelay:300}); </code></pre>
+                        <p>
+                            Get the <code>filterDelay</code> property.
+                        </p>
+                        <pre><code>var filterDelay = $('#jqxListBox').jqxListBox('filterDelay'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/J3g47/">filterDelay is set to 300</a></div>
+                    </div>
+                </td>
+            </tr>
+       <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span78'>filterPlaceHolder</span>
+                </td>
+                <td>
+                    <span>String</span>
+                </td>
+                <td>
+                   "Looking for"
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                           Determines the Filter input's place holder.</p>
+                        <h4>
+                            Code example</h4>
+                        <p>
+                            Set the <code>filterPlaceHolder</code> property.
+                        </p>
+                        <pre><code>$("#jqxListBox").jqxListBox({filterPlaceHolder:300}); </code></pre>
+                        <p>
+                            Get the <code>filterPlaceHolder</code> property.
+                        </p>
+                        <pre><code>var filterPlaceHolder = $('#jqxListBox').jqxListBox('filterPlaceHolder'); </code></pre>
+                         <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/LfWCx/">filterPlaceHolder is set to "Filtering..."</a></div>
                     </div>
                 </td>
             </tr>
@@ -1827,7 +1951,7 @@ $("#jqxListBox").on('bindingComplete', function (event) {
                 <td colspan='3' style='width: 100%'>
                     <div class="documentation-option-description property-content" style="display: none;">
                         <p>
-                            Ensures that an item is visible. index is number. If necessary scrolls to the item.
+                            Ensures that an item is visible. Index is number. If necessary scrolls to the item. Insted of Index, you can also pass the item's value.
                         </p>
                         <h4>
                             Code example</h4>
@@ -1835,8 +1959,10 @@ $("#jqxListBox").on('bindingComplete', function (event) {
                             Invoke the <code>ensureVisible</code> method.
                         </p>
                         <pre><code>// @param Number</code></pre>
+                        <pre><code>// @optional param Boolean - determines whether to make the item to be the top visible item in the list</code></pre>
                         <pre><code>$("#jqxListBox").jqxListBox('ensureVisible', 2 ); </code></pre>
-                           <div style="padding-bottom:5px;">
+                        <pre><code>$("#jqxListBox").jqxListBox('ensureVisible', "Iced Coffee" ); </code></pre> 
+                       <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Kd8mw/">ensures the visibility of an items in the jqxListBox </a></div>
                     </div>
                 </td>
@@ -2510,6 +2636,33 @@ $("#jqxListBox").on('bindingComplete', function (event) {
                         </code></pre>
                              <div style="padding-bottom:5px;">
   <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/eccsD/">invalidates the jqxListBox  </a></div>
+                    </div>
+                </td>
+            </tr>
+           <tr>
+                <td class="documentation-option-type-click">
+                    <span id='Span80'>clearFilter</span>
+                </td>
+                <td>
+                    <span>Method</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='3' style='width: 100%'>
+                    <div class="documentation-option-description property-content" style="display: none;">
+                        <p>
+                            Clears the widget's filter when filtering is applied.
+                        </p>
+                        <h4>
+                            Code examples</h4>
+                        <p>
+                            Invoke the <code>clearFilter</code> method.
+                        </p>
+                        <pre><code>$('#jqxListBox').jqxListBox('clearFilter'); </code></pre>
+                        <div style="padding-bottom:5px;">
+  <em>Try it:</em> <a target="_blank" href="http://jsfiddle.net/jqwidgets/Lprfgq1m/">clears the jqxListBox's Filter.</a></div>                                             
                     </div>
                 </td>
             </tr>

@@ -148,10 +148,13 @@
             case "menu":
             case "treemap":
             case "tabs":
+            case "editor":
             case "panel":
             case "window":
             case "photoGallery":
             case "splitter":
+            case "draw":
+            case "ribbon":
             case "rangeSelector":
                 className += "-tablet";
                 break;
@@ -199,6 +202,9 @@ function initSimulator(id) {
         case "dropdownlist":
             $("#dropdownlist").jqxDropDownList('listBox').host.jqxListBox({ touchMode: true, keyboardNavigation: false });
             break;
+        case "adapter":
+            $("#jqxDropDownList").jqxDropDownList('listBox').host.jqxListBox({ touchMode: true, keyboardNavigation: false });
+            break;
         case "combobox":
             $("#combobox").jqxComboBox({ touchMode: true});
             break;
@@ -225,6 +231,9 @@ function initSimulator(id) {
             break;
         case "panel":
             $("#panel").jqxPanel({ touchMode: true });
+            break;
+        case "editor":
+            $("#editor").jqxEditor({ touchMode: true });
             break;
     }
 }
