@@ -628,7 +628,7 @@ def sign_job_proposal_invoice_getdata(request):
         
         wheresql = ""
         if cpcchecked== "True":
-            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  getcpcGroupNewAndOld(mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
+            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  getcpcGroupNewAndOld(t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
         else:
             wheresql = "Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"'"
            
@@ -666,10 +666,13 @@ def sign_application_proposal_invoice_getdata(request):
         
         signupchecked = objs['signupchecked']
         t1 = objs['fromdate']
-        t2= objs['todate']        
+        t2= objs['todate']  
+   
+
+     
         wheresql = ""
         if cpcchecked== "True":
-            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  getcpcGroupNewAndOld(mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
+            wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  getcpcGroupNewAndOld(t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
         else:
             wheresql = "Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"'"
 
@@ -2230,18 +2233,32 @@ def ga_get_visits(start_date, end_date, limit):
  
                 
 @csrf_exempt
-def get_results(service, profile_id, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems):
-  # Use the Analytics Service Object to query the Core Reporting API
+def get_results(service, profile_id,t1,t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems):
+ 
+    rules = ['ga:pagePath=~finished_signup',]
 
-  return service.data().ga().get(
-      ids="ga:" + profile_id,
-      start_date="2013-01-01",
-      end_date="2020-02-28",
-      max_results=100000, 
-      dimensions = "ga:pagePath, ga:medium, ga:source, ga:campaign",
-      metrics="ga:pageviews",
-      filters="ga:pagePath=~finished_signup;"+mediumCheckedItems +campaignCheckedItems ).execute()
-#      filters="ga:pagePath=~finished_signup").execute()
+    print rules
+    if  len(mediumCheckedItems)>0:
+        rules.append(mediumCheckedItems)
+    if  len(sourceCheckedItems)>0:
+        rules.append(sourceCheckedItems)
+    if  len(campaignCheckedItems)>0:
+        rules.append(campaignCheckedItems)
+   
+    print ';'.join(rules)
+    filters =  ';'.join(rules)
+    #print filters
+    params = {
+        'ids': 'ga:' + profile_id,
+        'start_date': str(t1),
+        'end_date': str(t2),
+        'metrics': 'ga:pageviews',
+        'dimensions': 'ga:pagePath, ga:medium, ga:source, ga:campaign',
+        'max_results': 100000,
+        'filters' : filters
+    }
+    return service.data().ga().get(**params).execute()
+
       
       
       
@@ -2398,19 +2415,24 @@ def googleanalytics_report(request):
 
 
 @csrf_exempt        
-def getcpcGroup(mediumCheckedItems, sourceCheckedItems, campaignCheckedItems):        
+def getcpcGroup(t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems):        
     service = initialize_service()
     try:   
         profile_id = get_first_profile_id(service)
         param = profile_id
         if profile_id:    
-            results = get_results(service, profile_id,mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
+            results = get_results(service, profile_id,t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
+            #print results['rows']
             count=0
             userprofiles=""
+            
             for userprofile in results['rows']:
+                
                 userprofiles = userprofiles + "'" + userprofile[0].replace("?just_finished_signup=True","").replace("/profile/","").replace("/","").replace("&edit=true","").lower() + "',"
                 count=count+1
 	    userprofiles= "(" + userprofiles[:-1] + ")"
+            print "Count--------------------------------------------------"
+            print count
 	    return userprofiles
 	    
     except TypeError, error:
@@ -2420,8 +2442,8 @@ def getcpcGroup(mediumCheckedItems, sourceCheckedItems, campaignCheckedItems):
     except AccessTokenRefreshError:
         param=error
         
-def getcpcGroupNewAndOld(mediumCheckedItems, sourceCheckedItems, campaignCheckedItems):      
-    cpcresponse = getcpcGroup(mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
+def getcpcGroupNewAndOld(t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems):      
+    cpcresponse = getcpcGroup(t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems)
     sql1 = ("select id from users where lower(homepage) in " + cpcresponse)
     sql2 = ("select id from users where lower(cast(id as text)) in " + cpcresponse)
     
