@@ -2451,8 +2451,8 @@ def getcpcGroup(t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedI
                     jobsids = jobsids + profileid
 
             usersbyjobs = getProfileIdsByJobIds(jobsids) 
-
-	    userprofiles= "(" + userprofiles[:-1] + usersbyjobs +  ")"
+           
+	    userprofiles= "(" +  ','.join([userprofiles[:-1], usersbyjobs]) +  ")"
             print userprofiles
 	    return userprofiles
 	    
@@ -2472,8 +2472,7 @@ def getcpcGroupNewAndOld(t1, t2, mediumCheckedItems, sourceCheckedItems, campaig
     result1 = customQuery(sql1,2)
     result2 = customQuery(sql2,1)
     
-    result = result1 + result2
-    
+    result = result1 + result2  
     count=0
     userprofiles=""
     for userprofile in result:
