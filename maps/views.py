@@ -644,6 +644,7 @@ def sign_job_proposal_invoice_getdata(request):
         
                    
         #print getcpcGroupNewAndOld()
+        print sql 
         results = customQuery(sql,1)	
         print results 
         c = Context({'statistics': results})
@@ -2468,8 +2469,8 @@ def getcpcGroupNewAndOld(t1, t2, mediumCheckedItems, sourceCheckedItems, campaig
     sql2 = ("select id from users where lower(cast(id as text)) in " + cpcresponse)
     
 
-    result1 = customQuery(sql2,1)
-    result2 = customQuery(sql1,2)
+    result1 = customQuery(sql1,2)
+    result2 = customQuery(sql2,1)
     
     result = result1 + result2
     
