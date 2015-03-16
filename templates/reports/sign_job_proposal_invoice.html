@@ -86,7 +86,6 @@
                             });    
          mediumCheckedItems =   mediumCheckedItems.substring(0, mediumCheckedItems.length-1);
          mediumCheckedItems =  encodeURI(mediumCheckedItems);
-         console.log(mediumCheckedItems);
      }); 
 
      $("#sourcelist").on('checkChange', function (event) {
@@ -97,7 +96,6 @@
                             });    
          sourceCheckedItems =   sourceCheckedItems.substring(0, sourceCheckedItems.length-1);
          sourceCheckedItems =  encodeURI(sourceCheckedItems);
-        console.log(sourceCheckedItems);
      }); 
 
      $("#campaignlist").on('checkChange', function (event) {
@@ -108,7 +106,6 @@
                             });    
          campaignCheckedItems =   campaignCheckedItems.substring(0, campaignCheckedItems.length-1);
          campaignCheckedItems =  encodeURI(campaignCheckedItems);
-         console.log(campaignCheckedItems);
      }); 
       
           
@@ -156,7 +153,7 @@
 	
       
       obj= $.parseJSON(jsonData);
-      
+      console.log(obj); 
       signedup=obj[0];
       postedjob=obj[1];
       paidproposal=obj[2];

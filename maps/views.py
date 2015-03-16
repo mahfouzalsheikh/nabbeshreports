@@ -639,12 +639,13 @@ def sign_job_proposal_invoice_getdata(request):
         else:
             wheresql = "Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"'"
            
-     
+         
         sql = ("select * from (select count(distinct au.email) as signed_up, count(distinct jobsposted.id) as posted_jobs, count(distinct paidproposal.id) as paid_proposal, count(distinct invoices.applicant_id) as invoices_paid, count(distinct jobsposted.jobid) as jobscount, count(distinct paidproposal.proposalid) as proposalscount, count(distinct invoices.invoiceid) as invoicescount  from users u inner join auth_user au on u.django_user_id=au.id  left outer join (select u1.id,cj.id as jobid from users u1 inner join contracts_job cj on cj.employer_id= u1.id where cj.approved=true) jobsposted on jobsposted.id=u.id left outer join (select u2.id,cp2.message_ptr_id as proposalid from users u2 inner join contracts_application ca2 on ca2.applicant_id=u2.id inner join contracts_message cm2 on cm2.application_id=ca2.id inner join contracts_proposal cp2 on cp2.message_ptr_id=cm2.id where cp2.status=4) paidproposal on paidproposal.id=u.id left outer join (select distinct ca1.job_id,ci.status,ci.message_ptr_id  as invoiceid,ca1.applicant_id from contracts_invoice ci inner join contracts_message cm1 on cm1.id=ci.message_ptr_id inner join contracts_application ca1 on ca1.id=cm1.application_id where ci.status=4) invoices on invoices.applicant_id=u.id " + wheresql +") total ")
         
-        #print sql              
+                   
         #print getcpcGroupNewAndOld()
         results = customQuery(sql,1)	
+        print results 
         c = Context({'statistics': results})
         return HttpResponse(render_to_string('sign_job_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
         
@@ -687,7 +688,7 @@ def sign_application_proposal_invoice_getdata(request):
             wheresql= " Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"' and u.id in " +  wr               
         else:
             wheresql = "Where au.date_joined >= '"+t1+"' and au.date_joined <= '"+t2+"'"
-           
+        
         sql = ("select count(distinct u.id) as user_count, count(distinct applicants.id) as applicants_count, count(distinct proposals.applicant_id) as proposal_count, count(distinct invoices.applicant_id) as invoice_count, count(distinct applicants.applicationid) as applicationscount, count(distinct proposals.proposalid) as proposalscount, count(distinct invoiceid) as invoicescount from users u inner join auth_user au on u.django_user_id=au.id left outer join (select u1.id,ca.id as applicationid from users u1 inner join contracts_application ca on ca.applicant_id=u1.id) applicants on applicants.id=u.id left outer join (select ca1.applicant_id,ca1.id,cp.message_ptr_id  as proposalid from contracts_application ca1 inner join contracts_message cm on cm.application_id=ca1.id inner join contracts_proposal cp on cp.message_ptr_id=cm.id) proposals on proposals.applicant_id=u.id left outer join (select ca2.applicant_id,ci.message_ptr_id as invoiceid from contracts_message cm1 inner join contracts_invoice ci on ci.message_ptr_id=cm1.id inner join contracts_application ca2 on ca2.id=cm1.application_id) invoices on invoices.applicant_id=u.id " + wheresql)
         
         results = customQuery(sql,1)
@@ -2247,7 +2248,7 @@ def ga_get_visits(start_date, end_date, limit):
 @csrf_exempt
 def get_results(service, profile_id,t1,t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems):
  
-    rules = ['ga:pagePath=~finished_signup',]
+    rules = ['ga:pagePath=~job_posted=true,ga:pagePath=~finished_signup']
 
     print rules
     if  len(mediumCheckedItems)>0:
@@ -2257,7 +2258,6 @@ def get_results(service, profile_id,t1,t2, mediumCheckedItems, sourceCheckedItem
     if  len(campaignCheckedItems)>0:
         rules.append(campaignCheckedItems)
    
-    print ';'.join(rules)
     filters =  ';'.join(rules)
     #print filters
     params = {
@@ -2426,6 +2426,7 @@ def googleanalytics_report(request):
 
 
 
+
 @csrf_exempt        
 def getcpcGroup(t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedItems):        
     service = initialize_service()
@@ -2437,12 +2438,21 @@ def getcpcGroup(t1, t2, mediumCheckedItems, sourceCheckedItems, campaignCheckedI
             
             count=0
             userprofiles=""
-            
-            for userprofile in results['rows']: 
-                print userprofile               
-                userprofiles = userprofiles + "'" + userprofile[0].replace("?just_finished_signup=True","").replace("/profile/","").replace("/","").replace("&edit=true","").lower() + "',"
-                count=count+1                
-	    userprofiles= "(" + userprofiles[:-1] + ")"
+            jobsids=""
+            for userprofile in results['rows']:           
+                if userprofile[0] .find('just_finished_signup')>0:
+                    profileid =  "'" + userprofile[0].replace("?just_finished_signup=True","").replace("/profile/","").replace("/","").replace("&edit=true","").lower() + "',"                               
+                    userprofiles = userprofiles + profileid
+                    count=count+1
+                    
+                else:                    
+                    profileid =  "'" + userprofile[0].replace("profiles?job_posted=true","").replace("job","").replace("/","") + "',"                               
+                    jobsids = jobsids + profileid
+
+            usersbyjobs = getProfileIdsByJobIds(jobsids) 
+
+	    userprofiles= "(" + userprofiles[:-1] + usersbyjobs +  ")"
+            print userprofiles
 	    return userprofiles
 	    
     except TypeError, error:
@@ -2457,6 +2467,7 @@ def getcpcGroupNewAndOld(t1, t2, mediumCheckedItems, sourceCheckedItems, campaig
     sql1 = ("select id from users where lower(homepage) in " + cpcresponse)
     sql2 = ("select id from users where lower(cast(id as text)) in " + cpcresponse)
     
+
     result1 = customQuery(sql2,0)
     result2 = customQuery(sql1,2)
     
@@ -2468,11 +2479,25 @@ def getcpcGroupNewAndOld(t1, t2, mediumCheckedItems, sourceCheckedItems, campaig
         userprofiles = userprofiles + str(userprofile[0]) + ","
         count=count+1
     userprofiles= "(" + userprofiles[:-1] + ")"
-    
+
     return userprofiles
     
     
-     
+def getProfileIdsByJobIds(jobsids):      
+
+    sql = ("select employer_id from contracts_job where id in (" + jobsids[:-1] + ")")
+    print sql
+    
+    result = customQuery(sql,0)    
+
+    count=0
+    userprofiles=""
+    for userprofile in result:
+        userprofiles = userprofiles + "'" + str(userprofile[0]) + "',"
+        count=count+1
+    userprofiles= userprofiles[:-1]
+    
+    return userprofiles     
 
 
 def get_first_profile_id(service):

@@ -87,7 +87,6 @@
                             });    
          mediumCheckedItems =   mediumCheckedItems.substring(0, mediumCheckedItems.length-1);
          mediumCheckedItems =  encodeURI(mediumCheckedItems);
-         console.log(mediumCheckedItems);
      }); 
 
      $("#sourcelist").on('checkChange', function (event) {
@@ -98,7 +97,6 @@
                             });    
          sourceCheckedItems =   sourceCheckedItems.substring(0, sourceCheckedItems.length-1);
          sourceCheckedItems =  encodeURI(sourceCheckedItems);
-        console.log(sourceCheckedItems);
      }); 
 
      $("#campaignlist").on('checkChange', function (event) {
@@ -109,7 +107,6 @@
                             });    
          campaignCheckedItems =   campaignCheckedItems.substring(0, campaignCheckedItems.length-1);
          campaignCheckedItems =  encodeURI(campaignCheckedItems);
-         console.log(campaignCheckedItems);
      }); 
         
       $("#jqxCheckBox").jqxCheckBox({theme: theme, width: 250, height: 25 , disabled: true});
