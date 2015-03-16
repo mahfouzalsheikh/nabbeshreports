@@ -19,8 +19,13 @@
         </div>
 
 
-<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Employers Acitvity Funnel</h2><div id='date'></div></center></div>
-<center><canvas id="cvs" width=800" height="450">[No canvas support]</canvas></center>
+<div><center><h2 style="outline: 0px; color: rgb(102, 102, 102); font-family: 'Open Sans', Helvetica, Arial, sans-serif;">Employers Acitvity Funnel</h2>
+<div id='date'></div>
+<div id='text'></div>
+</center></div>
+<center><canvas id="cvs" width=800" height="450">[No canvas support]</canvas>
+
+</center>
 
 
 
@@ -195,6 +200,7 @@ if(parseFloat(signedup)>0 && parseFloat(postedjob)>0  ){
       //chart4.draw(data4, {title:"Paid an Invoice",width: 180, height: 450, vAxis: {maxValue: paidinvoice},legend: { position: "none" }});
      
       $('#date').html('From (' + fromdate + ') To (' + todate +')' );
+
       var canvas = document.getElementById('cvs');
       RGraph.Clear(canvas);
       var funnel = new RGraph.Funnel('cvs', [signedup,postedjob,paidproposal,paidinvoice])
@@ -209,11 +215,17 @@ if(parseFloat(signedup)>0 && parseFloat(postedjob)>0  ){
                 .Set('shadow.offsety', 0)
                 .Set('shadow.blur', 10)
                 .Set('shadow.color', 'gray')
-                .Draw();    
- 
+                .Draw();
+        $('#text').html("");
       }
+      
       else
-        {alert("No Suffecient Data to Draw The Funnel");} 
+        {           
+           var canvas = document.getElementById('cvs');
+           RGraph.Clear(canvas);
+           $('#text').html("<table style='width:100%;font-size:12px;'><tr><td valign='top' width=65px></td><td valign='top'><div id='note1'><div style='padding:3px 0px 3px 3px;vertical-align:top;width:100%;background-color:#ccc;margin: 5px 5px 5px 5px; display:inline-block; border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;'><p style='font-size=12px; '>" + signedup +" Users signed up and no further actions were taken, no sufficient data to draw a funnel!</p></div></div></td><td></td></tr></table>");
+        } 
+      
     }
     
      
