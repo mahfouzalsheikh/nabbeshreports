@@ -2468,7 +2468,7 @@ def getcpcGroupNewAndOld(t1, t2, mediumCheckedItems, sourceCheckedItems, campaig
     sql2 = ("select id from users where lower(cast(id as text)) in " + cpcresponse)
     
 
-    result1 = customQuery(sql2,0)
+    result1 = customQuery(sql2,1)
     result2 = customQuery(sql1,2)
     
     result = result1 + result2
@@ -2488,7 +2488,7 @@ def getProfileIdsByJobIds(jobsids):
     sql = ("select employer_id from contracts_job where id in (" + jobsids[:-1] + ")")
     print sql
     
-    result = customQuery(sql,0)    
+    result = customQuery(sql,1)    
 
     count=0
     userprofiles=""
