@@ -619,7 +619,7 @@ def paymentstracking_getdata(request):
         
                
         
-        sql = ("select cpt.id, au.first_name || ' ' ||  au.last_name as fullname, au.username, cpt.amount,cpt.card_number, cpt.card_holder_name, cpt.transaction_date, cm.public_id, cpt.order_reference, cj.id as job_id, ca.id as workstream_id from contracts_payforttransaction cpt inner join contracts_message cm on cm.id=cpt.payable_id inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on cj.id=ca.job_id inner join users u on u.id=cj.employer_id inner join auth_user au on au.id=u.django_user_id where card_number<>'pending'  and cm.timestamp >= '"+t1+"' and cm.timestamp <='"+t2+"' order by cpt.id desc ")
+        sql = ("select cpt.id, au.first_name || ' ' ||  au.last_name as fullname,  fra.first_name || ' ' ||  fra.last_name as frfullname, cpt.amount,cpt.card_number, cpt.card_holder_name, cpt.transaction_date, cm.public_id, cpt.order_reference, cj.id as job_id, ca.id as workstream_id from contracts_payforttransaction cpt inner join contracts_message cm on cm.id=cpt.payable_id inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on cj.id=ca.job_id inner join users u on u.id=cj.employer_id inner join auth_user au on au.id=u.django_user_id inner join users fr on fr.id=ca.applicant_id inner join auth_user fra on fra.id=fr.django_user_id where card_number<>'pending'  and cm.timestamp >= '"+t1+"' and cm.timestamp <='"+t2+"' order by cpt.id desc ")
         
         print sql
         results = customQuery(sql,1)

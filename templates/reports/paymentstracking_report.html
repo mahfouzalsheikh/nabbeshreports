@@ -127,8 +127,8 @@
        { localdata : getData(fromdate,todate),
               datafields: [ 
                     { name: 'Id', type: 'int', map: '0'},
-                    { name: 'Full Name', type: 'string', map: '1'},
-                    { name: 'Email', type: 'string', map: '2'},
+                    { name: 'Employer Name', type: 'string', map: '1'},
+                    { name: 'Freelancer Name', type: 'string', map: '2'},
                     { name: 'Amount', type: 'float', map: '3'},                    
                     { name: 'Card Number', type: 'string', map: '4'},
                     { name: 'Card Holder Name', type: 'string', map: '5'},
@@ -262,13 +262,13 @@
                 rowdetailstemplate: { rowdetails: "<div id='jqwtableareadetailed' style='background-color:#CCD6E0;width: 100%; padding: 10px 10px 10px 10px; float: left;'><div id='detailstable'></div></div>", rowdetailsheight: 200 },
                 initrowdetails: initrowdetails,
                 columns: [
-                  { text: 'Name', datafield: 'Full Name', filtertype: 'textbox', columngroup: 'EmployerDetails'},
-                  { text: 'Email', datafield: 'Email', filtertype: 'textbox', columngroup: 'EmployerDetails'},
+                  { text: 'Employer', datafield: 'Employer Name', filtertype: 'textbox', columngroup: 'EmployerDetails'},
+                  { text: 'Freelancer', datafield: 'Freelancer Name', filtertype: 'textbox', columngroup: 'EmployerDetails'},
                   { text: 'ID', datafield: 'Id', filtertype: 'textbox', columngroup: 'PaymentDetails',  width:50},
                   { text: 'Amount', datafield: 'Amount', filtertype: 'number', columngroup: 'PaymentDetails', width: 100},
                   //{ text: 'Card Number', datafield: 'Card Number', filtertype: 'textbox', columngroup: 'PaymentDetails', width:100},
                   { text: 'Card Holder Name', datafield: 'Card Holder Name', filtertype: 'textbox', columngroup: 'PaymentDetails', width:100},
-                  { text: 'Transaction Date', datafield: 'Transaction Date', filtertype: 'textbox', columngroup: 'PaymentDetails', width:100},
+                  { text: 'Date', datafield: 'Transaction Date', filtertype: 'textbox', columngroup: 'PaymentDetails', width:100},
                   { text: 'Related Document Id', datafield: 'Related Document Id', filtertype: 'textbox',cellsrenderer: documentidrenderer, columngroup: 'PaymentDetails', width:100},
                   { text: 'Order Reference', datafield: 'Order Reference', filtertype: 'textbox', columngroup: 'PaymentDetails', width:100},
                   { text: 'Job Id', datafield: 'Job Id', filtertype: 'number', cellsrenderer: joblinkrenderer, columngroup: 'References', width: 100},
@@ -278,7 +278,7 @@
                 ],
                 columngroups: 
                 [
-                  { text: 'Employer Details', align: 'center', name: 'EmployerDetails' },
+                  { text: 'Contractors', align: 'center', name: 'EmployerDetails' },
                   { text: 'Payment Details', align: 'center', name: 'PaymentDetails' },
                   { text: 'References', align: 'center', name: 'References' },
 
