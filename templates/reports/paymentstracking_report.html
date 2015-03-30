@@ -1,0 +1,328 @@
+{% extends 'reports/base.html' %}
+{% block reportblock %}
+{% block  customheadscripts %}
+
+<script type="text/javascript">
+
+       // google.load('visualization', '1', {packages: ['corechart']});
+       // google.load('visualization', '1', {packages: ['table']});
+
+</script>
+
+{% endblock %}
+ <div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td></tr> 
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
+                </table>   
+            </div>
+        </div>
+
+
+
+
+<div id="jqwtablearea" style="width: 100%;" ></div>
+
+
+
+<style>     
+        .green {
+            color: black\9;
+            background-color: #3DAA95\9;
+        }
+        .yellow {
+            color: black\9;
+            background-color: yellow\9;
+        }
+        .red {
+            color: black\9;
+            background-color: #e83636\9;
+        }
+        .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .green:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+            color: black;
+            font-size: 16;
+            background-color: #C2E0D1;
+        }
+        .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+            color: black;
+            background-color: #FFFF80;
+        }
+        .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .red:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+            color: black;
+            background-color: 	#FFFEED;
+        }
+</style>
+
+
+<script type="text/javascript">
+ var theme = 'bootstrap';
+ $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
+ //$("#dateRange").jqxCalendar({ width: 220, height: 220,  selectionMode: 'range' });
+ 
+</script>
+
+<script type="text/javascript">
+
+    
+     
+     
+     var today = new Date(Date.now());
+     $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
+     $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
+
+     
+     $("#fromdate").on('change', function (event) {
+                    fromdate= $('#fromdate').jqxDateTimeInput('getText'); 
+                });
+     $("#todate").on('change', function (event) {
+                    todate= $('#todate').jqxDateTimeInput('getText'); 
+                });        
+        
+              
+                
+      $("#filterButton").jqxButton({theme: theme, width: '200'});
+      $("#filterButton").on('click', function () {          
+                  source.localdata  = getData(fromdate,todate);
+                  
+                  //console.log(source.localdata);
+                  //drawChart(fromdate,todate,searchkeywords);
+                  $("#jqwtablearea").jqxGrid('updatebounddata','cells');
+                  
+                });
+     var fromdate = $('#fromdate').jqxDateTimeInput('getText');
+     var todate = $('#todate').jqxDateTimeInput('getText');
+    
+     
+     
+     function getData(from,to){
+
+        var params = {"fromdate": from, "todate": to};
+        var jsonData = $.ajax({
+          url: "paymentstracking_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;
+          //console.log(jsonData);
+          //alert(jsonData.length);
+          if(jsonData.length<262){
+              alert("No Results! try to change search criterias!");
+              return [];
+          }else
+          {
+             console.log(jsonData);
+             jqwdata = JSON.parse(jsonData);
+             console.log('converted');
+             jqwdata.shift();                     
+             return  jqwdata;
+          }
+     }
+     
+     var source =
+       { localdata : getData(fromdate,todate),
+              datafields: [ 
+                    { name: 'Id', type: 'int', map: '0'},
+                    { name: 'Full Name', type: 'string', map: '1'},
+                    { name: 'Email', type: 'string', map: '2'},
+                    { name: 'Amount', type: 'float', map: '3'},                    
+                    { name: 'Card Number', type: 'string', map: '4'},
+                    { name: 'Card Holder Name', type: 'string', map: '5'},
+                    { name: 'Transaction Date', type: 'string', map: '6'},
+                    { name: 'Related Document Id', type: 'string', map: '7'},
+                    { name: 'Order Reference', type: 'string', map: '8'},
+                    { name: 'Job Id', type: 'int', map: '9'},
+                    { name: 'Workstream Id', type: 'int', map: '10'},                    
+                    ],
+                datatype: "array"
+            };
+   
+     function drawChart(from,to) {
+     
+
+
+	  var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+	       var cell = $('#jqwtablearea').jqxGrid('getcell', index, 'Workstream Id');		       	       	       
+	       var jsonstring = getCommunicationJSON(cell.value.toString());		      
+            var workstreamidrenderer = function (row, column, value) {                                
+                var html = "<a href='http://www.nabbesh.com/contracts/workstream/"+value+"' target=_blank>"+ value+ "</a>";
+                return html;
+            }
+	     if(jsonstring.length>149){
+	       detailsjqwdata = JSON.parse(jsonstring);
+	       detailsjqwdata.shift();
+	       
+	       var source =	  
+               { localdata : detailsjqwdata,
+                 datafields: [ 
+                    { name: 'Action', type: 'string', map: '0'},
+                    { name: 'Related Document Id', type: 'int', map: '1'},
+                    { name: 'Timestamp', type: 'date', map: '2'},
+                    { name: 'Proposal Amount', type: 'float', map: '3'},                    
+                    { name: 'Deposit Amount', type: 'float', map: '4'},
+                    { name: 'Invoice Amount', type: 'float', map: '5'},
+                    { name: 'Refund Amount', type: 'float', map: '6'},
+                    { name: 'Ecrow Release Amount', type: 'float', map: '7'},
+                    { name: 'Escrow At This Point', type: 'float', map: '8'},                                     
+                    ],
+                datatype: "array"
+               };
+               var dataAdapter = new $.jqx.dataAdapter(source);
+               $('#detailstable').jqxGrid(
+               {
+                 theme: theme,
+                 width: '95%',
+                 height: '180',
+                 source: dataAdapter,
+                 columnsresize: true,
+                 sortable: true,
+                 editable: true,
+                 editmode: 'dblclick',
+                 //showfilterrow: true,
+                 filterable: true,
+
+
+                 columns: [
+                   { text: 'Action', datafield: 'Action', filtertype: 'textbox'},
+                   { text: 'Related Document Id', datafield: 'Related Document Id', filtertype: 'textbox', width: 120},
+                   { text: 'Timestamp', datafield: 'Timestamp', filtertype: 'textbox', width: 120},
+                   { text: 'Proposal Amount', datafield: 'Proposal Amount', filtertype: 'number', width: 100},
+                   { text: 'Deposit Amount', datafield: 'Deposit Amount', filtertype: 'number', width: 100},
+                   { text: 'Invoice Amount', datafield: 'Invoice Amount', filtertype: 'number', width: 100},
+                   { text: 'Refund Amount', datafield: 'Refund Amount', filtertype: 'number', width: 100},
+                   { text: 'Ecrow Release Amount', datafield: 'Ecrow Release Amount', filtertype: 'number', width: 100},
+                   { text: 'Employer Responses', datafield: 'Employer Responses', filtertype: 'number', width: 100},
+		   { text: 'Escrow At This Point', datafield: 'Escrow At This Point', filtertype: 'number', width: 100}
+                   
+                 ]
+             }); 
+             //$('#detailstable').jqxGrid('autoresizecolumns');         
+	     } else {$('#detailstable').html("No Details to Display!");}	  
+	   }
+
+
+
+
+	  
+
+	   var cellclass = function (row, columnfield, value) {
+                if (value == 0) {
+                    return 'red';
+                }               
+                else return 'green';
+            }
+	   var statusclass = function (row, columnfield, value) {
+                if (value == 'Closed') {
+                    return 'red';
+                }               
+                else return 'green';
+            }
+            
+            var joblinkrenderer = function (row, column, value) {                                
+                var html = "<a href='http://www.nabbesh.com/jobs/city_slug/title_slug/"+value+"' target=_blank>"+ value+ "</a>";
+                return html;
+            }
+            
+            var workstreamidrenderer = function (row, column, value) {                                
+                var html = "<a href='http://www.nabbesh.com/contracts/workstream/"+value+"' target=_blank>"+ value+ "</a>";
+                return html;
+            }
+
+            var documentidrenderer = function (row, column, value) {                                
+                var html = "<a href='http://www.nabbesh.com/contracts/workstream/"+jqwdata[row][10]+"#" +value +"' target=_blank>"+ value+ "</a>";
+                return html;
+            }
+
+    
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            var theme = 'bootstrap';
+                        
+            $("#jqwtablearea").jqxGrid(
+            {
+                theme: theme,
+                width: '100%',
+                height: '600px',
+                source: dataAdapter,
+                columnsresize: true,
+                sortable: true,
+                showfilterrow: true,
+                filterable: true,
+                altrows: true,
+                rowdetails: true,
+                showstatusbar: true,
+                statusbarheight: 90,
+                showaggregates: true,
+                editable: true,
+       
+                editmode: 'dblclick',
+                selectionmode: 'checkbox',
+                rowdetailstemplate: { rowdetails: "<div id='jqwtableareadetailed' style='background-color:#CCD6E0;width: 100%; padding: 10px 10px 10px 10px; float: left;'><div id='detailstable'></div></div>", rowdetailsheight: 200 },
+                initrowdetails: initrowdetails,
+                columns: [
+                  { text: 'Name', datafield: 'Full Name', filtertype: 'textbox', columngroup: 'EmployerDetails'},
+                  { text: 'Email', datafield: 'Email', filtertype: 'textbox', columngroup: 'EmployerDetails'},
+                  { text: 'ID', datafield: 'Id', filtertype: 'textbox', columngroup: 'PaymentDetails',  width:50},
+                  { text: 'Amount', datafield: 'Amount', filtertype: 'number', columngroup: 'PaymentDetails', width: 100},
+                  { text: 'Card Number', datafield: 'Card Number', filtertype: 'textbox', columngroup: 'PaymentDetails', width:100},
+                  { text: 'Card Holder Name', datafield: 'Card Holder Name', filtertype: 'textbox', columngroup: 'PaymentDetails', width:100},
+                  { text: 'Transaction Date', datafield: 'Transaction Date', filtertype: 'textbox', columngroup: 'PaymentDetails', width:100},
+                  { text: 'Related Document Id', datafield: 'Related Document Id', filtertype: 'textbox',cellsrenderer: documentidrenderer, columngroup: 'PaymentDetails', width:100},
+                  { text: 'Order Reference', datafield: 'Order Reference', filtertype: 'textbox', columngroup: 'PaymentDetails', width:100},
+                  { text: 'Job Id', datafield: 'Job Id', filtertype: 'number', cellsrenderer: joblinkrenderer, columngroup: 'References', width: 100},
+                  { text: 'Workstream Id', datafield: 'Workstream Id', filtertype: 'number', cellsrenderer: workstreamidrenderer, columngroup: 'References', width: 100},
+
+
+                ],
+                columngroups: 
+                [
+                  { text: 'Employer Details', align: 'center', name: 'EmployerDetails' },
+                  { text: 'Payment Details', align: 'center', name: 'PaymentDetails' },
+                  { text: 'References', align: 'center', name: 'References' },
+
+                ]
+            });          
+            //$("#jqwtablearea").jqxGrid('autoresizecolumns');
+      
+            $('#jqwtablearea').on('rowselect', function (event) 
+		{
+		    var args = event.args; 
+		    var row = args.rowindex;
+		    var cell = $('#jqwtablearea').jqxGrid('getcell', row, 'Job ID');	
+		    //drawCommunicationChart(cell.value.toString());
+		});
+
+    }
+    
+
+    drawChart(fromdate,todate);
+
+    function getCommunicationJSON(job_id)
+    {
+      var params = {"job_id": job_id};      
+      var jsonData = $.ajax({
+          url: "paymentstracking_actions_getdata",
+          dataType:"json",
+          type: "POST",
+          data: JSON.stringify(params),
+          async: false
+          }).responseText;      
+      console.log(jsonData.length);
+      return jsonData;
+    }
+    
+
+
+$(document).ready(function () {
+
+     var theme=  'bootstrap';         
+     $('#loadingup').hide();
+     $('#loadingdown').hide();
+
+});     
+</script>
+{% endblock %}
+
