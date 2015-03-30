@@ -17,7 +17,8 @@
 
                    <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
                    <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td></tr> 
-                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>                                     
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>    
+                   <tr><td></td><td><div><input type="button" value="Download CSV" id='downloadButton' /></div></td></tr>                                 
                 </table>   
             </div>
         </div>
@@ -320,6 +321,16 @@ $(document).ready(function () {
      var theme=  'bootstrap';         
      $('#loadingup').hide();
      $('#loadingdown').hide();
+        $("#downloadButton").jqxButton({ theme: theme,width: '200'});      
+        $("#downloadButton").on('click', function () {
+                var data =getData(fromdate, todate);
+                //console.log(data);
+                //var json = $.parseJSON(data);
+                //console.log(json);
+    		var csv = JSON2CSV(data);
+
+	        downloadWithName("data:text/csv;charset=utf-8," + escape(csv), "paymentstracking.csv");
+        }); 
 
 });     
 </script>
