@@ -600,6 +600,57 @@ def jobs_communications_getdata(request):
         
 
 
+
+
+@login_required(login_url='/accounts/login/')
+def paymentstracking_report(request):
+    if request.method == 'GET':
+        return render_to_response('./reports/paymentstracking_report.html', context_instance=RequestContext(request))
+        
+        
+@csrf_exempt 
+def paymentstracking_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        #print objs
+        
+        t1 = objs['fromdate']  + ' 00:00:00+00'
+        t2 = objs['todate'] + ' 23:59:59+00'
+        
+               
+        
+        sql = ("select cpt.id, au.first_name || ' ' ||  au.last_name as fullname, au.username, cpt.amount,cpt.card_number, cpt.card_holder_name, cpt.transaction_date, cm.public_id, cpt.order_reference, cj.id as job_id, ca.id as workstream_id from contracts_payforttransaction cpt inner join contracts_message cm on cm.id=cpt.payable_id inner join contracts_application ca on ca.id=cm.application_id inner join contracts_job cj on cj.id=ca.job_id inner join users u on u.id=cj.employer_id inner join auth_user au on au.id=u.django_user_id where card_number<>'pending'  and cm.timestamp >= '"+t1+"' and cm.timestamp <='"+t2+"' order by cpt.id desc ")
+        
+        print sql
+        results = customQuery(sql,1)
+                              
+        c = Context({'statistics': results})
+   
+        return HttpResponse(render_to_string('paymentstracking.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+
+
+
+@csrf_exempt 
+def paymentstracking_actions_getdata(request):
+    if request.method == 'POST':
+        objs = simplejson.loads(request.raw_post_data)
+        print objs
+        job_id = objs['job_id']
+        print job_id;
+        
+        sql = ("select  case verb when 1 then 'Proposal issued' when 2 then 'Proposal cancelled'   when 3 then 'Proposal Declined'  when 4 then 'Proposal accepted and deposit paid to escrow'   when 5 then 'Deposit requested by freelancer'  when 6 then 'Deposit cancelled by freelancer'  when 7 then 'Deposit declined by employer'  when 8 then 'Deposit paid to escrow by employer'  when 9 then 'Invoice issued by freelancer'  when 10 then 'Invoice cancelled by freelancer' when 11 then 'Invoice declined by employer' when 12 then 'Invoice paid by employer'  when 13 then 'Invoice closed by customer support' when 14 then 'Refund requested by employer' when 15 then 'Refund issued by freelancer' when 16 then 'Refund declined by freelancer' when 17 then 'Refund request canclled by employer' when 18 then 'Refund request closed by customer support' when 19 then 'Escrow released to freelancer by customer support' when 20 then 'Refund made to employer by customer support' end as action,  related_document_public_id, timestamp, proposal_amount, deposit_amount,invoice_amount, refund_amount, escrow_released_amount, escrow_at_this_point from contracts_workstreamactionreport where application_id="+job_id+" order by timestamp desc ")
+        
+        #print sql
+        results = customQuery(sql,1)
+ 	#print results	
+        print sql
+        c = Context({'messages': results})
+        return HttpResponse(render_to_string('paymentstracking_actions.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
+
+
+
+
+
 @login_required(login_url='/accounts/login/')
 def sign_job_proposal_invoice(request):
     
