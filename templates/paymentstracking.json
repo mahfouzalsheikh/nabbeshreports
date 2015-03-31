@@ -1,6 +1,6 @@
 [
-["Id", "Employer", "Freelancer", "Amount", "Card Number", "Card Holder Name", "Transaction Date", "Public Document Id", "Order Reference", "Job Id", "Workstream Id"],
-{% for metric in statistics %}[{{ metric.0 }},"{{ metric.1 }}","{{ metric.2 }}",{{ metric.3 }},"{{ metric.4 }}","{{ metric.5 }}","{{ metric.6 }}","{{ metric.7 }}","{{ metric.8 }}",{{ metric.9 }},{{ metric.10 }} ]
+["Id", "Employer", "Freelancer", "Amount", "Card Number", "Card Holder Name", "Transaction Date", "Public Document Id", "Order Reference", "Job Id", "Workstream Id", "Status"],
+{% for metric in statistics %}[{{ metric.0 }},"{{ metric.1 }}","{{ metric.2 }}",{{ metric.3 }},"{{ metric.4 }}","{{ metric.5 }}","{{ metric.6 }}","{{ metric.7 }}","{{ metric.8 }}",{{ metric.9 }},{{ metric.10 }}, "{{ metric.11 }}" ]
 {% if not forloop.last %},{% endif %}{% endfor %}
 ]
 

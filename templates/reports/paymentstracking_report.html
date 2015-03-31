@@ -138,6 +138,7 @@
                     { name: 'Order Reference', type: 'string', map: '8'},
                     { name: 'Job Id', type: 'int', map: '9'},
                     { name: 'Workstream Id', type: 'int', map: '10'},                    
+                    { name: 'Status', type: 'string', map: '11'}, 
                     ],
                 datatype: "array"
             };
@@ -196,7 +197,7 @@
                    { text: 'Invoice Amount', datafield: 'Invoice Amount', filtertype: 'number', width: 100},
                    { text: 'Refund Amount', datafield: 'Refund Amount', filtertype: 'number', width: 100},
                    { text: 'Ecrow Release Amount', datafield: 'Ecrow Release Amount', filtertype: 'number', width: 100},
-		   { text: 'Escrow At This Point', datafield: 'Escrow At This Point', filtertype: 'number', width: 100}
+		   { text: 'Escrow At This Point', datafield: 'Escrow At This Point', filtertype: 'number', width: 100},
                    
                  ]
              }); 
@@ -274,6 +275,7 @@
                   { text: 'Order Reference', datafield: 'Order Reference', filtertype: 'textbox', columngroup: 'PaymentDetails', width:100},
                   { text: 'Job Id', datafield: 'Job Id', filtertype: 'number', cellsrenderer: joblinkrenderer, columngroup: 'References', width: 100},
                   { text: 'Workstream Id', datafield: 'Workstream Id', filtertype: 'number', cellsrenderer: workstreamidrenderer, columngroup: 'References', width: 100},
+                  { text: 'Status', datafield: 'Status', filtertype: 'textbox', columngroup: 'References', width: 130},
 
 
                 ],
