@@ -61,12 +61,13 @@
                     { name: 'AllInvoicesCount', type: 'int', map: '4'},
                     { name: 'PaidInvoicesCount', type: 'int', map: '5'},                    
                     { name: 'PaidInvoicesAmount', type: 'float', map: '6'},                    
-                    { name: 'RevenueAmount', type: 'float', map: '7'},                                                          
+                    { name: 'CommissionAmount', type: 'float', map: '7'},                                                          
                     { name: 'AllProposalsAmount', type: 'float', map: '8'},  
                     { name: 'AllDepositsCount', type: 'int', map: '9'},
                     { name: 'PaidDepositsCount', type: 'int', map: '10'},
                     { name: 'PaidDepositsAmount', type: 'float', map: '11'},      
                     { name: 'Escrow', type: 'float', map: '12'},                  
+                    { name: 'RevenueAmount', type: 'float', map: '13'},   
                     ],
                 datatype: "array"
             };
@@ -105,7 +106,9 @@
                   { text: 'All Count', datafield: 'AllInvoicesCount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Invoices'},
                   { text: 'Paid Count', datafield: 'PaidInvoicesCount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'],cellsformat: 'dd-MM-yy HH:m', columngroup: 'Invoices'},
                   { text: 'Paid Amount', datafield: 'PaidInvoicesAmount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Invoices'},                  
+                  { text: 'Commission Amount', datafield: 'CommissionAmount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'JobDetails'},
                   { text: 'Revenue Amount', datafield: 'RevenueAmount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'JobDetails'},
+
                                                                                           
                 ],
                 columngroups: 
@@ -211,3 +214,4 @@
        
 
 {% endblock %}  
+
