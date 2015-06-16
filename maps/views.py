@@ -1208,6 +1208,7 @@ def signups_apps_retention_getdata(request):
             dynsql1 = dynsql1 + ", round((month"+str(i)+"::float * 100.00 /totalsignup::float)::numeric,2) as applied_month"+str(i)
             dynsql2 = dynsql2 + ",count(distinct case when timestamp >=(date_joined + INTERVAL '"+str(m*(i-1))+" Month') and timestamp <=(date_joined + INTERVAL '"+str(m*i)+" Month') then id else null end) as month"+str(i)
         sql = ("select datejoined,totalsignup "+dynsql1+" from (select substring(to_char(date_joined,'YYYY-MM-DD'),1,4) || '-' || to_char((cast(substring(to_char(date_joined,'YYYY-MM-DD'),6,2) as int)-1)/"+str(m)+"+1,'09') || ' pr' as datejoined,count(distinct id) as totalsignup "+dynsql2+"  from (select u.id,au.date_joined, ca.timestamp from users u inner join auth_user au on u.django_user_id=au.id left outer join contracts_application ca on ca.applicant_id=u.id) total group by datejoined order by datejoined desc) final ") 
+        print sql
         results = customQuery(sql,1)
         c = Context({'signups_apps_retention': results,'n' : xrange(n)})        
 	return HttpResponse(render_to_string('signups_apps_retention.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
