@@ -1612,10 +1612,11 @@ def tracking_visitors_getdata(request):
     if request.method == 'POST':
         #objs = simplejson.loads(request.raw_post_data)
 
-        sql = ("select distinct u.id, au.first_name || ' ' || au.last_name,tv.last_update, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as uphoto, tv.url, tv.ip_address from  auth_user au inner join tracking_visitor tv on au.id=tv.user_id  inner join users u on u.django_user_id=au.id where tv.last_update >= (now() - interval '10 minutes') order by tv.last_update desc")        
-            
-        results = customQuery(sql,1)     
-        c = Context({'users': results})   
+        sql = ("select distinct u.id, au.first_name || ' ' || au.last_name,tv.last_update, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as uphoto, tv.url, tv.ip_address, u.site_lang from  auth_user au inner join tracking_visitor tv on au.id=tv.user_id  inner join users u on u.django_user_id=au.id where tv.last_update >= (now() - interval '10 minutes') order by tv.last_update desc")        
+        stats_sql = ("select count(distinct case when u.site_lang='ar' then u.id else null end), count(distinct case when u.site_lang='en' then u.id else null end) from  auth_user au inner join tracking_visitor tv on au.id=tv.user_id inner join users u on u.django_user_id=au.id where tv.last_update >= (now() - interval '10 minutes')")    
+        results = customQuery(sql,1)  
+        stats_result = customQuery(stats_sql,1)   
+        c = Context({'users': results, 'stats':  stats_result})   
         return HttpResponse(render_to_string('trackingvisitors.json', c, context_instance=RequestContext(request)), mimetype='application/json')
 
 

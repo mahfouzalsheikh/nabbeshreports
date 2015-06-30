@@ -1,1 +1,4 @@
-[{% for user in users %}[{{ user.0 }},"{{ user.1 }}","{{ user.2 }}","{{ user.3 }}","{{ user.4 }}","{{ user.5 }}"]{% if not forloop.last %} , {% endif %}{% endfor %}]
+[
+[{% for stat in stats %}[{{ stat.0 }}, {{ stat.1 }}]{% endfor %}],
+[{% for user in users %}[{{ user.0 }},"{{ user.1 }}","{{ user.2 }}","{{ user.3 }}","{{ user.4 }}","{{ user.5 }}","{{ user.6 }}"]{% if not forloop.last %} , {% endif %}{% endfor %}]
+]

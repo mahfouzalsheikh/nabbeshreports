@@ -154,9 +154,9 @@ function formatonlineuser(data)
    if(data.length!=0)
    {
       html='<table style="width:100%">'
-      for(i=0; i<data.length;i++)
+      for(i=0; i<data[1].length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimage(data[i][3],data[i][0])+'</td>'+formatname(data[i][0], data[i][1], 'left', '0.00')+'<td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:12px" href="http://www.nabbesh.com'+data[i][4]+'"> URL </a><span  style="TEXT-DECORATION: NONE;color: rgb(150,150,150); font-size:10px"> from: </span><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(50,50,50); font-size:10px" href="http://www.geoiptool.com/en/?IP='+data[i][5]+'">' +data[i][5]+  '</a></td></tr>';        
+         html+= '<tr><td width="50px">'+circularimage(data[1][i][3],data[1][i][0])+'</td>'+formatname(data[1][i][0], data[1][i][1], 'left', '0.00')+'<td><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:12px" href="http://www.nabbesh.com'+data[1][i][4]+'"> URL ('+ data[1][i][6] +')</a><span  style="TEXT-DECORATION: NONE;color: rgb(150,150,150); font-size:10px"> from: </span><a target="_blank" style="TEXT-DECORATION: NONE;color: rgb(50,50,50); font-size:10px" href="http://www.geoiptool.com/en/?IP='+data[1][i][5]+'">' +data[1][i][5]+  '</a></td></tr>';        
       }
        html+='</table>'
       return html;
@@ -339,7 +339,7 @@ function doTimeoutQuick() {
           setTimeout(function (){              
               $("#onlineusers").html(formatonlineuser(data)); 
               //console.log(data.length);
-              $("#userstitle").html('<span style="TEXT-DECORATION: NONE;color: rgb(255, 0, 0); font-size:14px">'+data.length.toString()+'</span><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">  Online Registered Users</span>');
+              $("#userstitle").html('<span style="TEXT-DECORATION: NONE;color: rgb(180 , 150 , 150); font-size:14px">Arabic('+data[0][0][0]+') English('+data[0][0][1]+')</span><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">  Online Users</span>');
               //$("#onlineusers").unblock(); 
           }, 500); });  
       setTimeout(doTimeoutQuick, 30000);
