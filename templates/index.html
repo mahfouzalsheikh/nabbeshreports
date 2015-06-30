@@ -23,7 +23,7 @@ function getVisitsData(){
       todayshort=today.yyyymmdd();
       
       limit = "Day";
-      var params = {"limit": limit, "fromdate": todayshort, "todate": todayshort};
+      var params = {"limit": limit, "fromdate": todayshort, "todate": todayshort, "sitelang": "both"};
       var jsonData = $.ajax({
           url: "../../analytics_getdata",
           dataType:"json",
