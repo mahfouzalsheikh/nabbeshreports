@@ -385,9 +385,15 @@ def datefieldtostring(datefieldname, segment):
     else:
         return year
      
-    
-    
-
+        
+@csrf_exempt
+def languagecodesql(sitelangfieldname, sitelang):
+    if sitelang=="arabic":
+        return " and "+sitelangfieldname+"='ar'"
+    elif sitelang=="english":
+        return " and "+sitelangfieldname+"='en'"
+    else:
+        return ""
    
 @csrf_exempt 
 def dashboard_getdata(request):
@@ -399,22 +405,22 @@ def dashboard_getdata(request):
         t2 = objs['todate']  + ' 23:59:59+00'
         
         grouppertext= objs['limit']
- 
-        print grouppertext
+        sitelang=objs['sitelang']
+        print objs
                
         header_sql = ("select msgdate,COALESCE(message_count,0) as message_count,COALESCE(nmessage_count,0) as nmessage_count,COALESCE(allusers_count,0) as allusers_count,COALESCE(freelancer_count,0) as freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count ,COALESCE(job_count,0) as job_count, COALESCE(proposal_count,0) as proposal_count, COALESCE(paidproposal_count,0) as paidproposal_count, COALESCE(application_count,0) as application_count,COALESCE(invitation_count,0) as invitation_count , COALESCE(invoice_count,0) as invoice_count,COALESCE(invoicepaid_count,0) as invoicepaid_count,round(COALESCE(invperjobavg,0),2) as invperjobavg, round(COALESCE(appperjobavg::numeric,0),2) as appperjobavg, COALESCE(depositrequest_count,0) , COALESCE(depositrequestpaid_count,0)  from ")
         
         workflow_messages_sql = ("(select count(distinct id) as message_count,"+datefieldtostring("timestamp", grouppertext) + " as msgdate from contracts_message where timestamp>='"+t1+"' and timestamp<='"+t2+"' group by msgdate) contractsmessages left outer join ")
         
-        allusers_sql = ("(select count(distinct u.id) as allusers_count, "+datefieldtostring("date_joined", grouppertext) + " as datejoined from users u inner join auth_user au on au.id=u.django_user_id where date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) allusers on contractsmessages.msgdate=allusers.datejoined left outer join")
+        allusers_sql = ("(select count(distinct u.id) as allusers_count, "+datefieldtostring("date_joined", grouppertext) + " as datejoined from users u inner join auth_user au on au.id=u.django_user_id where date_joined>='"+t1+"' and date_joined<='"+t2+"' "+languagecodesql('u.site_lang',sitelang)+"group by datejoined) allusers on contractsmessages.msgdate=allusers.datejoined left outer join ")
         
-        freelancers_sql = ("(select count(distinct u.id) as freelancer_count, "+datefieldtostring("date_joined", grouppertext) + " as datejoined from users u inner join auth_user au on au.id=u.django_user_id where u.is_freelancer=true and date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) freelancers on contractsmessages.msgdate=freelancers.datejoined left outer join")
+        freelancers_sql = ("(select count(distinct u.id) as freelancer_count, "+datefieldtostring("date_joined", grouppertext) + " as datejoined from users u inner join auth_user au on au.id=u.django_user_id where u.is_freelancer=true and date_joined>='"+t1+"' and date_joined<='"+t2+"' "+languagecodesql('u.site_lang',sitelang)+" group by datejoined) freelancers on contractsmessages.msgdate=freelancers.datejoined left outer join")
         
-        employers_sql = ("(select count(distinct u.id) as employers_count, "+datefieldtostring("date_joined", grouppertext) + " as datejoined from users u inner join auth_user au on au.id=u.django_user_id where u.is_employer=true and date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) employers on freelancers.datejoined=employers.datejoined left outer join")
+        employers_sql = ("(select count(distinct u.id) as employers_count, "+datefieldtostring("date_joined", grouppertext) + " as datejoined from users u inner join auth_user au on au.id=u.django_user_id where u.is_employer=true and date_joined>='"+t1+"' and date_joined<='"+t2+"' "+languagecodesql('u.site_lang',sitelang)+" group by datejoined) employers on freelancers.datejoined=employers.datejoined left outer join")
         
-        realemployers_sql = ("(select count(distinct u.id) as realemployers_count, "+datefieldtostring("date_joined", grouppertext) + " as datejoined from users u inner join auth_user au on au.id=u.django_user_id inner join contracts_job cj on cj.employer_id=u.id where  date_joined>='"+t1+"' and date_joined<='"+t2+"' group by datejoined) realemployers on contractsmessages.msgdate=realemployers.datejoined left outer join")
+        realemployers_sql = ("(select count(distinct u.id) as realemployers_count, "+datefieldtostring("date_joined", grouppertext) + " as datejoined from users u inner join auth_user au on au.id=u.django_user_id inner join contracts_job cj on cj.employer_id=u.id where  date_joined>='"+t1+"' and date_joined<='"+t2+"' "+languagecodesql('u.site_lang',sitelang)+" group by datejoined) realemployers on contractsmessages.msgdate=realemployers.datejoined left outer join")
         
-        jobs_sql =("(select count(id) as job_count,  "+datefieldtostring("created_at", grouppertext) + " as createdat from contracts_job  where approved=true and created_at>='"+t1+"' and created_at<='"+t2+"' group by createdat) jobs on jobs.createdat=contractsmessages.msgdate  left outer join")
+        jobs_sql =("(select count(id) as job_count,  "+datefieldtostring("created_at", grouppertext) + " as createdat from contracts_job  where approved=true and created_at>='"+t1+"' and created_at<='"+t2+"' "+languagecodesql('site_lang',sitelang)+" group by createdat) jobs on jobs.createdat=contractsmessages.msgdate  left outer join")
         
         contractsmessages_sql = ("(select count(distinct id) as nmessage_count, "+datefieldtostring("sent_at", grouppertext) + " as sentat from messages_message where sent_at>='"+t1+"' and sent_at<='"+t2+"' group by sentat) messages on messages.sentat=contractsmessages.msgdate   left outer join")
         
@@ -442,7 +448,7 @@ def dashboard_getdata(request):
         sql = (header_sql + workflow_messages_sql + allusers_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + proposalspaid_sql + application_sql +invited_sql+ invoicesent_sql + invoicepaid_sql + depositrequestsent_sql + depositrequestpaid_sql + invperjob_sql +appperjob_sql+  "  order by msgdate")
         
         
-        ##print sql
+        print sql
         
         results = customQuery(sql,1)                                     
         c = Context({'statistics': results})   
@@ -1859,9 +1865,9 @@ def analytics_getdata(request):
         t1 = objs['fromdate']
         t2 = objs['todate']                
         limit = objs['limit']
-        
+        sitelang = objs['sitelang']
 
-        data  = ga_get_visits(t1,t2,limit)
+        data  = ga_get_visits(t1,t2,limit, sitelang)
         
         c = Context({'analytics': data})     
         
@@ -2249,7 +2255,14 @@ def emailcampaign_getdata(request):
         return HttpResponse(render_to_string('emailcampaign.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
     
 @csrf_exempt
-def ga_get_visits_query(service,profile_id, start, end, limit):
+def ga_get_visits_query(service,profile_id, start, end, limit, sitelang):
+    sitelangfilter = "ga:pagePath=~/"
+    if sitelang == "arabic":
+        sitelangfilter="ga:pagePath=~/ar/"
+    elif sitelang == "english":
+        sitelangfilter="ga:pagePath=~/en/"
+
+    print sitelangfilter      
     dims = ""
     if limit=='Month':
         dims="ga:year,ga:month"
@@ -2257,7 +2270,7 @@ def ga_get_visits_query(service,profile_id, start, end, limit):
         dims="ga:year,ga:month,ga:day"
     else:
         dims="ga:year,ga:week"    
-    data = service.data().ga().get(ids="ga:" + profile_id, start_date=start, end_date=end, max_results=100000, dimensions = dims,       metrics="ga:visits,ga:pageviews").execute()
+    data = service.data().ga().get(ids="ga:" + profile_id, start_date=start, end_date=end, max_results=100000, dimensions = dims, filters = sitelangfilter, metrics="ga:visits,ga:pageviews").execute()
     
     results=[]
     if limit=='Month':
@@ -2276,14 +2289,14 @@ def ga_get_visits_query(service,profile_id, start, end, limit):
     return results
 
 @csrf_exempt
-def ga_get_visits(start_date, end_date, limit):      
+def ga_get_visits(start_date, end_date, limit, sitelang):      
     
     service = initialize_service()
     try:   
         profile_id = get_first_profile_id(service)
         param = profile_id
         print profile_id   
-        results = ga_get_visits_query(service, profile_id, start_date, end_date, limit)
+        results = ga_get_visits_query(service, profile_id, start_date, end_date, limit, sitelang)
 
 	return results
 	    

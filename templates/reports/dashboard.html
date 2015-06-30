@@ -17,8 +17,8 @@
 
 <script type="text/javascript">
      
-     function getData(limit,from,to){
-      var params = {"limit": limit, "fromdate": from, "todate": to};
+     function getData(limit,from,to, sitelang){
+      var params = {"limit": limit, "fromdate": from, "todate": to, "sitelang": sitelang};
       var jsonData = $.ajax({
           url: "../../dashboard_getdata",
           dataType:"json",
@@ -26,11 +26,11 @@
           data: JSON.stringify(params),
           async: false
           }).responseText;
-       return jsonData;    
+       return jsonData;  
      }
     
-     function getAnalyticsData(limit,from,to){
-      var params = {"limit": limit, "fromdate": from, "todate": to};
+     function getAnalyticsData(limit,from,to, sitelang){
+      var params = {"limit": limit, "fromdate": from, "todate": to, "sitelang": sitelang};
       var jsonData = $.ajax({
           url: "../../analytics_getdata",
           dataType:"json",
@@ -134,7 +134,7 @@
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));     
       
       
-      var options = {'showRowNumber': true, 'allowHtml': true};
+      var options = {'showRowNumber': true, 'allowHtml': true,width: '100%'};
       
       
       
@@ -160,16 +160,16 @@
 
      }
      
-     function draw(limit,from,to) {
+     function draw(limit,from,to, sitelang) {
       
-      var jsonData= getData(limit,from,to);                        
+      var jsonData= getData(limit,from,to, sitelang);                        
       
       JSONData=jsonData;
      
       drawChart(jsonData,$("#metricslist").jqxDropDownList('getCheckedItems'),from,to);   
 
          
-      var jsonAnalyticsData= getAnalyticsData(limit,from,to);
+      var jsonAnalyticsData= getAnalyticsData(limit,from,to, sitelang);
       JSONAnalyticsData = jsonAnalyticsData;
       drawAnalyticsChart(jsonAnalyticsData,from,to);       
       drawRatesChart(jsonData,jsonAnalyticsData,  $("#metricslist").jqxDropDownList('getCheckedItems') , from, to);
@@ -230,14 +230,22 @@ $(document).ready(function () {
      var theme = 'bootstrap';
      $("#optionsExpander").jqxExpander({ width: '100%', theme: theme,  expanded: false});
 
-     $("#groupbybuttons").jqxButtonGroup({ mode: 'radio' });
+     $("#groupbybuttons").jqxButtonGroup({ mode: 'radio'});
      $('#groupbybuttons').jqxButtonGroup('setSelection', 0);
      $("#groupbybuttons").on('buttonclick', function (event) {
                     var clickedButton = event.args.button;
                     limit = clickedButton[0].id;
                 });
      
-     
+
+     $("#sitelangbuttons").jqxButtonGroup({ mode: 'radio' ,  width: '100%'});
+     $('#sitelangbuttons').jqxButtonGroup('setSelection', 2);   
+     $("#sitelangbuttons").on('buttonclick', function (event) {
+                    var clickedButton = event.args.button;
+                    sitelang = clickedButton[0].id;
+                });
+  
+
      var today = new Date(Date.now());
      $("#fromdate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: new Date(new Date(today).setMonth(today.getMonth()-1))});
      $("#todate").jqxDateTimeInput({width: '200px', height: '25px', theme: theme, formatString: "yyyy-MM-dd",value: today });
@@ -252,16 +260,17 @@ $(document).ready(function () {
         
      var fromdate = $('#fromdate').jqxDateTimeInput('getText');
      var todate = $('#todate').jqxDateTimeInput('getText');
-     var limit="Day";          
+     var limit="Day";   
+     var sitelang="Both";       
                 
       $("#filterButton").jqxButton({theme: theme, width: '200'});
       $("#filterButton").on('click', function () { 
          
-         draw(limit,fromdate,todate);
+         draw(limit,fromdate,todate, sitelang);
       });
       $("#downloadButton").jqxButton({theme: theme, width: '200'});                
       $("#downloadButton").on('click', function () {
-                var json = $.parseJSON(getData(limit,fromdate,todate));
+                var json = $.parseJSON(getData(limit,fromdate,todate, sitelang));
     		var csv = JSON2CSV(json);
     		
 //	        window.open("data:text/csv;charset=utf-8," + escape(csv))
@@ -294,7 +303,7 @@ $(document).ready(function () {
      mainchart = new google.visualization.LineChart(document.getElementById('visualization'));  
      analyticschart = new google.visualization.LineChart(document.getElementById('analyticsvisualization'));
      rateschart = new google.visualization.LineChart(document.getElementById('ratestablearea'));                
-     draw(limit,fromdate,todate);
+     draw(limit,fromdate,todate, sitelang);
 
 
                
@@ -324,12 +333,20 @@ $(document).ready(function () {
                                   <button style="padding:4px 16px;" id="Week">Week</button>
                                   <button style="padding:4px 16px;" id="Month">Month</button>
                                   </div>
-                              </td>
+                     </td>
                    </tr>
                  
                    <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
                    <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
-                   
+ 
+                   <tr>
+                     <td>Site Lang:<td><div id='sitelangbuttons'>
+                                  <button style="padding:4px 16px;" id="english">En</button>
+                                  <button style="padding:4px 16px;" id="arabic">Ar</button>
+                                  <button style="padding:4px 16px;" id="both">Both</button>
+                                  </div>
+                     </td>
+                   </tr>
                    <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>
                    <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>
                   
