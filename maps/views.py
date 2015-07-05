@@ -408,7 +408,7 @@ def dashboard_getdata(request):
         sitelang=objs['sitelang']
         print objs
                
-        header_sql = ("select msgdate,COALESCE(message_count,0) as message_count,COALESCE(nmessage_count,0) as nmessage_count,COALESCE(allusers_count,0) as allusers_count,COALESCE(freelancer_count,0) as freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count ,COALESCE(job_count,0) as job_count, COALESCE(proposal_count,0) as proposal_count, COALESCE(paidproposal_count,0) as paidproposal_count, COALESCE(application_count,0) as application_count,COALESCE(invitation_count,0) as invitation_count , COALESCE(invoice_count,0) as invoice_count,COALESCE(invoicepaid_count,0) as invoicepaid_count,round(COALESCE(invperjobavg,0),2) as invperjobavg, round(COALESCE(appperjobavg::numeric,0),2) as appperjobavg, COALESCE(depositrequest_count,0) , COALESCE(depositrequestpaid_count,0)  from ")
+        header_sql = ("select msgdate,COALESCE(message_count,0) as message_count,COALESCE(nmessage_count,0) as nmessage_count,COALESCE(allusers_count,0) as allusers_count,COALESCE(freelancer_count,0) as freelancer_count,COALESCE(employers_count,0) as employers_count,COALESCE(realemployers_count,0) as realemployers_count ,COALESCE(job_count,0) as job_count, COALESCE(proposal_count,0) as proposal_count, COALESCE(paidproposal_count,0) as paidproposal_count, COALESCE(application_count,0) as application_count,COALESCE(invitation_count,0) as invitation_count , COALESCE(invoice_count,0) as invoice_count,COALESCE(invoicepaid_count,0) as invoicepaid_count,round(COALESCE(invperjobavg,0),2) as invperjobavg, round(COALESCE(appperjobavg::numeric,0),2) as appperjobavg, COALESCE(depositrequest_count,0) , COALESCE(depositrequestpaid_count,0), COALESCE(assistedjob_count,0) from ")
         
         workflow_messages_sql = ("(select count(distinct id) as message_count,"+datefieldtostring("timestamp", grouppertext) + " as msgdate from contracts_message where timestamp>='"+t1+"' and timestamp<='"+t2+"' group by msgdate) contractsmessages left outer join ")
         
@@ -444,8 +444,10 @@ def dashboard_getdata(request):
         invperjob_sql = ("(select avg(inv.jobinv) as invperjobavg, "+datefieldtostring("cj.created_at", grouppertext) + " as invsentat from contracts_job cj inner join (select count(cji.id) as jobinv,cji.job_id from contracts_job_invited cji  group by cji.job_id) inv on inv.job_id=cj.id group by invsentat) invitationsperjob on invitationsperjob.invsentat=contractsmessages.msgdate left outer join ")
         
         appperjob_sql = ("(select count(ca.id)::float/count(distinct ca.job_id)::float as appperjobavg,"+datefieldtostring("ca.timestamp", grouppertext) +" as appliedat  from contracts_application ca  group by appliedat) applicationperjob on applicationperjob.appliedat=contractsmessages.msgdate ")
+
+        assistedjobs_sql =("(select count(id) as assistedjob_count,  "+datefieldtostring("created_at", grouppertext) + " as createdat from contracts_job  where approved=true and assisted=true and created_at>='"+t1+"' and created_at<='"+t2+"' "+languagecodesql('site_lang',sitelang)+" group by createdat) assistedjobs on assistedjobs.createdat=contractsmessages.msgdate  left outer join")
         
-        sql = (header_sql + workflow_messages_sql + allusers_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + proposalspaid_sql + application_sql +invited_sql+ invoicesent_sql + invoicepaid_sql + depositrequestsent_sql + depositrequestpaid_sql + invperjob_sql +appperjob_sql+  "  order by msgdate")
+        sql = (header_sql + workflow_messages_sql + allusers_sql + freelancers_sql + employers_sql + realemployers_sql + jobs_sql + contractsmessages_sql + porposals_sql + proposalspaid_sql + application_sql +invited_sql+ invoicesent_sql + invoicepaid_sql + depositrequestsent_sql + depositrequestpaid_sql + invperjob_sql+ assistedjobs_sql +appperjob_sql + "  order by msgdate")
         
         
         print sql

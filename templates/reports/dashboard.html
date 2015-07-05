@@ -181,7 +181,7 @@
       var dataTable = new google.visualization.arrayToDataTable($.parseJSON(jsonData));
       var anayticsdataTable= new google.visualization.arrayToDataTable($.parseJSON(jsonAnalyticsData));
       
-      var data = google.visualization.data.join(dataTable, anayticsdataTable, 'inner', [[0,0]], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],[1,2]);
+      var data = google.visualization.data.join(dataTable, anayticsdataTable, 'inner', [[0,0]], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2]);
       
       
    
@@ -279,7 +279,7 @@ $(document).ready(function () {
 
      
      
-     var metricslistsource = ["Workflow Msgs","Normal Msgs","All Signups", "Joined as Freelancer","Joined as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Proposal Paid", "Job Apps","Invitations", "Invoices Sent", "Invoices Paid", "Invitations/Job", "Applications/Job", "Deposit Requests", "Deposit Request Paid"];
+     var metricslistsource = ["Workflow Msgs","Normal Msgs","All Signups", "Joined as Freelancer","Joined as Employer","Real Employers","Jobs Posted", "Proposals Sent", "Proposal Paid", "Job Apps","Invitations", "Invoices Sent", "Invoices Paid", "Invitations/Job", "Applications/Job", "Deposit Requests", "Deposit Request Paid", "Assisted Jobs"];
      $("#metricslist").jqxDropDownList({theme: theme,width: 200,height: 25, source: metricslistsource, checkboxes: true, animationType: 'fade'});
      
      //$("#metricslist").jqxListBox('checkIndex', 2);
@@ -289,6 +289,7 @@ $(document).ready(function () {
      $("#metricslist").jqxDropDownList('checkIndex', 8);
      $("#metricslist").jqxDropDownList('checkIndex', 12);
      $("#metricslist").jqxDropDownList('checkIndex', 16);
+     $("#metricslist").jqxDropDownList('checkIndex', 17);
 
      
  
