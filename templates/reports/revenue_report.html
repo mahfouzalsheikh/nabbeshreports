@@ -67,7 +67,10 @@
                     { name: 'PaidDepositsCount', type: 'int', map: '10'},
                     { name: 'PaidDepositsAmount', type: 'float', map: '11'},      
                     { name: 'Escrow', type: 'float', map: '12'},                  
-                    { name: 'RevenueAmount', type: 'float', map: '13'},   
+                    { name: 'AssistedFees', type: 'float', map: '13'},   
+                    { name: 'AssistedFees1', type: 'float', map: '14'}, 
+                    { name: 'AssistedFees2', type: 'float', map: '15'}, 
+                    { name: 'AssistedFees3', type: 'float', map: '16'}, 
                     ],
                 datatype: "array"
             };
@@ -106,8 +109,11 @@
                   { text: 'All Count', datafield: 'AllInvoicesCount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Invoices'},
                   { text: 'Paid Count', datafield: 'PaidInvoicesCount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'],cellsformat: 'dd-MM-yy HH:m', columngroup: 'Invoices'},
                   { text: 'Paid Amount', datafield: 'PaidInvoicesAmount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'Invoices'},                  
-                  { text: 'Commission Amount', datafield: 'CommissionAmount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'JobDetails'},
-                  { text: 'Revenue Amount', datafield: 'RevenueAmount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg'], columngroup: 'JobDetails'},
+                  { text: 'Commission Amount', datafield: 'CommissionAmount', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg']},
+                  { text: 'Assisted Fees', datafield: 'AssistedFees', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg']},
+                  { text: 'Discounts', datafield: 'AssistedFees1', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg']},
+                  { text: 'Invoices Revenue', datafield: 'AssistedFees2', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg']},
+                  { text: 'Total Revenue', datafield: 'AssistedFees3', filtertype: 'number', aggregates: ['count','min', 'max','sum','avg']},
 
                                                                                           
                 ],
