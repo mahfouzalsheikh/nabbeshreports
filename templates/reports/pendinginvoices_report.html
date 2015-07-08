@@ -70,7 +70,7 @@ function formatpendinginvoice(data)
       html='<table  style="width:100%">'
       for(i=0; i<data.length;i++)
       {         
-         html+= '<tr><td width="50px">'+circularimagecontact(data[i][2])+'</td>'+formatname(data[i][0],data[i][1],'left')+'<td align="center"><span style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)"> Has  </span><span style="color: rgb(255,0,0); font-size:18px">'+data[i][12]+'</span><span style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)"> pending invoice(s) to be paid on this </span><a  target="_blank" href="http://www.nabbesh.com/contracts/workstream/'+data[i][6]+'" style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)">Workstream: '+data[i][6]+'</a></td>' + formatname(data[i][3],data[i][4],'right') + '<td width="100px">'+circularimagecontact(data[i][5])+'</td></tr>';        
+         html+= '<tr><td width="50px">'+circularimagecontact(data[i][2])+'</td>'+formatname(data[i][0],data[i][1],'left')+'<td align="center"><span style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)"> Has  </span><span style="color: rgb(255,0,0); font-size:18px">'+data[i][12]+'</span><span style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)"> pending invoice(s) to be paid on this </span><a  target="_blank" href="http://www.nabbesh.com/contracts/workstream/'+data[i][6]+'" style="TEXT-DECORATION: NONE;font-size:14px;color: rgb(60,60,60)">Workstream: ('+data[i][6]+')  on </a>'+data[i][14]+'</td>' + formatname(data[i][3],data[i][4],'right') + '<td width="100px">'+circularimagecontact(data[i][5])+'</td></tr>';        
       }
        html+='</table>'
       return html;
