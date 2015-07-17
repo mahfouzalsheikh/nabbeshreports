@@ -422,7 +422,7 @@ def dashboard_getdata(request):
         
         jobs_sql =("(select count(distinct id) as job_count,  "+datefieldtostring("created_at", grouppertext) + " as createdat from contracts_job  where approved=true and created_at>='"+t1+"' and created_at<='"+t2+"' "+languagecodesql('site_lang',sitelang)+" group by createdat) jobs on jobs.createdat=contractsmessages.msgdate  left outer join")
         
-        contractsmessages_sql = ("(select count(distinct id) as nmessage_count, "+datefieldtostring("sent_at", grouppertext) + " as sentat from messages_message where sent_at>='"+t1+"' and sent_at<='"+t2+"' group by sentat) messages on messages.sentat=contractsmessages.msgdate   left outer join")
+        contractsmessages_sql = ("(select count(distinct id) as nmessage_count, "+datefieldtostring("sent_at", grouppertext) + " as sentat from nb_messages_message where sent_at>='"+t1+"' and sent_at<='"+t2+"' group by sentat) messages on messages.sentat=contractsmessages.msgdate   left outer join")
         
         porposals_sql  = ("(select "+datefieldtostring("timestamp", grouppertext) + " as proposalsent,count(*) as proposal_count from contracts_proposal cp inner join contracts_message cm on cp.message_ptr_id=cm.id where timestamp>='"+t1+"' and timestamp<='"+t2+"'  group by proposalsent) proposals on proposals.proposalsent=contractsmessages.msgdate left outer join ")
                 
