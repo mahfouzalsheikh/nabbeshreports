@@ -7,10 +7,10 @@ from django.template import Context, loader
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from legacy.models import Users, AuthUser, SkillsSkill
-from django.utils import simplejson
+import simplejson
 from django.template import Template, Context
 from django.template.loader import render_to_string
-from django.template import RequestContext
+from django.template import loader, RequestContext
 from django.contrib.auth.decorators import permission_required
 import datetime
 import time
@@ -237,15 +237,15 @@ def freelancerdemography_report(request):
 @csrf_exempt
 def freelancerdemography_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         grouper = objs['grouper']
         sql = ("select "+grouper+", count(id) as usercount from users where "+grouper+" is not null and "+grouper+" <>''  group by "+grouper+" order by usercount desc")
  
         results = customQuery(sql,1)
 
-        c = Context({'countries': results})
+        c = {'countries': results}
    
-        return HttpResponse(render_to_string('freelancersdemography.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        return HttpResponse(loader.render_to_string('freelancersdemography.json', c, context_instance=RequestContext(request)))
         
         
         
@@ -265,7 +265,7 @@ def freelancersgender_report(request):
 @csrf_exempt
 def freelancersgender_getdata(request):
     if request.method == 'POST':
-        #objs = simplejson.loads(request.raw_post_data)
+        #objs = simplejson.loads(request.body)
         
         #detect("https://s3.amazonaws.com/fideloper.com/faces_orig.jpg")
         
@@ -274,9 +274,9 @@ def freelancersgender_getdata(request):
         results = customQuery(sql,1)
         print results
  
-        c = Context({'genders': results})
+        c = {'genders': results}
    
-        return HttpResponse(render_to_string('freelancersgender.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        return HttpResponse(loader.render_to_string('freelancersgender.json', c, context_instance=RequestContext(request)))
         
         
         
@@ -292,7 +292,7 @@ def freelancerseducation_report(request):
 @csrf_exempt
 def freelancerseducation_getdata(request):
     if request.method == 'POST':
-        #objs = simplejson.loads(request.raw_post_data)
+        #objs = simplejson.loads(request.body)
 
         sql = "select  case degree when 6 then 'Bachelor of Science' when 7 then 'High School' when 5 then 'Bachelor of Arts' when 4 then 'Executive MBA' when 3 then 'MBA' when 2 then 'Masters' when 1 then 'PHD' end as education, usercount from (select count(distinct u.id ) as usercount, edu.degree from education edu inner join users u on edu.id_user=u.id group by edu.degree) total"
         
@@ -300,9 +300,9 @@ def freelancerseducation_getdata(request):
         results = customQuery(sql,1)
         print results
  
-        c = Context({'educations': results})
+        c = {'educations': results}
    
-        return HttpResponse(render_to_string('freelancerseducation.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        return HttpResponse(loader.render_to_string('freelancerseducation.json', c, context_instance=RequestContext(request)))
 
 
 
@@ -319,7 +319,7 @@ def jobs_categories_report(request):
 def jobs_categories_getdata(request):
     if request.method == 'POST':
 
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         print objs
         
         fromdate = objs['fromdate']  + ' 00:00:00+00'
@@ -331,9 +331,9 @@ def jobs_categories_getdata(request):
         results = customQuery(sql,1)
         print results
  
-        c = Context({'categories': results})
+        c = {'categories': results}
    
-        return HttpResponse(render_to_string('jobs_categories.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        return HttpResponse(loader.render_to_string('jobs_categories.json', c, context_instance=RequestContext(request)))
         
 
 @login_required(login_url='/accounts/login/')
@@ -349,14 +349,14 @@ def freelancersages_report(request):
 @csrf_exempt            
 def freelancersages_getdata(request):
     if request.method == 'POST':
-        #objs = simplejson.loads(request.raw_post_data)
+        #objs = simplejson.loads(request.body)
 
         sql = "select  sum(ucount) as usercounts,case when ageu <18 then '1) Under 18' when ageu >= 18 and ageu<=24 then '2) 18 to 24' when ageu >= 25 and ageu<=34 then '3) 25 to 34' when ageu >= 35 then '4) Over 35' END as age_range from (select count(total.id) as ucount, 2013 - total.yobn as ageu from (select t1.id, t1.yob :: integer yobn from(select id, substring(dob,length(dob)-3, length(dob)) as yob from users where dob<>'') t1 where t1.yob ~E'^\\\d+$') total group by ageu order by ageu) total group by age_range order by age_range;"
         results = customQuery(sql,1)
 
         #print sql
-        c = Context({'ages': results})
-        return HttpResponse(render_to_string('freelancersages.json', c, context_instance=RequestContext(request)), mimetype='application/json')        
+        c = {'ages': results}
+        return HttpResponse(loader.render_to_string('freelancersages.json', c, context_instance=RequestContext(request)))        
         
         
  
@@ -398,7 +398,7 @@ def languagecodesql(sitelangfieldname, sitelang):
 @csrf_exempt 
 def dashboard_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         #print objs
         
         t1 = objs['fromdate'] + ' 00:00:00+00'
@@ -453,8 +453,8 @@ def dashboard_getdata(request):
         print sql
         
         results = customQuery(sql,1)                                     
-        c = Context({'statistics': results})   
-        return HttpResponse(render_to_string('dashboard.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
+        c = {'statistics': results}   
+        return HttpResponse(loader.render_to_string('dashboard.json', c, context_instance=RequestContext(request)))  
     
 
 
@@ -468,7 +468,7 @@ def growth_dashboard(request):
 @csrf_exempt 
 def growthdashboard_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         #print objs
         
         t1 = objs['fromdate'] + ' 00:00:00+00'
@@ -487,8 +487,8 @@ def growthdashboard_getdata(request):
         
         #print sql
         results = customQuery(sql,1)                                     
-        c = Context({'statistics': results, 'metricname': metric})   
-        return HttpResponse(render_to_string('growthdashboard.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
+        c = {'statistics': results, 'metricname': metric}
+        return HttpResponse(loader.render_to_string('growthdashboard.json', c, context_instance=RequestContext(request)))  
     
 
         
@@ -505,7 +505,7 @@ def jobs_employers_statistics(request):
 @csrf_exempt 
 def jobs_employers_statistics_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         #print objs
         
         t1 = objs['fromdate']  + ' 00:00:00+00'
@@ -532,28 +532,28 @@ def jobs_employers_statistics_getdata(request):
 
         #print results
  
-        c = Context({'statistics': results})
+        c = {'statistics': results}
    
-        return HttpResponse(render_to_string('jobs_employers_statistics.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+        return HttpResponse(loader.render_to_string('jobs_employers_statistics.json', c, context_instance=RequestContext(request))) 
         
 @login_required(login_url='/accounts/login/')
 def jobs_applications_statistics(request):
     if request.method == 'GET':
-    	#objs = simplejson.loads(request.raw_post_data)
+    	#objs = simplejson.loads(request.body)
     	#print objs
         t = loader.get_template('./reports/jobs_applications_statistics.html')
         #param =  objs['param']
         #c = Context({'jobs_applications_statistics': dashboard, 'param': param})
         
 #        return HttpResponse(t.render(c) )
-        #return HttpResponse(render_to_string('./reports/jobs_applications_statistics.html', c, context_instance=RequestContext(request)), mimetype='application/html') 
+        #return HttpResponse(loader.render_to_string('./reports/jobs_applications_statistics.html', c, context_instance=RequestContext(request)), mimetype='application/html') 
         return render_to_response('./reports/jobs_applications_statistics.html', context_instance=RequestContext(request))
         
         
 @csrf_exempt 
 def jobs_applications_statistics_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         #print objs
         
         t1 = objs['fromdate']  + ' 00:00:00+00'
@@ -581,18 +581,17 @@ def jobs_applications_statistics_getdata(request):
         sql = ("select u.id,au.first_name || ' ' || au.last_name as employer_name,au.email as Employer_Email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile as phone, cj.id as job_id,substring(cj.title,1,200) as job_title,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16) as created_at, "+budgetsql+" ,count(distinct ca.id) as application_count, count( distinct case when ca.shortlisted=true then ca.id else null end) as shortlisted, count(distinct case when cm.from_applicant=true then cm.id else null end) as applicant_messages, count(distinct case when cm.from_applicant=false then cm.id else null end) as employer_responses,count(distinct cp.message_ptr_id) as proposal_count, count(distinct case when cp.status=4 then cp.message_ptr_id else null end) as acceptedproposal_count, case when cj.status=1 then True when cj.status=2 then False end as JobStatus, cj.approved, u.open_applications_rate*100, count(distinct crm.id) as cn from contracts_job cj left outer join contracts_application ca   on cj.id=ca.job_id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cm.id inner join users u on u.id=cj.employer_id inner join auth_user au on u.django_user_id=au.id left outer join contracts_requiredskill cr on cr.job_id=cj.id left outer join skills_skill ss on ss.id=cr.skill_id left outer join crm_notes crm on crm.user_id=u.id where  created_at>='"+t1+"' and created_at<='"+t2+"' "+searchsql+ contsearchsql+ skillsearchsql +" group by employer_name,cj.id,job_title,cj.created_at,au.email,phone,u.id order by cj.created_at desc;")
         
         print sql
-        results = customQuery(sql,1)
-                              
-        c = Context({'statistics': results})
-   
-        return HttpResponse(render_to_string('jobs_applications_statistics.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+        results = customQuery(sql,1)                    
+        c = {'statistics': results}
+
+        return HttpResponse(loader.render_to_string('jobs_applications_statistics.json', c , RequestContext(request))) 
 
 
 
 @csrf_exempt 
 def jobs_communications_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         print objs
         job_id = objs['job_id']
         #print job_id;
@@ -603,8 +602,8 @@ def jobs_communications_getdata(request):
         results = customQuery(sql,1)
  	#print results	
         print sql
-        c = Context({'messages': results})
-        return HttpResponse(render_to_string('jobs_communications.json', c, context_instance=RequestContext(request)), mimetype='application/json')             
+        c = {'messages': results}
+        return HttpResponse(loader.render_to_string('jobs_communications.json', c, context_instance=RequestContext(request)))             
         
 
 
@@ -619,7 +618,7 @@ def paymentstracking_report(request):
 @csrf_exempt 
 def paymentstracking_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         #print objs
         
         t1 = objs['fromdate']  + ' 00:00:00+00'
@@ -632,16 +631,16 @@ def paymentstracking_getdata(request):
         print sql
         results = customQuery(sql,1)
                               
-        c = Context({'statistics': results})
+        c = {'statistics': results}
    
-        return HttpResponse(render_to_string('paymentstracking.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+        return HttpResponse(loader.render_to_string('paymentstracking.json', c, context_instance=RequestContext(request))) 
 
 
 
 @csrf_exempt 
 def paymentstracking_actions_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         print objs
         job_id = objs['job_id']
         print job_id;
@@ -652,8 +651,8 @@ def paymentstracking_actions_getdata(request):
         results = customQuery(sql,1)
  	#print results	
         print sql
-        c = Context({'messages': results})
-        return HttpResponse(render_to_string('paymentstracking_actions.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
+        c = {'messages': results}
+        return HttpResponse(loader.render_to_string('paymentstracking_actions.json', c, context_instance=RequestContext(request)))  
 
 
 
@@ -668,13 +667,13 @@ def sign_job_proposal_invoice(request):
     source = get_sourceliststring()
     campaign = get_campaignliststring()
 
-    c = Context({'sign_job_proposal_invoice': dashboard, 'medium' : medium, 'source': source, 'campaign': campaign  })
+    c = {'sign_job_proposal_invoice': dashboard, 'medium' : medium, 'source': source, 'campaign': campaign  }
     return render_to_response('./reports/sign_job_proposal_invoice.html',c, context_instance=RequestContext(request))        
         
 @csrf_exempt  
 def sign_job_proposal_invoice_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         #print objs
         print objs
         cpcchecked = objs['cpcchecked']
@@ -706,8 +705,8 @@ def sign_job_proposal_invoice_getdata(request):
         print sql 
         results = customQuery(sql,1)	
         print results 
-        c = Context({'statistics': results})
-        return HttpResponse(render_to_string('sign_job_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
+        c = {'statistics': results}
+        return HttpResponse(loader.render_to_string('sign_job_proposal_invoice.json', c, context_instance=RequestContext(request)))                   
         
         dashboard
 @login_required(login_url='/accounts/login/')        
@@ -718,13 +717,13 @@ def sign_application_proposal_invoice(request):
     source = get_sourceliststring()
     campaign = get_campaignliststring()
     
-    c = Context({'sign_application_proposal_invoice': dashboard, 'medium' : medium, 'source': source, 'campaign': campaign })
+    c = {'sign_application_proposal_invoice': dashboard, 'medium' : medium, 'source': source, 'campaign': campaign }
     return render_to_response('./reports/sign_application_proposal_invoice.html',c, context_instance=RequestContext(request))        
         
 @csrf_exempt  
 def sign_application_proposal_invoice_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         #print objs
         
         cpcchecked = objs['cpcchecked']
@@ -754,8 +753,8 @@ def sign_application_proposal_invoice_getdata(request):
         results = customQuery(sql,1)
  	
         
-        c = Context({'statistics': results})
-        return HttpResponse(render_to_string('sign_application_proposal_invoice.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
+        c = {'statistics': results}
+        return HttpResponse(loader.render_to_string('sign_application_proposal_invoice.json', c, context_instance=RequestContext(request)))                   
         
         
 
@@ -771,7 +770,7 @@ def top_freelancers(request):
 @csrf_exempt
 def top_freelancers_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         print objs
         
         priority = objs['priority']
@@ -796,8 +795,8 @@ def top_freelancers_getdata(request):
         #print sql
         results = customQuery(sql,1)
  	#print results	
-        c = Context({'users': results})
-        return HttpResponse(render_to_string('top_freelancers.json', c, context_instance=RequestContext(request)), mimetype='application/json')             
+        c = {'users': results}
+        return HttpResponse(loader.render_to_string('top_freelancers.json', c, context_instance=RequestContext(request)))             
 
 @login_required(login_url='/accounts/login/')
 def top_employers(request):
@@ -812,7 +811,7 @@ def top_employers(request):
 @csrf_exempt 
 def top_employers_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         print objs
         limit = objs['limit']
         priority = objs['priority']
@@ -829,8 +828,8 @@ def top_employers_getdata(request):
         ##print sql
         results = customQuery(sql,1)
  	#print results	
-        c = Context({'users': results})
-        return HttpResponse(render_to_string('top_employers.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
+        c = {'users': results}
+        return HttpResponse(loader.render_to_string('top_employers.json', c, context_instance=RequestContext(request)))  
         
 @login_required(login_url='/accounts/login/')        
 def user_report(request, userid=None):
@@ -842,14 +841,14 @@ def user_report(request, userid=None):
         'user_report': dashboard, 'userid': userid
     })
     return HttpResponse(t.render(c))
-    #return HttpResponse(render_to_string('./reports/user_report.html', c, context_instance=RequestContext(request)), mimetype='application/html')
+    #return HttpResponse(loader.render_to_string('./reports/user_report.html', c, context_instance=RequestContext(request)), mimetype='application/html')
     #return render_to_response('./reports/user_report.html', context_instance=RequestContext(request))
     
     
 @csrf_exempt 
 def find_user_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         print objs
         userid= objs['userid']
         searchtext= objs['userotherinfo']
@@ -865,24 +864,24 @@ def find_user_getdata(request):
         ##print sql
         results = customQuery(sql,1)
         
-        return HttpResponse(json.dumps(results), mimetype='application/json')  
+        return HttpResponse(json.dumps(results))  
     
 @csrf_exempt 
 def user_personalinfo_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         userid= objs['userid']
         sql = ("select u.id,u.django_user_id, au.first_name || ' ' || au.last_name, au.email,  u.countrycode || ' ' || u.areacode || ' ' || u.mobile,  u.country,  u.city, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as cphoto, u.dob, u.gender, u.formatted_address, u.is_employer, u.is_hobbies_explorer, u.is_freelancer, u.hide_in_search, u.deactivated, u.view_count, u.date_of_birth, u.city, u.country, u.nationality, u.average_rating, u.reviews_count, u.jobs_count, au.is_staff, au.is_active, au.is_superuser, au.last_login, au.date_joined, tv.last_update from  users u inner join auth_user au on u.django_user_Id=au.id left outer join tracking_visitor tv on tv.user_id=au.id where u.id="+ str(userid))        
         ##print sql
         results = customQuery(sql,1)
         
-        c = Context({'details': results})
-        return HttpResponse(render_to_string('userdetails.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+        c = {'details': results}
+        return HttpResponse(loader.render_to_string('userdetails.json', c, context_instance=RequestContext(request))) 
         
 @csrf_exempt      
 def user_jobs_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
 
         t1 = objs['fromdate']  + ' 00:00:00+00'
         t2 = objs['todate'] + ' 23:59:59+00'
@@ -911,14 +910,14 @@ def user_jobs_getdata(request):
         print sql
         results = customQuery(sql,1)
                               
-        c = Context({'statistics': results})
-        return HttpResponse(render_to_string('jobs_applications_statistics.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+        c = {'statistics': results}
+        return HttpResponse(loader.render_to_string('jobs_applications_statistics.json', c, context_instance=RequestContext(request))) 
         
         
 @csrf_exempt 
 def user_applications_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
 
         t1 = objs['fromdate']  + ' 00:00:00+00'
         t2 = objs['todate'] + ' 23:59:59+00'
@@ -944,8 +943,8 @@ def user_applications_getdata(request):
         ##print sql
         results = customQuery(sql,1)
         #print results	
-        c = Context({'statistics': results})
-        return HttpResponse(render_to_string('user_applications.json', c, context_instance=RequestContext(request)), mimetype='application/json')  
+        c = {'statistics': results}
+        return HttpResponse(loader.render_to_string('user_applications.json', c, context_instance=RequestContext(request)))  
 
 
 
@@ -966,7 +965,7 @@ def skillsdemography_report(request):
 @csrf_exempt
 def skillsdemography_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         limit = objs['limit']
         priority = objs['priority']
         
@@ -986,9 +985,9 @@ def skillsdemography_getdata(request):
         #print sql 
         results = customQuery(sql,1)
     
-        c = Context({'countries': results})
+        c = {'countries': results}
    
-        return HttpResponse(render_to_string('skillsdemography.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+        return HttpResponse(loader.render_to_string('skillsdemography.json', c, context_instance=RequestContext(request)))           
         
 
 
@@ -998,15 +997,15 @@ def skillsdemography_getdata(request):
 @csrf_exempt
 def skillsdemographydetails_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         skill_id= objs['skill_id']
         sql = ("select country, jobs_count,users_count, case when jobs_count<>0 then cast(users_count as real)/cast(jobs_count as real) else 0 end as availability_rate from  (select case when total1.country is not null then total1.country else total2.country end as country, case when total1.jobs_count is not null then total1.jobs_count else 0 end as jobs_count, case when total2.users_count is not null then total2.users_count else 0 end as users_count from ( select count(*) as jobs_count,u.country  from contracts_job cj  inner join users u on cj.employer_id=u.id  inner join contracts_requiredskill crs on crs.job_id=cj.id where crs.skill_id= "+skill_id +" group by u.country) total1 full outer join  (select count(*) as users_count, u.country  from users u  inner join skills_users su on su.id_user=u.id where su.skill_id="+skill_id+" group by u.country) total2 on total1.country=total2.country ) total")
  
         results = customQuery(sql,1)
 
-        c = Context({'countries': results})
+        c = {'countries': results}
    
-        return HttpResponse(render_to_string('skillsdemographydetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+        return HttpResponse(loader.render_to_string('skillsdemographydetails.json', c, context_instance=RequestContext(request)))           
             
 
 @login_required(login_url='/accounts/login/')        
@@ -1024,7 +1023,7 @@ def skillsdistribution_report(request):
 @csrf_exempt
 def skillsdistribution_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         limit = objs['limit']
         priority = objs['priority']
         
@@ -1047,9 +1046,9 @@ def skillsdistribution_getdata(request):
         
         #print sql
         results = customQuery(sql,1)     
-        c = Context({'countries': results})
+        c = {'countries': results}
         
-        return HttpResponse(render_to_string('skillsdistribution.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+        return HttpResponse(loader.render_to_string('skillsdistribution.json', c, context_instance=RequestContext(request))) 
 
 
 @csrf_exempt        
@@ -1074,7 +1073,7 @@ def crosscountryapps_report(request):
 @csrf_exempt
 def crosscountryapps_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         grouplevel= objs['grouplevel']
         limit = objs['limit']
         colsql = 'applicants.country as appcountry, applicants.city as appcity,employers.country as empcountry, employers.city as empcity'
@@ -1087,11 +1086,11 @@ def crosscountryapps_getdata(request):
  
         results = customQuery(sql,1)
         #print sql
-        c = Context({'lines': results})
+        c = {'lines': results}
         if grouplevel=='Country':
-	    return HttpResponse(render_to_string('crosscountryapps.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+	    return HttpResponse(loader.render_to_string('crosscountryapps.json', c, context_instance=RequestContext(request)))           
 	else:
-	    return HttpResponse(render_to_string('crosscityapps.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+	    return HttpResponse(loader.render_to_string('crosscityapps.json', c, context_instance=RequestContext(request)))           
 	    
             
                         
@@ -1107,7 +1106,7 @@ def proposals_report(request):
 @csrf_exempt
 def proposals_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)         
+        objs = simplejson.loads(request.body)         
         t1 = objs['fromdate'] + ' 00:00:00+00'
         t2 = objs['todate']  + ' 23:59:59+00'
         grouper="7"
@@ -1122,8 +1121,8 @@ def proposals_getdata(request):
                   
         sql = ("select substring(to_char(cm.timestamp,'YYYY-MM-DD HH24:MI:SS'),1, "+grouper+") as sentat, COALESCE(sum(case when cp.status=1 then cp.deposit_amount end),0) as New, count(distinct case when cp.status=1 then cp.message_ptr_id else null end) as NewCount, round(COALESCE(avg(case when cp.status=1 then cp.deposit_amount end),0),2) as NewAvg, COALESCE(sum(case when cp.status=2 then cp.deposit_amount end),0) as Canceled, count(distinct case when cp.status=2 then cp.message_ptr_id else null end) as CanceledCount, round(COALESCE(avg(case when cp.status=2 then cp.deposit_amount end),0),2) as CanceledAvg, COALESCE(sum(case when cp.status=3 then cp.deposit_amount end),0) as Declined, count(distinct case when cp.status=3 then cp.message_ptr_id else null end) as DeclinedCount, round(COALESCE(avg(case when cp.status=3 then cp.deposit_amount end),0),2) as Avg, COALESCE(sum(case when cp.status=4 then cp.deposit_amount end),0) as Accepted, count(distinct case when cp.status=4 then cp.message_ptr_id else null end) as AcceptedCount, round(COALESCE(avg(case when cp.status=4 then cp.deposit_amount end),0),2) as AcceptedAvg from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id where cm.timestamp>='"+t1+"' and cm.timestamp<='"+t2+"'  group  by sentat order by sentat ") 
         results = customQuery(sql,1)
-        c = Context({'proposals': results})        
-	return HttpResponse(render_to_string('proposals.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+        c = {'proposals': results}       
+	return HttpResponse(loader.render_to_string('proposals.json', c, context_instance=RequestContext(request)))           
 	
 
 
@@ -1139,7 +1138,7 @@ def invoices_report(request):
 @csrf_exempt
 def invoices_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)         
+        objs = simplejson.loads(request.body)         
         t1 = objs['fromdate'] + ' 00:00:00+00'
         t2 = objs['todate']  + ' 23:59:59+00'
         grouper="7"
@@ -1156,8 +1155,8 @@ def invoices_getdata(request):
         
         #print sql
         results = customQuery(sql,1)
-        c = Context({'invoices': results})        
-	return HttpResponse(render_to_string('invoices.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+        c = {'invoices': results}        
+	return HttpResponse(loader.render_to_string('invoices.json', c, context_instance=RequestContext(request)))           
 	
             
             
@@ -1173,7 +1172,7 @@ def jobs_apps_stats_report(request):
 @csrf_exempt
 def jobs_apps_stats_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)         
+        objs = simplejson.loads(request.body)         
         t1 = objs['fromdate'] + ' 00:00:00+00'
         t2 = objs['todate']  + ' 23:59:59+00'
         grouper="7"
@@ -1190,8 +1189,8 @@ def jobs_apps_stats_getdata(request):
         
         #print sql
         results = customQuery(sql,1)
-        c = Context({'jobs_apps_stats': results})        
-	return HttpResponse(render_to_string('jobs_apps_stats.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+        c = {'jobs_apps_stats': results}        
+	return HttpResponse(loader.render_to_string('jobs_apps_stats.json', c, context_instance=RequestContext(request)))           
 
 
 
@@ -1207,7 +1206,7 @@ def signups_apps_retention_report(request):
 @csrf_exempt
 def signups_apps_retention_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)                              
+        objs = simplejson.loads(request.body)                              
         n=int(objs['period'])
         m=int(objs['month'])     
         dynsql1=""
@@ -1218,8 +1217,8 @@ def signups_apps_retention_getdata(request):
         sql = ("select datejoined,totalsignup "+dynsql1+" from (select substring(to_char(date_joined,'YYYY-MM-DD'),1,4) || '-' || to_char((cast(substring(to_char(date_joined,'YYYY-MM-DD'),6,2) as int)-1)/"+str(m)+"+1,'09') || ' pr' as datejoined,count(distinct id) as totalsignup "+dynsql2+"  from (select u.id,au.date_joined, ca.timestamp from users u inner join auth_user au on u.django_user_id=au.id left outer join contracts_application ca on ca.applicant_id=u.id) total group by datejoined order by datejoined desc) final ") 
         print sql
         results = customQuery(sql,1)
-        c = Context({'signups_apps_retention': results,'n' : xrange(n)})        
-	return HttpResponse(render_to_string('signups_apps_retention.json', c, context_instance=RequestContext(request)), mimetype='application/json')           
+        c = {'signups_apps_retention': results,'n' : xrange(n)}       
+	return HttpResponse(loader.render_to_string('signups_apps_retention.json', c, context_instance=RequestContext(request)))           
 	           
 
 
@@ -1235,7 +1234,7 @@ def signups_jobs_retention_report(request):
 @csrf_exempt
 def signups_jobs_retention_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)         
+        objs = simplejson.loads(request.body)         
                      
         n=int(objs['period'])
         m=int(objs['month']) 
@@ -1252,8 +1251,8 @@ def signups_jobs_retention_getdata(request):
         results = customQuery(sql,1)
         print sql
         #print results
-        c = Context({'signups_jobs_retention': results,'n' : xrange(n)})        
-	return HttpResponse(render_to_string('signups_jobs_retention.json', c, context_instance=RequestContext(request)), mimetype='application/json')     
+        c = {'signups_jobs_retention': results,'n' : xrange(n)}      
+	return HttpResponse(loader.render_to_string('signups_jobs_retention.json', c, context_instance=RequestContext(request)))     
 	           
 
 
@@ -1270,7 +1269,7 @@ def jobs_apps_retention_report(request):
 @csrf_exempt
 def jobs_apps_retention_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)         
+        objs = simplejson.loads(request.body)         
                     
         n=int(objs['period'])
         m=int(objs['month'])      
@@ -1283,8 +1282,8 @@ def jobs_apps_retention_getdata(request):
         sql = ("select datejoined,totaljobs " +dynsql1+ " from (select substring(to_char(created_at,'YYYY-MM-DD'),1,4) || '-' || to_char((cast(substring(to_char(created_at,'YYYY-MM-DD'),6,2) as int)-1)/"+str(m)+"+1,'09') || ' pr' as datejoined, count(distinct id) as totaljobs "+ dynsql2 +"  from  ( select cj.id as id, cj.created_at, ca.timestamp from contracts_job cj left outer join contracts_application ca on ca.job_id=cj.id ) total group by datejoined order by datejoined desc) final") 
         results = customQuery(sql,1)
                                    
-        c = Context({'jobs_apps_retention': results,'n' : xrange(n)})        
-	return HttpResponse(render_to_string('jobs_apps_retention.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+        c = {'jobs_apps_retention': results,'n' : xrange(n)}      
+	return HttpResponse(loader.render_to_string('jobs_apps_retention.json', c, context_instance=RequestContext(request))) 
 
 
 
@@ -1293,15 +1292,15 @@ def jobs_apps_retention_getdata(request):
 def activities_countries_report(request):
     
     t = loader.get_template('./reports/activities_countries_report.html')
-    c = Context({
+    c = {
         'activities_countries_report': jobs_apps_retention_report,
-    })
+    }
     return render_to_response('./reports/activities_countries_report.html',c, context_instance=RequestContext(request))
             
 @csrf_exempt
 def activities_countries_getdata(request):
     if request.method == 'POST':
-        #objs = simplejson.loads(request.raw_post_data)         
+        #objs = simplejson.loads(request.body)         
 
         sql = ("select distinct u.country, COALESCE(usercount,0) as usercount, COALESCE(jobscount,0) as jobscount, COALESCE(appscount,0) as appscount, COALESCE(proposalcount,0) as proposalcount, COALESCE(invoicecount,0) as invoicecount from users u left outer join (select count(distinct u.id) as usercount, u.country from users u inner join auth_user au on u.django_user_id=au.id group by u.country ) signups on signups.country=u.country left outer join (select count(distinct cj.id) as jobscount,u.country  from contracts_job cj inner join users u on u.id=cj.employer_id  group by u.country) jobs on jobs.country=u.country left outer join (select count(distinct ca.id) as appscount, u.country from contracts_application ca inner join users u on u.id=ca.applicant_id  group by u.country) apps on apps.country=u.country left outer join (select count(distinct cm.id) as proposalcount, u.country from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id inner join contracts_application ca on ca.id=cm.application_id inner join users u on u.id=ca.applicant_id group by u.country) proposals on proposals.country=u.country left outer join (select count(distinct cm.id) as invoicecount, u.country from contracts_invoice ci inner join contracts_message cm on cm.id=ci.message_ptr_id inner join contracts_application ca on ca.id=cm.application_id inner join users u on u.id=ca.applicant_id  group by u.country) invoices on invoices.country=u.country where u.country is not null and u.country<>'' order by usercount desc") 
         #print sql
@@ -1309,8 +1308,8 @@ def activities_countries_getdata(request):
         
        
         print results                           
-        c = Context({'countries': results})        
-	return HttpResponse(render_to_string('activities_countries.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+        c = {'countries': results}        
+	return HttpResponse(loader.render_to_string('activities_countries.json', c, context_instance=RequestContext(request))) 
 
 
 
@@ -1327,7 +1326,7 @@ def payers_report(request):
 @csrf_exempt
 def payers_getdata(request):
     if request.method == 'POST':
-        #objs = simplejson.loads(request.raw_post_data)
+        #objs = simplejson.loads(request.body)
 
         sql = "select distinct u.id,au.first_name || ' ' || au.last_name as fullname, au.email, u.country,cj.id,substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16), cj.title, cii.quantity*cii.unit_price as amount from users u  inner join auth_user au on au.id=u.django_user_id inner join contracts_job cj on cj.employer_id=u.id  inner join contracts_application ca on ca.job_id = cj.id inner join contracts_message cm on cm.application_id=ca.id inner join contracts_invoice ci on ci.message_ptr_id=cm.id inner join contracts_invoiceitem  cii on cii.invoice_id=ci.message_ptr_id where ci.status=4 "
         
@@ -1335,9 +1334,9 @@ def payers_getdata(request):
         results = customQuery(sql,1)
         print results
  
-        c = Context({'payers': results})
+        c = {'payers': results}
    
-        return HttpResponse(render_to_string('payers.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        return HttpResponse(loader.render_to_string('payers.json', c, context_instance=RequestContext(request)))
 
 
 
@@ -1353,7 +1352,7 @@ def payees_report(request):
 @csrf_exempt
 def payees_getdata(request):
     if request.method == 'POST':
-        #objs = simplejson.loads(request.raw_post_data)
+        #objs = simplejson.loads(request.body)
 
         sql = "select  distinct u.id,  au.first_name || ' ' || au.last_name as fullname,  au.email, u.country,cj.id, substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16),   cj.title, cii.quantity*cii.unit_price as amount   from users u    inner join auth_user au on au.id=u.django_user_id   inner join contracts_application ca on ca.applicant_id = u.id  inner join contracts_job cj on cj.id=ca.job_id  inner join contracts_message cm on cm.application_id=ca.id   inner join contracts_invoice ci on ci.message_ptr_id=cm.id   inner join contracts_invoiceitem  cii on cii.invoice_id=ci.message_ptr_id where ci.status=4  "
         
@@ -1361,9 +1360,9 @@ def payees_getdata(request):
         results = customQuery(sql,1)
         print results
  
-        c = Context({'payees': results})
+        c = {'payees': results}
    
-        return HttpResponse(render_to_string('payees.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        return HttpResponse(loader.render_to_string('payees.json', c, context_instance=RequestContext(request)))
 
 
 @login_required(login_url='/accounts/login/')
@@ -1378,7 +1377,7 @@ def payments_report(request):
 @csrf_exempt
 def payments_getdata(request):
     if request.method == 'POST':
-        #objs = simplejson.loads(request.raw_post_data)
+        #objs = simplejson.loads(request.body)
 
         sql = " select distinct  payer.id, aupayer.first_name || ' ' || aupayer.last_name as payerfullname, aupayer.email,  payer.country,   cj.id, substring(to_char(cj.created_at,'YYYY-MM-DD HH24:MI:SS'),1,16),  cj.title, sum( cii.quantity*cii.unit_price )as amount ,  payee.id, aupayee.first_name || ' ' || aupayee.last_name as payeefullname, aupayee.email,  payee.country       from users payee   inner join auth_user aupayee on aupayee.id=payee.django_user_id    inner join contracts_application ca on ca.applicant_id = payee.id    inner join contracts_job cj on cj.id=ca.job_id    inner join users payer on payer.id=cj.employer_id  inner join auth_user aupayer on aupayer.id=payer.django_user_id  inner join contracts_message cm on cm.application_id=ca.id  inner join contracts_invoice ci on ci.message_ptr_id=cm.id  inner join contracts_invoiceitem  cii on cii.invoice_id=ci.message_ptr_id  where ci.status=4   group by payer.id,payerfullname, aupayer.email, payer.country, cj.id, cj.created_at, payee.id, payeefullname, aupayee.email, payee.country  "
         
@@ -1386,9 +1385,9 @@ def payments_getdata(request):
         results = customQuery(sql,1)
         print results
  
-        c = Context({'payments': results})
+        c = {'payments': results}
    
-        return HttpResponse(render_to_string('payments.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        return HttpResponse(loader.render_to_string('payments.json', c, context_instance=RequestContext(request)))
 
 
 
@@ -1409,7 +1408,7 @@ def revenue_getdata(request):
     if request.method == 'POST':
         
         print request
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         print objs
         print 'done till here'
         t1 = objs['fromdate'] + ' 00:00:00+00'
@@ -1422,76 +1421,76 @@ def revenue_getdata(request):
         results = customQuery(sql,1)
         #print results
  
-        c = Context({'revenue': results})
+        c = {'revenue': results}
    
-        return HttpResponse(render_to_string('revenue.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        return HttpResponse(loader.render_to_string('revenue.json', c, context_instance=RequestContext(request)))
 
 
 @csrf_exempt
 def total_users_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         fromdate= objs['fromdate']
         print objs['fromdate']
         sql = ("select count(id), count(case when is_active=true then 1 else null end), count(case when date_joined>='"+fromdate+"' then id else null end)  from auth_user")
         
         #print sql
         results = customQuery(sql,1)
-        return HttpResponse(json.dumps(results), mimetype='application/json') 
+        return HttpResponse(json.dumps(results)) 
         
 @csrf_exempt
 def total_jobs_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         fromdate= objs['fromdate']
         print objs['fromdate']     
         sql = ("select count(id), count(case when status=1  then 1 else null end), count(case when created_at>='"+fromdate+"' then 1 else null end) from contracts_job where approved=true")
         
         #print sql
         results = customQuery(sql,1)
-        return HttpResponse(json.dumps(results), mimetype='application/json') 
+        return HttpResponse(json.dumps(results)) 
 
 @csrf_exempt
 def total_skills_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         fromdate= objs['fromdate']
         print objs['fromdate']     
         sql = ("select count(*), count(case when published=true and merge_to_id is null then 1 else null end) from skills_skill")
         
         #print sql
         results = customQuery(sql,1)
-        return HttpResponse(json.dumps(results), mimetype='application/json') 
+        return HttpResponse(json.dumps(results)) 
 
 
 @csrf_exempt
 def total_proposals_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         fromdate= objs['fromdate']
         print objs['fromdate']   
         sql = ("select count(distinct cp.message_ptr_id), count(case when cp.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+fromdate+"' then cm.id else null end), count(distinct case when cp.payed_timestamp>='"+fromdate+"' and cp.status=4 then cm.id else null end)   from contracts_proposal cp inner join contracts_message cm on cm.id=cp.message_ptr_id")
         
         #print sql
         results = customQuery(sql,1)
-        return HttpResponse(json.dumps(results), mimetype='application/json') 
+        return HttpResponse(json.dumps(results)) 
 
 @csrf_exempt
 def total_applications_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         fromdate= objs['fromdate']
         print objs['fromdate'] 
         sql = ("select count(*), count(distinct job_id), count(case when timestamp>='"+fromdate+"' then 1 else null end)   from contracts_application")
         
         ##print sql
         results = customQuery(sql,1)
-        return HttpResponse(json.dumps(results), mimetype='application/json') 
+        return HttpResponse(json.dumps(results)) 
         
 @csrf_exempt
 def total_invoices_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         fromdate= objs['fromdate']
         print objs['fromdate'] 
         sql = ("select count(distinct ci.message_ptr_id), count(case when ci.status=4 then 1 else null end), count(distinct case when cm.timestamp>='"+fromdate+"' then cm.id else null end), count(distinct case when ci.payed_timestamp>='"+fromdate+"' and ci.status=4 then cm.id else null end)   from contracts_invoice ci inner join contracts_message cm on cm.id=ci.message_ptr_id")
@@ -1499,35 +1498,35 @@ def total_invoices_getdata(request):
         #print sql
         
         results = customQuery(sql,1)
-        return HttpResponse(json.dumps(results), mimetype='application/json') 
+        return HttpResponse(json.dumps(results)) 
 
 @csrf_exempt 
 def total_messages_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         fromdate= objs['fromdate']
         print objs['fromdate']
         sql = ("select count(*), count(case when timestamp>='"+fromdate+"' then 1 else null end)  from contracts_message")
         
         #print sql
         results = customQuery(sql,1)
-        return HttpResponse(json.dumps(results), mimetype='application/json')    
+        return HttpResponse(json.dumps(results))    
 
 @csrf_exempt 
 def total_escrow_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
 
         sql = ("select cast(sum(amount_in_escrow) as text)   from contracts_application where amount_in_escrow>0")
         
         #print sql
         results = customQuery(sql,1)
-        return HttpResponse(json.dumps(results), mimetype='application/json')    
+        return HttpResponse(json.dumps(results))    
    
 @csrf_exempt 
 def tracking_messages_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         maxid= objs['maxid']
         minid= objs['minid']        
         direction = objs['dir']
@@ -1550,8 +1549,8 @@ def tracking_messages_getdata(request):
             else:    
                 minid = results[0][22]
         #print results[len(results)-1][22], results[0][22], "--------------------------------"
-        c = Context({'messages': results, 'maxid' : maxid, 'minid': minid })   
-        return HttpResponse(render_to_string('trackingmessages.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        c = {'messages': results, 'maxid' : maxid, 'minid': minid }  
+        return HttpResponse(loader.render_to_string('trackingmessages.json', c, context_instance=RequestContext(request)))
 
 
 
@@ -1568,7 +1567,7 @@ def photogallery_report(request):
 @csrf_exempt 
 def photogallery_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         maxid= objs['maxid']
         minid= objs['minid']        
         direction = objs['dir']
@@ -1591,14 +1590,14 @@ def photogallery_getdata(request):
             else:    
                 minid = results[0][0]
         #print results[len(results)-1][22], results[0][22], "--------------------------------"
-        c = Context({'users': results, 'maxid' : maxid, 'minid': minid })   
-        return HttpResponse(render_to_string('pixslider.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        c = {'users': results, 'maxid' : maxid, 'minid': minid }  
+        return HttpResponse(loader.render_to_string('pixslider.json', c, context_instance=RequestContext(request)))
 
 
 @csrf_exempt 
 def leakagedetection_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         t1 = objs['fromdate']  + ' 00:00:00+00'
         t2 = objs['todate'] + ' 23:59:59+00'        
         keywords = objs['searchkeywords']
@@ -1606,20 +1605,20 @@ def leakagedetection_getdata(request):
         
         #print sql    
         results = customQuery(sql,1)      
-        c = Context({'messages': results})   
-        return HttpResponse(render_to_string('leakagedetection.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        c = {'messages': results}  
+        return HttpResponse(loader.render_to_string('leakagedetection.json', c, context_instance=RequestContext(request)))
 
 @csrf_exempt 
 def tracking_visitors_getdata(request):
     if request.method == 'POST':
-        #objs = simplejson.loads(request.raw_post_data)
+        #objs = simplejson.loads(request.body)
 
         sql = ("select distinct u.id, au.first_name || ' ' || au.last_name,tv.last_update, case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as uphoto, tv.url, tv.ip_address, u.site_lang from  auth_user au inner join tracking_visitor tv on au.id=tv.user_id  inner join users u on u.django_user_id=au.id where tv.last_update >= (now() - interval '10 minutes') order by tv.last_update desc")        
         stats_sql = ("select count(distinct case when u.site_lang='ar' then u.id else null end), count(distinct case when u.site_lang='en' then u.id else null end) from  auth_user au inner join tracking_visitor tv on au.id=tv.user_id inner join users u on u.django_user_id=au.id where tv.last_update >= (now() - interval '10 minutes')")    
         results = customQuery(sql,1)  
         stats_result = customQuery(stats_sql,1)   
-        c = Context({'users': results, 'stats':  stats_result})   
-        return HttpResponse(render_to_string('trackingvisitors.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        c = {'users': results, 'stats':  stats_result}   
+        return HttpResponse(loader.render_to_string('trackingvisitors.json', c, context_instance=RequestContext(request)))
 
 
 
@@ -1636,27 +1635,27 @@ def pendinginvoices_report(request):
 @csrf_exempt 
 def pendinginvoices_getdata(request):
     if request.method == 'POST':
-        #objs = simplejson.loads(request.raw_post_data)
+        #objs = simplejson.loads(request.body)
 
         sql = ("select * from ( select  em.id, ema.first_name || ' ' || ema.last_name as emfullname,  case when (em.photo <>'' and em.photo is not null and em.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as emphoto, fr.id, fra.first_name || ' ' || fra.last_name as frfullname, case when (fr.photo <>'' and fr.photo is not null and fr.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto, ca.id as applicationid, ca.timestamp, cj.id,cj.title, count(distinct case when cp.status=1 then cp.message_ptr_id else null end) as pendingproposals, count(distinct case when cp.status=4 then cp.message_ptr_id else null end) as paidproposals, count(distinct case when ci.status=1 then ci.message_ptr_id else null end) as pendinginvoices, count(distinct case when ci.status=4 then ci.message_ptr_id else null end) as paidinvoices,  case  when max(cmi.timestamp)>max(cmp.timestamp) then max(cmi.timestamp) else max(cmp.timestamp) end as latestaction  from  contracts_job cj  inner join users em on em.id=cj.employer_id inner join auth_user ema on ema.id=em.django_user_id  inner join contracts_application ca on ca.job_id=cj.id  inner join users fr on fr.id=ca.applicant_id inner join auth_user fra on fra.id=fr.django_user_id inner join contracts_message cmp on cmp.application_id=ca.id left outer join contracts_proposal cp on cp.message_ptr_id=cmp.id inner join contracts_message cmi on cmi.application_id=ca.id left outer join contracts_invoice ci on ci.message_ptr_id=cmi.id  where cp.status=4  group by ca.id, emfullname, frfullname, cj.id,cj.title, em.photo, fr.photo, em.id, fr.id) total where pendingproposals>0 or pendinginvoices>0 order by latestaction desc ")        
             
         results = customQuery(sql,1)   
         print sql  
-        c = Context({'details': results})   
-        return HttpResponse(render_to_string('userdetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        c = {'details': results}   
+        return HttpResponse(loader.render_to_string('userdetails.json', c, context_instance=RequestContext(request)))
 
 
 @csrf_exempt 
 def pendingratings_getdata(request):
     if request.method == 'POST':
-        #objs = simplejson.loads(request.raw_post_data)
+        #objs = simplejson.loads(request.body)
 
         sql = ("select fr.id, aufr.first_name || ' ' || aufr.last_name as frfullname, case when (fr.photo <>'' and fr.photo is not null and fr.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(fr.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as frphoto,   em.id , auem.first_name || ' ' || auem.last_name as emfullname,  case when (em.photo <>'' and em.photo is not null and em.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(em.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end  as emphoto ,cm.public_id, ci.payed_timestamp, cm.application_id, COALESCE(ccr.creator_user_id,0), COALESCE(cfr.creator_user_id,0) from contracts_invoice ci   inner join contracts_invoiceitem cii on cii.invoice_id=ci.message_ptr_id inner join contracts_message cm on cm.id=ci.message_ptr_id inner join contracts_application ca on ca.id=cm.application_id inner join users fr on fr.id=ca.applicant_id inner join auth_user aufr on aufr.id=fr.django_user_id inner join contracts_job cj on cj.id=ca.job_id inner join users em on em.id=cj.employer_id inner join auth_user auem on auem.id=em.django_user_id left outer join contracts_clientreview ccr on ccr.invoice_id=ci.message_ptr_id left outer join contracts_contractorreview cfr on cfr.invoice_id=ci.message_ptr_id where ci.payed_timestamp is not null and (ccr.creator_user_id is null or cfr.creator_user_id is null) order by payed_timestamp desc")        
             
         results = customQuery(sql,1)   
         #print sql  
         c = Context({'details': results})   
-        return HttpResponse(render_to_string('userdetails.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        return HttpResponse(loader.render_to_string('userdetails.json', c, context_instance=RequestContext(request)))
 
 @login_required(login_url='/accounts/login/')
 def leakagedetection_report(request):
@@ -1671,12 +1670,12 @@ def leakagedetection_report(request):
 @csrf_exempt 
 def userprofileinfo_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         userid= objs['userid']
         sql = ("select au.first_name || ' ' || au.last_name, au.email, u.countrycode || ' ' || u.areacode || ' ' || u.mobile, u.country, u.city,case when (u.photo <>'' and u.photo is not null and u.photo<>'/static/images/thumb.png') then 'https://nabbesh-images.s3.amazonaws.com/'  || replace(u.photo,'/','') else 'http://www.nabbesh.com/static/images/thumb.png' end as cphoto from users u inner join auth_user au on u.django_user_id=au.id where u.id="+str(userid))        
         #print sql            
         results = customQuery(sql,1)      
-        return HttpResponse(json.dumps(results), mimetype='application/json')    
+        return HttpResponse(json.dumps(results))    
 
     
 
@@ -1692,15 +1691,15 @@ def crmclients_report(request):
 @csrf_exempt
 def crmclients_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         t1 = objs['fromdate']  + ' 00:00:00+00'
         t2 = objs['todate'] + ' 23:59:59+00'   
         sql = "select distinct u.id, '' as title, au.first_name, au.last_name, '' as jobtitle, '' as sitename, u.countrycode || ' ' || u.areacode || ' ' || u.mobile as phone, '' as mobile, '' as fax, au.email from users u  inner join auth_user au on u.django_user_id=au.id inner join contracts_job cj on cj.employer_id=u.id where cj.created_at >= '"+t1+"'  and cj.created_at <= '"+t2+"'"         
         #print sql
         results = customQuery(sql,1)
 
-        c = Context({'crmclients': results})   
-        return HttpResponse(render_to_string('crmclients.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        c = {'crmclients': results}   
+        return HttpResponse(loader.render_to_string('crmclients.json', c, context_instance=RequestContext(request)))
 
 
 
@@ -1716,20 +1715,20 @@ def dealaveragetime_report(request):
 @csrf_exempt
 def dealaveragetime_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         t1 = objs['fromdate']  + ' 00:00:00+00'
         t2 = objs['todate'] + ' 23:59:59+00' 
         sql = "select jobtitle  || ' - AppID - ' || id, event, substring(to_char(time1,'YYYY-MM-DD HH24:MI:SS'),1, 19) as time1, substring(to_char(time2,'YYYY-MM-DD HH24:MI:SS'),1, 19) as time2 from ( select substring(cj.title,1, 25) as jobtitle, cj.created_at, ca.id,'Till Proposal' as event, cj.created_at as time1, min(cp.payed_timestamp) as time2 from  contracts_job cj inner join contracts_application ca on ca.job_id=cj.id inner join contracts_message pcm on pcm.application_id=ca.id inner join contracts_proposal cp on cp.message_ptr_id=pcm.id inner join contracts_message icm on icm.application_id=ca.id inner join contracts_invoice ci on ci.message_ptr_id=icm.id where cp.status=4 and ci.status=4 group by cj.id,ca.id,cj.created_at  union select substring(cj.title,1, 25) as jobtitle, cj.created_at , ca.id,'Till Invoice' as event, min(cp.payed_timestamp) as time1, min(ci.payed_timestamp) as time2 from  contracts_job cj inner join contracts_application ca on ca.job_id=cj.id inner join contracts_message pcm on pcm.application_id=ca.id inner join contracts_proposal cp on cp.message_ptr_id=pcm.id inner join contracts_message icm on icm.application_id=ca.id inner join contracts_invoice ci on ci.message_ptr_id=icm.id where cp.status=4 and ci.status=4 group by cj.id,ca.id,cj.created_at) total where created_at >='"+t1+"' and  created_at<='"+t2+"' "         
         
         results = customQuery(sql,1)
         ##print sql
-        c = Context({'dealaveragetime': results})   
-        return HttpResponse(render_to_string('dealaveragetime.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        c = {'dealaveragetime': results}  
+        return HttpResponse(loader.render_to_string('dealaveragetime.json', c, context_instance=RequestContext(request)))
 
 @csrf_exempt
 def dealsaveragetimegeneral_getdata(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         t1 = objs['fromdate']  + ' 00:00:00+00'
         t2 = objs['todate'] + ' 23:59:59+00' 
  
@@ -1750,8 +1749,8 @@ def dealsaveragetimegeneral_getdata(request):
         #print sql
         results = customQuery(sql,1)
 
-        c = Context({'dealsaveragetimegeneral': results})   
-        return HttpResponse(render_to_string('dealsaveragetimegeneral.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        c = {'dealsaveragetimegeneral': results}   
+        return HttpResponse(loader.render_to_string('dealsaveragetimegeneral.json', c, context_instance=RequestContext(request)))
 
 @login_required(login_url='/accounts/login/')    
 def vistest_report(request):
@@ -1846,7 +1845,7 @@ def miningtest_getdata(request):
     data = skillsmining(2,50)      
     headers = ["header1", "header2" , "headers3"]
     data.insert(0,headers)
-    return HttpResponse(json.dumps(data), mimetype='application/json')  
+    return HttpResponse(json.dumps(data))  
     
 
 @login_required(login_url='/accounts/login/')     
@@ -1864,7 +1863,7 @@ def miningtest_report(request):
 def analytics_getdata(request):
     if request.method == 'POST':
         
-        objs = simplejson.loads(request.raw_post_data)        
+        objs = simplejson.loads(request.body)        
         t1 = objs['fromdate']
         t2 = objs['todate']                
         limit = objs['limit']
@@ -1872,21 +1871,21 @@ def analytics_getdata(request):
 
         data  = ga_get_visits(t1,t2,limit, sitelang)
         
-        c = Context({'analytics': data})     
+        c = {'analytics': data}     
         
            
-	return HttpResponse(render_to_string('analytics_visitors.json', c, context_instance=RequestContext(request)), mimetype='application/json') 
+	return HttpResponse(loader.render_to_string('analytics_visitors.json', c, context_instance=RequestContext(request))) 
 
 
 @csrf_exempt
 def getcategoriesbubbles(request):
     if request.method == 'GET':
-        #objs = simplejson.loads(request.raw_post_data)                            
+        #objs = simplejson.loads(request.body)                            
         sql = "select 'main' as name, 'null' as maincat, 1 as size union select name, 'main' as maincat, 2 as size from skills_subcategories where category_id=-1  union select final.category,maincat, 100*final.total_jobs as size from ( select category, maincat, count(distinct job_id) as total_jobs,  sum( paid_invoices) as converted, sum(paid_amount) as paid_amount, count(distinct case when paid_invoices>0 then job_id else null end) as converted_count from (select distinct  catjobs.*,  count(distinct case when ci.status=4 then ci.message_ptr_id else null end) as paid_invoices, sum(distinct case when ci.status=4 then cii.unit_price*cii.quantity else 0 end) as paid_amount from ( select job_id,cat_id, category, maincat  from ( select cj.id as job_id, ssc.id as cat_id, ssc.name as category, cats.name as maincat, similarity(cj.title, ssc.name) as coef from contracts_job cj inner join contracts_requiredskill crs on crs.job_id=cj.id  left outer join skills_skills_subcategories sssc on sssc.skill_id=crs.skill_id left outer  join skills_subcategories ssc on ssc.id=sssc.subcategory_id inner join skills_subcategories cats on cats.id=ssc.category_id where cj.approved=true and cj.created_at>'2013-12-01' group by cj.id, ssc.id, cats.id order by job_id, coef desc ) t1 where coef= (select max(coef) from  ( select cj.id as job_id, ssc.id as cat_id, similarity(cj.title, ssc.name) as coef from contracts_job cj inner join contracts_requiredskill crs on crs.job_id=cj.id  left outer join skills_skills_subcategories sssc on sssc.skill_id=crs.skill_id left outer  join skills_subcategories ssc on ssc.id=sssc.subcategory_id inner join skills_subcategories cats on cats.id=ssc.category_id where cj.approved=true and cj.created_at>'2013-12-01' group by cj.id, ssc.id order by job_id, coef desc ) t2 where t1.job_id=t2.job_id)) catjobs left outer join contracts_application ca on catjobs.job_id=ca.job_id left outer join contracts_message cm on cm.application_id=ca.id left outer join contracts_invoice ci on ci.message_ptr_id=cm.id left outer join contracts_invoiceitem cii on cii.invoice_id=ci.message_ptr_id group by catjobs.job_id, catjobs.cat_id, catjobs.category, catjobs.maincat) total group by category, maincat order by total_jobs desc ) final  order by size"
         print sql
         results = customQuery(sql,4)              
-        c = Context({'buubles': results})     
-        return HttpResponse(render_to_string('flare.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+        c = {'buubles': results}     
+        return HttpResponse(loader.render_to_string('flare.json', c, context_instance=RequestContext(request)))
        
        
 @staff_member_required       
@@ -1904,7 +1903,7 @@ def skillscategorizer_tool(request):
 @csrf_exempt
 def addcategory(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         print objs
         name = objs['name']
         parentId = objs['parentId']
@@ -1919,7 +1918,7 @@ def addcategory(request):
 @csrf_exempt
 def updatecategory(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         id = objs['id']
         name = objs['name']                
         sql = "update skills_subcategories set name='"+name+"' where id="+str(id)
@@ -1929,7 +1928,7 @@ def updatecategory(request):
 @csrf_exempt
 def deletecategory(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         id = objs['id']         
         childrensql = "select count(*) from skills_subcategories where category_id="+ str(id)
         chresults = customQuery(childrensql,4)     
@@ -1943,21 +1942,21 @@ def deletecategory(request):
 @csrf_exempt
 def getcategories(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)                            
+        objs = simplejson.loads(request.body)                            
         sql = "select ca.*,count(distinct sc.skill_id) from categories ca  left outer join skills_categories sc  on sc.category_id=ca.id group by ca.id order by ca.id desc"
         results = customQuery(sql,4)              
-        return HttpResponse(json.dumps(results), mimetype='application/json')  
+        return HttpResponse(json.dumps(results))  
         
 
 @csrf_exempt
 def getcategoriestree(request):
     if request.method == 'POST':
-        #objs = simplejson.loads(request.raw_post_data)                            
+        #objs = simplejson.loads(request.body)                            
         sql = "select id, name || ' (' || count || ')' as count, category_id   from (select ssc1.id,ssc1.name,ssc1.category_id, count(distinct sssc.skill_id) from  skills_subcategories ssc1  left outer join skills_subcategories ssc2 on ssc2.category_id=ssc1.id  left outer join skills_skills_subcategories sssc on sssc.subcategory_id=ssc2.id where ssc1.category_id=-1 group by ssc1.id union  select ssc.id,ssc.name, category_id, count(distinct sssc.skill_id) from skills_subcategories ssc left outer join skills_skills_subcategories  sssc on sssc.subcategory_id=ssc.id where ssc.category_id<>-1 group by ssc.id) total  where id<>-1 order by id "
         print sql
         results = customQuery(sql,4)              
         #print results
-        return HttpResponse(json.dumps(results), mimetype='application/json') 
+        return HttpResponse(json.dumps(results)) 
 
 
 
@@ -1982,17 +1981,17 @@ def getcategorizedskillslistsql():
 def getcurrentskill(request):
     if request.method == 'POST':
         
-        objs = simplejson.loads(request.raw_post_data)    
+        objs = simplejson.loads(request.body)    
                                 
         sql = "select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where ss.published=true and merge_to_id is null and deleted=false " + getcategorizedskillslistsql() +" group by ss.id order by userscount desc limit 1 "
         print sql
         results = customQuery(sql,4)              
-        return HttpResponse(json.dumps(results), mimetype='application/json') 
+        return HttpResponse(json.dumps(results)) 
         
 @csrf_exempt
 def getsuggestedskillslist1(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         skillid=objs['skillid']
         sql = "select name from skills_skill where id=" + str(skillid)
         results = customQuery(sql,4) 
@@ -2004,13 +2003,13 @@ def getsuggestedskillslist1(request):
         finalsql = " select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where  ( "+orstring[3:]+" ) and ss.id<>"+str(skillid)+" and ss.published=true and merge_to_id is null and deleted=false " + getcategorizedskillslistsql() +"  group by ss.id order by userscount desc"   
                 
         results = customQuery(finalsql,4)
-        return HttpResponse(json.dumps(results), mimetype='application/json')
+        return HttpResponse(json.dumps(results))
 
 
 @csrf_exempt
 def getsuggestedskillslist(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         print objs
         skillid=objs['skillid']
         similarity = objs['similarity']
@@ -2025,12 +2024,12 @@ def getsuggestedskillslist(request):
         
         print finalsql        
         results = customQuery(finalsql,4)
-        return HttpResponse(json.dumps(results), mimetype='application/json')   
+        return HttpResponse(json.dumps(results))   
 
 @csrf_exempt
 def suggestcategory(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         print objs
         skillid=objs['skillid']
         sql = "select name from skills_skill where id=" + str(skillid)
@@ -2041,12 +2040,12 @@ def suggestcategory(request):
         finalsql = "select ssc.id,ssc.name, ssc.category_id from (select * from (select name, id from skills_subcategories union select ss.name, sssc.subcategory_id from skills_skill ss inner join skills_skills_subcategories sssc on sssc.skill_id=ss.id ) allsimilars  where similarity(name, '"+ results[0][0] +"') > 0.3) total inner join skills_subcategories ssc on ssc.id=total.id  where ssc.category_id<>-1"
         print finalsql        
         results = customQuery(finalsql,4)
-        return HttpResponse(json.dumps(results), mimetype='application/json')  
+        return HttpResponse(json.dumps(results))  
         
 @csrf_exempt
 def getskillsbycategory(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         categoryid=objs['categoryid']
         sql = "select skill_id from skills_skills_subcategories where subcategory_id=" + str(categoryid)
         results = customQuery(sql,4) 
@@ -2061,12 +2060,12 @@ def getskillsbycategory(request):
         finalsql  = "select ss.id,ss.name,count(distinct su.id_user) as userscount from skills_skill ss left outer join skills_users su on su.skill_id=ss.id where   ss.published=true and merge_to_id is null and deleted=false  "+groupsql+" group by ss.id order by userscount desc"
         print finalsql
         results = customQuery(finalsql,4)
-        return HttpResponse(json.dumps(results), mimetype='application/json')               
+        return HttpResponse(json.dumps(results))               
         
 @csrf_exempt
 def categorizegroup(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         group = objs['group']
         catsgroup = objs['catsgroup']
         for catid in catsgroup:                  
@@ -2079,7 +2078,7 @@ def categorizegroup(request):
 @csrf_exempt
 def categorize(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         skillid = objs['skillid']
 
         catsgroup = objs['catsgroup']      
@@ -2109,7 +2108,7 @@ def iscategorized(skillid):
 @csrf_exempt
 def updateskillcat(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         skillid = objs['skillid']
         categoryid = objs['categoryid']        
                     
@@ -2121,7 +2120,7 @@ def updateskillcat(request):
 @csrf_exempt        
 def updateskillgroupcat(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         
         group = objs['group']
         catsgroup = objs['catsgroup']
@@ -2141,7 +2140,7 @@ def updateskillgroupcat(request):
 @csrf_exempt
 def uncategorize(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         skillid = objs['skillid']                     
         sql = "delete from skills_categories where skill_id=" +  str(skillid)
         #print sql
@@ -2151,7 +2150,7 @@ def uncategorize(request):
 @csrf_exempt
 def uncategorizegroup(request):
     if request.method == 'POST':
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
         group = objs['group']  
         for skillid in group:                           
             sql = "delete from skills_skills_subcategories where skill_id=" +  str(skillid)        
@@ -2170,7 +2169,7 @@ def categorizationstatus(request):
         allresults = customQuery(allsql,4)
         result =  "[" +str(allresults[0][0]) + " , " + str(catresults[0][0]) +"]"
         
-        return HttpResponse(result, mimetype='application/json') 
+        return HttpResponse(result) 
 
 
 def getmaxid(table, db):
@@ -2210,8 +2209,8 @@ def campaigns_list_getdata(request):
       
     #return campaignstring[1:]    
     
-    c = Context({'campaigns': campaigns})     
-    return HttpResponse(render_to_string('campaignslist.json', c, context_instance=RequestContext(request)), mimetype='application/json')
+    c = {'campaigns': campaigns}     
+    return HttpResponse(loader.render_to_string('campaignslist.json', c, context_instance=RequestContext(request)))
  
 @csrf_exempt
 def campaign_opens_getdata(id):
@@ -2240,7 +2239,7 @@ def campaign_opens_getdata(id):
 @csrf_exempt  
 def emailcampaign_getdata(request):
     if request.method == 'POST':       
-        objs = simplejson.loads(request.raw_post_data)
+        objs = simplejson.loads(request.body)
                  
         campaignid = objs['id']      
          
@@ -2254,8 +2253,8 @@ def emailcampaign_getdata(request):
         results = customQuery(sql,1)
  	
  	
-        c = Context({'statistics': results, 'totalsent': campaigninfo[0][0], 'opens': campaigninfo[1] })
-        return HttpResponse(render_to_string('emailcampaign.json', c, context_instance=RequestContext(request)), mimetype='application/json')                   
+        c = {'statistics': results, 'totalsent': campaigninfo[0][0], 'opens': campaigninfo[1] }
+        return HttpResponse(loader.render_to_string('emailcampaign.json', c, context_instance=RequestContext(request)))                   
     
 @csrf_exempt
 def ga_get_visits_query(service,profile_id, start, end, limit, sitelang):
@@ -2613,7 +2612,7 @@ def download(request):
 
 @csrf_exempt
 def crm_notes_getdata(request):
-        objs = simplejson.loads(request.raw_post_data)        
+        objs = simplejson.loads(request.body)        
         print objs         
         user_id = objs['user_id']      
         print user_id
@@ -2625,8 +2624,8 @@ def crm_notes_getdata(request):
         results = customQuery(sql,1) 
 
 
-        c = Context({'notes': results})
-        return HttpResponse(render_to_string('crm_notes.html', c, context_instance=RequestContext(request)), mimetype='application/html') 
+        c = {'notes': results}
+        return HttpResponse(loader.render_to_string('crm_notes.html', c, context_instance=RequestContext(request)), mimetype='application/html') 
 
 def get_current_userid(request):                 
 
@@ -2641,7 +2640,7 @@ def get_current_userid(request):
 @csrf_exempt
 def crm_notes_add(request):
         
-        objs = simplejson.loads(request.raw_post_data)     
+        objs = simplejson.loads(request.body)     
         print objs            
         user_id = objs['user_id']      
         message = objs['message']
@@ -2653,7 +2652,7 @@ def crm_notes_add(request):
 
 @csrf_exempt
 def crm_notes_delete(request):        
-        objs = simplejson.loads(request.raw_post_data)     
+        objs = simplejson.loads(request.body)     
         print objs                 
         messageId = objs['messageId']
         sql = "delete from crm_notes where id=" +str(messageId)
