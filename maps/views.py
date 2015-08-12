@@ -2073,7 +2073,7 @@ def categorizegroup(request):
                 id = getmaxid("skills_skills_subcategories",4)             
                 sql = "insert into skills_skills_subcategories values("+str(id)+", "+str(skillid)+", "+str(catid)+")"        
                 results = customQueryNoResults(sql,4)      
-        return HttpResponse(group, mimetype='application/html') 
+        return HttpResponse(group) 
         
 @csrf_exempt
 def categorize(request):
@@ -2092,7 +2092,7 @@ def categorize(request):
                 results = customQueryNoResults(sql,4)      
         else:
             results = False
-        return HttpResponse(results, mimetype='application/html')   
+        return HttpResponse(results)   
 
 
 def iscategorized(skillid):
@@ -2115,7 +2115,7 @@ def updateskillcat(request):
         sql = "update skills_categories set category_id=" + str(categoryid) + " where skill_id=" +str(skillid)
         #print sql
         results = customQueryNoResults(sql,4)      
-        return HttpResponse(results, mimetype='application/html') 
+        return HttpResponse(results) 
         
 @csrf_exempt        
 def updateskillgroupcat(request):
@@ -2145,7 +2145,7 @@ def uncategorize(request):
         sql = "delete from skills_categories where skill_id=" +  str(skillid)
         #print sql
         results = customQueryNoResults(sql,4)      
-        return HttpResponse(results, mimetype='application/html')   
+        return HttpResponse(results)   
 
 @csrf_exempt
 def uncategorizegroup(request):
@@ -2155,7 +2155,7 @@ def uncategorizegroup(request):
         for skillid in group:                           
             sql = "delete from skills_skills_subcategories where skill_id=" +  str(skillid)        
             customQueryNoResults(sql,4)      
-        return HttpResponse('done', mimetype='application/html')                                        
+        return HttpResponse('done')                                        
 
 @csrf_exempt
 def categorizationstatus(request):
