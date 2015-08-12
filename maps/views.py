@@ -2625,7 +2625,7 @@ def crm_notes_getdata(request):
 
 
         c = {'notes': results}
-        return HttpResponse(loader.render_to_string('crm_notes.html', c, context_instance=RequestContext(request)), mimetype='application/html') 
+        return HttpResponse(loader.render_to_string('crm_notes.html', c, context_instance=RequestContext(request))) 
 
 def get_current_userid(request):                 
 
@@ -2648,7 +2648,7 @@ def crm_notes_add(request):
         sql = ("insert into crm_notes(user_id, message, created, crm_user_id) values("+str(user_id)+", '"+message+"', now(), "+ crm_user_id +")")
         print sql            
         results = customQueryNoResults(sql,4)      
-        return HttpResponse(results, mimetype='application/html')     
+        return HttpResponse(results)     
 
 @csrf_exempt
 def crm_notes_delete(request):        
