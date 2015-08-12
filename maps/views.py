@@ -2658,7 +2658,7 @@ def crm_notes_delete(request):
         sql = "delete from crm_notes where id=" +str(messageId)
         print sql            
         results = customQueryNoResults(sql,4)      
-        return HttpResponse(results, mimetype='application/html')   
+        return HttpResponse(results)   
 
 @csrf_exempt
 def tracker_image(request):
