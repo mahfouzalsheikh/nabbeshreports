@@ -68,7 +68,7 @@
       var data = new google.visualization.arrayToDataTable(jsondata);	                      
       var dataView = new google.visualization.DataView(data);                              
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));      
-      tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});       
+      tablearea.draw(dataView,{'showRowNumber': true, 'allowHtml': true,width: '100%'});       
       
       
       initialize();       

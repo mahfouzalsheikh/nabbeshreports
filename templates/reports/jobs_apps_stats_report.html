@@ -144,7 +144,7 @@
                 
       var tablearea = new google.visualization.Table(document.getElementById('proposalstablearea'));
       
-      tablearea.draw(dataView,{allowHtml: true, showRowNumber: true});
+      tablearea.draw(dataView,{'showRowNumber': true, 'allowHtml': true,width: '100%'});
       
       
       var columnView = new google.visualization.DataView(data);

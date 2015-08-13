@@ -52,7 +52,7 @@
       piechart.draw(data, options);
       
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
-      tablearea.draw(data,null);
+      tablearea.draw(data,{'showRowNumber': true, 'allowHtml': true,width: '100%'});
       
       var options = {
         //region: 'SA',

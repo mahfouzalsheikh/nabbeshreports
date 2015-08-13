@@ -37,7 +37,7 @@
       var dataView = new google.visualization.DataView(data);
       dataView.setColumns([0, 1]);
       var tablearea = new google.visualization.Table(document.getElementById('tablearea'));
-      tablearea.draw(dataView,null);
+      tablearea.draw(dataView,{'showRowNumber': true, 'allowHtml': true,width: '100%'});
     }
 	
 		
