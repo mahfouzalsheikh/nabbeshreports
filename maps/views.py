@@ -547,7 +547,7 @@ def jobs_applications_statistics(request):
         
 #        return HttpResponse(t.render(c) )
         #return HttpResponse(loader.render_to_string('./reports/jobs_applications_statistics.html', c, context_instance=RequestContext(request)), mimetype='application/html') 
-        return render_to_response('./reports/jobs_applications_statistics.html', context_instance=RequestContext(request))
+        return render_to_response('./reports/jobs_applications_statistics.html', {"title": "Job Applications Statistics | "})
         
         
 @csrf_exempt 
@@ -838,7 +838,7 @@ def user_report(request, userid=None):
     
     ##print optional
     c = Context({
-        'user_report': dashboard, 'userid': userid
+        'user_report': dashboard, 'userid': userid, 'title': 'User Activities | ',
     })
     return HttpResponse(t.render(c))
     #return HttpResponse(loader.render_to_string('./reports/user_report.html', c, context_instance=RequestContext(request)), mimetype='application/html')
