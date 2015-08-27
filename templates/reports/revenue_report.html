@@ -75,14 +75,14 @@
      function drawChart(fromdate, todate, limit) {
           
           var escrow = $.parseJSON(getEscrowData())[0][0];
-          $("#title").html('<span style="font-size:32px;font-weight:bold;color: rgb(150 , 150 , 150);">Total Revenue | </span><span style="font-size:18px;font-weight:bold;color: rgb(150 , 150 , 150);"> Total Current Escrow: </span><span style="font-size:24px;font-weight:bold;color: rgb(100 , 100 , 100);"> '+escrow+'$ </span>');
+          $("#title").html('<span style="font-size:32px;font-weight:bold;color: rgb(150 , 150 , 150);">Revenue | </span><span style="font-size:18px;font-weight:bold;color: rgb(150 , 150 , 150);"> Total Current Escrow: </span><span style="font-size:24px;font-weight:bold;color: rgb(100 , 100 , 100);"> '+escrow+'$ </span>');
           
           var jqwdata = JSON.parse(getData(fromdate, todate, limit));
           var data = new google.visualization.arrayToDataTable(jqwdata);
           var chart = new google.visualization.LineChart(document.getElementById('visualization'));
           var dataView = new google.visualization.DataView(data);
           dataView.setColumns([0,16]);
-          chart.draw(dataView, {width: '100%', height: 300, is3D: true,title:"Revenue    -   " + fromdate + " to "+ todate ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });      
+          chart.draw(dataView, {width: '100%', height: 300, is3D: true,title:"Total Revenue    -   " + fromdate + " to "+ todate ,  legend: {position: 'right', textStyle: {color: 'blue', fontSize: 14, maxLines:4}} });      
           
           jqwdata.shift();
 	  var source =
