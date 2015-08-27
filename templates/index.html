@@ -5,6 +5,108 @@
 
 
 
+
+
+{% endblock %}
+
+{% block reportblock %}
+    <style type="text/css">
+        .InnerDivs
+        {
+            width: 250px;
+        }
+        .InnerDivsSmall
+        {
+            width: 300px;
+        }        
+        
+        
+  
+    </style>
+  
+    
+   <div id="docking">
+   
+   
+        <div class="InnerDivs">
+            <div id="window2" style="height:150px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Signups </span></div>
+                <div id="allusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div>        
+            <div id="window1" style="height:100px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Google Analytics Traffic Today</span></div>
+                <div id="analyticscontent" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div>
+            <div id="window3" style="height:130px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Approved Jobs</span></div>
+                <div id="alljobs" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div>
+
+            <div id="window11" style="height:100px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Currently in Escrow</span></div>
+                <div id="escrow" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div>
+            <div id="window4" style="height:130px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Skills</span></div>
+                <div id="allskills" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div>
+        </div>
+        <div class="InnerDivsSmall">
+
+            <div id="window6" style="height:140px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Applications</span></div>
+                <div id="allapplications" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div>
+            <div id="window5" style="height:100px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Workstream Messages</span></div>
+                <div id="allmessages" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div>
+            <div id="window7" style="height:110px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Proposals</span></div>
+                <div id="allproposals" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div>
+            <div id="window8" style="height:110px">
+                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Invoices</span></div>
+                <div id="allinvoices" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
+            </div>   
+                              
+
+        </div>
+        <div class="InnerDivsSmall">
+            <div id="window9" style="height:800px">
+                <div id="messagestitle"><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Live Messages</span><a style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:10px" href="leakagedetection"> See More</a></div>
+                  <div id="msgcontainer" style="padding: 0px 0px 0px 0px; color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;">
+                    <div id="loadingup" style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:18px; text-align:center"> Updating </div>
+                    <div id="messages">
+                  
+                    </div> 
+                    <div id="loadingdown" style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:18px; text-align:center"> Loading More </div>
+                  </div>   
+                
+            </div>
+            
+
+            </div> 	
+        </div> 
+   
+        </div>
+        
+    </div>
+    
+      
+    
+          <div id="window">
+                <div id="windowHeader">
+                    <span>
+                        Contact Details
+                    </span>
+                </div>
+                <div style="overflow: hidden;" id="windowContent">
+
+                </div>
+
+
+
 <script type="text/javascript">
 
  var minID= 0 ;
@@ -316,7 +418,7 @@ function doTimeout() {
 try{     
      analyticsresult= $.parseJSON(getVisitsData());
      //$("#analyticscontent").block({ message : '', css: { border: '0px solid #a00' } });
-     $("#analyticscontent").html('<span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][2].toString() + '</span> Pageviews  <span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][1].toString() + '</span> Visits');
+     $("#analyticscontent").html('<span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][2].toString() + '</span> Pageviews  </br><span style="font-size:24px;font-weight:bold;">' + analyticsresult[1][1].toString() + '</span> Visits');
      }
      catch(err)
      { 
@@ -446,104 +548,6 @@ $(document).ready(function () {
 });     
      
 </script>
-
-{% endblock %}
-
-{% block reportblock %}
-    <style type="text/css">
-        .InnerDivs
-        {
-            width: 250px;
-        }
-        .InnerDivsSmall
-        {
-            width: 300px;
-        }        
-        
-        
-  
-    </style>
-  
-    
-   <div id="docking">
-   
-   
-        <div class="InnerDivs">
-            <div id="window2" style="height:150px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Signups </span></div>
-                <div id="allusers" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
-            </div>        
-            <div id="window1" style="height:70px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Google Analytics Traffic Today</span></div>
-                <div id="analyticscontent" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
-            </div>
-            <div id="window3" style="height:130px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Approved Jobs</span></div>
-                <div id="alljobs" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
-            </div>
-
-            <div id="window11" style="height:100px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Currently in Escrow</span></div>
-                <div id="escrow" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
-            </div>
-            <div id="window4" style="height:130px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Skills</span></div>
-                <div id="allskills" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
-            </div>
-        </div>
-        <div class="InnerDivsSmall">
-
-            <div id="window6" style="height:140px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Applications</span></div>
-                <div id="allapplications" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
-            </div>
-            <div id="window5" style="height:100px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Workstream Messages</span></div>
-                <div id="allmessages" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
-            </div>
-            <div id="window7" style="height:110px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Proposals</span></div>
-                <div id="allproposals" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
-            </div>
-            <div id="window8" style="height:110px">
-                <div><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">All Invoices</span></div>
-                <div id="allinvoices" style="color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif;"></div>
-            </div>   
-                              
-
-        </div>
-        <div class="InnerDivsSmall">
-            <div id="window9" style="height:800px">
-                <div id="messagestitle"><span style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:14px">Live Messages</span><a style="TEXT-DECORATION: NONE;color: rgb(0, 182, 222); font-size:10px" href="leakagedetection"> See More</a></div>
-                  <div id="msgcontainer" style="padding: 0px 0px 0px 0px; color: rgb(120, 120, 120); font-family: 'Open Sans', Helvetica, Arial, sans-serif; background-image:url('/site_media/img/bg.png');   background-repeat:repeat-y repeat-x;">
-                    <div id="loadingup" style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:18px; text-align:center"> Updating </div>
-                    <div id="messages">
-                  
-                    </div> 
-                    <div id="loadingdown" style="TEXT-DECORATION: NONE;color: rgb(150 , 150 , 150); font-size:18px; text-align:center"> Loading More </div>
-                  </div>   
-                
-            </div>
-            
-
-            </div> 	
-        </div> 
-   
-        </div>
-        
-    </div>
-    
-      
-    
-          <div id="window">
-                <div id="windowHeader">
-                    <span>
-                        Contact Details
-                    </span>
-                </div>
-                <div style="overflow: hidden;" id="windowContent">
-
-                </div>
 
 
 {% endblock %}
