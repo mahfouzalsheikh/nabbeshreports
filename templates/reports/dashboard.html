@@ -2,6 +2,58 @@
 
 {% block  customheadscripts %}
 
+
+
+{% endblock %}
+
+
+{% block reportblock %}
+
+
+<div id='optionsExpander'>
+            <div>Options</div>
+            <div>
+                <table>
+                   <tr>
+                      <tr><td>Metrics</td><td><div id="metricslist"></div></td></tr>
+                   </tr>
+                   <tr>
+                     <td>Group By:<td><div id='groupbybuttons'>
+                                  <button style="padding:4px 16px;" id="Day">Day</button>
+                                  <button style="padding:4px 16px;" id="Week">Week</button>
+                                  <button style="padding:4px 16px;" id="Month">Month</button>
+                                  </div>
+                     </td>
+                   </tr>
+                 
+                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
+                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
+ 
+                   <tr>
+                     <td>Site Lang:<td><div id='sitelangbuttons'>
+                                  <button style="padding:4px 16px;" id="english">En</button>
+                                  <button style="padding:4px 16px;" id="arabic">Ar</button>
+                                  <button style="padding:4px 16px;" id="both">Both</button>
+                                  </div>
+                     </td>
+                   </tr>
+                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>
+                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>
+                  
+                </table>  
+                  
+               
+            </div>
+        </div>
+     
+
+<div id="visualization" style="width: 100%; height:300px;"></div>
+<div id="analyticsvisualization" style="width: 100%; height:300px;"></div>
+<div id="ratestablearea" style="width: 100%;height:300px;"></div>
+<div id="tablearea" style="width: 100%;"></div>
+
+
+
 <script type="text/javascript"> 
         google.load('visualization', '1', {packages: ['corechart']});
         google.load('visualization', '1', {packages: ['table']});
@@ -314,54 +366,6 @@ $(document).ready(function () {
 
 
 </script>  
-
-{% endblock %}
-
-
-{% block reportblock %}
-
-
-<div id='optionsExpander'>
-            <div>Options</div>
-            <div>
-                <table>
-                   <tr>
-                      <tr><td>Metrics</td><td><div id="metricslist"></div></td></tr>
-                   </tr>
-                   <tr>
-                     <td>Group By:<td><div id='groupbybuttons'>
-                                  <button style="padding:4px 16px;" id="Day">Day</button>
-                                  <button style="padding:4px 16px;" id="Week">Week</button>
-                                  <button style="padding:4px 16px;" id="Month">Month</button>
-                                  </div>
-                     </td>
-                   </tr>
-                 
-                   <tr><td>From:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='fromdate'></div></td></tr>
-                   <tr><td>To:</td><td><div style='margin-top: 10px; font-size: 13px; font-family: Verdana;' id='todate'></div></td><td></td></tr>
- 
-                   <tr>
-                     <td>Site Lang:<td><div id='sitelangbuttons'>
-                                  <button style="padding:4px 16px;" id="english">En</button>
-                                  <button style="padding:4px 16px;" id="arabic">Ar</button>
-                                  <button style="padding:4px 16px;" id="both">Both</button>
-                                  </div>
-                     </td>
-                   </tr>
-                   <tr><td></td><td><div><input type="button" value="Filter Results" id='filterButton' /></div></td></tr>
-                   <tr><td></td><td><input type="button" value="Download CSV" id='downloadButton' /></td></tr>
-                  
-                </table>  
-                  
-               
-            </div>
-        </div>
-     
-
-<div id="visualization" style="width: 100%; height:300px;"></div>
-<div id="analyticsvisualization" style="width: 100%; height:300px;"></div>
-<div id="ratestablearea" style="width: 100%;height:300px;"></div>
-<div id="tablearea" style="width: 100%;"></div>
 
 
 {% endblock %}
